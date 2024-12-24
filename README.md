@@ -1,3 +1,33 @@
+PLANNING: To be updated as project goes on.
+
+STYLING:
+-Tailwind CSS
+-Edit strings for dynamic styling
+
+FRONTEND:
+-Next 15
+-React (obviously)
+-TypeScript (of course)
+-Zod
+
+TESTING:
+-Unit tests with Jest
+-E2E with Playwright
+
+BACKEND:
+-GraphQL
+
+HOSTING:
+-Amplify
+-Host backend on AWS as well
+-Run on EC2 instance
+
+TODO:
++Design API
++Feature planning
++Learn more about Tailwind
++Jira board?
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
