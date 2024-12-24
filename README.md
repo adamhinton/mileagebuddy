@@ -27,6 +27,7 @@ TODO:
 +Feature planning
 +Learn more about Tailwind
 +Jira board?
++Get AWS hosting going
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
