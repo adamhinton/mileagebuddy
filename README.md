@@ -22,6 +22,11 @@ HOSTING:
 -Host backend on AWS as well
 -Run on EC2 instance
 
+DOCKER:
+-Put in docker container
+docker compose up --build
+-Done, works on frontend. yay!
+
 TODO:
 +Design API
 +Feature planning
