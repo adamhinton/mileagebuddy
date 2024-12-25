@@ -10,6 +10,35 @@ FRONTEND:
 -TypeScript (of course)
 -Zod
 
+FRONTEND FEATURES PLANNED:
+
++SAVED:
+-User saves trips, vehicles
+
++Calculator:
+-Miles per year
+-Cost of gas, maintenance, insurance, depreciation
+-New tires or any miscellanea
+-Do the math, give cost per Mile
+-Then, cost per additional mile feature
+
++COMPARISON:
+-Compare to biking, flying, walking, transit
+-Have checkboxes for all the things if you may need if you don't drive, and let user fill in costs of those (biking, flying etc)
+
+FRONTEND STRETCH:
++Car cost estimator - if considering buying a car, what will it ACTUALLY cost you?
+
+BACKEND:
+Tables:
++User (obviously)
+-Username, email, pass, darkmode,
++trip
+-Distance, flight cost, rental cost, gas cost
++vehicle
+-Type - gas or electric
+-Insurance cost, gas cost, maintenance, initial miles, miles per year, depreciation, etc etc
+
 TESTING:
 -Unit tests with Jest
 -E2E with Playwright
@@ -21,6 +50,11 @@ HOSTING:
 -Amplify
 -Host backend on AWS as well
 -Run on EC2 instance
+
+DOCKER:
+-Put in docker container
+docker compose up --build
+-Done, works on frontend. yay!
 
 TODO:
 +Design API
