@@ -22,6 +22,9 @@ HOSTING:
 -Host backend on AWS as well
 -Run on EC2 instance
 
+DOCKER:
+-Put in docker container
+
 TODO:
 +Design API
 +Feature planning
