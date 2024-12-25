@@ -24,6 +24,7 @@ HOSTING:
 
 DOCKER:
 -Put in docker container
+docker compose up --build
 
 TODO:
 +Design API
