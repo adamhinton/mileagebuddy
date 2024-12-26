@@ -1,3 +1,6 @@
+Thanks to this Tailwind cheatsheet:
+https://nerdcave.com/tailwind-cheat-sheet
+
 PLANNING: To be updated as project goes on.
 
 STYLING:
