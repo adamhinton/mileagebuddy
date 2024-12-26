@@ -12,6 +12,11 @@ FRONTEND:
 
 FRONTEND FEATURES PLANNED:
 
++Dark mode (obviously)
+
++Users without accounts can use Calculator
+-Need to make account to save it
+
 +SAVED:
 -User saves trips, vehicles
 
