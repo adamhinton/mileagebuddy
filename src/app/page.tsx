@@ -1,5 +1,8 @@
 "use client";
 
+//README:
+// This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
+
 import React, { useState } from "react";
 
 const Page: React.FC = () => {
