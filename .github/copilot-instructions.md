@@ -15,3 +15,14 @@
 
 - This is MileageBuddy, a project to help users calculate costs of car ownership
 - With user input it'll calculate the cost of their car per year, per mile, and they can also calculate costs of individual trips and extra miles
+- Plan to make user accounts and store data about trips and vehicles etc.
+- Will have dark mode
+
+## Styling
+
+- using TailwindCSS
+- String template literal Tailwind class names for dynamic styling
+
+## Validation
+
+- Will use Zod
