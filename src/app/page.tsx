@@ -1,11 +1,15 @@
 "use client";
 
+import { useAppSelector } from "@/redux/hooks";
 //README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
 import React, { useState } from "react";
 
 const Page: React.FC = () => {
+	const initialState = useAppSelector((state) => state.counter.value);
+	console.log("initialState:", initialState);
+
 	const [milesPerYear, setMilesPerYear] = useState<number>(0);
 	const [costPerMile, setCostPerMile] = useState<number>(0);
 
