@@ -3,13 +3,14 @@
 // NOTE that any component that interacts with the store must be a client component.
 
 import { configureStore } from "@reduxjs/toolkit";
-import counterReducer from "../redux/reducers/dummyReducer";
+import counterReducer from "./reducers/dummyReducer";
+import isDarkModeReducer from "./reducers/darkModeReducer";
 
 export const makeStore = () => {
 	return configureStore({
 		reducer: {
-			// DUMMY REDUCER FOR TESTING, DELETE LATER
 			counter: counterReducer,
+			theme: isDarkModeReducer,
 		},
 	});
 };

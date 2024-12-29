@@ -6,9 +6,11 @@ import { useAppSelector } from "@/redux/hooks";
 
 import React, { useState } from "react";
 
-const Page: React.FC = () => {
-	const initialState = useAppSelector((state) => state.counter.value);
+const Page: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
+	const initialState = useAppSelector((state) => state.theme.isDarkMode);
 	console.log("initialState:", initialState);
+
+	console.log("isDarkMode in client", isDarkMode);
 
 	const [milesPerYear, setMilesPerYear] = useState<number>(0);
 	const [costPerMile, setCostPerMile] = useState<number>(0);
