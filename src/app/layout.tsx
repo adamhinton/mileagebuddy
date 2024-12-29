@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/redux/StoreProvider";
+import { ThemeWrapper } from "../../providers";
+import { Header } from "@/components/Header";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -24,11 +26,19 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		// added suppressHydrationWarning because of darkmode stuff
+		// The mismatch between the server and client side rendered content for dark mode is resolved by our ThemeWrapper, not to worry
+		<html lang="en" suppressHydrationWarning>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<StoreProvider>{children}</StoreProvider>
+				{/* ThemeWrapper is the dark/light theme wrapper */}
+				<ThemeWrapper>
+					<StoreProvider>
+						<Header />
+						{children}
+					</StoreProvider>
+				</ThemeWrapper>
 			</body>
 		</html>
 	);
