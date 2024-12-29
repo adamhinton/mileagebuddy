@@ -5,6 +5,7 @@
 // It works with the ThemeWrapper component in providers.tsx
 // I got this from Dave at https://youtu.be/7zqI4qMDdg8, thanks Dave!
 
+// Only using react-icons package for this item, so uninstall that package if you delete FISun and FIMoon
 import { FiSun, FiMoon } from "react-icons/fi";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
