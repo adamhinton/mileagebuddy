@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/redux/StoreProvider";
 import { ThemeWrapper } from "../../providers";
+import { Header } from "@/components/Header";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -33,7 +34,10 @@ export default function RootLayout({
 			>
 				{/* ThemeWrapper is the dark/light theme wrapper */}
 				<ThemeWrapper>
-					<StoreProvider>{children}</StoreProvider>
+					<StoreProvider>
+						<Header />
+						{children}
+					</StoreProvider>
 				</ThemeWrapper>
 			</body>
 		</html>

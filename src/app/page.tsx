@@ -1,5 +1,6 @@
 "use client";
 
+import ThemeSwitch from "@/components/ThemeSwitch";
 import { useAppSelector } from "@/redux/hooks";
 //README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
@@ -28,6 +29,7 @@ const Page: React.FC<{ isDarkMode: boolean }> = ({ isDarkMode }) => {
 				<h1 className="text-3xl font-bold">MileageBuddy</h1>
 				<p className="text-lg">Calculate your car ownership costs easily</p>
 			</header>
+			<ThemeSwitch />
 			<main className="flex flex-col items-center mt-8">
 				<div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
 					<h2 className="text-2xl font-semibold mb-4">Car Cost Calculator</h2>
