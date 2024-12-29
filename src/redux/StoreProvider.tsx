@@ -34,6 +34,7 @@ const ChildWrapper: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
 	const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
+	console.log("isDarkMode in ChildWrapper:", isDarkMode);
 
 	return (
 		<>
