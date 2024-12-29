@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "@/redux/StoreProvider";
+import { ThemeWrapper } from "../../providers";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -28,7 +29,10 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<StoreProvider>{children}</StoreProvider>
+				{/* ThemeWrapper is the dark/light theme wrapper */}
+				<ThemeWrapper>
+					<StoreProvider>{children}</StoreProvider>
+				</ThemeWrapper>
 			</body>
 		</html>
 	);
