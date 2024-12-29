@@ -7,7 +7,7 @@ import React from "react";
 import { useRef } from "react";
 import { Provider } from "react-redux";
 import { makeStore, AppStore } from "./store";
-import { useAppSelector } from "./hooks";
+// import { useAppSelector } from "./hooks";
 
 export default function StoreProvider({
 	children,
@@ -22,25 +22,21 @@ export default function StoreProvider({
 		storeRef.current = makeStore();
 	}
 
-	return (
-		<Provider store={storeRef.current}>
-			<ChildWrapper>{children}</ChildWrapper>
-		</Provider>
-	);
+	return <Provider store={storeRef.current}>{children}</Provider>;
 }
 
-// This component will use the useSelector hook to get the isDarkMode state
-const ChildWrapper: React.FC<{ children: React.ReactNode }> = ({
-	children,
-}) => {
-	const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
-	console.log("isDarkMode in ChildWrapper:", isDarkMode);
+// // This component will use the useSelector hook to get the isDarkMode state
+// const ChildWrapper: React.FC<{ children: React.ReactNode }> = ({
+// 	children,
+// }) => {
+// 	const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
+// 	console.log("isDarkMode in ChildWrapper:", isDarkMode);
 
-	return (
-		<>
-			{React.Children.map(children, (child) =>
-				React.cloneElement(child as React.ReactElement, { isDarkMode })
-			)}
-		</>
-	);
-};
+// 	return (
+// 		<>
+// 			{React.Children.map(children, (child) =>
+// 				React.cloneElement(child as React.ReactElement, { isDarkMode })
+// 			)}
+// 		</>
+// 	);
+// };
