@@ -17,6 +17,9 @@ FRONTEND:
 FRONTEND FEATURES PLANNED:
 
 +Dark mode (obviously)
+-Was tricky to implement dark mode toggle with server side rendering
+-Ended up using ThemeWrapper in providers.tsx
+-Relevant files: providers.tsx, ThemeSwitch.tsx
 
 +Users without accounts can use Calculator
 -Need to make account to save it
