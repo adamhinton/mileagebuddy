@@ -25,6 +25,8 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
+		// added suppressHydrationWarning because of darkmode stuff
+		// The mismatch between the server and client side rendered content for dark mode is resolved by our ThemeWrapper, not to worry
 		<html lang="en" suppressHydrationWarning>
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
