@@ -17,6 +17,7 @@
 - With user input it'll calculate the cost of their car per year, per mile, and they can also calculate costs of individual trips and extra miles
 - Plan to make user accounts and store data about trips and vehicles etc.
 - Will have dark mode
+- When giving me code to copy, ALWAYS include my original comments and other things. This is so I can paste it right in to the file.
 
 ## Styling
 

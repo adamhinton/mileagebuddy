@@ -1,4 +1,5 @@
 "use client";
+import React from "react";
 
 // README
 // Per redux docs, this creates a new store instance every time a request is made. See store.ts for more info.
@@ -6,6 +7,7 @@
 import { useRef } from "react";
 import { Provider } from "react-redux";
 import { makeStore, AppStore } from "./store";
+import { useAppSelector } from "./hooks";
 
 export default function StoreProvider({
 	children,
@@ -20,5 +22,24 @@ export default function StoreProvider({
 		storeRef.current = makeStore();
 	}
 
-	return <Provider store={storeRef.current}>{children}</Provider>;
+	return (
+		<Provider store={storeRef.current}>
+			<ChildWrapper>{children}</ChildWrapper>
+		</Provider>
+	);
 }
+
+// This component will use the useSelector hook to get the isDarkMode state
+const ChildWrapper: React.FC<{ children: React.ReactNode }> = ({
+	children,
+}) => {
+	const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
+
+	return (
+		<>
+			{React.Children.map(children, (child) =>
+				React.cloneElement(child as React.ReactElement, { isDarkMode })
+			)}
+		</>
+	);
+};
