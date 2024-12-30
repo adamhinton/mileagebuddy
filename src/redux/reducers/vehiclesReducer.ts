@@ -49,3 +49,22 @@ const vehiclesSlice = createSlice({
 export const { addVehicle, removeOneVehicle, setVehicles, removeAllVehicles } =
 	vehiclesSlice.actions;
 export default vehiclesSlice.reducer;
+
+export const dummyVehicle: Vehicle = {
+	vehicleName: "My Car",
+	year: 2021,
+	make: "Toyota",
+	model: "Corolla",
+	gasCostPerGallon: 3.0,
+	milesPerGallon: 30,
+	yearlyMaintenanceCost: 1000,
+	yearlyInsuranceCost: 1000,
+	yearlyRegistrationCost: 100,
+	yearlyTaxes: 100,
+	yearlyDepreciation: 5000,
+	monthlyPayments: 0,
+	monthlyParkingCosts: 0,
+	monthlyTolls: 0,
+	monthlyCarWashes: 0,
+	miscellaneousMonthlyCosts: 0,
+};
