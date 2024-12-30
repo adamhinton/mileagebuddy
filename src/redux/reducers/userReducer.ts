@@ -1,4 +1,5 @@
 // README:
+// This is a basic template for now early in the project, will probably flesh out later.
 // I didn't think it was necessary to include the user's trips and vehicles here, because they are defined in the tripReducer and vehicleReducer respectively.
 // Have to make sure that when a user is logged out etc, we also scrub the trips and vehicles from the store.
 
