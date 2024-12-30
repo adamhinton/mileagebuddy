@@ -1,3 +1,7 @@
+Thanks to this Tailwind cheatsheet:
+https://nerdcave.com/tailwind-cheat-sheet
+https://www.youtube.com/watch?v=DenUCuq4G04&t=46s
+
 PLANNING: To be updated as project goes on.
 
 STYLING:
@@ -10,9 +14,17 @@ FRONTEND:
 -TypeScript (of course)
 -Zod
 
+STYLING:
+-Tailwind CSS
+-Using dynamic string literals for any styling logic
+
 FRONTEND FEATURES PLANNED:
 
 +Dark mode (obviously)
+-Was tricky to implement dark mode toggle with server side rendering
+-Ended up using ThemeWrapper in providers.tsx
+-Relevant files: providers.tsx, ThemeSwitch.tsx
+-Thanks to Dave's video for help with this: https://www.youtube.com/watch?v=7zqI4qMDdg8&t=223s
 
 +Users without accounts can use Calculator
 -Need to make account to save it
