@@ -33,18 +33,19 @@ const vehiclesSlice = createSlice({
 		addVehicle: (state, action: PayloadAction<Vehicle>) => {
 			state.push(action.payload);
 		},
-		removeVehicle: (state, action: PayloadAction<number>) => {
+		removeOneVehicle: (state, action: PayloadAction<number>) => {
 			state.splice(action.payload, 1);
 		},
 		setVehicles: (state, action: PayloadAction<Vehicle[]>) => {
 			state.length = 0;
-			state.push(...action.payload); 
+			state.push(...action.payload);
+		},
+		removeAllVehicles: (state) => {
+			state.length = 0;
+		},
 	},
-    // removeAllVehicles
-     removeAllVehicles: (state) => {
-         state.length = 0;
-      }
 });
 
-export const { addVehicle, removeOneVehicle, setVehicles, removeAllVehicles } = vehiclesSlice.actions;
+export const { addVehicle, removeOneVehicle, setVehicles, removeAllVehicles } =
+	vehiclesSlice.actions;
 export default vehiclesSlice.reducer;
