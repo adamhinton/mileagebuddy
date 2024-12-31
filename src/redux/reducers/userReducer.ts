@@ -1,19 +1,27 @@
+import { z } from "zod";
 // README:
 // This is a basic template for now early in the project, will probably flesh out later.
 // I didn't think it was necessary to include the user's trips and vehicles here, because they are defined in the tripReducer and vehicleReducer respectively.
 // Have to make sure that when a user is logged out etc, we also scrub the trips and vehicles from the store.
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserSchema } from "@/zod/schemas/UserSchema";
 
-interface UserState {
-	id: number | null;
-	name: string | null;
-	email: string | null;
-}
+type User = z.infer<typeof UserSchema>;
 
-const initialState: UserState = {
+// not sure why TS raises a stink about this
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const UserNullableSchema = UserSchema.extend({
+	id: z.string().nullable(),
+	username: z.string().nullable(),
+	email: z.string().email().nullable(),
+});
+
+type UserNullablePreLogin = z.infer<typeof UserNullableSchema>;
+
+const initialState: UserNullablePreLogin = {
 	id: null,
-	name: null,
+	username: null,
 	email: null,
 };
 
@@ -21,14 +29,15 @@ const userSlice = createSlice({
 	name: "user",
 	initialState,
 	reducers: {
-		setUser: (state, action: PayloadAction<UserState>) => {
+		// TODO: Error handling here
+		setUser: (state, action: PayloadAction<User>) => {
 			state.id = action.payload.id;
-			state.name = action.payload.name;
+			state.username = action.payload.username;
 			state.email = action.payload.email;
 		},
 		clearUser: (state) => {
 			state.id = null;
-			state.name = null;
+			state.username = null;
 			state.email = null;
 		},
 	},
