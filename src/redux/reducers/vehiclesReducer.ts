@@ -4,31 +4,16 @@
 // Can have multiple vehicles
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Vehicle } from "@/zod/schemas/VehicleSchema";
 
-// All fields are required because they'll be 0 if they don't apply
-export type Vehicle = {
-	vehicleName: string;
-	year: number;
-	make: string;
-	model: string;
-	gasCostPerGallon: number;
-	milesPerGallon: number;
-	yearlyMaintenanceCost: number;
-	yearlyInsuranceCost: number;
-	yearlyRegistrationCost: number;
-	yearlyTaxes: number;
-	yearlyDepreciation: number;
-	monthlyPayments: number;
-	monthlyParkingCosts: number;
-	monthlyTolls: number;
-	monthlyCarWashes: number;
-	miscellaneousMonthlyCosts: number;
-};
+type VehiclesState = Vehicle[];
+
+const initialState: VehiclesState = [];
 
 // vehicles reducer
 const vehiclesSlice = createSlice({
 	name: "vehicles",
-	initialState: [] as Vehicle[],
+	initialState: initialState,
 	reducers: {
 		addVehicle: (state, action: PayloadAction<Vehicle>) => {
 			state.push(action.payload);
