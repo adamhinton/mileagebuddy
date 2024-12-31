@@ -5,9 +5,7 @@ import { z } from "zod";
 // Have to make sure that when a user is logged out etc, we also scrub the trips and vehicles from the store.
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { UserSchema } from "@/zod/schemas/UserSchema";
-
-type User = z.infer<typeof UserSchema>;
+import { User, UserSchema } from "@/zod/schemas/UserSchema";
 
 // not sure why TS raises a stink about this
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
