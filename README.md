@@ -69,6 +69,16 @@ https://supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd/settings/api
 -Zod talking to FE and BE
 -NGINX
 
+BACKEND ENDPOINTS:
+-Using nextJS's api/route/route.js structure
+-Will have endpoints for user, vehicle, probably trip
+
+AUTH:
+-Likely using Supabase's auth/signin/signup functionality
+
+DB:
+-Likely hosting DB on Supabase
+
 Tables:
 +User (obviously)
 -Username, email, pass, darkmode,
