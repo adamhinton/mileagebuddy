@@ -18,6 +18,11 @@ STYLING:
 -Tailwind CSS
 -Using dynamic string literals for any styling logic
 
+STATE MANAGEMENT
+-Redux for global state management
+-Four reducers: userReducer, tripReducer, vehicleReducer, darkModeReducer
+-Logging in will populate user's info to these three states
+
 FRONTEND FEATURES PLANNED:
 
 +Dark mode (obviously)
@@ -47,6 +52,23 @@ FRONTEND STRETCH:
 +Car cost estimator - if considering buying a car, what will it ACTUALLY cost you?
 
 BACKEND:
++DB: Supabase
+https://supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd/settings/api
++Backend Host: Vercel
++Backend framework: Next's API endpoint functionality
+-Figure out hosting
+-Lives in same repo. In backend folder?
+-Node
+-Docker
+-Run locally and online, node server and db
+-Seeding and migrations
+-Postgres
+-TS
+-Knex
+-Docker container
+-Zod talking to FE and BE
+-NGINX
+
 Tables:
 +User (obviously)
 -Username, email, pass, darkmode,
