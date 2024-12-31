@@ -5,12 +5,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import counterReducer from "./reducers/dummyReducer";
 import isDarkModeReducer from "./reducers/darkModeReducer";
+import vehiclesReducer from "./reducers/vehiclesReducer";
 
 export const makeStore = () => {
 	return configureStore({
 		reducer: {
 			counter: counterReducer,
 			theme: isDarkModeReducer,
+			vehicles: vehiclesReducer,
 		},
 	});
 };
