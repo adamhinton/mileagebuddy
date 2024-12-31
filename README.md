@@ -18,6 +18,11 @@ STYLING:
 -Tailwind CSS
 -Using dynamic string literals for any styling logic
 
+STATE MANAGEMENT
+-Redux for global state management
+-Four reducers: userReducer, tripReducer, vehicleReducer, darkModeReducer
+-Logging in will populate user's info to these three states
+
 FRONTEND FEATURES PLANNED:
 
 +Dark mode (obviously)
