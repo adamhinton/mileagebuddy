@@ -11,8 +11,8 @@ import React, { useState } from "react";
 
 export default async function Page() {
 	const supabase = createClient(
-		process.env.NEXT_PUBLIC_SUPABASE_URL,
-		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+		process.env.NEXT_PUBLIC_SUPABASE_URL!,
+		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 	);
 	console.log("supabase:", supabase);
 	const users = await supabase.from("user12").select();
