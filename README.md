@@ -88,6 +88,22 @@ Tables:
 -Type - gas or electric
 -Insurance cost, gas cost, maintenance, initial miles, miles per year, depreciation, etc etc
 
+MIGRATIONS:
+-To run migrations, cd in to root of project
+To create new migration:
+In cli run: supabase migration new create_employees_table
+-Or whatever migration name
+-Then, add new SQL to the newly created file
+To run a migration:
+supabase migration up
+
+SEEDS:
+-Create a seed script in supabase/seed.sql
+
+RESET DB:
+-to reapply migrations and popualte with seed data
+supabase db reset
+
 TESTING:
 -Unit tests with Jest
 -E2E with Playwright
@@ -104,6 +120,16 @@ DOCKER:
 -Put in docker container
 docker compose up --build
 -Done, works on frontend. yay!
+
+HOW TO RUN BACKEND LOCALLY:
+-Download docker desktop (need this to run local Supabase)
+-CD in to project, run npm i
+-May need to install supabase CLI
+-Run `npx supabase link` and link project to Supabase
+-Run `npx supabase db pull`
+-Run `npx supabase start`
+-Run `npx supabase migration up`
+-Will need to populate NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local. I got them from here:
 
 TODO:
 +Design API
