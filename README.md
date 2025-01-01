@@ -121,6 +121,16 @@ DOCKER:
 docker compose up --build
 -Done, works on frontend. yay!
 
+HOW TO RUN BACKEND LOCALLY:
+-Download docker desktop (need this to run local Supabase)
+-CD in to project, run npm i
+-May need to install supabase CLI
+-Run `npx supabase link` and link project to Supabase
+-Run `npx supabase db pull`
+-Run `npx supabase start`
+-Run `npx supabase migration up`
+-Will need to populate NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local. I got them from here:
+
 TODO:
 +Design API
 +Feature planning

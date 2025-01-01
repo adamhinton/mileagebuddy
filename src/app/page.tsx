@@ -14,7 +14,8 @@ export default async function Page() {
 		process.env.NEXT_PUBLIC_SUPABASE_URL,
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 	);
-	const users = await supabase.from("user").select();
+	console.log("supabase:", supabase);
+	const users = await supabase.from("user12").select();
 	console.log("users:", users);
 	return <pre>{JSON.stringify(users, null, 2)}</pre>;
 }
