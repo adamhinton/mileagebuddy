@@ -88,6 +88,22 @@ Tables:
 -Type - gas or electric
 -Insurance cost, gas cost, maintenance, initial miles, miles per year, depreciation, etc etc
 
+MIGRATIONS:
+-To run migrations, cd in to root of project
+To create new migration:
+In cli run: supabase migration new create_employees_table
+-Or whatever migration name
+-Then, add new SQL to the newly created file
+To run a migration:
+supabase migration up
+
+SEEDS:
+-Create a seed script in supabase/seed.sql
+
+RESET DB:
+-to reapply migrations and popualte with seed data
+supabase db reset
+
 TESTING:
 -Unit tests with Jest
 -E2E with Playwright
