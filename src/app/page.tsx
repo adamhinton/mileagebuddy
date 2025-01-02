@@ -1,7 +1,7 @@
 "use client";
 
 import ThemeSwitch from "@/components/ThemeSwitch";
-import { useAppSelector } from "@/redux/hooks";
+// import { useAppSelector } from "@/redux/hooks";
 import { User } from "@/zod/schemas/UserSchema";
 import { createClient } from "@supabase/supabase-js";
 import React, { useEffect, useState } from "react";
@@ -28,7 +28,8 @@ export default function Page() {
 			);
 
 			const { data, error } = await supabase.from("users").select();
-			console.log("data:", data);
+			setUsers(data as User[]);
+			console.log("users:", users);
 
 			if (error) {
 				console.error("Error fetching users:", error);
@@ -40,7 +41,7 @@ export default function Page() {
 		};
 
 		fetchData();
-	}, []); // Dependency array is empty, runs once on mount
+	}, [users]); // Dependency array is empty, runs once on mount
 
 	return (
 		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
