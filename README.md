@@ -110,7 +110,7 @@ In cli run: supabase migration new create_employees_table
 To run ONLY a migration (aka no seeds) in remote:
 For local:
 supabase migration up
-To push migration to remote (CAREFUL NOT TO OVERRIDE PROD DATA)
+To push migration to remote (CAREFUL NOT TO OVERRIDE PROD)
 npx supabase db push
 To push migration AND SEEDS to remote: (BE VERY CAREFUL, THIS MIGHT OVERRIDE PROD DATA):
 npx supabase db reset --linked
@@ -154,45 +154,110 @@ IMPORTANT: All of the below stuff about local backend is taken care of by my `np
 -Will need to populate NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local. I got them from here:
 
 TODO:
-+Design API
-+Feature planning
-+Learn more about Tailwind
-+Jira board?
-+Get AWS hosting going
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### Table of Contents
 
-## Getting Started
+1. [Introduction](#introduction)
+2. [Getting Started](#getting-started)
+3. [Environment Variables](#environment-variables)
+4. [Styling](#styling)
+5. [Frontend](#frontend)
+6. [Backend](#backend)
+7. [Database](#database)
+8. [Testing](#testing)
+9. [Docker](#docker)
+10. [TODO](#todo)
+11. [Learn More](#learn-more)
+12. [Deploy on Vercel](#deploy-on-vercel)
 
-First, run the development server:
+### Introduction
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+MileageBuddy is a project to help users calculate the costs of car ownership. With user input, it calculates the cost of their car per year, per mile, and for individual trips and extra miles. Future plans include user accounts and data storage for trips and vehicles, as well as a dark mode feature.
+
+### Getting Started
+
+To start the project:
+
+1. Download Docker Desktop and have it running.
+2. Install the Supabase CLI.
+3. CD into the project directory.
+4. Run `npx supabase link` and follow the instructions to link this to the Supabase DB.
+5. Run `npm run dev:setup` to spin up both the local frontend and backend.
+
+### Environment Variables
+
+Add the following local DB variables in `.env.local` at the root of the project:
+
+```
+NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+NEXT_PUBLIC_SUPABASE_ANON_KEY=<get this from the command line, it's printed after you run npm run dev:setup>
+NEXT_JWT_SECRET=<get this from the command line, it's printed after you run npm run dev:setup>
+NODE_ENV='development'
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Styling
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Tailwind CSS
+- Using dynamic string literals for any styling logic
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Frontend
 
-## Learn More
+- Next.js 15
+- React (functional components with hooks)
+- TypeScript
+- Zod for validation
+- Redux for global state management with four reducers: `userReducer`, `tripReducer`, `vehicleReducer`, `darkModeReducer`
+- Dark mode implementation using `ThemeWrapper` in `providers.tsx`
+
+### Backend
+
+- Supabase for DB
+- Vercel for backend hosting
+- Next.js API endpoint functionality
+- Node.js, Docker, Postgres, TypeScript, Zod
+
+### Database
+
+- Tables: `User`, `Trip`, `Vehicle` (vehicle is a stretch goal)
+- Migrations and seeds managed with Supabase CLI
+
+### Testing
+
+- Unit tests with Jest
+- E2E tests with Playwright
+
+### Docker
+
+To run the backend locally:
+
+1. Download Docker Desktop.
+2. CD into the project directory.
+3. Run `npm i`.
+4. Run `npm run dev:setup` to set up both the local frontend and backend, or just `npx supabase start` to run just the backend.
+5. Open your browser and navigate to `http://localhost:3000` to see the application running locally.
+
+### App Router
+
+The application uses Next.js's App Router for routing. You can define routes in the `app` directory.
+
+### API Endpoints
+
+Next.js API routes are used to create backend endpoints. These are defined in the `pages/api` directory. For example, creating a file named `pages/api/trips/route.tsx` will create an API endpoint at `/api/trips`. You can use these endpoints to handle requests and interact with the database.
+
+### TODO
+
+- Feature planning
+- Learn more about Tailwind
+- Jira board?
+
+### Learn More
 
 To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Learn Next.js](https://nextjs.org/learn)
+- [Next.js GitHub repository](https://github.com/vercel/next.js)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Deploy on Vercel
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js. Check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
