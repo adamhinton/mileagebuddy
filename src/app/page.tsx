@@ -28,8 +28,7 @@ export default function Page() {
 				}
 			);
 
-			// Fetch users from the "user12" table
-			const { data, error } = await supabase.from("user12").select();
+			const { data, error } = await supabase.from("users").select();
 
 			console.log("data:", data);
 
