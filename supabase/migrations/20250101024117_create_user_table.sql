@@ -1,4 +1,4 @@
-CREATE TABLE "user12" (
+CREATE TABLE user12 (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   email text UNIQUE NOT NULL,
   username text UNIQUE NOT NULL
