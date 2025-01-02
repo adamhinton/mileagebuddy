@@ -11,6 +11,9 @@ import { useEffect, useState } from "react";
 // import React, { useState } from "react";
 // import { createClient } from "../../supabase/supabaseutils";
 
+// TODO: Add this to app
+//supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd/settings/api?showConnect=true
+
 export default function Page() {
 	const [users, setUsers] = useState<User[]>([]);
 
@@ -31,11 +34,6 @@ export default function Page() {
 						},
 					},
 				}
-			);
-
-			console.log(
-				"process.env.NEXT_PUBLIC_SUPABASE_URL:",
-				process.env.NEXT_PUBLIC_SUPABASE_URL
 			);
 
 			const { data, error } = await supabase.from("users").select();
