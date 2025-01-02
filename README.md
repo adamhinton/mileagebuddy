@@ -107,8 +107,13 @@ To create new migration:
 In cli run: supabase migration new create_employees_table
 -Or whatever migration name
 -Then, add new SQL to the newly created file
-To run a migration:
+To run ONLY a migration (aka no seeds) in remote:
+For local:
 supabase migration up
+To push migration to remote (CAREFUL NOT TO OVERRIDE PROD DATA)
+npx supabase db push
+To push migration AND SEEDS to remote: (BE VERY CAREFUL, THIS MIGHT OVERRIDE PROD DATA):
+npx supabase db reset --linked
 
 SEEDS:
 -Create a seed script in supabase/seed.sql
