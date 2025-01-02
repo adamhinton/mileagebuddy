@@ -16,13 +16,18 @@ export default function Page() {
 
 	useEffect(() => {
 		const fetchData = async () => {
+			// Determine if we're in development mode
+			const isDev = process.env.NODE_ENV === "development";
+
 			const supabase = createClient(
 				process.env.NEXT_PUBLIC_SUPABASE_URL!,
 				process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 				{
 					global: {
 						headers: {
-							authorization: process.env.NEXT_JWT_SECRET!,
+							// Only add the authorization header if we're in development
+							// It's not needed in prod and would actively sabotage our prod API calls
+							...(isDev && { authorization: process.env.NEXT_JWT_SECRET! }),
 						},
 					},
 				}

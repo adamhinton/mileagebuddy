@@ -13,6 +13,7 @@ ENVIRONMENT VARIABLES:
 NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
 NEXT_PUBLIC_SUPABASE_ANON_KEY (get this from the command line, it's printed after you run npm run dev:setup)
 NEXT_JWT_SECRET (get this from the command line, it's printed after you run npm run dev:setup)
+NODE_ENV='development' if you're in dev, don't need this for prod
 
 PLANNING: To be updated as project goes on.
 
