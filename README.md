@@ -2,6 +2,18 @@ Thanks to this Tailwind cheatsheet:
 https://nerdcave.com/tailwind-cheat-sheet
 https://www.youtube.com/watch?v=DenUCuq4G04&t=46s
 
+TO START PROJECT:
+-I've put together a little script in package.json that sets up both your local frontend and backend DB
+-All you need to do is download Docker Desktop and have it running (the local db runs out of there), and install the Supabase CLI
+-CD in to the project. If this is your first time using this project on this device, run `npx supabase link` and follow the instructions to link this to the Supabase db
+-Then, run `npm run dev: setup` to spin up both the local frontend and backend
+
+ENVIRONMENT VARIABLES:
+-Put the following local DB variables in env.local at root of project:
+NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+NEXT_PUBLIC_SUPABASE_ANON_KEY (get this from the command line, it's printed after you run npm run dev:setup)
+NEXT_JWT_SECRET (get this from the command line, it's printed after you run npm run dev:setup)
+
 PLANNING: To be updated as project goes on.
 
 STYLING:
@@ -125,7 +137,11 @@ HOW TO RUN BACKEND LOCALLY:
 -Download docker desktop (need this to run local Supabase)
 -CD in to project, run npm i
 -May need to install supabase CLI
+IMPORTANT: All of the below stuff about local backend is taken care of by my `npm run dev: setup` script in package.json. This just lays out the steps that script takes.
+-SO, you ONLY need to run `npm run dev: setup` to set up BOTH the local frontend AND backend. Unless you get some kind of error, then see the below for detailed steps.
 -Run `npx supabase link` and link project to Supabase
+-It'll ask for the project ref. I got that from here: -https://supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd
+-Note that it's just the letters of the project, not the whole url. For example if the project is https://supabase.co/82394fajsafas, run `npx supabase link --project-ref 82394fajsafas`
 -Run `npx supabase db pull`
 -Run `npx supabase start`
 -Run `npx supabase migration up`
