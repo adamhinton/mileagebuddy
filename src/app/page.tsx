@@ -33,6 +33,11 @@ export default function Page() {
 				}
 			);
 
+			console.log(
+				"process.env.NEXT_PUBLIC_SUPABASE_URL:",
+				process.env.NEXT_PUBLIC_SUPABASE_URL
+			);
+
 			const { data, error } = await supabase.from("users").select();
 
 			console.log("data:", data);
