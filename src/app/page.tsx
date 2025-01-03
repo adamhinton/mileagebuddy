@@ -7,9 +7,6 @@ import { useEffect, useState } from "react";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
-// import React, { useState } from "react";
-// import { createClient } from "../../supabase/supabaseutils";
-
 // TODO: Add this to app
 //supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd/settings/api?showConnect=true
 
@@ -29,21 +26,7 @@ export default function Page() {
 		};
 
 		fetchData();
-	}, []); // Empty dependency array ensures this runs only once
-
-	// const Page: React.FC = () => {
-	// 	const initialState = useAppSelector((state) => state.theme.isDarkMode);
-	// 	console.log("initialState:", initialState);
-
-	// 	const [milesPerYear, setMilesPerYear] = useState<number>(0);
-	// 	const [costPerMile, setCostPerMile] = useState<number>(0);
-
-	// 	const handleCalculate = () => {
-	// 		// Placeholder calculation logic
-	// 		setCostPerMile(milesPerYear * 0.5);
-	// 	};
-
-	// 	// get NextJS children pages
+	}, []);
 
 	console.log("users:", users);
 
