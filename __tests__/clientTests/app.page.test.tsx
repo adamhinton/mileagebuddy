@@ -2,10 +2,15 @@ import Page from "../../src/app/page";
 
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
+import TestReduxStore from "../../src/redux/dummyReduxStore";
 
 describe("Page", () => {
 	it("renders without errors", () => {
-		render(<Page />);
+		render(
+			<TestReduxStore>
+				<Page />
+			</TestReduxStore>
+		);
 	});
 });
 
