@@ -155,7 +155,7 @@ const config: Config = {
 
 	// The test environment that will be used for testing
 	// TODO: Change this to jsdom? Not sure
-	testEnvironment: "jest-environment-node",
+	testEnvironment: "jsdom",
 
 	// Options that will be passed to the testEnvironment
 	// testEnvironmentOptions: {},
