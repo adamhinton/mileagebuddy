@@ -1,13 +1,13 @@
-import Page from "@/app/page";
+import Page from "../../src/app/page";
 
 import "@testing-library/jest-dom";
-// import { render } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
-// describe("Page", () => {
-// 	it("renders a heading", () => {
-// 		render(<Page />);
-// 	});
-// });
+describe("Page", () => {
+	it("renders without errors", () => {
+		render(<Page />);
+	});
+});
 
 describe("Sanity check", () => {
 	it("2 + 2 = 4", () => {
