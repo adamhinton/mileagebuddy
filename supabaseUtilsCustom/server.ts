@@ -13,11 +13,19 @@ import { cookies } from "next/headers";
  */
 export async function createClientSSROnly() {
 	const cookieStore = await cookies();
+	const isDev = process.env.NODE_ENV === "development";
 
 	return createServerClient(
 		process.env.NEXT_PUBLIC_SUPABASE_URL!,
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
 		{
+			global: {
+				headers: {
+					// This only adds the authorization header if we're in development
+					// It's not needed in prod and would actively sabotage our prod API calls
+					...(isDev && { authorization: process.env.NEXT_JWT_SECRET! }),
+				},
+			},
 			cookies: {
 				getAll() {
 					return cookieStore.getAll();
@@ -27,10 +35,8 @@ export async function createClientSSROnly() {
 						cookiesToSet.forEach(({ name, value, options }) =>
 							cookieStore.set(name, value, options)
 						);
-					} catch {
-						// The `setAll` method was called from a Server Component.
-						// This can be ignored if you have middleware refreshing
-						// user sessions.
+					} catch (error) {
+						console.error("Error setting cookies:", error);
 					}
 				},
 			},
