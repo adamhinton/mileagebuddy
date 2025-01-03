@@ -7,7 +7,11 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-export async function createClient() {
+/**
+ * THIS ONLY WORKS IN SERVER COMPONENTS
+ * THERE'S A DIFFERENT PROCESS IN CLIENT COMPONENTS, REFERENCE DOCS IF THERE'S NOT ALREADY A UTIL FOR THAT
+ */
+export async function createClientSSROnly() {
 	const cookieStore = await cookies();
 
 	return createServerClient(
