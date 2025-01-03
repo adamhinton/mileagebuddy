@@ -5,12 +5,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import isDarkModeReducer from "./reducers/darkModeReducer";
 import vehiclesReducer from "./reducers/vehiclesReducer";
+import userReducer from "./reducers/userReducer";
 
 export const makeStore = () => {
 	return configureStore({
 		reducer: {
 			theme: isDarkModeReducer,
 			vehicles: vehiclesReducer,
+			user: userReducer,
 		},
 	});
 };
