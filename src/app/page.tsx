@@ -45,6 +45,8 @@ export default function Page() {
 
 	// 	// get NextJS children pages
 
+	console.log("users:", users);
+
 	return (
 		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
 			<header className="bg-blue-600 w-full py-4 text-white text-center">
