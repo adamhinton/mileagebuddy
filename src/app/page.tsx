@@ -2,8 +2,7 @@
 
 import { User } from "@/zod/schemas/UserSchema";
 // import ThemeSwitch from "@/components/ThemeSwitch";
-// import { useAppSelector } from "@/redux/hooks";
-import { createClient } from "@supabase/supabase-js";
+// import { useAppelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
@@ -19,37 +18,18 @@ export default function Page() {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			// Determine if we're in development mode
-			const isDev = process.env.NODE_ENV === "development";
-
-			const supabase = createClient(
-				process.env.NEXT_PUBLIC_SUPABASE_URL!,
-				process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-				{
-					global: {
-						headers: {
-							// Only add the authorization header if we're in development
-							// It's not needed in prod and would actively sabotage our prod API calls
-							...(isDev && { authorization: process.env.NEXT_JWT_SECRET! }),
-						},
-					},
-				}
-			);
-
-			const { data, error } = await supabase.from("users").select();
-
-			console.log("data:", data);
-
-			if (error) {
-				console.error("Error fetching users:", error);
-				return;
+			try {
+				const res = await fetch("/api/user");
+				const data = await res.json();
+				const fetchedUsers = data.data;
+				setUsers(fetchedUsers);
+			} catch (error) {
+				console.error("Error fetching users in page.tsx:", error);
 			}
-
-			setUsers(data);
 		};
 
 		fetchData();
-	}, []);
+	}, []); // Empty dependency array ensures this runs only once
 
 	// const Page: React.FC = () => {
 	// 	const initialState = useAppSelector((state) => state.theme.isDarkMode);
