@@ -1,8 +1,6 @@
 "use client";
 
 import { User } from "@/zod/schemas/UserSchema";
-// import ThemeSwitch from "@/components/ThemeSwitch";
-// import { useAppelector } from "@/redux/hooks";
 import { useEffect, useState } from "react";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
@@ -31,12 +29,11 @@ export default function Page() {
 	console.log("users:", users);
 
 	return (
-		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
+		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center dark: bg-bl">
 			<header className="bg-blue-600 w-full py-4 text-white text-center">
 				<h1 className="text-3xl font-bold">MileageBuddy</h1>
 				<p className="text-lg">Calculate your car ownership costs easily</p>
 			</header>
-			{/* <ThemeSwitch /> */}
 			<main className="flex flex-col items-center mt-8">
 				<div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
 					<h2 className="text-2xl font-semibold mb-4">Car Cost Calculator</h2>
