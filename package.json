@@ -8,7 +8,9 @@
 		"lint": "next lint",
 		"dev": "next dev",
 		"dev:setup": "npx supabase start && npx supabase migration up && npm run dev || npm run check-setup",
-		"check-setup": "echo 'It looks like something went wrong. Here are some reminders:' && echo '- Make sure your Supabase project is linked: Run `npx supabase link`' && echo '- Ensure Docker Desktop is installed AND OPEN (not just installed)!' && echo '- Run `npx supabase db pull` to sync with your local database schema (if needed)' && echo '- Make sure your environment variables are set to point to the local database, not the remote one. Check your .env.local file.' && exit 1"
+		"check-setup": "echo 'It looks like something went wrong. Here are some reminders:' && echo '- Make sure your Supabase project is linked: Run `npx supabase link`' && echo '- Ensure Docker Desktop is installed AND OPEN (not just installed)!' && echo '- Run `npx supabase db pull` to sync with your local database schema (if needed)' && echo '- Make sure your environment variables are set to point to the local database, not the remote one. Check your .env.local file.' && exit 1",
+		"test": "jest",
+		"test:watch": "jest --watch"
 	},
 	"dependencies": {
 		"@reduxjs/toolkit": "^2.5.0",
