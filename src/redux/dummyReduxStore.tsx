@@ -16,8 +16,6 @@ const fakeUser: User = {
 	email: "testuser@example.com",
 };
 
-//fakeVehicles: Vehicle[] with five Vehicles for testing
-
 const fakeVehicles: Vehicle[] = [
 	{
 		vehicleName: "Tesla Model 3",
@@ -133,7 +131,6 @@ interface Props {
 }
 
 const TestReduxStore: React.FC<Props> = ({ children }) => {
-	console.log("store:", store);
 	return <Provider store={store}>{children}</Provider>;
 };
 
