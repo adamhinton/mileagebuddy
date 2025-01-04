@@ -18,9 +18,9 @@ jest.mock("../../../../supabaseUtilsCustom/server", () => ({
 // Mock NextResponse
 jest.mock("next/server", () => ({
 	NextResponse: {
-		json: jest.fn().mockReturnValue({
-			json: jest.fn().mockResolvedValue({}),
-		}),
+		json: jest.fn((data) => ({
+			json: jest.fn().mockResolvedValue(data), // This ensures the mock returns the passed data
+		})),
 	},
 }));
 
@@ -40,11 +40,14 @@ describe("GET /api/user", () => {
 		// Use the mocked client in place of the real one
 		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
 
+		// Call the GET function
 		const response = await GET();
 
+		// Parse the response
 		const responseData = await response.json();
 
-		expect(responseData).toEqual(mockUsers);
+		// Validate that the response data is correct
+		expect(responseData).toEqual(mockUsers); // Ensure the data matches the mock
 
 		// Validate the Supabase client is called correctly
 		expect(mockFrom).toHaveBeenCalledWith("users");
