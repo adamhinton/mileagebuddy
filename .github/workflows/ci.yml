@@ -1,0 +1,32 @@
+name: Run Jest Tests
+
+on:
+  pull_request:
+    branches:
+      - staging
+      - main
+  push:
+    branches:
+      - staging
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16" # Specify the Node.js version you are using
+
+      - name: Install dependencies
+        run: |
+          npm install  # Or `yarn install` if you're using Yarn
+
+      - name: Run Jest tests
+        run: npm test # Or the specific command for running your tests, like `npm run test`
+
