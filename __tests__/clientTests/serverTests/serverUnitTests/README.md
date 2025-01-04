@@ -7,3 +7,10 @@ I will be passing in dummy/fake db data to the endpoints to ensure that CRUD ope
 If I want to write tests with an actual db, they will go in servertests/serverintegrationtests.
 
 IMPORTANT: All of these tests use `node` as the test environment. This must be specified at the top of each backend test file, as so:
+
+```
+/**
+ * @jest-environment node
+ */
+
+```
