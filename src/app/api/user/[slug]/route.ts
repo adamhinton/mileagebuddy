@@ -64,38 +64,32 @@ export async function DELETE(
 }
 
 // update user
-// TODO: Test this
+// put without `any` type, without 	`request.json()` (that function doesn't exist), with error handling for general supabase error and user not found error
+// Make sure to update any user field, not just id. But id is required so we can look up user. This looks up user by id
 export async function PUT(
 	request: Request,
 	{ params }: { params: Promise<{ slug: string }> }
 ) {
 	const slug = (await params).slug;
 
-	// Parse the request body for the fields to update
-	const updates = await request.json();
-
 	const supabase = await createClientSSROnly();
 
-	// Perform the update
 	const { data, error } = (await supabase
 		.from("users")
-		.update(updates) // Dynamically using the fields in the request body
+		.update(request.body)
 		.eq("id", slug)) as {
 		data: object[] | null;
 		error: { message: string } | null;
 	};
 
-	// Handle general errors from Supabase
 	if (error) {
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 
-	// If no rows were updated, it means the user was not found
 	if (!data || data.length === 0) {
 		return NextResponse.json({ error: "User not found" }, { status: 404 });
 	}
 
-	// Return the updated data if the user was found and updated successfully
 	return NextResponse.json(data);
 }
 
