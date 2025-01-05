@@ -120,23 +120,24 @@ export async function PUT(
 
 // create user
 // TODO: Test this
-export async function POST(
-	request: Request,
-	{ params }: { params: Promise<{ slug: string }> }
-) {
-	const slug = (await params).slug;
-
+export async function POST(request: Request) {
 	const supabase = await createClientSSROnly();
 
-	const isUserExistsInDB = await checkIfUserExistsInDB(slug);
-	if (isUserExistsInDB) {
+	const body = await request.json();
+
+	const { username, email } = body;
+
+	if (!username || !email) {
 		return NextResponse.json(
-			{ message: "User id already exists" },
+			{ error: "Username and email are required" },
 			{ status: 400 }
 		);
 	}
 
-	const { data, error } = await supabase.from("users").insert({ id: slug });
+	const { data, error } = await supabase.from("users").insert({
+		username,
+		email,
+	});
 
 	if (error) {
 		return NextResponse.json({ error: error.message }, { status: 500 });
