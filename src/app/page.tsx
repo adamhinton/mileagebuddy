@@ -16,7 +16,7 @@ export default function Page() {
 			try {
 				const res = await fetch("/api/user");
 				const data = await res.json();
-				const fetchedUsers = data.data;
+				const fetchedUsers: User[] = data;
 				setUsers(fetchedUsers);
 			} catch (error) {
 				console.error("Error fetching users in page.tsx:", error);
