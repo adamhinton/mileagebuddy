@@ -55,7 +55,6 @@ export async function DELETE(
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 
-	// If no data was deleted, return "User not found"
 	if (!data || data.length === 0) {
 		return NextResponse.json({ error: "User not found" }, { status: 404 });
 	}
@@ -72,17 +71,31 @@ export async function PUT(
 ) {
 	const slug = (await params).slug;
 
+	// Parse the request body for the fields to update
+	const updates = await request.json();
+
 	const supabase = await createClientSSROnly();
 
-	const { data, error } = await supabase
+	// Perform the update
+	const { data, error } = (await supabase
 		.from("users")
-		.update({ username: "newUsername" })
-		.eq("id", slug);
+		.update(updates) // Dynamically using the fields in the request body
+		.eq("id", slug)) as {
+		data: object[] | null;
+		error: { message: string } | null;
+	};
 
+	// Handle general errors from Supabase
 	if (error) {
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 
+	// If no rows were updated, it means the user was not found
+	if (!data || data.length === 0) {
+		return NextResponse.json({ error: "User not found" }, { status: 404 });
+	}
+
+	// Return the updated data if the user was found and updated successfully
 	return NextResponse.json(data);
 }
 
