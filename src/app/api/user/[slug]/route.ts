@@ -66,36 +66,74 @@ export async function DELETE(
 // update user
 // put without `any` type, without 	`request.json()` (that function doesn't exist), with error handling for general supabase error and user not found error
 // Make sure to update any user field, not just id. But id is required so we can look up user. This looks up user by id
+// export async function PUT(
+// 	request: Request,
+// 	{ params }: { params: Promise<{ slug: string }> }
+// ) {
+// 	console.log("PUT running");
+// 	const slug = (await params).slug;
+// 	console.log("PUT request.body:", request.body);
+
+// 	const supabase = await createClientSSROnly();
+
+// 	const { data, error } = (await supabase
+// 		.from("users")
+// 		.update(request.body)
+// 		.eq("id", slug)) as {
+// 		data: object[] | null;
+// 		error: { message: string } | null;
+// 	};
+
+// 	if (error) {
+// 		return NextResponse.json({ error: error.message }, { status: 500 });
+// 	}
+
+// 	console.log("error in PUT:", error);
+// 	console.log("data in PUT:", data);
+
+// 	if (!data || data.length === 0) {
+// 		return NextResponse.json({ error: "User not found" }, { status: 404 });
+// 	}
+
+// 	return NextResponse.json(data);
+// }
+
 export async function PUT(
 	request: Request,
 	{ params }: { params: Promise<{ slug: string }> }
 ) {
-	console.log("PUT running");
-	const slug = (await params).slug;
-	console.log("PUT request.body:", request.body);
+	const { slug } = await params; // Await to get the slug properly
 
-	const supabase = await createClientSSROnly();
+	try {
+		const body = await request.json();
 
-	const { data, error } = (await supabase
-		.from("users")
-		.update(request.body)
-		.eq("id", slug)) as {
-		data: object[] | null;
-		error: { message: string } | null;
-	};
+		const supabase = await createClientSSROnly();
 
-	if (error) {
-		return NextResponse.json({ error: error.message }, { status: 500 });
+		const { data, error } = (await supabase
+			.from("users")
+			.update(body)
+			.eq("id", slug)) as {
+			data: object[] | null;
+			error: { message: string } | null;
+		};
+
+		console.log("data in PUT:", data);
+		console.log("error in PUT:", error);
+
+		if (error) {
+			return NextResponse.json({ error: error.message }, { status: 500 });
+		}
+
+		if (!data || data.length === 0) {
+			console.log("PUT !data || data.length === 0");
+			return NextResponse.json({ error: "User not found" }, { status: 404 });
+		}
+
+		return NextResponse.json(data);
+	} catch (error) {
+		console.log("catch path");
+		return NextResponse.json({ error: error }, { status: 500 });
 	}
-
-	console.log("error in PUT:", error);
-	console.log("data in PUT:", data);
-
-	if (!data || data.length === 0) {
-		return NextResponse.json({ error: "User not found" }, { status: 404 });
-	}
-
-	return NextResponse.json(data);
 }
 
 // create user

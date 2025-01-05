@@ -72,7 +72,7 @@ export default function Page() {
 				)};
 			}}>Update User</button> */}
 
-			<button
+			{/* <button
 				onClick={async () => {
 					const res = await fetch("/api/user/1", {
 						method: "PUT",
@@ -85,6 +85,32 @@ export default function Page() {
 						}),
 					});
 					console.log("res:", res);
+				}}
+			>
+				Update User
+			</button> */}
+
+			<button
+				onClick={() => {
+					fetch("/api/user/1", {
+						method: "PUT",
+						body: JSON.stringify({
+							username: "random_username" + Math.random(),
+							email: "random_email@gmail.com",
+						}),
+					})
+						.then((res) => {
+							if (!res.ok) {
+								throw new Error(`HTTP error! Status: ${res.status}`);
+							}
+							return res.json();
+						})
+						.then((data) => {
+							console.log("Response data:", data);
+						})
+						.catch((error) => {
+							console.error("Error during PUT request:", error);
+						});
 				}}
 			>
 				Update User
