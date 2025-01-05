@@ -8,7 +8,7 @@
  */
 
 import { GET } from "../../../../src/app/api/user/route";
-import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server"; // Adjust path as well
+import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 
 // Mock the Supabase client
 jest.mock("../../../../supabaseUtilsCustom/server", () => ({
