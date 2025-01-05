@@ -28,9 +28,6 @@ jest.mock("next/server", () => ({
 	},
 }));
 
-// describe GET api/user/id. It should return a user by id
-// make a mock user object of type User
-
 describe("GET /api/user/slug", () => {
 	it("should return a user by id", async () => {
 		const mockUser: User = {
@@ -41,7 +38,7 @@ describe("GET /api/user/slug", () => {
 
 		// Mock the Supabase client to return the mock data
 		const mockFrom = jest.fn().mockReturnValue({
-			select: jest.fn().mockResolvedValue({ data: mockUser, error: null }),
+			select: jest.fn().mockResolvedValue({ data: mockUsers, error: null }),
 		});
 
 		// Use the mocked client in place of the real one
@@ -49,7 +46,7 @@ describe("GET /api/user/slug", () => {
 
 		// Call the GET function
 		const response = await GET(
-			// Request
+			// not sure I can get away with this request
 			{} as Request,
 			{ params: Promise.resolve({ slug: "1" }) }
 		);
