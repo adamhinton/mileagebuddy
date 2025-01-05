@@ -123,16 +123,18 @@ RESET DB:
 supabase db reset
 
 TESTING:
--Unit tests with Jest
--E2E with Playwright
+FRONTEND TESTING:
+-So far (01/04/2025) I have some very basic frontend tests setup, that just ensure my components render without errors.
+-The UI is just a skeleton right now, will flesh out the tests as I flesh out the UI.
 
-BACKEND:
--GraphQL
+BACKEND TESTING:
+-Right now, backend tests are UNIT tests that live in my server unit testing folder. They ensure that the API endpoint logic performs CRUD operations correctly on data passed in to them.
+-These tests don't actually interact with a real or testing DB.
+-If I write integration tests (aka tests that interact with a real db), they will live in my server integration testing folder.
 
 HOSTING:
--Amplify
--Host backend on AWS as well
--Run on EC2 instance
+-Vercel for frontend, and backend API endpoints
+-Supabase for DB
 
 DOCKER:
 -Put in docker container
@@ -152,112 +154,3 @@ IMPORTANT: All of the below stuff about local backend is taken care of by my `np
 -Run `npx supabase start`
 -Run `npx supabase migration up`
 -Will need to populate NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local. I got them from here:
-
-TODO:
-
-### Table of Contents
-
-1. [Introduction](#introduction)
-2. [Getting Started](#getting-started)
-3. [Environment Variables](#environment-variables)
-4. [Styling](#styling)
-5. [Frontend](#frontend)
-6. [Backend](#backend)
-7. [Database](#database)
-8. [Testing](#testing)
-9. [Docker](#docker)
-10. [TODO](#todo)
-11. [Learn More](#learn-more)
-12. [Deploy on Vercel](#deploy-on-vercel)
-
-### Introduction
-
-MileageBuddy is a project to help users calculate the costs of car ownership. With user input, it calculates the cost of their car per year, per mile, and for individual trips and extra miles. Future plans include user accounts and data storage for trips and vehicles, as well as a dark mode feature.
-
-### Getting Started
-
-To start the project:
-
-1. Download Docker Desktop and have it running.
-2. Install the Supabase CLI.
-3. CD into the project directory.
-4. Run `npx supabase link` and follow the instructions to link this to the Supabase DB.
-5. Run `npm run dev:setup` to spin up both the local frontend and backend.
-
-### Environment Variables
-
-Add the following local DB variables in `.env.local` at the root of the project:
-
-```
-NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
-NEXT_PUBLIC_SUPABASE_ANON_KEY=<get this from the command line, it's printed after you run npm run dev:setup>
-NEXT_JWT_SECRET=<get this from the command line, it's printed after you run npm run dev:setup>
-NODE_ENV='development'
-```
-
-### Styling
-
-- Tailwind CSS
-- Using dynamic string literals for any styling logic
-
-### Frontend
-
-- Next.js 15
-- React (functional components with hooks)
-- TypeScript
-- Zod for validation
-- Redux for global state management with four reducers: `userReducer`, `tripReducer`, `vehicleReducer`, `darkModeReducer`
-- Dark mode implementation using `ThemeWrapper` in `providers.tsx`
-
-### Backend
-
-- Supabase for DB
-- Vercel for backend hosting
-- Next.js API endpoint functionality
-- Node.js, Docker, Postgres, TypeScript, Zod
-
-### Database
-
-- Tables: `User`, `Trip`, `Vehicle` (vehicle is a stretch goal)
-- Migrations and seeds managed with Supabase CLI
-
-### Testing
-
-- Unit tests with Jest
-- E2E tests with Playwright
-
-### Docker
-
-To run the backend locally:
-
-1. Download Docker Desktop.
-2. CD into the project directory.
-3. Run `npm i`.
-4. Run `npm run dev:setup` to set up both the local frontend and backend, or just `npx supabase start` to run just the backend.
-5. Open your browser and navigate to `http://localhost:3000` to see the application running locally.
-
-### App Router
-
-The application uses Next.js's App Router for routing. You can define routes in the `app` directory.
-
-### API Endpoints
-
-Next.js API routes are used to create backend endpoints. These are defined in the `pages/api` directory. For example, creating a file named `pages/api/trips/route.tsx` will create an API endpoint at `/api/trips`. You can use these endpoints to handle requests and interact with the database.
-
-### TODO
-
-- Feature planning
-- Learn more about Tailwind
-- Jira board?
-
-### Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Learn Next.js](https://nextjs.org/learn)
-- [Next.js GitHub repository](https://github.com/vercel/next.js)
-
-### Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js. Check out the [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
