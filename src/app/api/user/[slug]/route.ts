@@ -167,13 +167,10 @@ export async function PUT(
 		}
 
 		// If no rows were updated, it means no changes were made (but the user might exist)
-		if (data === null) {
-			console.log("PUT: No rows updated, user may still exist.");
-			return NextResponse.json(
-				{ message: "User updated successfully (no change in data)" },
-				{ status: 200 }
-			);
-		}
+		return NextResponse.json(
+			{ message: "User updated successfully" },
+			{ status: 200 }
+		);
 
 		return NextResponse.json(data);
 	} catch (error: unknown) {
