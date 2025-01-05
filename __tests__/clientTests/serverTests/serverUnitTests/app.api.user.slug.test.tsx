@@ -61,4 +61,24 @@ describe("GET /api/user/slug", () => {
 		expect(mockFrom).toHaveBeenCalledWith("users");
 		expect(mockFrom().select).toHaveBeenCalledWith("*");
 	});
+
+	it("should throw error if user not found", async () => {
+		const mockFrom = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [], error: null }),
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
+
+		const response = await GET({} as Request, {
+			params: Promise.resolve({ slug: "3424" }),
+		});
+
+		const responseData = await response.json();
+
+		expect(responseData).toEqual({ error: "User not found" });
+		expect(mockFrom).toHaveBeenCalledWith("users");
+		expect(mockFrom().select).toHaveBeenCalledWith("*");
+	});
 });
