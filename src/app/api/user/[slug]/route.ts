@@ -149,6 +149,13 @@ export async function PUT(
 
 		const supabase = await createClientSSROnly();
 
+		const isUserExistsInDB = await checkIfUserExistsInDB(slug);
+		if (!isUserExistsInDB) {
+			return NextResponse.json({ message: "User not in DB" }, { status: 404 });
+		}
+
+		// check if user exists first and return 404 not found if not
+
 		// Explicitly type the response from Supabase
 		const {
 			data,
@@ -161,12 +168,11 @@ export async function PUT(
 		console.log("data in PUT:", data);
 		console.log("error in PUT:", error);
 
-		// If there's an error from Supabase
+		// error from supabase
 		if (error) {
 			return NextResponse.json({ error: error.message }, { status: 500 });
 		}
 
-		// If no rows were updated, it means no changes were made (but the user might exist)
 		return NextResponse.json(
 			{ message: "User updated successfully" },
 			{ status: 200 }
@@ -174,11 +180,10 @@ export async function PUT(
 
 		return NextResponse.json(data);
 	} catch (error: unknown) {
-		// Safely check if the error is an instance of Error
 		if (error !== null) {
 			return NextResponse.json({ error: error }, { status: 500 });
 		} else {
-			// Handle non-Error cases (this should rarely occur)
+			// this should rarely occur
 			console.log("catch path: unknown error", error);
 			return NextResponse.json(
 				{ error: "Unknown error occurred" },
@@ -206,3 +211,9 @@ export async function POST(
 
 	return NextResponse.json(data);
 }
+
+const checkIfUserExistsInDB = async (id: string): Promise<boolean> => {
+	const supabase = await createClientSSROnly();
+	const { data } = await supabase.from("users").select("*").eq("id", id);
+	return data !== null && data.length > 0;
+};
