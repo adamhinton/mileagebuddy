@@ -1,18 +1,17 @@
 // README
-// this is, obviously, a test file for the server-side API route /api/user/slug
-// testing CRUD operations for a user by id
+// This is a test file for the server-side API route /api/user/slug
+// Testing the GET operation to fetch a user by id
 
 // This file is for UNIT tests. It tests API endpoint logic with dummy data, doesn't interact with an actual DB.
-//  See README in servertests/serverunit tests for more info.
+// See README in servertests/serverunit tests for more info.
 
 // IMPORTANT: All backend tests must have this jest-environment flag at the top of the file, because their jest-environment is different from the one specified in our jest config (since it's different for client vs server tests)
 /**
  * @jest-environment node
  */
 
-import { User } from "@/zod/schemas/UserSchema";
+import { GET } from "../../../../src/app/api/user/[slug]/route";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
-import { GET } from "@/app/api/user/[slug]/route";
 
 // Mock the Supabase client
 jest.mock("../../../../supabaseUtilsCustom/server", () => ({
@@ -30,40 +29,36 @@ jest.mock("next/server", () => ({
 
 describe("GET /api/user/slug", () => {
 	it("should return a user by id", async () => {
-		const mockUser: User = {
+		const mockUser = {
 			id: "1",
 			username: "John Doe",
 			email: "bob.smithjones@gmail.com",
 		};
 
-		// Mock the Supabase client to return the mock data
+		// Mock the 'from' function to return the mock data when `from('users').select('*').eq('id', '1')` is called
 		const mockFrom = jest.fn().mockReturnValue({
-			select: jest.fn().mockResolvedValue({ data: mockUsers, error: null }),
+			select: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [mockUser], error: null }),
+			}),
 		});
 
-		// Use the mocked client in place of the real one
+		// Mock the createClientSSROnly to return our mock 'from' method
 		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
 
 		// Call the GET function
-		const response = await GET(
-			// not sure I can get away with this request
-			{} as Request,
-			{ params: Promise.resolve({ slug: "1" }) }
-		);
+		const response = await GET({} as Request, {
+			params: Promise.resolve({ slug: "1" }), // Correct params format
+		});
 
+		// Get the response data from NextResponse.json
 		const responseData = await response.json();
 		console.log("responseData:", responseData);
 
-		expect(responseData).toEqual(mockUser);
+		// Expect the response data to match the mock user in an array (supabase returns data as an array)
+		expect(responseData).toEqual([mockUser]);
 
-		// Validate the Supabase client is called correctly
-		expect(mockFrom).toHaveBeenCalledWith("user");
+		// Validate the 'from' method was called with the correct table name and 'select' was called with '*'
+		expect(mockFrom).toHaveBeenCalledWith("users");
 		expect(mockFrom().select).toHaveBeenCalledWith("*");
-	});
-});
-
-describe("sanity check", () => {
-	it("should return true", () => {
-		expect(true).toBe(true);
 	});
 });
