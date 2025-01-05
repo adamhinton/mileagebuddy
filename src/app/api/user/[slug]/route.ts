@@ -128,6 +128,14 @@ export async function POST(
 
 	const supabase = await createClientSSROnly();
 
+	const isUserExistsInDB = await checkIfUserExistsInDB(slug);
+	if (isUserExistsInDB) {
+		return NextResponse.json(
+			{ message: "User id already exists" },
+			{ status: 400 }
+		);
+	}
+
 	const { data, error } = await supabase.from("users").insert({ id: slug });
 
 	if (error) {
