@@ -18,17 +18,16 @@ jest.mock("../../../../supabaseUtilsCustom/server", () => ({
 	createClientSSROnly: jest.fn(),
 }));
 
-// Mock NextResponse
 jest.mock("next/server", () => ({
 	NextResponse: {
 		json: jest.fn((data) => ({
-			json: jest.fn().mockResolvedValue(data), // This ensures the mock returns the passed data
+			json: jest.fn().mockResolvedValue(data),
 		})),
 	},
 }));
 
 describe("GET /api/user/slug", () => {
-	it("should return a user by id", async () => {
+	it("should return a user by id if id exists", async () => {
 		const mockUser = {
 			id: "1",
 			username: "John Doe",
@@ -42,19 +41,15 @@ describe("GET /api/user/slug", () => {
 			}),
 		});
 
-		// Mock the createClientSSROnly to return our mock 'from' method
 		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
 
-		// Call the GET function
 		const response = await GET({} as Request, {
-			params: Promise.resolve({ slug: "1" }), // Correct params format
+			params: Promise.resolve({ slug: "1" }),
 		});
 
-		// Get the response data from NextResponse.json
 		const responseData = await response.json();
 		console.log("responseData:", responseData);
 
-		// Expect the response data to match the mock user in an array (supabase returns data as an array)
 		expect(responseData).toEqual([mockUser]);
 
 		// Validate the 'from' method was called with the correct table name and 'select' was called with '*'
@@ -80,5 +75,28 @@ describe("GET /api/user/slug", () => {
 		expect(responseData).toEqual({ error: "User not found" });
 		expect(mockFrom).toHaveBeenCalledWith("users");
 		expect(mockFrom().select).toHaveBeenCalledWith("*");
+	});
+});
+
+describe("DELETE /api/user/slug", () => {
+	it("should delete a user by id if id exists", async () => {
+		const mockFrom = jest.fn().mockReturnValue({
+			delete: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [], error: null }),
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
+
+		const response = await GET({} as Request, {
+			params: Promise.resolve({ slug: "1" }),
+		});
+
+		const responseData = await response.json();
+
+		expect(responseData).toEqual([]);
+
+		expect(mockFrom).toHaveBeenCalledWith("users");
+		expect(mockFrom().delete).toHaveBeenCalled();
 	});
 });
