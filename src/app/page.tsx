@@ -57,39 +57,8 @@ export default function Page() {
 			>
 				Delete User
 			</button>
-			{/* button to update user with id 1 with random string as name and email */}
-			{/* <button onClick={async () => {
-				const res = await fetch("/api/user/1", {
-					method: "PUT",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						username: "random_username",
-						email: "random_email",
-					})
-				});
-				)};
-			}}>Update User</button> */}
 
-			{/* <button
-				onClick={async () => {
-					const res = await fetch("/api/user/1", {
-						method: "PUT",
-						// headers: {
-						// 	"Content-Type": "application/json",
-						// },
-						body: JSON.stringify({
-							username: "random_username" + Math.random(),
-							email: "random_email@gmail.com",
-						}),
-					});
-					console.log("res:", res);
-				}}
-			>
-				Update User
-			</button> */}
-
+			{/* Dummy button to test api/user/id PUT. Delete later */}
 			<button
 				onClick={() => {
 					fetch("/api/user/1", {
