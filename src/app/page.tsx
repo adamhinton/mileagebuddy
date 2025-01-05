@@ -23,6 +23,20 @@ export default function Page() {
 			}
 		};
 
+		// This is a dummy fxn for testing, for now
+		const fetchUserByID = async (id: string) => {
+			try {
+				const res = await fetch(`api/user/${id}`);
+				const data = await res.json();
+				const fetchedUser: User = data;
+				console.log("fetchedUser:", fetchedUser);
+			} catch (error) {
+				console.error("Error fetching single user in page.tsx:", error);
+			}
+		};
+
+		fetchUserByID("1");
+
 		fetchData();
 	}, []);
 
