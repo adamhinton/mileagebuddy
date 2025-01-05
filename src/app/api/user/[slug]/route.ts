@@ -23,8 +23,8 @@ export async function GET(
 		.eq("id", slug);
 	console.log("data in GET:", data);
 
-	if (error) {
-		return NextResponse.json({ error: error.message }, { status: 500 });
+	if (error || !data.length) {
+		return NextResponse.json({ error: "User not found" }, { status: 500 });
 	}
 
 	return NextResponse.json(data);
