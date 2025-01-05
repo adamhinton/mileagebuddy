@@ -40,14 +40,11 @@ describe("GET /api/user", () => {
 		// Use the mocked client in place of the real one
 		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
 
-		// Call the GET function
 		const response = await GET();
 
-		// Parse the response
 		const responseData = await response.json();
 
-		// Validate that the response data is correct
-		expect(responseData).toEqual(mockUsers); // Ensure the data matches the mock
+		expect(responseData).toEqual(mockUsers);
 
 		// Validate the Supabase client is called correctly
 		expect(mockFrom).toHaveBeenCalledWith("users");
