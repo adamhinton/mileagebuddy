@@ -3,6 +3,7 @@
 
 import { NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../../supabaseUtilsCustom/server";
+import { PostgrestError } from "@supabase/supabase-js";
 
 // get user by id
 // Tested, works
@@ -98,41 +99,95 @@ export async function DELETE(
 // 	return NextResponse.json(data);
 // }
 
+// This version successfully updates user but still returns an error to frontend
+// export async function PUT(
+// 	request: Request,
+// 	{ params }: { params: Promise<{ slug: string }> }
+// ) {
+// 	const { slug } = await params; // Await to get the slug properly
+
+// 	try {
+// 		const body = await request.json();
+
+// 		const supabase = await createClientSSROnly();
+
+// 		const { data, error } = (await supabase
+// 			.from("users")
+// 			.update(body)
+// 			.eq("id", slug)) as {
+// 			data: object[] | null;
+// 			error: { message: string } | null;
+// 		};
+
+// 		console.log("data in PUT:", data);
+// 		console.log("error in PUT:", error);
+
+// 		if (error) {
+// 			return NextResponse.json({ error: error.message }, { status: 500 });
+// 		}
+
+// 		if (!data || data.length === 0) {
+// 			console.log("PUT !data || data.length === 0");
+// 			return NextResponse.json({ error: "User not found" }, { status: 404 });
+// 		}
+
+// 		return NextResponse.json(data);
+// 	} catch (error) {
+// 		console.log("catch path");
+// 		return NextResponse.json({ error: error }, { status: 500 });
+// 	}
+// }
+
 export async function PUT(
 	request: Request,
 	{ params }: { params: Promise<{ slug: string }> }
 ) {
-	const { slug } = await params; // Await to get the slug properly
+	const { slug } = await params;
 
 	try {
 		const body = await request.json();
 
 		const supabase = await createClientSSROnly();
 
-		const { data, error } = (await supabase
+		// Explicitly type the response from Supabase
+		const {
+			data,
+			error,
+		}: { data: object[] | null; error: PostgrestError | null } = await supabase
 			.from("users")
 			.update(body)
-			.eq("id", slug)) as {
-			data: object[] | null;
-			error: { message: string } | null;
-		};
+			.eq("id", slug);
 
 		console.log("data in PUT:", data);
 		console.log("error in PUT:", error);
 
+		// If there's an error from Supabase
 		if (error) {
 			return NextResponse.json({ error: error.message }, { status: 500 });
 		}
 
-		if (!data || data.length === 0) {
-			console.log("PUT !data || data.length === 0");
-			return NextResponse.json({ error: "User not found" }, { status: 404 });
+		// If no rows were updated, it means no changes were made (but the user might exist)
+		if (data === null) {
+			console.log("PUT: No rows updated, user may still exist.");
+			return NextResponse.json(
+				{ message: "User updated successfully (no change in data)" },
+				{ status: 200 }
+			);
 		}
 
 		return NextResponse.json(data);
-	} catch (error) {
-		console.log("catch path");
-		return NextResponse.json({ error: error }, { status: 500 });
+	} catch (error: unknown) {
+		// Safely check if the error is an instance of Error
+		if (error !== null) {
+			return NextResponse.json({ error: error }, { status: 500 });
+		} else {
+			// Handle non-Error cases (this should rarely occur)
+			console.log("catch path: unknown error", error);
+			return NextResponse.json(
+				{ error: "Unknown error occurred" },
+				{ status: 500 }
+			);
+		}
 	}
 }
 
