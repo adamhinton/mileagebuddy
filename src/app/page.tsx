@@ -48,7 +48,7 @@ export default function Page() {
 				onClick={async () => {
 					// whatever the equivalent of fetch is with a delete operation, to api/user/1
 					// can't call DELETE directly, gotta call to the endpoint
-					const res = await fetch("/api/user/1", {
+					const res = await fetch("/api/user/2", {
 						method: "DELETE",
 					});
 					const data = await res.json();

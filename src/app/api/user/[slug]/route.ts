@@ -40,10 +40,10 @@ export async function DELETE(
 
 	const supabase = await createClientSSROnly();
 
-	// const isUserExistsInDB = await checkIfUserExistsInDB(slug);
-	// if (!isUserExistsInDB) {
-	// 	return NextResponse.json({ message: "User not in DB" }, { status: 404 });
-	// }
+	const isUserExistsInDB = await checkIfUserExistsInDB(slug);
+	if (!isUserExistsInDB) {
+		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
+	}
 
 	const { data, error } = (await supabase
 		.from("users")
@@ -61,11 +61,10 @@ export async function DELETE(
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 
-	if (!data || data.length === 0) {
-		return NextResponse.json({ error: "User not found" }, { status: 404 });
-	}
+	// if (!data || data.length === 0) {
+	// 	return NextResponse.json({ error: "User not found" }, { status: 404 });
+	// }
 
-	// If we get here, it means the user was deleted successfully
 	return NextResponse.json({ message: "User deleted successfully" });
 }
 
