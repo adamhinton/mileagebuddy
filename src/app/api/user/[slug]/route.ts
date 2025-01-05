@@ -70,7 +70,9 @@ export async function PUT(
 	request: Request,
 	{ params }: { params: Promise<{ slug: string }> }
 ) {
+	console.log("PUT running");
 	const slug = (await params).slug;
+	console.log("PUT request.body:", request.body);
 
 	const supabase = await createClientSSROnly();
 
@@ -85,6 +87,9 @@ export async function PUT(
 	if (error) {
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
+
+	console.log("error in PUT:", error);
+	console.log("data in PUT:", data);
 
 	if (!data || data.length === 0) {
 		return NextResponse.json({ error: "User not found" }, { status: 404 });

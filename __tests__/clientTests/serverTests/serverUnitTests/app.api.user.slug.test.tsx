@@ -10,7 +10,7 @@
  * @jest-environment node
  */
 
-import { DELETE } from "../../../../src/app/api/user/[slug]/route";
+import { PUT } from "../../../../src/app/api/user/[slug]/route";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 
 // Mock the Supabase client
@@ -85,7 +85,6 @@ describe("DELETE /api/user/slug", () => {
 	// 		{ id: "1", username: "John Doe", email: "bob.smithjones@gmail.com" },
 	// 		{ id: "2", username: "Jane Smith", email: "jane.smith@gmail.com" },
 	// 	];
-
 	// 	const mockFrom = jest.fn().mockReturnValue({
 	// 		select: jest.fn().mockReturnValue({
 	// 			eq: jest.fn().mockResolvedValue({ data: mockUsers, error: null }),
@@ -94,47 +93,121 @@ describe("DELETE /api/user/slug", () => {
 	// 			eq: jest.fn().mockResolvedValue({ data: [{ id: "1" }], error: null }),
 	// 		}),
 	// 	});
-
 	// 	(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
-
 	// 	// DELETE request should delete user with id "1"
 	// 	const response = await DELETE({} as Request, {
 	// 		params: Promise.resolve({ slug: "1" }),
 	// 	});
-
 	// 	const responseData = await response.json();
 	// 	expect(responseData).toEqual({ message: "User deleted successfully" });
-
 	// 	// Check that the delete method was called
 	// 	expect(mockFrom).toHaveBeenCalledWith("users");
 	// 	expect(mockFrom().delete).toHaveBeenCalled();
 	// 	expect(mockFrom().delete().eq).toHaveBeenCalledWith("id", "1");
 	// });
+	// it("should throw error if user not found for deletion", async () => {
+	// 	// Mocking Supabase client
+	// 	const mockFrom = jest.fn().mockReturnValue({
+	// 		delete: jest.fn().mockReturnValue({
+	// 			eq: jest.fn().mockResolvedValue({ data: [], error: null }), // Simulating no user found
+	// 		}),
+	// 	});
+	// 	(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
+	// 	// Call DELETE function
+	// 	const response = await DELETE({} as Request, {
+	// 		// non existent id
+	// 		params: Promise.resolve({ slug: "9999" }),
+	// 	});
+	// 	const responseData = await response.json();
+	// 	// Expecting that the user was not found
+	// 	expect(responseData).toEqual({ error: "User not found" });
+	// 	// Ensure the correct calls to Supabase methods were made
+	// 	expect(mockFrom).toHaveBeenCalledWith("users");
+	// 	expect(mockFrom().delete).toHaveBeenCalled();
+	// 	expect(mockFrom().delete().eq).toHaveBeenCalledWith("id", "9999");
+	// });
+});
 
-	it("should throw error if user not found for deletion", async () => {
-		// Mocking Supabase client
-		const mockFrom = jest.fn().mockReturnValue({
-			delete: jest.fn().mockReturnValue({
-				eq: jest.fn().mockResolvedValue({ data: [], error: null }), // Simulating no user found
-			}),
+// PUT test
+// Make sure updated user info is in body of request
+// in the PUT function it's updating with request.body
+// Similar to above, handle errors for user doesn't exist, and handle happy path
+// Make sure to update any user field, not just id. But id is required so we can look up user. This looks up user by id
+// STOP BEING LAZY, write out entire test
+describe("PUT /api/user/slug", () => {
+	describe("PUT /api/user/slug", () => {
+		it("should update a user by id if id exists", async () => {
+			const mockUser = {
+				id: "1",
+				username: "John Doe",
+				email: "john.doe@gmail.com",
+			};
+
+			const updatedUser = {
+				id: "1",
+				username: "John Updated",
+				email: "john.updated@gmail.com",
+			};
+
+			const mockFrom = jest.fn().mockReturnValue({
+				select: jest.fn().mockReturnValue({
+					eq: jest.fn().mockResolvedValue({ data: [mockUser], error: null }),
+				}),
+				update: jest.fn().mockReturnValue({
+					eq: jest.fn().mockResolvedValue({ data: [updatedUser], error: null }),
+				}),
+			});
+
+			(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
+
+			const response = await PUT(
+				{
+					json: async () => updatedUser,
+				} as unknown as Request,
+				{
+					params: Promise.resolve({ slug: "1" }),
+				}
+			);
+
+			const responseData = await response.json();
+			expect(responseData).toEqual([updatedUser]);
+			expect(mockFrom).toHaveBeenCalledWith("users");
+			expect(mockFrom().update).toHaveBeenCalledWith(updatedUser);
+			expect(mockFrom().update().eq).toHaveBeenCalledWith("id", "1");
 		});
 
-		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
+		it("should throw error if user not found for update", async () => {
+			const updatedUser = {
+				id: "9999",
+				username: "Non Existent",
+				email: "non.existent@gmail.com",
+			};
 
-		// Call DELETE function
-		const response = await DELETE({} as Request, {
-			// non existent id
-			params: Promise.resolve({ slug: "9999" }),
+			const mockFrom = jest.fn().mockReturnValue({
+				select: jest.fn().mockReturnValue({
+					eq: jest.fn().mockResolvedValue({ data: [], error: null }),
+				}),
+				update: jest.fn().mockReturnValue({
+					eq: jest.fn().mockResolvedValue({ data: [], error: null }),
+				}),
+			});
+
+			(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
+
+			const response = await PUT(
+				{
+					json: async () => updatedUser,
+				} as unknown as Request,
+				{
+					params: Promise.resolve({ slug: "9999" }),
+				}
+			);
+
+			const responseData = await response.json();
+			expect(responseData).toEqual({ error: "User not found" });
+			expect(mockFrom).toHaveBeenCalledWith("users");
+			expect(mockFrom().update).toHaveBeenCalledWith(updatedUser);
+			expect(mockFrom().update().eq).toHaveBeenCalledWith("id", "9999");
 		});
-
-		const responseData = await response.json();
-
-		// Expecting that the user was not found
-		expect(responseData).toEqual({ error: "User not found" });
-
-		// Ensure the correct calls to Supabase methods were made
-		expect(mockFrom).toHaveBeenCalledWith("users");
-		expect(mockFrom().delete).toHaveBeenCalled();
-		expect(mockFrom().delete().eq).toHaveBeenCalledWith("id", "9999");
 	});
 });
