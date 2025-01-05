@@ -44,6 +44,19 @@ export default function Page() {
 
 	return (
 		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center dark: bg-bl">
+			<button
+				onClick={async () => {
+					// whatever the equivalent of fetch is with a delete operation, to api/user/1
+					// can't call DELETE directly, gotta call to the endpoint
+					const res = await fetch("/api/user/1", {
+						method: "DELETE",
+					});
+					const data = await res.json();
+					console.log("data from delete:", data);
+				}}
+			>
+				Delete User
+			</button>
 			<header className="bg-blue-600 w-full py-4 text-white text-center">
 				<h1 className="text-3xl font-bold">MileageBuddy</h1>
 				<p className="text-lg">Calculate your car ownership costs easily</p>
