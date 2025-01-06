@@ -5,6 +5,8 @@ import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 
 // import { NextApiRequest, NextApiResponse } from "next";
 
+// TODO: Utils such as getUserByID etc
+
 export async function GET() {
 	console.log("blah blah blah");
 	const supabase = await createClientSSROnly();
