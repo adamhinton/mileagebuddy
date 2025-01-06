@@ -14,7 +14,8 @@
 // import { GET } from "@/app/api/user/route";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { GET } from "@/app/api/user/route";
-import mockResponse from "node-mocks-http";
+import { NextApiRequest } from "next";
+import httpMocks from "node-mocks-http";
 
 // Mock the Supabase client
 jest.mock("../../../../supabaseUtilsCustom/server", () => ({
@@ -46,13 +47,13 @@ describe("GET /api/user", () => {
 		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
 
 		// Mock request with query params
-		const request = mockResponse.createRequest({
+		const request = httpMocks.createRequest({
 			method: "GET",
-			url: "localhost:3000/api/user?id=3",
+			url: "localhost:3000/api/user?id=1",
 		});
 
 		// I THINK THIS IS A RED HERRING, USE THE AWAIT GET
-		const response = mockResponse.createResponse();
+		const response = httpMocks.createResponse();
 
 		await GET(request)
 			.then((data) => {
@@ -89,12 +90,12 @@ describe("GET /api/user", () => {
 		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
 
 		// Mock request with query params
-		const request = mockResponse.createRequest({
+		const request = httpMocks.createRequest<NextApiRequest>({
 			method: "GET",
-			url: "/api/user?email=bob.smithjones@gmail.com", // New query param for email
+			url: "/api/user?email=bob.smithjones@gmail.com",
 		});
 
-		const response = mockResponse.createResponse();
+		const response = httpMocks.createResponse();
 
 		await GET(request);
 
@@ -121,12 +122,12 @@ describe("GET /api/user", () => {
 		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
 
 		// Mock request with query params
-		const request = mockResponse.createRequest({
+		const request = httpMocks.createRequest({
 			method: "GET",
 			url: "/api/user?username=John Doe", // New query param for username
 		});
 
-		const response = mockResponse.createResponse();
+		const response = httpMocks.createResponse();
 
 		await GET(request);
 
@@ -147,12 +148,12 @@ describe("GET /api/user", () => {
 		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
 
 		// Mock request with query params for a non-existent user
-		const request = mockResponse.createRequest({
+		const request = httpMocks.createRequest({
 			method: "GET",
 			url: "/api/user?id=3424", // Invalid user ID
 		});
 
-		const response = mockResponse.createResponse();
+		const response = httpMocks.createResponse();
 
 		await GET(request);
 

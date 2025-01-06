@@ -2,6 +2,7 @@
 
 import { NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
+import { NextApiRequest } from "next";
 
 // import { NextApiRequest, NextApiResponse } from "next";
 
@@ -9,10 +10,10 @@ import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 
 // Gets a user with query parameters by id, email or username
 // Ex GET api/users?id=2348 or GET api/users?email=bob@bob.com or GET api/users?username=bob_donaldson
-export async function GET(request: Request) {
+export async function GET(request: NextApiRequest) {
 	console.log("request.url in GET:", request.url);
 
-	const url = new URL(request.url);
+	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
 
 	const id = url.searchParams.get("id");
