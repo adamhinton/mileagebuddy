@@ -10,6 +10,8 @@ import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 // Gets a user with query parameters by id, email or username
 // Ex GET api/users?id=2348 or GET api/users?email=bob@bob.com or GET api/users?username=bob_donaldson
 export async function GET(request: Request) {
+	console.log("request.url in GET:", request.url);
+
 	const url = new URL(request.url);
 	const supabase = await createClientSSROnly();
 
@@ -42,6 +44,7 @@ export async function GET(request: Request) {
 	}
 
 	const { data, error } = await query;
+	console.log("data in new GET:", data);
 
 	if (error || !data || !data.length) {
 		return NextResponse.json({ error: "User not found" }, { status: 404 });

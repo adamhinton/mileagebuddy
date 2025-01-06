@@ -14,7 +14,7 @@ export default function Page() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const res = await fetch("/api/user");
+				const res = await fetch("/api/user?id=3");
 				const data = await res.json();
 				const fetchedUsers: User[] = data;
 				setUsers(fetchedUsers);
@@ -26,7 +26,7 @@ export default function Page() {
 		// This is a dummy fxn for testing, for now
 		const fetchUserByID = async (id: string) => {
 			try {
-				const res = await fetch(`api/user/${id}`);
+				const res = await fetch(`api/user?id=${id}`);
 				const data = await res.json();
 				const fetchedUser: User = data;
 				console.log("fetchedUser:", fetchedUser);
