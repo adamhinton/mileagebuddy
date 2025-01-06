@@ -51,6 +51,7 @@ describe("GET /api/user", () => {
 			url: "localhost:3000/api/user?id=3",
 		});
 
+		// I THINK THIS IS A RED HERRING, USE THE AWAIT GET
 		const response = mockResponse.createResponse();
 
 		await GET(request)
@@ -61,7 +62,11 @@ describe("GET /api/user", () => {
 				console.error("Error in test GET:", error);
 			});
 
+		console.log("response in test GET:", response._getData());
+
+		// I THINK THIS IS A RED HERRING, USE THE AWAIT GET
 		const responseData = response._getData();
+		console.log("responseData in test GET:", responseData);
 		expect(responseData).toEqual([mockUser]);
 
 		expect(mockFrom).toHaveBeenCalledWith("users");
