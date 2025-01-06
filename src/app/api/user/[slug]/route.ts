@@ -30,8 +30,6 @@ export async function GET(
 	return NextResponse.json(data);
 }
 
-// delete user by id
-// Tested, works
 export async function DELETE(
 	request: Request,
 	{ params }: { params: Promise<{ slug: string }> }
@@ -119,7 +117,7 @@ export async function PUT(
 }
 
 // create user
-// TODO: Test this
+// TODO: Oh, this can't go in user/slug because there's not a user to have a slug.
 export async function POST(request: Request) {
 	const supabase = await createClientSSROnly();
 
