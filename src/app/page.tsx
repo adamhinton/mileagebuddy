@@ -58,7 +58,7 @@ export default function Page() {
 				Delete User
 			</button>
 
-			{/* Dummy button to test api/user/id PUT. Delete later */}
+			{/* GET test button using old API */}
 			<button
 				onClick={() => {
 					fetch("/api/user/1", {
@@ -83,6 +83,29 @@ export default function Page() {
 				}}
 			>
 				Update User
+			</button>
+
+			{/* GET test button using new API */}
+			<button
+				onClick={() => {
+					fetch("/api/user?id=3", {
+						method: "GET",
+					})
+						.then((res) => {
+							if (!res.ok) {
+								throw new Error(`HTTP error! Status: ${res.status}`);
+							}
+							return res.json();
+						})
+						.then((data) => {
+							console.log("Response data:", data);
+						})
+						.catch((error) => {
+							console.error("Error during GET request:", error);
+						});
+				}}
+			>
+				Get User
 			</button>
 
 			{/* Dummy button to create user with random math.random() strings for email and username. Make it an actual formatted email */}
