@@ -85,6 +85,33 @@ export default function Page() {
 				Update User
 			</button>
 
+			{/* Dummy button to create user with random math.random() strings for email and username. Make it an actual formatted email */}
+			<button
+				onClick={async () => {
+					fetch("/api/user", {
+						method: "POST",
+						body: JSON.stringify({
+							username: "random_username" + Math.random(),
+							email: "random_email@gmail.com",
+						}),
+					})
+						.then((res) => {
+							if (!res.ok) {
+								throw new Error(`HTTP error! Status: ${res.status}`);
+							}
+							return res.json();
+						})
+						.then((data) => {
+							console.log("Response data:", data);
+						})
+						.catch((error) => {
+							console.error("Error during POST request:", error);
+						});
+				}}
+			>
+				Create User
+			</button>
+
 			<header className="bg-blue-600 w-full py-4 text-white text-center">
 				<h1 className="text-3xl font-bold">MileageBuddy</h1>
 				<p className="text-lg">Calculate your car ownership costs easily</p>
