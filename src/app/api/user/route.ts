@@ -20,6 +20,8 @@ export async function GET(request: NextApiRequest) {
 	const email = url.searchParams.get("email");
 	const username = url.searchParams.get("username");
 
+	console.log("id in GET route.ts:", id);
+
 	if (!id && !email && !username) {
 		return NextResponse.json(
 			{
