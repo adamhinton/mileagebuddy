@@ -3,6 +3,7 @@
 import { NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { NextApiRequest } from "next";
+import { PostgrestError } from "@supabase/supabase-js";
 
 // import { NextApiRequest, NextApiResponse } from "next";
 
@@ -56,4 +57,52 @@ export async function GET(request: NextApiRequest) {
 	return NextResponse.json(data);
 }
 
-export async function PUT(request: NextApiRequest) {}
+// Must have an id attached as query parameter to the API endpoint call
+// for example, PUT /api/users?id=2348
+// Only takes ID
+export async function PUT(request: NextApiRequest) {
+	const url = new URL(request.url!);
+	const supabase = await createClientSSROnly();
+	const body = await request.json();
+
+	const id = url.searchParams.get("id");
+
+	if (!id) {
+		return NextResponse.json(
+			{
+				error: "User ID is required. Must format like so: /api/users?id=2348",
+			},
+			{ status: 400 }
+		);
+	}
+
+	// TODO: This may be unnecessary
+	const isUserExistsInDB = await checkIfUserExistsInDB(slug);
+	if (!isUserExistsInDB) {
+		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
+	}
+
+	const {
+		data,
+		error,
+	}: { data: object[] | null; error: PostgrestError | null } = await supabase
+		.from("users")
+		.update(body)
+		.eq("id", id);
+
+	if (error) {
+		return NextResponse.json({ error: error.message }, { status: 500 });
+	}
+
+	return NextResponse.json(
+		{ message: "User updated successfully" },
+		{ status: 200 }
+	);
+}
+
+// TODO: Move to a util file
+const checkIfUserExistsInDB = async (id: string): Promise<boolean> => {
+	const supabase = await createClientSSROnly();
+	const { data } = await supabase.from("users").select("*").eq("id", id);
+	return data !== null && data.length > 0;
+};
