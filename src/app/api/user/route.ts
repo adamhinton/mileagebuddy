@@ -4,7 +4,7 @@
 import { NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { NextApiRequest } from "next";
-import { PostgrestError } from "@supabase/supabase-js";
+import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
 
 // import { NextApiRequest, NextApiResponse } from "next";
 
@@ -79,7 +79,7 @@ export async function PUT(request: NextApiRequest) {
 	}
 
 	// TODO: This may be unnecessary
-	const isUserExistsInDB = await checkIfUserExistsInDB("id", id);
+	const isUserExistsInDB = await checkIfUserExistsInDB("id", id, supabase);
 	if (!isUserExistsInDB) {
 		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
 	}
@@ -129,7 +129,7 @@ export async function DELETE(request: NextApiRequest) {
 	}
 
 	// TODO: This may be unnecessary
-	const isUserExistsInDB = await checkIfUserExistsInDB("id", id);
+	const isUserExistsInDB = await checkIfUserExistsInDB("id", id, supabase);
 	if (!isUserExistsInDB) {
 		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
 	}
@@ -175,8 +175,8 @@ export async function POST(request: NextApiRequest) {
 
 	// TODO: Test this more thoroughly
 	const isUserExistsInDB =
-		(await checkIfUserExistsInDB("email", body.email)) ||
-		(await checkIfUserExistsInDB("username", body.username));
+		(await checkIfUserExistsInDB("email", body.email, supabase)) ||
+		(await checkIfUserExistsInDB("username", body.username, supabase));
 
 	console.log("isUserExistsInDB:", isUserExistsInDB);
 
@@ -222,9 +222,9 @@ type IDOrEmailOrUsername = "id" | "email" | "username";
 // First param is what kind of identifier we're looking up by (email or username or id), second is the identifier itself (ex. "bob.bobsmith@gmail.com")
 const checkIfUserExistsInDB = async (
 	identifierType: IDOrEmailOrUsername,
-	identifier: string
+	identifier: string,
+	supabase: SupabaseClient
 ): Promise<boolean> => {
-	const supabase = await createClientSSROnly();
 	const { data } = await supabase
 		.from("users")
 		.select("*")

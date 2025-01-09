@@ -131,133 +131,163 @@ describe("GET /api/user", () => {
 	});
 });
 
-// describe("PUT /api/user", () => {
-// 	let mockUpdate: jest.Mock;
-// 	let mockUser: { id: string; username: string; email: string };
+describe("PUT /api/user", () => {
+	let mockUpdate: jest.Mock;
+	let mockUser: { id: string; username: string; email: string };
 
-// 	beforeEach(() => {
-// 		mockUser = {
-// 			id: "1",
-// 			username: "JohnDoe",
-// 			email: "john@example.com",
-// 		};
+	beforeEach(() => {
+		mockUser = {
+			id: "1",
+			username: "JohnDoe",
+			email: "john@example.com",
+		};
 
-// 		mockUpdate = jest.fn().mockReturnValue({
-// 			error: null,
-// 		});
+		mockUpdate = jest.fn().mockReturnValue({
+			error: null,
+		});
 
-// 		(createClientSSROnly as jest.Mock).mockReturnValue({
-// 			from: jest.fn().mockReturnValue({
-// 				update: mockUpdate,
-// 				eq: jest.fn().mockReturnThis(),
-// 			}),
-// 		});
-// 	});
+		(createClientSSROnly as jest.Mock).mockReturnValue({
+			from: jest.fn().mockReturnValue({
+				update: mockUpdate,
+				eq: jest.fn().mockReturnThis(),
+			}),
+		});
+	});
 
-// 	it("should update the user when valid data is provided", async () => {
-// 		const request = {
-// 			url: "http://localhost:3000/api/user?id=1",
-// 			json: jest.fn().mockResolvedValue({
-// 				username: "JaneDoe",
-// 				email: "jane@example.com",
-// 			}),
-// 		};
+	it("should update the user when valid data is provided", async () => {
+		const request = {
+			url: "http://localhost:3000/api/user?id=1",
+			json: jest.fn().mockResolvedValue({
+				username: "JaneDoe",
+				email: "jane@example.com",
+			}),
+		};
 
-// 		const response = await PUT(request);
-// 		const responseData = await response.json();
+		const response = await PUT({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextApiRequest);
+		const responseData = await response.json();
 
-// 		expect(responseData).toEqual({
-// 			message: "User updated successfully",
-// 		});
-// 		expect(mockUpdate).toHaveBeenCalledWith({
-// 			username: "JaneDoe",
-// 			email: "jane@example.com",
-// 		});
-// 		expect(mockUpdate).toHaveBeenCalledTimes(1);
-// 	});
+		expect(responseData).toEqual({
+			message: "User updated successfully",
+		});
+		expect(mockUpdate).toHaveBeenCalledWith({
+			username: "JaneDoe",
+			email: "jane@example.com",
+		});
+		expect(mockUpdate).toHaveBeenCalledTimes(1);
+	});
 
-// 	it("should return an error if no ID is provided", async () => {
-// 		const request = {
-// 			url: "http://localhost:3000/api/user",
-// 			json: jest.fn().mockResolvedValue({
-// 				username: "JaneDoe",
-// 				email: "jane@example.com",
-// 			}),
-// 		};
+	it("should return an error if no ID is provided", async () => {
+		const request = {
+			url: "http://localhost:3000/api/user",
+			json: jest.fn().mockResolvedValue({
+				username: "JaneDoe",
+				email: "jane@example.com",
+			}),
+		};
 
-// 		const response = await PUT(request);
-// 		const responseData = await response.json();
+		const response = await PUT({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextApiRequest);
+		const responseData = await response.json();
 
-// 		expect(responseData).toEqual({
-// 			error: "User ID is required. Must format like so: /api/users?id=2348",
-// 		});
-// 		expect(response.status).toBe(400);
-// 	});
+		expect(responseData).toEqual({
+			error: "User ID is required. Must format like so: /api/users?id=2348",
+		});
+		expect(response.status).toBe(400);
+	});
 
-// 	it("should return an error if the user doesn't exist in the database", async () => {
-// 		(mockUpdate as jest.Mock).mockReturnValueOnce({
-// 			error: null,
-// 		});
+	it("should return an error if the user doesn't exist in the database", async () => {
+		(mockUpdate as jest.Mock).mockReturnValueOnce({
+			error: null,
+		});
 
-// 		(createClientSSROnly as jest.Mock).mockReturnValue({
-// 			from: jest.fn().mockReturnValue({
-// 				update: mockUpdate,
-// 				eq: jest.fn().mockReturnThis(),
-// 				select: jest.fn().mockReturnThis(),
-// 				then: jest.fn().mockResolvedValue({
-// 					data: [],
-// 					error: null,
-// 				}),
-// 			}),
-// 		});
+		(createClientSSROnly as jest.Mock).mockReturnValue({
+			from: jest.fn().mockReturnValue({
+				update: mockUpdate,
+				eq: jest.fn().mockReturnThis(),
+				select: jest.fn().mockReturnThis(),
+				then: jest.fn().mockResolvedValue({
+					data: [],
+					error: null,
+				}),
+			}),
+		});
 
-// 		const request = {
-// 			url: "http://localhost:3000/api/user?id=999",
-// 			json: jest.fn().mockResolvedValue({
-// 				username: "JaneDoe",
-// 				email: "jane@example.com",
-// 			}),
-// 		};
+		const request = {
+			url: "http://localhost:3000/api/user?id=999",
+			json: jest.fn().mockResolvedValue({
+				username: "JaneDoe",
+				email: "jane@example.com",
+			}),
+		};
 
-// 		const response = await PUT(request);
-// 		const responseData = await response.json();
+		const response = await PUT({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextApiRequest);
+		const responseData = await response.json();
 
-// 		expect(responseData).toEqual({ message: "User not in DB" });
-// 		expect(response.status).toBe(404);
-// 	});
+		expect(responseData).toEqual({ message: "User not in DB" });
+		expect(response.status).toBe(404);
+	});
 
-// 	it("should return an error if no user data is provided", async () => {
-// 		const request = {
-// 			url: "http://localhost:3000/api/user?id=1",
-// 			json: jest.fn().mockResolvedValue({}),
-// 		};
+	it("should return an error if no user data is provided", async () => {
+		const request = {
+			url: "http://localhost:3000/api/user?id=1",
+			json: jest.fn().mockResolvedValue({}),
+		};
 
-// 		const response = await PUT(request);
-// 		const responseData = await response.json();
+		const response = await PUT({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextApiRequest);
+		const responseData = await response.json();
 
-// 		expect(responseData).toEqual({
-// 			error: "User data to update is required",
-// 		});
-// 		expect(response.status).toBe(400);
-// 	});
+		expect(responseData).toEqual({
+			error: "User data to update is required",
+		});
+		expect(response.status).toBe(400);
+	});
 
-// 	it("should return a server error if update fails", async () => {
-// 		(mockUpdate as jest.Mock).mockReturnValueOnce({
-// 			error: { message: "Database error" },
-// 		});
+	it("should return a server error if update fails", async () => {
+		(mockUpdate as jest.Mock).mockReturnValueOnce({
+			error: { message: "Database error" },
+		});
 
-// 		const request = {
-// 			url: "http://localhost:3000/api/user?id=1",
-// 			json: jest.fn().mockResolvedValue({
-// 				username: "JaneDoe",
-// 				email: "jane@example.com",
-// 			}),
-// 		};
+		const request = {
+			url: "http://localhost:3000/api/user?id=1",
+			json: jest.fn().mockResolvedValue({
+				username: "JaneDoe",
+				email: "jane@example.com",
+			}),
+		};
 
-// 		const response = await PUT(request);
-// 		const responseData = await response.json();
+		const response = await PUT({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextApiRequest);
+		const responseData = await response.json();
 
-// 		expect(responseData).toEqual({ error: "Database error" });
-// 		expect(response.status).toBe(500);
-// 	});
-// });
+		expect(responseData).toEqual({ error: "Database error" });
+		expect(response.status).toBe(500);
+	});
+});
