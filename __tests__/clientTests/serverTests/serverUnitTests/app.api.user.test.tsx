@@ -226,13 +226,28 @@ describe("PUT /api/user", () => {
 		expect(mockFrom().update().eq).toHaveBeenCalledTimes(1);
 	});
 
-	it("should return an error if no ID is provided", async () => {
+	it.only("should return an error if no ID is provided", async () => {
+		const userWithoutId = {
+			username: "JaneDoe",
+			email: "jane@example.com",
+		};
+
+		const mockFrom = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [userWithoutId], error: null }),
+			}),
+			update: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [userWithoutId], error: null }),
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({
+			from: mockFrom,
+		});
+
 		const request = {
 			url: "http://localhost:3000/api/user",
-			json: jest.fn().mockResolvedValue({
-				username: "JaneDoe",
-				email: "jane@example.com",
-			}),
+			json: jest.fn().mockResolvedValue(userWithoutId),
 		};
 
 		const response = await PUT({
