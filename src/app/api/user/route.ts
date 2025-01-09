@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // basic nextjs route.ts with GET dummy to make sure it works
 
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { NextApiRequest } from "next";
 import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
@@ -14,7 +14,7 @@ import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
 
 // Gets a user with query parameters by id, email or username
 // Ex GET api/users?id=2348 or GET api/users?email=bob@bob.com or GET api/users?username=bob_donaldson
-export async function GET(request: NextApiRequest) {
+export async function GET(request: NextRequest) {
 	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
 
@@ -59,12 +59,10 @@ export async function GET(request: NextApiRequest) {
 // for example, PUT /api/users?id=2348
 // Only takes ID
 // TODO: Make this param a Request, not a NextApiRequest
-export async function PUT(request: NextApiRequest) {
+export async function PUT(request: NextRequest) {
 	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
 
-	// @ts-expect-error This is a workaround to make the function work with NextApiRequest, not Request
-	// TODO: Fix this, TS says json() property doesn't exist because it's only a property on Request, not on NextApiRequst. Need to change function param type to Request
 	const body = await request.json();
 
 	const id = url.searchParams.get("id");
@@ -114,7 +112,7 @@ export async function PUT(request: NextApiRequest) {
 // for example, DELETE /api/users?id=2348
 // Only takes ID
 // TODO: Make this param a Request, not a NextApiRequest
-export async function DELETE(request: NextApiRequest) {
+export async function DELETE(request: NextRequest) {
 	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
 	const id = url.searchParams.get("id");
@@ -153,13 +151,11 @@ export async function DELETE(request: NextApiRequest) {
 }
 
 // TODO: Make this param a Request, not a NextApiRequest
-export async function POST(request: NextApiRequest) {
+export async function POST(request: NextRequest) {
 	console.log("Starting POST");
 	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
 
-	// @ts-expect-error This is a workaround to make the function work with NextApiRequest, not Request
-	// TODO: Fix this, TS says json() property doesn't exist because it's only a property on Request, not on NextApiRequst. Need to change function param type to Request
 	const body = await request.json();
 
 	console.log("body in POST:", body);

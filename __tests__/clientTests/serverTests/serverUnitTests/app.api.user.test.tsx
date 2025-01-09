@@ -12,7 +12,7 @@
 
 import { GET, PUT } from "@/app/api/user/route";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
-import { NextApiRequest } from "next";
+import { NextRequest } from "next/server";
 
 // Mock the Supabase client
 jest.mock("../../../../supabaseUtilsCustom/server", () => ({
@@ -53,7 +53,7 @@ describe("GET /api/user", () => {
 	it("should return a user by id if id exists", async () => {
 		const request = {
 			url: "http://localhost:3000/api/user?id=1",
-		} as NextApiRequest;
+		} as NextRequest;
 
 		const response = await GET(request);
 		const responseData = await response.json();
@@ -67,7 +67,7 @@ describe("GET /api/user", () => {
 	it("should return a user by email if email exists", async () => {
 		const request = {
 			url: "http://localhost:3000/api/user?email=john@example.com",
-		} as NextApiRequest;
+		} as NextRequest;
 
 		const response = await GET(request);
 		const responseData = await response.json();
@@ -81,7 +81,7 @@ describe("GET /api/user", () => {
 	it("should return a user by username if username exists", async () => {
 		const request = {
 			url: "http://localhost:3000/api/user?username=JohnDoe",
-		} as NextApiRequest;
+		} as NextRequest;
 
 		const response = await GET(request);
 		const responseData = await response.json();
@@ -105,7 +105,7 @@ describe("GET /api/user", () => {
 
 		const request = {
 			url: "http://localhost:3000/api/user?id=999",
-		} as NextApiRequest;
+		} as NextRequest;
 
 		const response = await GET(request);
 		const responseData = await response.json();
@@ -117,7 +117,7 @@ describe("GET /api/user", () => {
 	it("should return an error when no query parameter is provided", async () => {
 		const request = {
 			url: "http://localhost:3000/api/user",
-		} as NextApiRequest;
+		} as NextRequest;
 
 		const response = await GET(request);
 		const responseData = await response.json();
@@ -217,7 +217,7 @@ describe("PUT /api/user", () => {
 			cookies: {},
 			body: {},
 			env: {},
-		} as unknown as NextApiRequest);
+		} as unknown as NextRequest);
 		const responseData = await response.json();
 
 		expect(responseData).toEqual({
@@ -258,7 +258,7 @@ describe("PUT /api/user", () => {
 			cookies: {},
 			body: {},
 			env: {},
-		} as unknown as NextApiRequest);
+		} as unknown as NextRequest);
 		const responseData = await response.json();
 
 		expect(responseData).toEqual({
@@ -294,7 +294,7 @@ describe("PUT /api/user", () => {
 			cookies: {},
 			body: {},
 			env: {},
-		} as unknown as NextApiRequest);
+		} as unknown as NextRequest);
 		const responseData = await response.json();
 
 		expect(responseData).toEqual({ message: "User not in DB" });
@@ -330,7 +330,7 @@ describe("PUT /api/user", () => {
 			cookies: {},
 			body: {},
 			env: {},
-		} as unknown as NextApiRequest);
+		} as unknown as NextRequest);
 		const responseData = await response.json();
 
 		expect(responseData).toEqual({
