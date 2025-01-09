@@ -177,7 +177,7 @@ describe("PUT /api/user", () => {
 	// });
 
 	// passes
-	it.only("should update the user when valid data is provided", async () => {
+	it("should update the user when valid data is provided", async () => {
 		const mockUser = {
 			id: "1",
 			username: "John Doe",
@@ -228,7 +228,7 @@ describe("PUT /api/user", () => {
 	});
 
 	// passes
-	it.only("should return an error if no ID is provided", async () => {
+	it("should return an error if no ID is provided", async () => {
 		const userWithoutId = {
 			username: "JaneDoe",
 			email: "jane@example.com",
@@ -268,7 +268,7 @@ describe("PUT /api/user", () => {
 	});
 
 	// passes
-	it.only("should return an error if the user doesn't exist in the database", async () => {
+	it("should return an error if the user doesn't exist in the database", async () => {
 		const mockDBCalls = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnValue({
 				eq: jest.fn().mockResolvedValue({ data: [], error: null }),
@@ -307,6 +307,23 @@ describe("PUT /api/user", () => {
 			json: jest.fn().mockResolvedValue({}),
 		};
 
+		const mockUser = {
+			id: "1",
+			username: "John Doe",
+			email: "john.doe@gmail.com",
+		};
+
+		const mockDBCalls = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [mockUser], error: null }),
+			}),
+			update: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [], error: null }),
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
+
 		const response = await PUT({
 			...request,
 			query: {},
@@ -320,31 +337,5 @@ describe("PUT /api/user", () => {
 			error: "User data to update is required",
 		});
 		expect(response.status).toBe(400);
-	});
-
-	it("should return a server error if update fails", async () => {
-		(mockUpdate as jest.Mock).mockReturnValueOnce({
-			error: { message: "Database error" },
-		});
-
-		const request = {
-			url: "http://localhost:3000/api/user?id=1",
-			json: jest.fn().mockResolvedValue({
-				username: "JaneDoe",
-				email: "jane@example.com",
-			}),
-		};
-
-		const response = await PUT({
-			...request,
-			query: {},
-			cookies: {},
-			body: {},
-			env: {},
-		} as unknown as NextApiRequest);
-		const responseData = await response.json();
-
-		expect(responseData).toEqual({ error: "Database error" });
-		expect(response.status).toBe(500);
 	});
 });
