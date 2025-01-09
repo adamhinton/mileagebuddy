@@ -115,7 +115,7 @@ export default function Page() {
 						method: "POST",
 						body: JSON.stringify({
 							username: "random_username" + Math.random(),
-							email: "random_email@gmail.com",
+							email: "random_email" + Math.random() + "@gmail.com",
 						}),
 					})
 						.then((res) => {
