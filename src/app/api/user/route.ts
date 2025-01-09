@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // basic nextjs route.ts with GET dummy to make sure it works
 
 import { NextResponse } from "next/server";
@@ -6,6 +7,8 @@ import { NextApiRequest } from "next";
 import { PostgrestError } from "@supabase/supabase-js";
 
 // import { NextApiRequest, NextApiResponse } from "next";
+
+// TODO: User data validation. Middleware?
 
 // TODO: Utils such as getUserByID etc
 
@@ -76,7 +79,7 @@ export async function PUT(request: NextApiRequest) {
 	}
 
 	// TODO: This may be unnecessary
-	const isUserExistsInDB = await checkIfUserExistsInDB(id);
+	const isUserExistsInDB = await checkIfUserExistsInDB("id", id);
 	if (!isUserExistsInDB) {
 		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
 	}
@@ -111,11 +114,113 @@ export async function PUT(request: NextApiRequest) {
 // for example, DELETE /api/users?id=2348
 // Only takes ID
 // TODO: Make this param a Request, not a NextApiRequest
-export async function DELETE(request: NextApiRequest) {}
+export async function DELETE(request: NextApiRequest) {
+	const url = new URL(request.url!);
+	const supabase = await createClientSSROnly();
+	const id = url.searchParams.get("id");
+
+	if (!id) {
+		return NextResponse.json(
+			{
+				error: "User ID is required. Must format like so: /api/users?id=2348",
+			},
+			{ status: 400 }
+		);
+	}
+
+	// TODO: This may be unnecessary
+	const isUserExistsInDB = await checkIfUserExistsInDB("id", id);
+	if (!isUserExistsInDB) {
+		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
+	}
+
+	const {
+		data,
+		error,
+	}: { data: object[] | null; error: PostgrestError | null } = await supabase
+		.from("users")
+		.delete()
+		.eq("id", id);
+
+	if (error) {
+		return NextResponse.json({ error: error.message }, { status: 500 });
+	}
+
+	return NextResponse.json(
+		{ message: "User deleted successfully" },
+		{ status: 200 }
+	);
+}
+
+// TODO: Make this param a Request, not a NextApiRequest
+export async function POST(request: NextApiRequest) {
+	console.log("Starting POST");
+	const url = new URL(request.url!);
+	const supabase = await createClientSSROnly();
+
+	// @ts-expect-error This is a workaround to make the function work with NextApiRequest, not Request
+	// TODO: Fix this, TS says json() property doesn't exist because it's only a property on Request, not on NextApiRequst. Need to change function param type to Request
+	const body = await request.json();
+
+	if (!body.username || !body.email) {
+		return NextResponse.json(
+			{
+				error: "Email and username required",
+			},
+			{ status: 400 }
+		);
+	}
+
+	// TODO: Test this more thoroughly
+	const isUserExistsInDB =
+		(await checkIfUserExistsInDB("email", body.email)) ||
+		(await checkIfUserExistsInDB("username", body.username));
+
+	if (!isUserExistsInDB) {
+		return NextResponse.json(
+			{
+				error: "User already in DB",
+			},
+			{ status: 404 }
+		);
+	}
+
+	const {
+		data,
+		error,
+	}: { data: object[] | null; error: PostgrestError | null } = await supabase
+		.from("users")
+		.insert(body);
+
+	if (error) {
+		return NextResponse.json({ error: error.message }, { status: 500 });
+	}
+
+	console.log("data in POST:", data);
+
+	// return NextResponse.json(
+	// 	{
+	// 		message: "User created successfully",
+	// 	},
+	// 	{ status: 201 }
+	// );
+
+	// return successful 201 including all the new user's data
+	return NextResponse.json(data, { status: 201 });
+}
+
+type IDOrEmailOrUsername = "id" | "email" | "username";
 
 // TODO: Move to a util file
-const checkIfUserExistsInDB = async (id: string): Promise<boolean> => {
+// First param is what kind of identifier we're looking up by (email or username or id), second is the identifier itself (ex. "bob.bobsmith@gmail.com")
+const checkIfUserExistsInDB = async (
+	identifierType: IDOrEmailOrUsername,
+	identifier: string
+): Promise<boolean> => {
 	const supabase = await createClientSSROnly();
-	const { data } = await supabase.from("users").select("*").eq("id", id);
+	const { data } = await supabase
+		.from("users")
+		.select("*")
+		.eq(identifier, identifier);
 	return data !== null && data.length > 0;
 };

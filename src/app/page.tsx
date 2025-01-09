@@ -48,7 +48,7 @@ export default function Page() {
 				onClick={async () => {
 					// whatever the equivalent of fetch is with a delete operation, to api/user/1
 					// can't call DELETE directly, gotta call to the endpoint
-					const res = await fetch("/api/user/2", {
+					const res = await fetch("/api/user?id=3", {
 						method: "DELETE",
 					});
 					const data = await res.json();
@@ -125,7 +125,7 @@ export default function Page() {
 							return res.json();
 						})
 						.then((data) => {
-							console.log("Response data:", data);
+							console.log("POST Response data:", data);
 						})
 						.catch((error) => {
 							console.error("Error during POST request:", error);
