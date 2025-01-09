@@ -10,7 +10,7 @@
  * @jest-environment node
  */
 
-import { GET } from "@/app/api/user/route";
+import { GET, PUT } from "@/app/api/user/route";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { NextApiRequest } from "next";
 
@@ -129,3 +129,6 @@ describe("GET /api/user", () => {
 		expect(response.status).toBe(400);
 	});
 });
+
+// similar tests to GET. Update user's email and username. Return error on invalid ID. Structured similarly to above test
+describe("PUT /api/user", () => {});
