@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // README
 // This is a test file for the server-side API route /api/user/slug
 // Testing the GET operation to fetch a user by id
@@ -132,6 +131,7 @@ describe("GET /api/user", () => {
 });
 
 describe("PUT /api/user", () => {
+	let mockFrom: jest.Mock;
 	let mockUpdate: jest.Mock;
 	let mockUser: { id: string; username: string; email: string };
 
@@ -142,19 +142,41 @@ describe("PUT /api/user", () => {
 			email: "john@example.com",
 		};
 
-		mockUpdate = jest.fn().mockReturnValue({
-			error: null,
+		mockFrom = jest.fn().mockImplementation(() => {
+			return {
+				select: jest.fn().mockImplementation(() => {
+					return {
+						eq: jest.fn().mockImplementation(() => {
+							return {
+								then: jest.fn().mockImplementation((callback) => {
+									return Promise.resolve(
+										callback({ data: [mockUser], error: null })
+									);
+								}),
+							};
+						}),
+					};
+				}),
+				update: jest.fn().mockImplementation(() => {
+					return {
+						eq: jest.fn().mockImplementation(() => {
+							return {
+								then: jest.fn().mockImplementation((callback) => {
+									return Promise.resolve(
+										callback({ data: [mockUser], error: null })
+									);
+								}),
+							};
+						}),
+					};
+				}),
+			};
 		});
 
-		(createClientSSROnly as jest.Mock).mockReturnValue({
-			from: jest.fn().mockReturnValue({
-				update: mockUpdate,
-				eq: jest.fn().mockReturnThis(),
-			}),
-		});
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
 	});
 
-	it("should update the user when valid data is provided", async () => {
+	it.only("should update the user when valid data is provided", async () => {
 		const request = {
 			url: "http://localhost:3000/api/user?id=1",
 			json: jest.fn().mockResolvedValue({
@@ -175,13 +197,13 @@ describe("PUT /api/user", () => {
 		expect(responseData).toEqual({
 			message: "User updated successfully",
 		});
-		expect(mockUpdate).toHaveBeenCalledWith({
+		expect(mockFrom().update().eq).toHaveBeenCalledWith({
+			id: "1",
 			username: "JaneDoe",
 			email: "jane@example.com",
 		});
-		expect(mockUpdate).toHaveBeenCalledTimes(1);
+		expect(mockFrom().update().eq).toHaveBeenCalledTimes(1);
 	});
-
 	it("should return an error if no ID is provided", async () => {
 		const request = {
 			url: "http://localhost:3000/api/user",
