@@ -60,7 +60,7 @@ export async function GET(request: NextApiRequest) {
 // Must have an id attached as query parameter to the API endpoint call
 // for example, PUT /api/users?id=2348
 // Only takes ID
-export async function PUT(request: NextApiRequest) {
+export async function PUT(request: Request) {
 	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
 	const body = await request.json();
@@ -77,13 +77,13 @@ export async function PUT(request: NextApiRequest) {
 	}
 
 	// TODO: This may be unnecessary
-	const isUserExistsInDB = await checkIfUserExistsInDB(slug);
+	const isUserExistsInDB = await checkIfUserExistsInDB(id);
 	if (!isUserExistsInDB) {
 		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
 	}
 
 	const {
-		data,
+		// data,
 		error,
 	}: { data: object[] | null; error: PostgrestError | null } = await supabase
 		.from("users")
