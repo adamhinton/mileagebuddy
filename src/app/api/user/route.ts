@@ -55,3 +55,5 @@ export async function GET(request: NextApiRequest) {
 
 	return NextResponse.json(data);
 }
+
+export async function PUT(request: NextApiRequest) {}
