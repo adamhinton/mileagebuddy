@@ -14,7 +14,7 @@ export default function Page() {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const res = await fetch("/api/user");
+				const res = await fetch("/api/user?id=3");
 				const data = await res.json();
 				const fetchedUsers: User[] = data;
 				setUsers(fetchedUsers);
@@ -23,6 +23,20 @@ export default function Page() {
 			}
 		};
 
+		// This is a dummy fxn for testing, for now
+		const fetchUserByID = async (id: string) => {
+			try {
+				const res = await fetch(`api/user?id=${id}`);
+				const data = await res.json();
+				const fetchedUser: User = data;
+				console.log("fetchedUser:", fetchedUser);
+			} catch (error) {
+				console.error("Error fetching single user in page.tsx:", error);
+			}
+		};
+
+		fetchUserByID("1");
+
 		fetchData();
 	}, []);
 
@@ -30,6 +44,100 @@ export default function Page() {
 
 	return (
 		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center dark: bg-bl">
+			<button
+				onClick={async () => {
+					// whatever the equivalent of fetch is with a delete operation, to api/user/1
+					// can't call DELETE directly, gotta call to the endpoint
+					const res = await fetch("/api/user?id=3", {
+						method: "DELETE",
+					});
+					const data = await res.json();
+					console.log("data from delete:", data);
+				}}
+			>
+				Delete User
+			</button>
+
+			<button
+				onClick={() => {
+					fetch("/api/user?id=3", {
+						method: "PUT",
+						body: JSON.stringify({
+							username: "random_username" + Math.random(),
+							email: "random_email@gmail.com",
+						}),
+					})
+						.then((res) => {
+							if (!res.ok) {
+								throw new Error(`HTTP error! Status: ${res.status}`);
+							}
+							return res.json();
+						})
+						.then((data) => {
+							console.log("Response data:", data);
+						})
+						.catch((error) => {
+							console.error("Error during PUT request:", error);
+						});
+				}}
+			>
+				Update User
+			</button>
+
+			{/* GET test button using new API */}
+			<button
+				onClick={() => {
+					fetch("/api/user?id=3", {
+						method: "GET",
+					})
+						.then((res) => {
+							if (!res.ok) {
+								throw new Error(`HTTP error! Status: ${res.status}`);
+							}
+							return res.json();
+						})
+						.then((data) => {
+							console.log("Response data:", data);
+						})
+						.catch((error) => {
+							console.error("Error during GET request:", error);
+						});
+				}}
+			>
+				Get User
+			</button>
+
+			<button
+				onClick={async () => {
+					fetch("/api/user", {
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify({
+							username: "random_username" + Math.random(),
+							email: "random_email" + Math.random() + "@gmail.com",
+						}),
+					})
+						.then((res) => {
+							if (!res.ok) {
+								console.log("!res.ok:", !res.ok);
+								console.log("POST res:", res);
+								throw new Error(`HTTP error! Status: ${res.status}`);
+							}
+							return res.json();
+						})
+						.then((data) => {
+							console.log("POST Response data:", data);
+						})
+						.catch((error) => {
+							console.error("Error during POST request:", error);
+						});
+				}}
+			>
+				Create User
+			</button>
+
 			<header className="bg-blue-600 w-full py-4 text-white text-center">
 				<h1 className="text-3xl font-bold">MileageBuddy</h1>
 				<p className="text-lg">Calculate your car ownership costs easily</p>
