@@ -58,7 +58,6 @@ export default function Page() {
 				Delete User
 			</button>
 
-			{/* GET test button using old API */}
 			<button
 				onClick={() => {
 					fetch("/api/user?id=3", {
@@ -108,7 +107,6 @@ export default function Page() {
 				Get User
 			</button>
 
-			{/* Dummy button to create user with random math.random() strings for email and username. Make it an actual formatted email */}
 			<button
 				onClick={async () => {
 					fetch("/api/user", {
@@ -120,6 +118,8 @@ export default function Page() {
 					})
 						.then((res) => {
 							if (!res.ok) {
+								console.log("!res.ok:", !res.ok);
+								console.log("POST res:", res);
 								throw new Error(`HTTP error! Status: ${res.status}`);
 							}
 							return res.json();

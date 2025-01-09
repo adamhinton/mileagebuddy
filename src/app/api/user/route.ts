@@ -162,6 +162,8 @@ export async function POST(request: NextApiRequest) {
 	// TODO: Fix this, TS says json() property doesn't exist because it's only a property on Request, not on NextApiRequst. Need to change function param type to Request
 	const body = await request.json();
 
+	console.log("body in POST:", body);
+
 	if (!body.username || !body.email) {
 		return NextResponse.json(
 			{
@@ -175,6 +177,8 @@ export async function POST(request: NextApiRequest) {
 	const isUserExistsInDB =
 		(await checkIfUserExistsInDB("email", body.email)) ||
 		(await checkIfUserExistsInDB("username", body.username));
+
+	console.log("isUserExistsInDB:", isUserExistsInDB);
 
 	if (!isUserExistsInDB) {
 		return NextResponse.json(
@@ -190,9 +194,12 @@ export async function POST(request: NextApiRequest) {
 		error,
 	}: { data: object[] | null; error: PostgrestError | null } = await supabase
 		.from("users")
-		.insert(body);
+		.insert(body)
+		// This retrieves the newly created user's data
+		.select();
 
 	if (error) {
+		console.log("should be error 500 now");
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 
