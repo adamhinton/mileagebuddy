@@ -131,52 +131,77 @@ describe("GET /api/user", () => {
 });
 
 describe("PUT /api/user", () => {
-	let mockFrom: jest.Mock;
-	let mockUpdate: jest.Mock;
-	let mockUser: { id: string; username: string; email: string };
+	// let mockFrom: jest.Mock;
+	// let mockUpdate: jest.Mock;
+	// let mockUser: { id: string; username: string; email: string };
 
-	beforeEach(() => {
-		mockUser = {
-			id: "1",
-			username: "JohnDoe",
-			email: "john@example.com",
-		};
+	// beforeEach(() => {
+	// 	mockUser = {
+	// 		id: "1",
+	// 		username: "JohnDoe",
+	// 		email: "john@example.com",
+	// 	};
 
-		mockFrom = jest.fn().mockImplementation(() => {
-			return {
-				select: jest.fn().mockImplementation(() => {
-					return {
-						eq: jest.fn().mockImplementation(() => {
-							return {
-								then: jest.fn().mockImplementation((callback) => {
-									return Promise.resolve(
-										callback({ data: [mockUser], error: null })
-									);
-								}),
-							};
-						}),
-					};
-				}),
-				update: jest.fn().mockImplementation(() => {
-					return {
-						eq: jest.fn().mockImplementation(() => {
-							return {
-								then: jest.fn().mockImplementation((callback) => {
-									return Promise.resolve(
-										callback({ data: [mockUser], error: null })
-									);
-								}),
-							};
-						}),
-					};
-				}),
-			};
-		});
+	// 	mockFrom = jest.fn().mockImplementation(() => {
+	// 		return {
+	// 			select: jest.fn().mockImplementation(() => {
+	// 				return {
+	// 					eq: jest.fn().mockImplementation(() => {
+	// 						return {
+	// 							then: jest.fn().mockImplementation((callback) => {
+	// 								return Promise.resolve(
+	// 									callback({ data: [mockUser], error: null })
+	// 								);
+	// 							}),
+	// 						};
+	// 					}),
+	// 				};
+	// 			}),
+	// 			update: jest.fn().mockImplementation(() => {
+	// 				return {
+	// 					eq: jest.fn().mockImplementation(() => {
+	// 						return {
+	// 							then: jest.fn().mockImplementation((callback) => {
+	// 								return Promise.resolve(
+	// 									callback({ data: [mockUser], error: null })
+	// 								);
+	// 							}),
+	// 						};
+	// 					}),
+	// 				};
+	// 			}),
+	// 		};
+	// 	});
 
-		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
-	});
+	// 	(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
+	// });
 
 	it.only("should update the user when valid data is provided", async () => {
+		const mockUser = {
+			id: "1",
+			username: "John Doe",
+			email: "john.doe@gmail.com",
+		};
+
+		const updatedUser = {
+			id: "1",
+			username: "John Updated",
+			email: "john.updated@gmail.com",
+		};
+
+		const mockFrom = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [mockUser], error: null }),
+			}),
+			update: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [updatedUser], error: null }),
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({
+			from: mockFrom,
+		});
+
 		const request = {
 			url: "http://localhost:3000/api/user?id=1",
 			json: jest.fn().mockResolvedValue({
@@ -197,13 +222,10 @@ describe("PUT /api/user", () => {
 		expect(responseData).toEqual({
 			message: "User updated successfully",
 		});
-		expect(mockFrom().update().eq).toHaveBeenCalledWith({
-			id: "1",
-			username: "JaneDoe",
-			email: "jane@example.com",
-		});
+		expect(mockFrom().update().eq).toHaveBeenCalledWith("id", "1");
 		expect(mockFrom().update().eq).toHaveBeenCalledTimes(1);
 	});
+
 	it("should return an error if no ID is provided", async () => {
 		const request = {
 			url: "http://localhost:3000/api/user",
