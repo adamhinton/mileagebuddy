@@ -107,6 +107,12 @@ export async function PUT(request: NextApiRequest) {
 	);
 }
 
+// Must have an id attached as query parameter to the API endpoint call
+// for example, DELETE /api/users?id=2348
+// Only takes ID
+// TODO: Make this param a Request, not a NextApiRequest
+export async function DELETE(request: NextApiRequest) {}
+
 // TODO: Move to a util file
 const checkIfUserExistsInDB = async (id: string): Promise<boolean> => {
 	const supabase = await createClientSSROnly();
