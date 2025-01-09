@@ -29,7 +29,7 @@ jest.mock("next/server", () => ({
 }));
 
 describe("GET /api/user", () => {
-	let mockFrom: jest.Mock;
+	let mockDBCalls: jest.Mock;
 	let mockUser: { id: string; username: string; email: string };
 
 	beforeEach(() => {
@@ -39,7 +39,7 @@ describe("GET /api/user", () => {
 			email: "john@example.com",
 		};
 
-		mockFrom = jest.fn().mockReturnValue({
+		mockDBCalls = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnThis(),
 			eq: jest.fn().mockReturnThis(),
 			then: jest.fn().mockImplementation((callback) => {
@@ -47,7 +47,7 @@ describe("GET /api/user", () => {
 			}),
 		});
 
-		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
 	});
 
 	it("should return a user by id if id exists", async () => {
@@ -59,9 +59,9 @@ describe("GET /api/user", () => {
 		const responseData = await response.json();
 
 		expect(responseData).toEqual([mockUser]);
-		expect(mockFrom).toHaveBeenCalledWith("users");
-		expect(mockFrom().select).toHaveBeenCalledWith("*");
-		expect(mockFrom().eq).toHaveBeenCalledWith("id", "1");
+		expect(mockDBCalls).toHaveBeenCalledWith("users");
+		expect(mockDBCalls().select).toHaveBeenCalledWith("*");
+		expect(mockDBCalls().eq).toHaveBeenCalledWith("id", "1");
 	});
 
 	it("should return a user by email if email exists", async () => {
@@ -73,9 +73,9 @@ describe("GET /api/user", () => {
 		const responseData = await response.json();
 
 		expect(responseData).toEqual([mockUser]);
-		expect(mockFrom).toHaveBeenCalledWith("users");
-		expect(mockFrom().select).toHaveBeenCalledWith("*");
-		expect(mockFrom().eq).toHaveBeenCalledWith("email", "john@example.com");
+		expect(mockDBCalls).toHaveBeenCalledWith("users");
+		expect(mockDBCalls().select).toHaveBeenCalledWith("*");
+		expect(mockDBCalls().eq).toHaveBeenCalledWith("email", "john@example.com");
 	});
 
 	it("should return a user by username if username exists", async () => {
@@ -87,13 +87,13 @@ describe("GET /api/user", () => {
 		const responseData = await response.json();
 
 		expect(responseData).toEqual([mockUser]);
-		expect(mockFrom).toHaveBeenCalledWith("users");
-		expect(mockFrom().select).toHaveBeenCalledWith("*");
-		expect(mockFrom().eq).toHaveBeenCalledWith("username", "JohnDoe");
+		expect(mockDBCalls).toHaveBeenCalledWith("users");
+		expect(mockDBCalls().select).toHaveBeenCalledWith("*");
+		expect(mockDBCalls().eq).toHaveBeenCalledWith("username", "JohnDoe");
 	});
 
 	it("should return an error when user is not found", async () => {
-		mockFrom = jest.fn().mockReturnValue({
+		mockDBCalls = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnThis(),
 			eq: jest.fn().mockReturnThis(),
 			then: jest.fn().mockImplementation((callback) => {
@@ -101,7 +101,7 @@ describe("GET /api/user", () => {
 			}),
 		});
 
-		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
 
 		const request = {
 			url: "http://localhost:3000/api/user?id=999",
@@ -131,7 +131,7 @@ describe("GET /api/user", () => {
 });
 
 describe("PUT /api/user", () => {
-	// let mockFrom: jest.Mock;
+	// let mockDBCalls: jest.Mock;
 	// let mockUpdate: jest.Mock;
 	// let mockUser: { id: string; username: string; email: string };
 
@@ -142,7 +142,7 @@ describe("PUT /api/user", () => {
 	// 		email: "john@example.com",
 	// 	};
 
-	// 	mockFrom = jest.fn().mockImplementation(() => {
+	// 	mockDBCalls = jest.fn().mockImplementation(() => {
 	// 		return {
 	// 			select: jest.fn().mockImplementation(() => {
 	// 				return {
@@ -173,9 +173,10 @@ describe("PUT /api/user", () => {
 	// 		};
 	// 	});
 
-	// 	(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockFrom });
+	// 	(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
 	// });
 
+	// passes
 	it.only("should update the user when valid data is provided", async () => {
 		const mockUser = {
 			id: "1",
@@ -189,7 +190,7 @@ describe("PUT /api/user", () => {
 			email: "john.updated@gmail.com",
 		};
 
-		const mockFrom = jest.fn().mockReturnValue({
+		const mockDBCalls = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnValue({
 				eq: jest.fn().mockResolvedValue({ data: [mockUser], error: null }),
 			}),
@@ -199,7 +200,7 @@ describe("PUT /api/user", () => {
 		});
 
 		(createClientSSROnly as jest.Mock).mockReturnValue({
-			from: mockFrom,
+			from: mockDBCalls,
 		});
 
 		const request = {
@@ -222,17 +223,18 @@ describe("PUT /api/user", () => {
 		expect(responseData).toEqual({
 			message: "User updated successfully",
 		});
-		expect(mockFrom().update().eq).toHaveBeenCalledWith("id", "1");
-		expect(mockFrom().update().eq).toHaveBeenCalledTimes(1);
+		expect(mockDBCalls().update().eq).toHaveBeenCalledWith("id", "1");
+		expect(mockDBCalls().update().eq).toHaveBeenCalledTimes(1);
 	});
 
+	// passes
 	it.only("should return an error if no ID is provided", async () => {
 		const userWithoutId = {
 			username: "JaneDoe",
 			email: "jane@example.com",
 		};
 
-		const mockFrom = jest.fn().mockReturnValue({
+		const mockDBCalls = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnValue({
 				eq: jest.fn().mockResolvedValue({ data: [userWithoutId], error: null }),
 			}),
@@ -242,7 +244,7 @@ describe("PUT /api/user", () => {
 		});
 
 		(createClientSSROnly as jest.Mock).mockReturnValue({
-			from: mockFrom,
+			from: mockDBCalls,
 		});
 
 		const request = {
@@ -265,22 +267,18 @@ describe("PUT /api/user", () => {
 		expect(response.status).toBe(400);
 	});
 
-	it("should return an error if the user doesn't exist in the database", async () => {
-		(mockUpdate as jest.Mock).mockReturnValueOnce({
-			error: null,
-		});
-
-		(createClientSSROnly as jest.Mock).mockReturnValue({
-			from: jest.fn().mockReturnValue({
-				update: mockUpdate,
-				eq: jest.fn().mockReturnThis(),
-				select: jest.fn().mockReturnThis(),
-				then: jest.fn().mockResolvedValue({
-					data: [],
-					error: null,
-				}),
+	// passes
+	it.only("should return an error if the user doesn't exist in the database", async () => {
+		const mockDBCalls = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [], error: null }),
+			}),
+			update: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [], error: null }),
 			}),
 		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
 
 		const request = {
 			url: "http://localhost:3000/api/user?id=999",
