@@ -221,6 +221,6 @@ const checkIfUserExistsInDB = async (
 	const { data } = await supabase
 		.from("users")
 		.select("*")
-		.eq(identifier, identifier);
+		.eq(identifierType, identifier);
 	return data !== null && data.length > 0;
 };
