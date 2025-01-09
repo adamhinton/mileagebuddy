@@ -61,7 +61,7 @@ export default function Page() {
 			{/* GET test button using old API */}
 			<button
 				onClick={() => {
-					fetch("/api/user/3", {
+					fetch("/api/user?id=3", {
 						method: "PUT",
 						body: JSON.stringify({
 							username: "random_username" + Math.random(),
