@@ -12,16 +12,12 @@ import { PostgrestError } from "@supabase/supabase-js";
 // Gets a user with query parameters by id, email or username
 // Ex GET api/users?id=2348 or GET api/users?email=bob@bob.com or GET api/users?username=bob_donaldson
 export async function GET(request: NextApiRequest) {
-	console.log("request.url in GET:", request.url);
-
 	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
 
 	const id = url.searchParams.get("id");
 	const email = url.searchParams.get("email");
 	const username = url.searchParams.get("username");
-
-	console.log("id in GET route.ts:", id);
 
 	if (!id && !email && !username) {
 		return NextResponse.json(
@@ -48,7 +44,6 @@ export async function GET(request: NextApiRequest) {
 	}
 
 	const { data, error } = await query;
-	console.log("data in new GET:", data);
 
 	if (error || !data || !data.length) {
 		return NextResponse.json({ error: "User not found" }, { status: 404 });
@@ -60,9 +55,13 @@ export async function GET(request: NextApiRequest) {
 // Must have an id attached as query parameter to the API endpoint call
 // for example, PUT /api/users?id=2348
 // Only takes ID
-export async function PUT(request: Request) {
+// TODO: Make this param a Request, not a NextApiRequest
+export async function PUT(request: NextApiRequest) {
 	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
+
+	// @ts-expect-error This is a workaround to make the function work with NextApiRequest, not Request
+	// TODO: Fix this, TS says json() property doesn't exist because it's only a property on Request, not on NextApiRequst. Need to change function param type to Request
 	const body = await request.json();
 
 	const id = url.searchParams.get("id");
@@ -82,6 +81,14 @@ export async function PUT(request: Request) {
 		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
 	}
 
+	if (!body.username && !body.email) {
+		return NextResponse.json(
+			{
+				error: "User data to update is required",
+			},
+			{ status: 400 }
+		);
+	}
 	const {
 		// data,
 		error,
