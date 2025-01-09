@@ -111,6 +111,9 @@ export default function Page() {
 				onClick={async () => {
 					fetch("/api/user", {
 						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
 						body: JSON.stringify({
 							username: "random_username" + Math.random(),
 							email: "random_email" + Math.random() + "@gmail.com",

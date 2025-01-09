@@ -180,12 +180,12 @@ export async function POST(request: NextApiRequest) {
 
 	console.log("isUserExistsInDB:", isUserExistsInDB);
 
-	if (!isUserExistsInDB) {
+	if (isUserExistsInDB) {
 		return NextResponse.json(
 			{
 				error: "User already in DB",
 			},
-			{ status: 404 }
+			{ status: 400 }
 		);
 	}
 
