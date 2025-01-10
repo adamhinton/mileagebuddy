@@ -382,7 +382,7 @@ describe("DELETE /api/user", () => {
 });
 
 describe("POST /api/user", () => {
-	it.only("should create a new user and return the created user object", async () => {
+	it("should create a new user and return the created user object", async () => {
 		const mockNewUser = {
 			username: "John Doe",
 			email: "bob.smithjones@gmail.com",
@@ -419,5 +419,80 @@ describe("POST /api/user", () => {
 
 		expect(responseData).toEqual([mockNewUser]);
 		expect(mockDBCalls).toHaveBeenCalledWith("users");
+	});
+
+	it("should return an error if the email or username already exists in the database", async () => {
+		const mockNewUser = {
+			username: "JohnDoe",
+			email: "bob.smithjones@gmail.com",
+		};
+
+		const mockDBCalls = jest.fn().mockReturnValue({
+			// check if user already exists first
+			select: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [mockNewUser], error: null }),
+			}),
+			// Don't need to mock insert because it shouldn't get that far, it'll find user is already in db first
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
+
+		const request = {
+			url: "http://localhost:3000/api/user",
+			json: jest.fn().mockResolvedValue(mockNewUser),
+		};
+		const response = await POST({
+			...request,
+			query: {},
+			cookies: {},
+			body: mockNewUser,
+			env: {},
+		} as unknown as NextRequest);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual({ error: "User already in DB" });
+		expect(mockDBCalls).toHaveBeenCalledWith("users");
+	});
+
+	it("should return an error if no email is provided", async () => {
+		const request = {
+			url: "http://localhost:3000/api/user",
+			json: jest.fn().mockResolvedValue({}),
+		};
+		const response = await POST({
+			...request,
+			query: {},
+			cookies: {},
+			body: {
+				username: "John Doe",
+			},
+			env: {},
+		} as unknown as NextRequest);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual({
+			error: "Email and username required",
+		});
+	});
+
+	it("should return an error if no username is provided", async () => {
+		const request = {
+			url: "http://localhost:3000/api/user",
+			json: jest.fn().mockResolvedValue({}),
+		};
+		const response = await POST({
+			...request,
+			query: {},
+			cookies: {},
+			body: {
+				email: "bob.smithjones@gmail.com",
+			},
+			env: {},
+		} as unknown as NextRequest);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual({
+			error: "Email and username required",
+		});
 	});
 });
