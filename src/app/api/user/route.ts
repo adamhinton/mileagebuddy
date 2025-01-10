@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // basic nextjs route.ts with GET dummy to make sure it works
 
 import { NextRequest, NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
-import { NextApiRequest } from "next";
 import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
 
 // import { NextApiRequest, NextApiResponse } from "next";
@@ -12,21 +10,19 @@ import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
 
 // TODO: Utils such as getUserByID etc
 
-// Gets a user with query parameters by id, email or username
-// Ex GET api/users?id=2348 or GET api/users?email=bob@bob.com or GET api/users?username=bob_donaldson
+// Gets a user with query parameters by id or email
+// Ex GET api/users?id=2348 or GET api/users?email=bob@bob.com or GET api/users?email=bob_donaldson@gmail.com
 export async function GET(request: NextRequest) {
 	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
 
 	const id = url.searchParams.get("id");
 	const email = url.searchParams.get("email");
-	const username = url.searchParams.get("username");
 
-	if (!id && !email && !username) {
+	if (!id && !email) {
 		return NextResponse.json(
 			{
-				error:
-					"At least one query parameter (id, email, or username) is required.",
+				error: "At least one query parameter (id or email) is required.",
 			},
 			{ status: 400 }
 		);
@@ -40,10 +36,6 @@ export async function GET(request: NextRequest) {
 
 	if (email) {
 		query.eq("email", email);
-	}
-
-	if (username) {
-		query.eq("username", username);
 	}
 
 	const { data, error } = await query;
@@ -76,13 +68,19 @@ export async function PUT(request: NextRequest) {
 		);
 	}
 
+	console.log("body:", body);
+
 	// TODO: This may be unnecessary
 	const isUserExistsInDB = await checkIfUserExistsInDB("id", id, supabase);
 	if (!isUserExistsInDB) {
 		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
 	}
 
-	if (!body.username && !body.email) {
+	console.log("body.email:", body.email);
+	console.log("body.isdarkmode:", body.isdarkmode);
+
+	if (!body.email && body.isdarkmode === undefined) {
+		console.log("blah blah blah");
 		return NextResponse.json(
 			{
 				error: "User data to update is required",
@@ -91,7 +89,7 @@ export async function PUT(request: NextRequest) {
 		);
 	}
 	const {
-		// data,
+		data,
 		error,
 	}: { data: object[] | null; error: PostgrestError | null } = await supabase
 		.from("users")
@@ -99,11 +97,12 @@ export async function PUT(request: NextRequest) {
 		.eq("id", id);
 
 	if (error) {
+		console.log("error:", error);
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 
 	return NextResponse.json(
-		{ message: "User updated successfully" },
+		{ message: "User updated successfully", data: data },
 		{ status: 200 }
 	);
 }
@@ -145,35 +144,38 @@ export async function DELETE(request: NextRequest) {
 	}
 
 	return NextResponse.json(
-		{ message: "User deleted successfully" },
+		{ message: "User deleted successfully", data: data },
 		{ status: 200 }
 	);
 }
 
 // Returns newly created User object
 export async function POST(request: NextRequest) {
-	console.log("Starting POST");
 	const supabase = await createClientSSROnly();
 
 	const body = await request.json();
 
-	if (!body.username || !body.email) {
+	if (!body.email) {
+		console.log("no body.email");
 		return NextResponse.json(
 			{
-				error: "Email and username required",
+				error: "Email required",
 			},
 			{ status: 400 }
 		);
 	}
 
-	// TODO: Test this more thoroughly
-	const isUserExistsInDB =
-		(await checkIfUserExistsInDB("email", body.email, supabase)) ||
-		(await checkIfUserExistsInDB("username", body.username, supabase));
+	console.log("body:", body);
 
-	console.log("isUserExistsInDB:", isUserExistsInDB);
+	// TODO: Test this more thoroughly
+	const isUserExistsInDB = await checkIfUserExistsInDB(
+		"email",
+		body.email,
+		supabase
+	);
 
 	if (isUserExistsInDB) {
+		console.log("isUserExistsInDB:", isUserExistsInDB);
 		return NextResponse.json(
 			{
 				error: "User already in DB",
@@ -192,18 +194,19 @@ export async function POST(request: NextRequest) {
 		.select();
 
 	if (error) {
+		console.log("error:", error);
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 
 	return NextResponse.json(data, { status: 201 });
 }
 
-type IDOrEmailOrUsername = "id" | "email" | "username";
+type IDOrEmail = "id" | "email";
 
 // TODO: Move to a util file
-// First param is what kind of identifier we're looking up by (email or username or id), second is the identifier itself (ex. "bob.bobsmith@gmail.com")
+// First param is what kind of identifier we're looking up by (email or id), second is the identifier itself (ex. "bob.bobsmith@gmail.com")
 const checkIfUserExistsInDB = async (
-	identifierType: IDOrEmailOrUsername,
+	identifierType: IDOrEmail,
 	identifier: string,
 	supabase: SupabaseClient
 ): Promise<boolean> => {

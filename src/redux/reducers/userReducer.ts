@@ -11,15 +11,15 @@ import { User, UserSchema } from "@/zod/schemas/UserSchema";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const UserNullableSchema = UserSchema.extend({
 	id: z.string().nullable(),
-	username: z.string().nullable(),
 	email: z.string().email().nullable(),
+	isDarkMode: z.boolean().nullable(),
 });
 
 type UserNullablePreLogin = z.infer<typeof UserNullableSchema>;
 
 const initialState: UserNullablePreLogin = {
 	id: null,
-	username: null,
+	isDarkMode: null,
 	email: null,
 };
 
@@ -30,12 +30,12 @@ const userSlice = createSlice({
 		// TODO: Error handling here
 		setUser: (state, action: PayloadAction<User>) => {
 			state.id = action.payload.id;
-			state.username = action.payload.username;
+			state.isDarkMode = action.payload.isDarkMode;
 			state.email = action.payload.email;
 		},
 		clearUser: (state) => {
 			state.id = null;
-			state.username = null;
+			state.isDarkMode = null;
 			state.email = null;
 		},
 	},

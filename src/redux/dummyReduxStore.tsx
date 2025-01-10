@@ -12,7 +12,7 @@ import { RootState } from "@/redux/store";
 
 const fakeUser: User = {
 	id: "1",
-	username: "Test User",
+	isDarkMode: true,
 	email: "testuser@example.com",
 };
 
