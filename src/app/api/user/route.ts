@@ -89,7 +89,7 @@ export async function PUT(request: NextRequest) {
 		);
 	}
 	const {
-		// data,
+		data,
 		error,
 	}: { data: object[] | null; error: PostgrestError | null } = await supabase
 		.from("users")
@@ -102,7 +102,7 @@ export async function PUT(request: NextRequest) {
 	}
 
 	return NextResponse.json(
-		{ message: "User updated successfully", data: body },
+		{ message: "User updated successfully", data: data },
 		{ status: 200 }
 	);
 }
@@ -159,7 +159,7 @@ export async function POST(request: NextRequest) {
 		console.log("no body.email");
 		return NextResponse.json(
 			{
-				error: "Email  required",
+				error: "Email required",
 			},
 			{ status: 400 }
 		);

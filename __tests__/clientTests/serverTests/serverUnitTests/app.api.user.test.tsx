@@ -30,13 +30,13 @@ jest.mock("next/server", () => ({
 
 describe("GET /api/user", () => {
 	let mockDBCalls: jest.Mock;
-	let mockUser: { id: string; username: string; email: string };
+	let mockUser: { id: string; isdarkmode: boolean; email: string };
 
 	beforeEach(() => {
 		mockUser = {
 			id: "1",
-			username: "JohnDoe",
 			email: "john@example.com",
+			isdarkmode: false,
 		};
 
 		mockDBCalls = jest.fn().mockReturnValue({
@@ -78,20 +78,6 @@ describe("GET /api/user", () => {
 		expect(mockDBCalls().eq).toHaveBeenCalledWith("email", "john@example.com");
 	});
 
-	it("should return a user by username if username exists", async () => {
-		const request = {
-			url: "http://localhost:3000/api/user?username=JohnDoe",
-		} as NextRequest;
-
-		const response = await GET(request);
-		const responseData = await response.json();
-
-		expect(responseData).toEqual([mockUser]);
-		expect(mockDBCalls).toHaveBeenCalledWith("users");
-		expect(mockDBCalls().select).toHaveBeenCalledWith("*");
-		expect(mockDBCalls().eq).toHaveBeenCalledWith("username", "JohnDoe");
-	});
-
 	it("should return an error when user is not found", async () => {
 		mockDBCalls = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnThis(),
@@ -123,8 +109,7 @@ describe("GET /api/user", () => {
 		const responseData = await response.json();
 
 		expect(responseData).toEqual({
-			error:
-				"At least one query parameter (id, email, or username) is required.",
+			error: "At least one query parameter (id or email) is required.",
 		});
 		expect(response.status).toBe(400);
 	});
@@ -135,13 +120,13 @@ describe("PUT /api/user", () => {
 	it("should update the user when valid data is provided", async () => {
 		const mockUser = {
 			id: "1",
-			username: "John Doe",
+			isdarkmode: true,
 			email: "john.doe@gmail.com",
 		};
 
 		const updatedUser = {
 			id: "1",
-			username: "John Updated",
+			isdarkmode: false,
 			email: "john.updated@gmail.com",
 		};
 
@@ -161,7 +146,107 @@ describe("PUT /api/user", () => {
 		const request = {
 			url: "http://localhost:3000/api/user?id=1",
 			json: jest.fn().mockResolvedValue({
-				username: "JaneDoe",
+				email: "jane@example.com",
+				isdarkmode: true,
+			}),
+		};
+
+		const response = await PUT({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextRequest);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual({
+			message: "User updated successfully",
+			data: [updatedUser],
+		});
+		expect(mockDBCalls().update().eq).toHaveBeenCalledWith("id", "1");
+		expect(mockDBCalls().update().eq).toHaveBeenCalledTimes(1);
+	});
+
+	it.only("should update the user when only passed an isdarkmode change", async () => {
+		const mockUser = {
+			id: "1",
+			isdarkmode: true,
+			email: "john.doe@gmail.com",
+		};
+
+		const updatedUser = {
+			id: "1",
+			isdarkmode: false,
+			email: "john.doe@gmail.com",
+		};
+
+		const mockDBCalls = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [mockUser], error: null }),
+			}),
+			update: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [updatedUser], error: null }),
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({
+			from: mockDBCalls,
+		});
+
+		const request = {
+			url: "http://localhost:3000/api/user?id=1",
+			json: jest.fn().mockResolvedValue({
+				isdarkmode: false,
+			}),
+		};
+
+		const response = await PUT({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextRequest);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual({
+			message: "User updated successfully",
+			data: [updatedUser],
+		});
+		expect(mockDBCalls().update().eq).toHaveBeenCalledWith("id", "1");
+		expect(mockDBCalls().update().eq).toHaveBeenCalledTimes(1);
+	});
+
+	it("should update the user when only passed an email change", async () => {
+		const mockUser = {
+			id: "1",
+			isdarkmode: true,
+			email: "john.doe@gmail.com",
+		};
+
+		const updatedUser = {
+			id: "1",
+			isdarkmode: true,
+			email: "jane@example.com",
+		};
+
+		const mockDBCalls = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [mockUser], error: null }),
+			}),
+			update: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [updatedUser], error: null }),
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({
+			from: mockDBCalls,
+		});
+
+		const request = {
+			url: "http://localhost:3000/api/user?id=1",
+			json: jest.fn().mockResolvedValue({
 				email: "jane@example.com",
 			}),
 		};
@@ -177,6 +262,7 @@ describe("PUT /api/user", () => {
 
 		expect(responseData).toEqual({
 			message: "User updated successfully",
+			data: [updatedUser],
 		});
 		expect(mockDBCalls().update().eq).toHaveBeenCalledWith("id", "1");
 		expect(mockDBCalls().update().eq).toHaveBeenCalledTimes(1);
@@ -185,8 +271,8 @@ describe("PUT /api/user", () => {
 	// passes
 	it("should return an error if no ID is provided", async () => {
 		const userWithoutId = {
-			username: "JaneDoe",
 			email: "jane@example.com",
+			isdarkmode: true,
 		};
 
 		const mockDBCalls = jest.fn().mockReturnValue({
@@ -238,8 +324,8 @@ describe("PUT /api/user", () => {
 		const request = {
 			url: "http://localhost:3000/api/user?id=999",
 			json: jest.fn().mockResolvedValue({
-				username: "JaneDoe",
 				email: "jane@example.com",
+				isdarkmode: false,
 			}),
 		};
 
@@ -264,8 +350,8 @@ describe("PUT /api/user", () => {
 
 		const mockUser = {
 			id: "1",
-			username: "John Doe",
 			email: "john.doe@gmail.com",
+			isdarkmode: false,
 		};
 
 		const mockDBCalls = jest.fn().mockReturnValue({
@@ -298,8 +384,8 @@ describe("PUT /api/user", () => {
 describe("DELETE /api/user", () => {
 	it("should delete a user by id if id exists", async () => {
 		const mockUsers = [
-			{ id: "1", username: "John Doe", email: "bob.smithjones@gmail.com" },
-			{ id: "2", username: "Jane Smith", email: "jane.smith@gmail.com" },
+			{ id: "1", email: "bob.smithjones@gmail.com", isdarkmode: false },
+			{ id: "2", email: "jane.smith@gmail.com", isdarkmode: true },
 		];
 		const mockDBCalls = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnValue({
@@ -326,7 +412,14 @@ describe("DELETE /api/user", () => {
 		} as unknown as NextRequest);
 		const responseData = await response.json();
 
-		expect(responseData).toEqual({ message: "User deleted successfully" });
+		expect(responseData).toEqual({
+			message: "User deleted successfully",
+			data: [
+				{
+					id: "1",
+				},
+			],
+		});
 	});
 
 	it("should return an error if the user doesn't exist in the database", async () => {
@@ -384,7 +477,7 @@ describe("DELETE /api/user", () => {
 describe("POST /api/user", () => {
 	it("should create a new user and return the created user object", async () => {
 		const mockNewUser = {
-			username: "John Doe",
+			isdarkmode: true,
 			email: "bob.smithjones@gmail.com",
 		};
 
@@ -410,7 +503,7 @@ describe("POST /api/user", () => {
 			query: {},
 			cookies: {},
 			body: {
-				username: "John Doe",
+				isdarkmode: true,
 				email: "bob.smithjones@gmail.com",
 			},
 			env: {},
@@ -421,10 +514,10 @@ describe("POST /api/user", () => {
 		expect(mockDBCalls).toHaveBeenCalledWith("users");
 	});
 
-	it("should return an error if the email or username already exists in the database", async () => {
+	it("should return an error if the email already exists in the database", async () => {
 		const mockNewUser = {
-			username: "JohnDoe",
 			email: "bob.smithjones@gmail.com",
+			isdarkmode: true,
 		};
 
 		const mockDBCalls = jest.fn().mockReturnValue({
@@ -463,36 +556,13 @@ describe("POST /api/user", () => {
 			...request,
 			query: {},
 			cookies: {},
-			body: {
-				username: "John Doe",
-			},
+			body: {},
 			env: {},
 		} as unknown as NextRequest);
 		const responseData = await response.json();
 
 		expect(responseData).toEqual({
-			error: "Email and username required",
-		});
-	});
-
-	it("should return an error if no username is provided", async () => {
-		const request = {
-			url: "http://localhost:3000/api/user",
-			json: jest.fn().mockResolvedValue({}),
-		};
-		const response = await POST({
-			...request,
-			query: {},
-			cookies: {},
-			body: {
-				email: "bob.smithjones@gmail.com",
-			},
-			env: {},
-		} as unknown as NextRequest);
-		const responseData = await response.json();
-
-		expect(responseData).toEqual({
-			error: "Email and username required",
+			error: "Email required",
 		});
 	});
 });
