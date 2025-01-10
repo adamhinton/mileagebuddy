@@ -153,12 +153,9 @@ export async function DELETE(request: NextRequest) {
 // Returns newly created User object
 export async function POST(request: NextRequest) {
 	console.log("Starting POST");
-	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
 
 	const body = await request.json();
-
-	console.log("body in POST:", body);
 
 	if (!body.username || !body.email) {
 		return NextResponse.json(
@@ -193,9 +190,6 @@ export async function POST(request: NextRequest) {
 		.insert(body)
 		// This retrieves the newly created user's data
 		.select();
-
-	console.log("data in POST:", data);
-	console.log("error in POST:", error);
 
 	if (error) {
 		return NextResponse.json({ error: error.message }, { status: 500 });
