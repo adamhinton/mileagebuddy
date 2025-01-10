@@ -150,15 +150,12 @@ export async function DELETE(request: NextRequest) {
 	);
 }
 
-// TODO: Make this param a Request, not a NextApiRequest
+// Returns newly created User object
 export async function POST(request: NextRequest) {
 	console.log("Starting POST");
-	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
 
 	const body = await request.json();
-
-	console.log("body in POST:", body);
 
 	if (!body.username || !body.email) {
 		return NextResponse.json(
@@ -195,20 +192,9 @@ export async function POST(request: NextRequest) {
 		.select();
 
 	if (error) {
-		console.log("should be error 500 now");
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 
-	console.log("data in POST:", data);
-
-	// return NextResponse.json(
-	// 	{
-	// 		message: "User created successfully",
-	// 	},
-	// 	{ status: 201 }
-	// );
-
-	// return successful 201 including all the new user's data
 	return NextResponse.json(data, { status: 201 });
 }
 
