@@ -359,4 +359,24 @@ describe("DELETE /api/user", () => {
 
 		expect(responseData).toEqual({ message: "User not in DB" });
 	});
+
+	it("should return an error if no user id is provided", async () => {
+		const request = {
+			url: "http://localhost:3000/api/user",
+			method: "DELETE",
+		} as NextRequest;
+
+		const response = await DELETE({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextRequest);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual({
+			error: "User ID is required. Must format like so: /api/users?id=2348",
+		});
+	});
 });
