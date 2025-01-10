@@ -46,8 +46,6 @@ export default function Page() {
 		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center dark: bg-bl">
 			<button
 				onClick={async () => {
-					// whatever the equivalent of fetch is with a delete operation, to api/user/1
-					// can't call DELETE directly, gotta call to the endpoint
 					const res = await fetch("/api/user?id=3", {
 						method: "DELETE",
 					});
@@ -63,13 +61,15 @@ export default function Page() {
 					fetch("/api/user?id=3", {
 						method: "PUT",
 						body: JSON.stringify({
-							username: "random_username" + Math.random(),
-							email: "random_email@gmail.com",
+							email: "random_email" + Math.random() + "@gmail.com",
+							isdarkmode: Math.random() < 0.5,
 						}),
 					})
 						.then((res) => {
 							if (!res.ok) {
-								throw new Error(`HTTP error! Status: ${res.status}`);
+								throw new Error(
+									`HTTP error! Status: ${(res.status, res.statusText)}`
+								);
 							}
 							return res.json();
 						})
@@ -115,15 +115,17 @@ export default function Page() {
 							"Content-Type": "application/json",
 						},
 						body: JSON.stringify({
-							username: "random_username" + Math.random(),
 							email: "random_email" + Math.random() + "@gmail.com",
+							isdarkmode: Math.random() < 0.5,
 						}),
 					})
 						.then((res) => {
 							if (!res.ok) {
 								console.log("!res.ok:", !res.ok);
 								console.log("POST res:", res);
-								throw new Error(`HTTP error! Status: ${res.status}`);
+								throw new Error(
+									`HTTP error! Status: ${(res.status, res.statusText)}`
+								);
 							}
 							return res.json();
 						})
