@@ -10,7 +10,7 @@
  * @jest-environment node
  */
 
-import { DELETE, GET, PUT } from "@/app/api/user/route";
+import { DELETE, GET, PUT, POST } from "@/app/api/user/route";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { NextRequest } from "next/server";
 
@@ -378,5 +378,46 @@ describe("DELETE /api/user", () => {
 		expect(responseData).toEqual({
 			error: "User ID is required. Must format like so: /api/users?id=2348",
 		});
+	});
+});
+
+describe("POST /api/user", () => {
+	it.only("should create a new user and return the created user object", async () => {
+		const mockNewUser = {
+			username: "John Doe",
+			email: "bob.smithjones@gmail.com",
+		};
+
+		const mockDBCalls = jest.fn().mockReturnValue({
+			// check if user already exists first
+			select: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [], error: null }),
+			}),
+
+			insert: jest.fn().mockReturnValue({
+				select: jest.fn().mockReturnValue({ data: [mockNewUser], error: null }),
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
+
+		const request = {
+			url: "http://localhost:3000/api/user",
+			json: jest.fn().mockResolvedValue(mockNewUser),
+		};
+		const response = await POST({
+			...request,
+			query: {},
+			cookies: {},
+			body: {
+				username: "John Doe",
+				email: "bob.smithjones@gmail.com",
+			},
+			env: {},
+		} as unknown as NextRequest);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual([mockNewUser]);
+		expect(mockDBCalls).toHaveBeenCalledWith("users");
 	});
 });
