@@ -10,7 +10,7 @@
  * @jest-environment node
  */
 
-import { GET, PUT } from "@/app/api/user/route";
+import { DELETE, GET, PUT } from "@/app/api/user/route";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { NextRequest } from "next/server";
 
@@ -131,51 +131,6 @@ describe("GET /api/user", () => {
 });
 
 describe("PUT /api/user", () => {
-	// let mockDBCalls: jest.Mock;
-	// let mockUpdate: jest.Mock;
-	// let mockUser: { id: string; username: string; email: string };
-
-	// beforeEach(() => {
-	// 	mockUser = {
-	// 		id: "1",
-	// 		username: "JohnDoe",
-	// 		email: "john@example.com",
-	// 	};
-
-	// 	mockDBCalls = jest.fn().mockImplementation(() => {
-	// 		return {
-	// 			select: jest.fn().mockImplementation(() => {
-	// 				return {
-	// 					eq: jest.fn().mockImplementation(() => {
-	// 						return {
-	// 							then: jest.fn().mockImplementation((callback) => {
-	// 								return Promise.resolve(
-	// 									callback({ data: [mockUser], error: null })
-	// 								);
-	// 							}),
-	// 						};
-	// 					}),
-	// 				};
-	// 			}),
-	// 			update: jest.fn().mockImplementation(() => {
-	// 				return {
-	// 					eq: jest.fn().mockImplementation(() => {
-	// 						return {
-	// 							then: jest.fn().mockImplementation((callback) => {
-	// 								return Promise.resolve(
-	// 									callback({ data: [mockUser], error: null })
-	// 								);
-	// 							}),
-	// 						};
-	// 					}),
-	// 				};
-	// 			}),
-	// 		};
-	// 	});
-
-	// 	(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
-	// });
-
 	// passes
 	it("should update the user when valid data is provided", async () => {
 		const mockUser = {
@@ -337,5 +292,71 @@ describe("PUT /api/user", () => {
 			error: "User data to update is required",
 		});
 		expect(response.status).toBe(400);
+	});
+});
+
+describe("DELETE /api/user", () => {
+	it("should delete a user by id if id exists", async () => {
+		const mockUsers = [
+			{ id: "1", username: "John Doe", email: "bob.smithjones@gmail.com" },
+			{ id: "2", username: "Jane Smith", email: "jane.smith@gmail.com" },
+		];
+		const mockDBCalls = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: mockUsers, error: null }),
+			}),
+			delete: jest.fn().mockReturnValue({
+				eq: jest.fn().mockResolvedValue({ data: [{ id: "1" }], error: null }),
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
+
+		const request = {
+			url: "http://localhost:3000/api/user?id=1",
+			method: "DELETE",
+		} as NextRequest;
+
+		const response = await DELETE({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextRequest);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual({ message: "User deleted successfully" });
+	});
+
+	it("should return an error if the user doesn't exist in the database", async () => {
+		const mockDBCalls = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnValue({
+				// DELETE first searches for user in DB, this simulates user not existing
+				eq: jest.fn().mockResolvedValue({ data: [], error: null }),
+			}),
+			// Don't need this since the function never gets as far as trying to delete user
+			// delete: jest.fn().mockReturnValue({
+			// 	eq: jest.fn().mockResolvedValue({ data: [], error: null }),
+			// }),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
+
+		const request = {
+			url: "http://localhost:3000/api/user?id=999",
+			method: "DELETE",
+		} as NextRequest;
+
+		const response = await DELETE({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextRequest);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual({ message: "User not in DB" });
 	});
 });
