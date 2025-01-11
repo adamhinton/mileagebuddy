@@ -17,7 +17,7 @@ CREATE TABLE vehicles (
 
 CREATE TABLE vehicleData (
     id SERIAL PRIMARY KEY,
-    vehicleID VARCHAR(255) NOT NULL,
+    vehicleID INTEGER NOT NULL,
     vehicleName VARCHAR(255) NOT NULL,
     year INT NULL,
     make VARCHAR(255) NULL,
@@ -32,7 +32,7 @@ CREATE TABLE vehicleData (
 
 CREATE TABLE gasVehicleData (
     id SERIAL PRIMARY KEY,
-    vehicleID VARCHAR(255) NOT NULL,
+    vehicleID INTEGER NOT NULL,
     gasCostPerGallon DECIMAL(10, 2) NOT NULL,
     milesPerGallonHighway DECIMAL(5, 2) NOT NULL,
     milesPerGallonCity DECIMAL(5, 2) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE gasVehicleData (
 
 CREATE TABLE electricVehicleData (
     id SERIAL PRIMARY KEY,
-    vehicleID VARCHAR(255) NOT NULL,
+    vehicleID INTEGER NOT NULL,
     costPerCharge DECIMAL(10, 2) NOT NULL,
     milesPerCharge DECIMAL(5, 2) NOT NULL,
     electricRangeMiles DECIMAL(5, 2) NOT NULL,
@@ -56,7 +56,7 @@ CREATE TABLE electricVehicleData (
 
 CREATE TABLE purchaseAndSales (
     id SERIAL PRIMARY KEY,
-    vehicleID VARCHAR(255) NOT NULL,
+    vehicleID INTEGER NOT NULL,
     yearPurchased INT NULL,
     purchasePrice DECIMAL(10, 2) NOT NULL,
     downPaymentAmount DECIMAL(10, 2) NULL,
@@ -72,7 +72,7 @@ CREATE TABLE purchaseAndSales (
 
 CREATE TABLE usage (
     id SERIAL PRIMARY KEY,
-    vehicleID VARCHAR(255) NOT NULL,
+    vehicleID INTEGER NOT NULL,
     averageDailyMiles DECIMAL(10, 2) NOT NULL,
     weeksPerYear INT NOT NULL,
     percentHighway DECIMAL(5, 2) NOT NULL,
@@ -86,10 +86,15 @@ CREATE TABLE usage (
 
 CREATE TABLE fixedCosts (
     id SERIAL PRIMARY KEY,
-    vehicleID VARCHAR(255) NOT NULL,
+    vehicleID INTEGER NOT NULL,
     yearlyInsuranceCost DECIMAL(10, 2) NOT NULL,
     yearlyRegistrationCost DECIMAL(10, 2) NOT NULL,
+    yearlyTaxes INTEGER NOT NULL,
     yearlyParkingCost DECIMAL(10, 2) NOT NULL,
+    monthlyLoanPayment INTEGER NOT NULL,
+    monthlyWarrantyCost INTEGER NOT NULL,
+    inspectionCost INTEGER NOT NULL,
+    otherYearlyCosts INTEGER NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deletedAt TIMESTAMP DEFAULT NULL,
@@ -98,12 +103,13 @@ CREATE TABLE fixedCosts (
 
 CREATE TABLE yearlyMaintenanceCosts (
     id SERIAL PRIMARY KEY,
-    vehicleID VARCHAR(255) NOT NULL,
-    maintenanceCostYear1 DECIMAL(10, 2) NOT NULL,
-    maintenanceCostYear2 DECIMAL(10, 2) NOT NULL,
-    maintenanceCostYear3 DECIMAL(10, 2) NOT NULL,
-    maintenanceCostYear4 DECIMAL(10, 2) NOT NULL,
-    maintenanceCostYear5 DECIMAL(10, 2) NOT NULL,
+    vehicleID INTEGER NOT NULL,
+    oilChanges DECIMAL(10, 2) NOT NULL,
+    tires DECIMAL(10, 2) NOT NULL,
+    batteries DECIMAL(10, 2) NOT NULL,
+    brakes DECIMAL(10, 2) NOT NULL,
+    other DECIMAL(10, 2) NOT NULL,
+    depreciation DECIMAL(10, 2) NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deletedAt TIMESTAMP DEFAULT NULL,
@@ -112,7 +118,7 @@ CREATE TABLE yearlyMaintenanceCosts (
 
 CREATE TABLE variableCosts (
     id SERIAL PRIMARY KEY,
-    vehicleID VARCHAR(255) NOT NULL,
+    vehicleID INTEGER NOT NULL,
     maintenanceCostPerMile DECIMAL(10, 2) NOT NULL,
     fuelCostPerMile DECIMAL(10, 2) NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
