@@ -44,6 +44,19 @@ export default function Page() {
 
 	return (
 		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center dark: bg-bl">
+			{/* GET api/vehicles */}
+
+			<button
+				onClick={async () => {
+					const res = await fetch("api/vehicles", {
+						method: "GET",
+					});
+					const data = await res.json();
+					console.log("data from GET vehicles:", data);
+				}}
+			>
+				Get Vehicles
+			</button>
 			<button
 				onClick={async () => {
 					const res = await fetch("/api/user?id=3", {
