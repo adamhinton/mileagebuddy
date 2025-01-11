@@ -13,7 +13,7 @@ export async function GET(request: Request) {
 
 	type PartialVehicle = {
 		id: number;
-		userID: number;
+		userid: number;
 		type: "gas" | "electric";
 	};
 
@@ -29,16 +29,16 @@ export async function GET(request: Request) {
 		if (vehicleID) {
 			vehiclesData = (await supabase
 				.from(vehiclesTableName)
-				.select("id, userID, type")
+				.select("id, userid, type")
 				.eq("id", vehicleID)
 				// TODO: Better typing here
 				.single()) as unknown as PartialVehicle[];
 		} else {
 			vehiclesData = (await supabase
 				.from(vehiclesTableName)
-				.select("id, userID, type, createdAt, updatedAt")
+				.select("id, userid, type, createdat, updatedat")
 				// TODO: Better typing here
-				.eq("userID", userID)) as unknown as PartialVehicle[];
+				.eq("userid", userID)) as unknown as PartialVehicle[];
 		}
 
 		if (!vehiclesData) {
@@ -50,6 +50,8 @@ export async function GET(request: Request) {
 			);
 		}
 
+		console.log("vehiclesData:", vehiclesData);
+
 		const vehicleIDs = vehicleID ? [vehicleID] : vehiclesData.map((v) => v.id);
 
 		const vehicleInfoPromises = vehicleIDs.map((id) =>
@@ -57,50 +59,50 @@ export async function GET(request: Request) {
 				supabase
 					.from("vehicleData")
 					.select("vehicleName, year, make, model, trim, highwayMPG")
-					.eq("vehicleID", id)
+					.eq("vehicleid", id)
 					.single(),
 				supabase
 					.from("gasVehicleData")
 					.select("gasCostPerGallon, milesPerGallonHighway, milesPerGallonCity")
-					.eq("vehicleID", id)
+					.eq("vehicleid", id)
 					.single(),
 				supabase
 					.from("electricVehicleData")
 					.select("costPerCharge, milesPerCharge, electricRangeMiles")
-					.eq("vehicleID", id)
+					.eq("vehicleid", id)
 					.single(),
 				supabase
 					.from("purchaseAndSales")
 					.select(
 						"yearPurchased, purchasePrice, downPaymentAmount, willSellCarAfterYears, milesBoughtAt, willSellCarAtMiles, willSellCarAtPrice"
 					)
-					.eq("vehicleID", id)
+					.eq("vehicleid", id)
 					.single(),
 				supabase
 					.from("usage")
 					.select(
 						"averageDailyMiles, weeksPerYear, percentHighway, extraDistanceMiles, extraDistancePercentHighway"
 					)
-					.eq("vehicleID", id)
+					.eq("vehicleid", id)
 					.single(),
 				supabase
 					.from("fixedCosts")
 					.select(
 						"yearlyInsuranceCost, yearlyRegistrationCost, yearlyTaxes, monthlyLoanPayment, monthlyWarrantyCost, inspectionCost, otherYearlyCosts"
 					)
-					.eq("vehicleID", id)
+					.eq("vehicleid", id)
 					.single(),
 				supabase
 					.from("yearlyMaintenanceCosts")
 					.select("oilChanges, tires, batteries, brakes, other, depreciation")
-					.eq("vehicleID", id)
+					.eq("vehicleid", id)
 					.single(),
 				supabase
 					.from("variableCosts")
 					.select(
 						"monthlyParkingCosts, monthlyTolls, monthlyCarWashCost, monthlyMiscellaneousCosts, monthlyCostDeductions"
 					)
-					.eq("vehicleID", id)
+					.eq("vehicleid", id)
 					.single(),
 			])
 		);
