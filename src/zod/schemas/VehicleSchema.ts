@@ -19,7 +19,7 @@ import { z } from "zod";
 export const VehicleSchema = z.object({
 	id: z.string(),
 	userID: z.string(),
-	type: z.union([z.literal("gas"), z.literal("electric")]),
+	vehicleType: z.union([z.literal("gas"), z.literal("electric")]),
 
 	vehicleData: z.object({
 		vehicleName: z.string(),
