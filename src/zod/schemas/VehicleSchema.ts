@@ -3,10 +3,16 @@
 // will also calculate the cost per additional mile driven
 // requires the user to approximate some things (such as what they'll sell it for and when, and maintenance costs) but this is supposed to give ballpark estimates, it's not an exact science
 
+// IMPORTANT:
+// Each of these sub-objects (vehicleData etc) will be a table in the db
+
 // ADD TO TABLE:
 // createdAT
 // updatedAt
 // deletedAt
+
+// vehicleID in each sub-table
+// id primary key in each sub-table
 
 import { z } from "zod";
 
