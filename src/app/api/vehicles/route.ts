@@ -52,7 +52,9 @@ export async function GET(request: Request) {
 
 		console.log("vehiclesData:", vehiclesData);
 
-		const vehicleIDs = vehicleID ? [vehicleID] : vehiclesData.map((v) => v.id);
+		const vehicleIDs = Array.isArray(vehiclesData)
+			? vehiclesData.map((v) => v.id)
+			: [vehicleID];
 
 		const vehicleInfoPromises = vehicleIDs.map((id) =>
 			Promise.all([
