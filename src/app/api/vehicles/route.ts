@@ -4,22 +4,12 @@ import { SupabaseClient } from "@supabase/supabase-js";
 
 const vehiclesTableName = "vehicles";
 
-// type PartialVehicle = {
-// 	id: number;
-// 	userid: number;
-// 	type: "gas" | "electric";
-// };
-
-// type VehiclesDataResponse = {
-// 	error: string;
-// 	data: PartialVehicle[] | PartialVehicle;
-// };
-
-// Helper function to fetch vehicle data by a single vehicle ID
-async function getVehicleById(
+/**Looks up vehicle by id, assembles the data from the multiple sub-tables, and returns it */
+async function getSingleVehicleById(
 	supabase: SupabaseClient,
 	vehicleId: number
 ): Promise<unknown> {
+	// There are multiple tables with vehicle data. This assembles data from all of them
 	const vehicleInfoPromises = [
 		supabase
 			.from("vehicledata")
@@ -27,11 +17,13 @@ async function getVehicleById(
 			.eq("vehicleid", vehicleId)
 			.single(),
 		supabase
+			// This will not exist if vehicle is electric, that's normal
 			.from("gasvehicledata")
 			.select("gascostpergallon, milespergallonhighway, milespergalloncity")
 			.eq("vehicleid", vehicleId)
 			.single(),
 		supabase
+			// This will not exist if vehicle is gas, that's normal
 			.from("electricvehicledata")
 			.select("costpercharge, milespercharge, electricrangemiles")
 			.eq("vehicleid", vehicleId)
@@ -73,6 +65,7 @@ async function getVehicleById(
 
 	const vehicleInfos = await Promise.all(vehicleInfoPromises);
 
+	// Aggregate the data from all the fetched tables
 	const vehicleData = vehicleInfos.reduce((acc, info) => {
 		return { ...acc, ...info.data };
 	}, {});
@@ -80,29 +73,32 @@ async function getVehicleById(
 	return vehicleData;
 }
 
-// Helper function to fetch vehicles for a given user
+/** Get all vehicles belonging to a user */
 async function getVehiclesByUser(
 	supabase: SupabaseClient,
 	userId: number
 ): Promise<unknown[]> {
-	const vehiclesData = await supabase
+	/** This is just the data from the vehicles table
+	 * There are several db tables that contain user data. Still need to aggregate all of them
+	 */
+	const basicVehiclesData = await supabase
 		.from(vehiclesTableName)
 		.select("id, userid, type")
 		.eq("userid", userId);
 
-	if (!vehiclesData.data || vehiclesData.error) {
+	if (!basicVehiclesData.data || basicVehiclesData.error) {
 		throw new Error("No vehicles found for this user");
 	}
 
-	const vehicleIds = vehiclesData.data.map((vehicle) => vehicle.id);
+	const vehicleIds = basicVehiclesData.data.map((vehicle) => vehicle.id);
 
-	console.log("vehicleIds:", vehicleIds);
-
-	return getVehiclesByIds(supabase, vehicleIds);
+	return getMultipleVehiclesByIds(supabase, vehicleIds);
 }
 
-// Helper function to fetch vehicle data by IDs (used by both `getVehicleById` and `getVehiclesByUser`)
-async function getVehiclesByIds(
+/** Takes in array of vehicle ids and returns full information about them
+ * There are multiple db tables with vehicle info, this aggregates all of that together
+ */
+async function getMultipleVehiclesByIds(
 	supabase: SupabaseClient,
 	vehicleIds: number[]
 ): Promise<unknown[]> {
@@ -114,11 +110,13 @@ async function getVehiclesByIds(
 				.eq("vehicleid", id)
 				.single(),
 			supabase
+				// Will be empty if vehicle is electric, that's normal
 				.from("gasvehicledata")
 				.select("gascostpergallon, milespergallonhighway, milespergalloncity")
 				.eq("vehicleid", id)
 				.single(),
 			supabase
+				// Will be empty if vehicle is gas, that's normal
 				.from("electricvehicledata")
 				.select("costpercharge, milespercharge, electricrangemiles")
 				.eq("vehicleid", id)
@@ -184,6 +182,9 @@ async function getVehiclesByIds(
 	});
 }
 
+// If vehicleid query parameter is passed in, it gets only that vehicle
+// if no vehicleid is passed in, it gets all vehicles for that user
+// Right now userid must be passed in (api/vehicles?userid=1 or optionally, api/vehicles?userid=1&vehicleid=4) but that can be nixed once we get auth set up, since it'll only get vehicles for an authenticated user
 export async function GET(request: Request) {
 	const url = new URL(request.url!);
 
@@ -193,6 +194,7 @@ export async function GET(request: Request) {
 		const userID = url.searchParams.get("userid");
 		const vehicleID = url.searchParams.get("vehicleid");
 
+		// Ensure that the user ID is provided
 		if (!userID) {
 			return NextResponse.json(
 				{
@@ -203,10 +205,14 @@ export async function GET(request: Request) {
 			);
 		}
 
+		// If vehicleId is provided, get one vehicle. If no vehicleid is provided, get all the user's vehicles
+
 		if (vehicleID) {
-			const vehicle = await getVehicleById(supabase, Number(vehicleID));
+			// Fetch details of a single vehicle by its ID
+			const vehicle = await getSingleVehicleById(supabase, Number(vehicleID));
 			return NextResponse.json(vehicle, { status: 200 });
 		} else {
+			// Fetch all vehicles for the given user
 			const vehicles = await getVehiclesByUser(supabase, Number(userID));
 			return NextResponse.json(vehicles, { status: 200 });
 		}
