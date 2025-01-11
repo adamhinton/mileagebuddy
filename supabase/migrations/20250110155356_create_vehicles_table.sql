@@ -42,7 +42,6 @@ CREATE TABLE gas_vehicle_data (
 CREATE TABLE electric_vehicle_data (
   id SERIAL PRIMARY KEY,
   vehicleId INTEGER NOT NULL REFERENCES vehicles(id),
-  batteryType VARCHAR(255) NOT NULL,
   costPerCharge DECIMAL(10, 2) NOT NULL CHECK (costPerCharge >= 0),
   milesPerCharge DECIMAL(10, 2) NOT NULL CHECK (milesPerCharge >= 0),
   createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
