@@ -94,12 +94,26 @@ DB:
 
 Tables:
 +User (obviously)
--Username, email, pass, darkmode,
-+trip
+-Email, id, darkmode. Very simple table
+-Backed up by Supabase auth which stores auth tstuff
++trip -- stretch goal, don't worry about this right now
 -Distance, flight cost, rental cost, gas cost
 +vehicle
--Type - gas or electric
--Insurance cost, gas cost, maintenance, initial miles, miles per year, depreciation, etc etc
+-The vehicle table is the meat and potatoes of this project.
+-See VehicleSchema.ts for more info
+-Each User has multiple Vehicles
+-User will input data about their vehicle (gas cost, purchase price, depreciation and so on) which will be used to calculate the true cost of owning and operating that vehicle
+
+API ENDPOINTS:
+api/user(finished)
+-PUT, POST, DELETE and GET live in src/app/api/user/route.ts
+-These are (obviously) used to perform CRUD operations on a single user
+-They're called with a URL like so: api/user?id=1
+
+api/vehicles (WIP):
+-PUT, POST, DELETE and GET in src/app/api/vehicle/route.ts
+-Will perform CRUD operations on one vehicle or multiple depending on how it's called
+-For example, GET api/vehicles?id=1 will get one vehicle; GET api/vehicles will get all vehicles for the authenticated user
 
 MIGRATIONS:
 -To run migrations, cd in to root of project
