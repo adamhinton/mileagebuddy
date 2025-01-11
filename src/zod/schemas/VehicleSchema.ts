@@ -37,12 +37,12 @@ export const VehicleSchema = z.object({
 	}),
 
 	electricVehicleData: z.object({
-		batteryType: z.string(),
 		// cost per charge and miles per charge will help calculate fuel cost per mile
 		// Could include a lot more complex stuff like battery size, cost per KWH, etc etc but this seems simpler
 		// costPerCharge divided by milesPerCharge
 		costPerCharge: z.number().nonnegative(),
 		milesPerCharge: z.number().nonnegative(),
+		electricRangeMiles: z.number().nonnegative(),
 	}),
 
 	purchaseAndSales: z.object({
