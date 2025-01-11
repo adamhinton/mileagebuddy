@@ -73,7 +73,7 @@ export const VehicleSchema = z.object({
 			yearlyInsuranceCost: z.number().nonnegative(),
 			yearlyRegistrationCost: z.number().nonnegative(),
 			yearlyTaxes: z.number().nonnegative(),
-			monthlyPayments: z.number().nonnegative(),
+			monthlyLoanPayment: z.number().nonnegative(),
 			monthlyWarrantyCost: z.number().nonnegative(),
 			inspectionCost: z.number().nonnegative(),
 			otherYearlyCosts: z.number().nonnegative(),
@@ -94,6 +94,7 @@ export const VehicleSchema = z.object({
 	variableCosts: z
 		.object({
 			monthlyParkingCosts: z.number().nonnegative(),
+			monthlyLoanPayment: z.number().nonnegative(),
 			monthlyTolls: z.number().nonnegative(),
 			monthlyCarWashCost: z.number().nonnegative(),
 			monthlyMiscellaneousCosts: z.number().nonnegative(),

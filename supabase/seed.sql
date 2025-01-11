@@ -55,8 +55,8 @@ VALUES
 ('5', 25.0, 50, 75.0, 100.0, 65.0, NOW(), NOW()),
 ('6', 28.0, 52, 85.0, 50.0, 40.0, NOW(), NOW());
 
-INSERT INTO fixedCosts (vehicleID, yearlyInsuranceCost, yearlyRegistrationCost, yearlyTaxes, monthlyPayments, monthlyWarrantyCost, inspectionCost, otherYearlyCosts, createdAt, updatedAt)
-VAUES
+INSERT INTO fixedCosts (vehicleID, yearlyInsuranceCost, yearlyRegistrationCost, yearlyTaxes, monthlyLoanPayment, monthlyWarrantyCost, inspectionCost, otherYearlyCosts, createdAt, updatedAt)
+VALUES
 ('1', 1200.00, 150.00, 200.00, 350.00, 50.00, 100.00, 500.00, NOW(), NOW()),
 ('2', 1400.00, 175.00, 250.00, 400.00, 60.00, 120.00, 600.00, NOW(), NOW()),
 ('3', 1300.00, 180.00, 225.00, 375.00, 55.00, 110.00, 550.00, NOW(), NOW()),
@@ -65,19 +65,19 @@ VAUES
 ('6', 1550.00, 210.00, 320.00, 475.00, 80.00, 160.00, 750.00, NOW(), NOW());
 
 INSERT INTO yearlyMaintenanceCosts (vehicleID, oilChanges, tires, batteries, brakes, other, depreciation, createdAt, updatedAt)
-VAUES
-('1', 50.00, 200.00, 0.00, 100.00, 150.00, 1500.00, NOW(), NOW()),
-('2', 55.00, 220.00, 0.00, 120.00, 160.00, 1600.00, NOW(), NOW()),
-('3', 60.00, 250.00, 0.00, 130.00, 180.00, 1800.00, NOW(), NOW()),
-('4', 0.00, 0.00, 0.00, 0.00, 0.00, 2500.00, NOW(), NOW()),
-('5', 0.00, 0.00, 0.00, 0.00, 0.00, 2200.00, NOW(), NOW()),
-('6', 0.00, 0.00, 0.00, 0.00, 0.00, 2300.00, NOW(), NOW());
+VALUES
+('1', 75.00, 250.00, 50.00, 150.00, 200.00, 2000.00, NOW(), NOW()),
+('2', 80.00, 280.00, 60.00, 180.00, 220.00, 2200.00, NOW(), NOW()),
+('3', 85.00, 300.00, 70.00, 200.00, 240.00, 2400.00, NOW(), NOW()),
+('4', 90.00, 320.00, 80.00, 220.00, 260.00, 2600.00, NOW(), NOW()),
+('5', 95.00, 340.00, 90.00, 240.00, 280.00, 2800.00, NOW(), NOW()),
+('6', 100.00, 360.00, 100.00, 260.00, 300.00, 3000.00, NOW(), NOW());
 
 INSERT INTO variableCosts (vehicleID, monthlyParkingCosts, monthlyTolls, monthlyCarWashCost, monthlyMiscellaneousCosts, monthlyCostDeductions, createdAt, updatedAt)
 VALUES
-('1', 50.00, 20.00, 10.00, 30.00, 5.00, NOW(), NOW()),
-('2', 60.00, 25.00, 15.00, 35.00, 10.00, NOW(), NOW()),
-('3', 55.00, 18.00, 12.00, 28.00, 8.00, NOW(), NOW()),
-('4', 0.00, 0.00, 0.00, 0.00, 0.00, NOW(), NOW()),
-('5', 0.00, 0.00, 0.00, 0.00, 0.00, NOW(), NOW()),
-('6', 0.00, 0.00, 0.00, 0.00, 0.00, NOW(), NOW());
+('1', 100.00, 50.00, 20.00, 50.00, 20.00, NOW(), NOW()),
+('2', 120.00, 60.00, 25.00, 60.00, 25.00, NOW(), NOW()),
+('3', 140.00, 70.00, 30.00, 70.00, 30.00, NOW(), NOW()),
+('4', 160.00, 80.00, 35.00, 80.00, 35.00, NOW(), NOW()),
+('5', 180.00, 90.00, 40.00, 90.00, 40.00, NOW(), NOW()),
+('6', 200.00, 100.00, 45.00, 100.00, 45.00, NOW(), NOW());
