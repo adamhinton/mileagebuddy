@@ -2,38 +2,134 @@
 import { NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 
-const usersTableName = "vehicles";
+const vehiclesTableName = "vehicles";
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // TODO: Make sure this only returns data for authenticated User id
 export async function GET(request: Request) {
 	// return NextResponse.json("Hello world vehicles", { status: 200 });
 	// get all vehicles from vehicles table where userid= params id (api/vehicles?userid=1)
 
 	const url = new URL(request.url!);
-	const supabase = await createClientSSROnly();
 
-	const userID = url.searchParams.get("userid");
+	type PartialVehicle = {
+		id: number;
+		userID: number;
+		type: "gas" | "electric";
+	};
 
-	/**If this is null, get all that user's vehicles */
+	try {
+		const supabase = await createClientSSROnly();
 
-	// TODO: getVehiclesByUserID and getSingleVehicleByVehicleID
-	const vehicleID = url.searchParams.get("vehicleID");
+		const userID = url.searchParams.get("userid");
 
-	// TODO: Probably won't need user id anymore as we only get vehicles for logged in user
-	if (!userID) {
+		/**If this is null, get all that user's vehicles */
+		const vehicleID = url.searchParams.get("vehicleID");
+
+		let vehiclesData: PartialVehicle[];
+		if (vehicleID) {
+			vehiclesData = (await supabase
+				.from(vehiclesTableName)
+				.select("id, userID, type")
+				.eq("id", vehicleID)
+				// TODO: Better typing here
+				.single()) as unknown as PartialVehicle[];
+		} else {
+			vehiclesData = (await supabase
+				.from(vehiclesTableName)
+				.select("id, userID, type, createdAt, updatedAt")
+				// TODO: Better typing here
+				.eq("userID", userID)) as unknown as PartialVehicle[];
+		}
+
+		if (!vehiclesData) {
+			return NextResponse.json(
+				{
+					error: "No vehicles found",
+				},
+				{ status: 404 }
+			);
+		}
+
+		const vehicleIDs = vehicleID ? [vehicleID] : vehiclesData.map((v) => v.id);
+
+		const vehicleInfoPromises = vehicleIDs.map((id) =>
+			Promise.all([
+				supabase
+					.from("vehicleData")
+					.select("vehicleName, year, make, model, trim, highwayMPG")
+					.eq("vehicleID", id)
+					.single(),
+				supabase
+					.from("gasVehicleData")
+					.select("gasCostPerGallon, milesPerGallonHighway, milesPerGallonCity")
+					.eq("vehicleID", id)
+					.single(),
+				supabase
+					.from("electricVehicleData")
+					.select("costPerCharge, milesPerCharge, electricRangeMiles")
+					.eq("vehicleID", id)
+					.single(),
+				supabase
+					.from("purchaseAndSales")
+					.select(
+						"yearPurchased, purchasePrice, downPaymentAmount, willSellCarAfterYears, milesBoughtAt, willSellCarAtMiles, willSellCarAtPrice"
+					)
+					.eq("vehicleID", id)
+					.single(),
+				supabase
+					.from("usage")
+					.select(
+						"averageDailyMiles, weeksPerYear, percentHighway, extraDistanceMiles, extraDistancePercentHighway"
+					)
+					.eq("vehicleID", id)
+					.single(),
+				supabase
+					.from("fixedCosts")
+					.select(
+						"yearlyInsuranceCost, yearlyRegistrationCost, yearlyTaxes, monthlyLoanPayment, monthlyWarrantyCost, inspectionCost, otherYearlyCosts"
+					)
+					.eq("vehicleID", id)
+					.single(),
+				supabase
+					.from("yearlyMaintenanceCosts")
+					.select("oilChanges, tires, batteries, brakes, other, depreciation")
+					.eq("vehicleID", id)
+					.single(),
+				supabase
+					.from("variableCosts")
+					.select(
+						"monthlyParkingCosts, monthlyTolls, monthlyCarWashCost, monthlyMiscellaneousCosts, monthlyCostDeductions"
+					)
+					.eq("vehicleID", id)
+					.single(),
+			])
+		);
+
+		const vehicleInfos = await Promise.all(vehicleInfoPromises);
+
+		const fullVehiclesInfo = vehicleInfos.map((info, index) => {
+			const vehicleData = vehicleID ? vehiclesData : vehiclesData[index];
+			return {
+				...vehicleData,
+				...info[0],
+				...info[1],
+				...info[2],
+				...info[3],
+				...info[4],
+				...info[5],
+				...info[6],
+				...info[7],
+			};
+		});
+
+		return NextResponse.json(fullVehiclesInfo, { status: 200 });
+	} catch (error) {
+		console.error("Error fetching vehicle data:", error);
 		return NextResponse.json(
 			{
-				error:
-					"User ID is required. Must format like so: /api/vehicles?userid=2348",
+				error: "Failed to fetch vehicle data",
 			},
-			{ status: 400 }
+			{ status: 500 }
 		);
 	}
-
-	const query = supabase.from(usersTableName).select("*").eq("userid", userID);
-
-	const { data, error } = await query;
-
-	return NextResponse.json(data);
 }
