@@ -48,7 +48,7 @@ export default function Page() {
 
 			<button
 				onClick={async () => {
-					const res = await fetch("api/vehicles?userid=1", {
+					const res = await fetch("api/vehicles", {
 						method: "GET",
 					});
 					const data = await res.json();
