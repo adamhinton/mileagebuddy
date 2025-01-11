@@ -5,20 +5,18 @@
 -- - Each of these sub-tables references the `vehicles` table via `vehicleID`.
 -- - Cascade delete: When a user is deleted, all related vehicles will also be deleted.
 
-CREATE TYPE vehicleType AS ENUM ('gas', 'electric');
-
 CREATE TABLE vehicles (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     userID bigint NOT NULL,
-    vehicleType vehicleType NOT NULL,
+    type VARCHAR(10) NOT NULL CHECK(type IN ('gas', 'electric')),
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deletedAt TIMESTAMP DEFAULT NULL,
-    CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES users(id)
+    CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE vehicleData (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     vehicleID VARCHAR(255) NOT NULL,
     vehicleName VARCHAR(255) NOT NULL,
     year INT NULL,
@@ -29,11 +27,11 @@ CREATE TABLE vehicleData (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deletedAt TIMESTAMP DEFAULT NULL,
-    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id)
+    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
 CREATE TABLE gasVehicleData (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     vehicleID VARCHAR(255) NOT NULL,
     gasCostPerGallon DECIMAL(10, 2) NOT NULL,
     milesPerGallonHighway DECIMAL(5, 2) NOT NULL,
@@ -41,11 +39,11 @@ CREATE TABLE gasVehicleData (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deletedAt TIMESTAMP DEFAULT NULL,
-    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id)
+    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
 CREATE TABLE electricVehicleData (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     vehicleID VARCHAR(255) NOT NULL,
     costPerCharge DECIMAL(10, 2) NOT NULL,
     milesPerCharge DECIMAL(5, 2) NOT NULL,
@@ -53,11 +51,11 @@ CREATE TABLE electricVehicleData (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deletedAt TIMESTAMP DEFAULT NULL,
-    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id)
+    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
 CREATE TABLE purchaseAndSales (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     vehicleID VARCHAR(255) NOT NULL,
     yearPurchased INT NULL,
     purchasePrice DECIMAL(10, 2) NOT NULL,
@@ -69,11 +67,11 @@ CREATE TABLE purchaseAndSales (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deletedAt TIMESTAMP DEFAULT NULL,
-    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id)
+    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
 CREATE TABLE usage (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     vehicleID VARCHAR(255) NOT NULL,
     averageDailyMiles DECIMAL(10, 2) NOT NULL,
     weeksPerYear INT NOT NULL,
@@ -83,11 +81,11 @@ CREATE TABLE usage (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deletedAt TIMESTAMP DEFAULT NULL,
-    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id)
+    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
 CREATE TABLE fixedCosts (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     vehicleID VARCHAR(255) NOT NULL,
     yearlyInsuranceCost DECIMAL(10, 2) NOT NULL,
     yearlyRegistrationCost DECIMAL(10, 2) NOT NULL,
@@ -95,11 +93,11 @@ CREATE TABLE fixedCosts (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deletedAt TIMESTAMP DEFAULT NULL,
-    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id)
+    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
 CREATE TABLE yearlyMaintenanceCosts (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     vehicleID VARCHAR(255) NOT NULL,
     maintenanceCostYear1 DECIMAL(10, 2) NOT NULL,
     maintenanceCostYear2 DECIMAL(10, 2) NOT NULL,
@@ -109,16 +107,16 @@ CREATE TABLE yearlyMaintenanceCosts (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deletedAt TIMESTAMP DEFAULT NULL,
-    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id)
+    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
 CREATE TABLE variableCosts (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     vehicleID VARCHAR(255) NOT NULL,
     maintenanceCostPerMile DECIMAL(10, 2) NOT NULL,
     fuelCostPerMile DECIMAL(10, 2) NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deletedAt TIMESTAMP DEFAULT NULL,
-    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id)
+    CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
