@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
-import { QueryData, SupabaseClient } from "@supabase/supabase-js";
-import { Tables } from "../../../../database.types";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { VehiclesArrayReturnedFromDB } from "@/utils/server/types/GetVehicleTypes";
+import { getSingleVehicleByIdQuery } from "@/utils/server/queries/GetVehiclesQueries";
 
 const vehiclesTableName = "vehicles";
 
@@ -9,130 +10,173 @@ const vehiclesTableName = "vehicles";
 async function getSingleVehicleById(
 	supabase: SupabaseClient,
 	vehicleId: number
-): Promise<Tables<"vehicles">> {
+): Promise<VehiclesArrayReturnedFromDB> {
 	// There are multiple tables with vehicle data. This assembles data from all of them
-	const vehicleInfoPromises = [
-		supabase
-			.from("vehicledata")
-			.select("vehiclename, year, make, model, trim, highwaympg")
-			.eq("vehicleid", vehicleId)
-			.single(),
-		supabase
-			// This will not exist if vehicle is electric, that's normal
-			.from("gasvehicledata")
-			.select("gascostpergallon, milespergallonhighway, milespergalloncity")
-			.eq("vehicleid", vehicleId)
-			.single(),
-		supabase
-			// This will not exist if vehicle is gas, that's normal
-			.from("electricvehicledata")
-			.select("costpercharge, milespercharge, electricrangemiles")
-			.eq("vehicleid", vehicleId)
-			.single(),
-		supabase
-			.from("purchaseandsales")
-			.select(
-				"yearpurchased, purchaseprice, downpaymentamount, willsellcarafteryears, milesboughtat, willsellcaratmiles, willsellcaratprice"
-			)
-			.eq("vehicleid", vehicleId)
-			.single(),
-		supabase
-			.from("usage")
-			.select(
-				"averagedailymiles, weeksperyear, percenthighway, extradistancemiles, extradistancepercenthighway"
-			)
-			.eq("vehicleid", vehicleId)
-			.single(),
-		supabase
-			.from("fixedcosts")
-			.select(
-				"yearlyinsurancecost, yearlyregistrationcost, yearlytaxes, monthlyloanpayment, monthlywarrantycost, inspectioncost, otheryearlycosts"
-			)
-			.eq("vehicleid", vehicleId)
-			.single(),
-		supabase
-			.from("yearlymaintenancecosts")
-			.select("oilchanges, tires, batteries, brakes, other, depreciation")
-			.eq("vehicleid", vehicleId)
-			.single(),
-		supabase
-			.from("variablecosts")
-			.select(
-				"monthlyparkingcosts, monthlytolls, monthlycarwashcost, monthlymiscellaneouscosts, monthlycostdeductions"
-			)
-			.eq("vehicleid", vehicleId)
-			.single(),
-	];
+	// const vehicleInfoPromises = [
+	// 	supabase
+	// 		.from("vehicledata")
+	// 		.select("vehiclename, year, make, model, trim, highwaympg")
+	// 		.eq("vehicleid", vehicleId)
+	// 		.single(),
+	// 	supabase
+	// 		// This will not exist if vehicle is electric, that's normal
+	// 		.from("gasvehicledata")
+	// 		.select("gascostpergallon, milespergallonhighway, milespergalloncity")
+	// 		.eq("vehicleid", vehicleId)
+	// 		.single(),
+	// 	supabase
+	// 		// This will not exist if vehicle is gas, that's normal
+	// 		.from("electricvehicledata")
+	// 		.select("costpercharge, milespercharge, electricrangemiles")
+	// 		.eq("vehicleid", vehicleId)
+	// 		.single(),
+	// 	supabase
+	// 		.from("purchaseandsales")
+	// 		.select(
+	// 			"yearpurchased, purchaseprice, downpaymentamount, willsellcarafteryears, milesboughtat, willsellcaratmiles, willsellcaratprice"
+	// 		)
+	// 		.eq("vehicleid", vehicleId)
+	// 		.single(),
+	// 	supabase
+	// 		.from("usage")
+	// 		.select(
+	// 			"averagedailymiles, weeksperyear, percenthighway, extradistancemiles, extradistancepercenthighway"
+	// 		)
+	// 		.eq("vehicleid", vehicleId)
+	// 		.single(),
+	// 	supabase
+	// 		.from("fixedcosts")
+	// 		.select(
+	// 			"yearlyinsurancecost, yearlyregistrationcost, yearlytaxes, monthlyloanpayment, monthlywarrantycost, inspectioncost, otheryearlycosts"
+	// 		)
+	// 		.eq("vehicleid", vehicleId)
+	// 		.single(),
+	// 	supabase
+	// 		.from("yearlymaintenancecosts")
+	// 		.select("oilchanges, tires, batteries, brakes, other, depreciation")
+	// 		.eq("vehicleid", vehicleId)
+	// 		.single(),
+	// 	supabase
+	// 		.from("variablecosts")
+	// 		.select(
+	// 			"monthlyparkingcosts, monthlytolls, monthlycarwashcost, monthlymiscellaneouscosts, monthlycostdeductions"
+	// 		)
+	// 		.eq("vehicleid", vehicleId)
+	// 		.single(),
+	// ];
 
 	/**Vehicle data is stored in several different tables
 	 * This fetches data from each relevant table and joins it
 	 */
-	const vehicleInfoQuery = supabase
-		.from("vehicles")
-		.select(
-			`
-		userid, type,
-
-		vehicledata(
-			vehicleid, vehiclename, year, make, model, trim, highwaympg
-		),
-
-		gasvehicledata(
-			vehicleid, gascostpergallon, milespergallonhighway, milespergalloncity
-		),
-
-		electricvehicledata(
-			vehicleid, costpercharge, milespercharge, electricrangemiles
-		),
-
-		purchaseandsales(
-			vehicleid, yearpurchased, purchaseprice, downpaymentamount, willsellcarafteryears, milesboughtat, willsellcaratmiles, willsellcaratprice
-		),
-
-		usage(
-			vehicleid, averagedailymiles, weeksperyear, percenthighway, extradistancemiles, extradistancepercenthighway
-		),
-
-		fixedcosts(
-			vehicleid, yearlyinsurancecost, yearlyregistrationcost, yearlytaxes, monthlyloanpayment, monthlywarrantycost, inspectioncost, otheryearlycosts
-		),
-
-		yearlymaintenancecosts(
-			vehicleid, oilchanges, tires, batteries, brakes, other, depreciation
-		),
-
-		variablecosts(
-			vehicleid, monthlyparkingcosts, monthlytolls, monthlycarwashcost, monthlymiscellaneouscosts, monthlycostdeductions
-		)
-
-		`
-		)
-		.eq("userid", "1");
-
-	type VehicleInfoQueryType = QueryData<typeof vehicleInfoQuery>;
+	// TODO: Fix this up. Note it takes in a user id but getSingleVehicleById expects a vehicleid, this is just for testing
+	const vehicleInfoQuery = getSingleVehicleByIdQuery(vehicleId);
 
 	const { data, error } = await vehicleInfoQuery;
+
+	// type VehicleTestType = {
+	// 	userid: number;
+	// 	type: string;
+
+	// 	vehicledata: Pick<
+	// 		Tables<"vehicledata">,
+	// 		| "vehicleid"
+	// 		| "vehiclename"
+	// 		| "year"
+	// 		| "make"
+	// 		| "model"
+	// 		| "trim"
+	// 		| "highwaympg"
+	// 	>;
+	// 	gasvehicledata: Pick<
+	// 		Tables<"gasvehicledata">,
+	// 		| "vehicleid"
+	// 		| "gascostpergallon"
+	// 		| "milespergallonhighway"
+	// 		| "milespergalloncity"
+	// 	>;
+
+	// 	electricvehicledata: Pick<
+	// 		Tables<"electricvehicledata">,
+	// 		"vehicleid" | "costpercharge" | "milespercharge" | "electricrangemiles"
+	// 	>;
+
+	// 	purchaseandsales: Pick<
+	// 		Tables<"purchaseandsales">,
+	// 		| "vehicleid"
+	// 		| "yearpurchased"
+	// 		| "purchaseprice"
+	// 		| "downpaymentamount"
+	// 		| "willsellcarafteryears"
+	// 		| "milesboughtat"
+	// 		| "willsellcaratmiles"
+	// 		| "willsellcaratprice"
+	// 	>;
+
+	// 	usage: Pick<
+	// 		Tables<"usage">,
+	// 		| "vehicleid"
+	// 		| "averagedailymiles"
+	// 		| "weeksperyear"
+	// 		| "percenthighway"
+	// 		| "extradistancemiles"
+	// 		| "extradistancepercenthighway"
+	// 	>;
+
+	// 	fixedcosts: Pick<
+	// 		Tables<"fixedcosts">,
+	// 		| "vehicleid"
+	// 		| "yearlyinsurancecost"
+	// 		| "yearlyregistrationcost"
+	// 		| "yearlytaxes"
+	// 		| "monthlyloanpayment"
+	// 		| "monthlywarrantycost"
+	// 		| "inspectioncost"
+	// 		| "otheryearlycosts"
+	// 	>;
+
+	// 	yearlymaintenancecosts: Pick<
+	// 		Tables<"yearlymaintenancecosts">,
+	// 		| "vehicleid"
+	// 		| "oilchanges"
+	// 		| "tires"
+	// 		| "batteries"
+	// 		| "brakes"
+	// 		| "other"
+	// 		| "depreciation"
+	// 	>;
+
+	// 	variablecosts: Pick<
+	// 		Tables<"variablecosts">,
+	// 		| "vehicleid"
+	// 		| "monthlyparkingcosts"
+	// 		| "monthlytolls"
+	// 		| "monthlycarwashcost"
+	// 		| "monthlymiscellaneouscosts"
+	// 		| "monthlycostdeductions"
+	// 	>;
+	// };
 
 	if (error) {
 		throw new Error("Error fetching vehicle data in TEST: " + error.message);
 	}
 
-	const testData: VehicleInfoQueryType = data;
+	const testData: VehiclesArrayReturnedFromDB = data;
+
 	testData.map((vehicle, i) => {
 		console.log("testData[i]:", testData[i]);
 	});
 	console.log("error from test await vehicleInfoQuery:", error);
 
-	const vehicleInfos = await Promise.all(vehicleInfoPromises);
+	// const vehicleInfos = await Promise.all(vehicleInfoPromises);
 
 	// Aggregate the data from all the fetched tables
-	const vehicleData: Tables<"vehicles"> = vehicleInfos.reduce((acc, info) => {
-		return { ...acc, ...info.data };
-	}, {} as Tables<"vehicles">);
+	// const vehicleData: Tables<"vehicles"> = vehicleInfos.reduce((acc, info) => {
+	// 	return { ...acc, ...info.data };
+	// }, {} as Tables<"vehicles">);
 
 	// Not sure why this thinks vehicleData is an empty object, works fine on frontend
 	// I'm sure I'll regret this when it crashes and breaks everything
-	return vehicleData;
+	return testData;
 }
 
 /** Get all vehicles belonging to a user */
