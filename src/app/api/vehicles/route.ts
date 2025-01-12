@@ -2,9 +2,10 @@ import { NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { VehiclesArrayReturnedFromDB } from "@/utils/server/types/GetVehicleTypes";
-import { getSingleVehicleByIdQuery } from "@/utils/server/queries/GetVehiclesQueries";
-
-const vehiclesTableName = "vehicles";
+import {
+	getSingleVehicleByIdQuery,
+	getVehiclesByUserIdQuery,
+} from "@/utils/server/queries/GetVehiclesQueries";
 
 /**Looks up vehicle by id, assembles the data from the multiple sub-tables, and returns it */
 async function getSingleVehicleById(
@@ -184,147 +185,138 @@ async function getVehiclesByUser(supabase: SupabaseClient, userId: number) {
 	/** This is just the data from the vehicles table
 	 * There are several db tables that contain user data. Still need to aggregate all of them
 	 */
-	const basicVehiclesData = await supabase
-		.from(vehiclesTableName)
-		.select("id, userid, type")
-		.eq("userid", userId);
-
-	if (!basicVehiclesData.data || basicVehiclesData.error) {
-		throw new Error("No vehicles found for this user");
-	}
-
-	const vehicleIds = basicVehiclesData.data.map((vehicle) => vehicle.id);
-
-	return getMultipleVehiclesByIds(supabase, vehicleIds);
+	const vehiclesDataQuery = getVehiclesByUserIdQuery(String(userId));
+	const vehiclesData = await vehiclesDataQuery;
+	return vehiclesData;
 }
 
 /** Takes in array of vehicle ids and returns full information about them
  * There are multiple db tables with vehicle info, this aggregates all of that together
  */
-async function getMultipleVehiclesByIds(
-	supabase: SupabaseClient,
-	vehicleIds: number[]
-) {
-	const { data, error } = await supabase
-		.from("vehicledata")
-		.select(
-			`
-      vehiclename, year, make, model, trim, highwaympg,
-      gasvehicledata (
-        gascostpergallon, milespergallonhighway, milespergalloncity
-      ),
-      electricvehicledata (
-        costpercharge, milespercharge, electricrangemiles
-      ),
-      purchaseandsales (
-        yearpurchased, purchaseprice, downpaymentamount, willsellcarafteryears,
-        milesboughtat, willsellcaratmiles, willsellcaratprice
-      ),
-      usage (
-        averagedailymiles, weeksperyear, percenthighway,
-        extradistancemiles, extradistancepercenthighway
-      ),
-      fixedcosts (
-        yearlyinsurancecost, yearlyregistrationcost, yearlytaxes,
-        monthlyloanpayment, monthlywarrantycost, inspectioncost, otheryearlycosts
-      ),
-      yearlymaintenancecosts (
-        oilchanges, tires, batteries, brakes, other, depreciation
-      ),
-      variablecosts (
-        monthlyparkingcosts, monthlytolls, monthlycarwashcost,
-        monthlymiscellaneouscosts, monthlycostdeductions
-      )
-    `
-		)
-		.in("vehicledata.vehicleid", vehicleIds);
 
-	if (error) {
-		console.error(error);
-		throw new Error(error.message);
-	}
+// 	supabase: SupabaseClient,
+// 	vehicleIds: number[]
+// ) {
+// 	const { data, error } = await supabase
+// 		.from("vehicledata")
+// 		.select(
+// 			`
+//       vehiclename, year, make, model, trim, highwaympg,
+//       gasvehicledata (
+//         gascostpergallon, milespergallonhighway, milespergalloncity
+//       ),
+//       electricvehicledata (
+//         costpercharge, milespercharge, electricrangemiles
+//       ),
+//       purchaseandsales (
+//         yearpurchased, purchaseprice, downpaymentamount, willsellcarafteryears,
+//         milesboughtat, willsellcaratmiles, willsellcaratprice
+//       ),
+//       usage (
+//         averagedailymiles, weeksperyear, percenthighway,
+//         extradistancemiles, extradistancepercenthighway
+//       ),
+//       fixedcosts (
+//         yearlyinsurancecost, yearlyregistrationcost, yearlytaxes,
+//         monthlyloanpayment, monthlywarrantycost, inspectioncost, otheryearlycosts
+//       ),
+//       yearlymaintenancecosts (
+//         oilchanges, tires, batteries, brakes, other, depreciation
+//       ),
+//       variablecosts (
+//         monthlyparkingcosts, monthlytolls, monthlycarwashcost,
+//         monthlymiscellaneouscosts, monthlycostdeductions
+//       )
+//     `
+// 		)
+// 		.in("vehicledata.vehicleid", vehicleIds);
 
-	// Map through the data and format the response correctly
-	return data.map((info) => {
-		// Destructure the needed fields and nested data
-		const {
-			vehiclename,
-			year,
-			make,
-			model,
-			trim,
-			highwaympg,
-			gasvehicledata,
-			electricvehicledata,
-			purchaseandsales,
-			usage,
-			fixedcosts,
-			yearlymaintenancecosts,
-			variablecosts,
-		} = info;
+// 	if (error) {
+// 		console.error(error);
+// 		throw new Error(error.message);
+// 	}
 
-		// Since gasvehicledata, electricvehicledata, etc., are arrays, we need to handle them accordingly
-		const gasData = gasvehicledata?.[0] ?? {}; // Get the first item in the array, or an empty object if no data
-		const electricData = electricvehicledata?.[0] ?? {}; // Same for electricvehicledata
-		const purchaseData = purchaseandsales?.[0] ?? {}; // Same for purchaseandsales
-		const usageData = usage?.[0] ?? {}; // Same for usage
-		const fixedCostsData = fixedcosts?.[0] ?? {}; // Same for fixedcosts
-		const maintenanceData = yearlymaintenancecosts?.[0] ?? {}; // Same for yearlymaintenancecosts
-		const variableCostsData = variablecosts?.[0] ?? {}; // Same for variablecosts
+// 	// Map through the data and format the response correctly
+// 	return data.map((info) => {
+// 		// Destructure the needed fields and nested data
+// 		const {
+// 			vehiclename,
+// 			year,
+// 			make,
+// 			model,
+// 			trim,
+// 			highwaympg,
+// 			gasvehicledata,
+// 			electricvehicledata,
+// 			purchaseandsales,
+// 			usage,
+// 			fixedcosts,
+// 			yearlymaintenancecosts,
+// 			variablecosts,
+// 		} = info;
 
-		return {
-			vehiclename,
-			year,
-			make,
-			model,
-			trim,
-			highwaympg,
-			// Gas data (if available)
-			gascostpergallon: gasData.gascostpergallon,
-			milespergallonhighway: gasData.milespergallonhighway,
-			milespergalloncity: gasData.milespergalloncity,
-			// Electric data (if available)
-			costpercharge: electricData.costpercharge,
-			milespercharge: electricData.milespercharge,
-			electricrangemiles: electricData.electricrangemiles,
-			// Purchase and sales data
-			yearpurchased: purchaseData.yearpurchased,
-			purchaseprice: purchaseData.purchaseprice,
-			downpaymentamount: purchaseData.downpaymentamount,
-			willsellcarafteryears: purchaseData.willsellcarafteryears,
-			milesboughtat: purchaseData.milesboughtat,
-			willsellcaratmiles: purchaseData.willsellcaratmiles,
-			willsellcaratprice: purchaseData.willsellcaratprice,
-			// Usage data
-			averagedailymiles: usageData.averagedailymiles,
-			weeksperyear: usageData.weeksperyear,
-			percenthighway: usageData.percenthighway,
-			extradistancemiles: usageData.extradistancemiles,
-			extradistancepercenthighway: usageData.extradistancepercenthighway,
-			// Fixed costs
-			yearlyinsurancecost: fixedCostsData.yearlyinsurancecost,
-			yearlyregistrationcost: fixedCostsData.yearlyregistrationcost,
-			yearlytaxes: fixedCostsData.yearlytaxes,
-			monthlyloanpayment: fixedCostsData.monthlyloanpayment,
-			monthlywarrantycost: fixedCostsData.monthlywarrantycost,
-			inspectioncost: fixedCostsData.inspectioncost,
-			otheryearlycosts: fixedCostsData.otheryearlycosts,
-			// Yearly maintenance costs
-			oilchanges: maintenanceData.oilchanges,
-			tires: maintenanceData.tires,
-			batteries: maintenanceData.batteries,
-			brakes: maintenanceData.brakes,
-			other: maintenanceData.other,
-			depreciation: maintenanceData.depreciation,
-			// Variable costs
-			monthlyparkingcosts: variableCostsData.monthlyparkingcosts,
-			monthlytolls: variableCostsData.monthlytolls,
-			monthlycarwashcost: variableCostsData.monthlycarwashcost,
-			monthlymiscellaneouscosts: variableCostsData.monthlymiscellaneouscosts,
-			monthlycostdeductions: variableCostsData.monthlycostdeductions,
-		};
-	});
-}
+// 		// Since gasvehicledata, electricvehicledata, etc., are arrays, we need to handle them accordingly
+// 		const gasData = gasvehicledata?.[0] ?? {}; // Get the first item in the array, or an empty object if no data
+// 		const electricData = electricvehicledata?.[0] ?? {}; // Same for electricvehicledata
+// 		const purchaseData = purchaseandsales?.[0] ?? {}; // Same for purchaseandsales
+// 		const usageData = usage?.[0] ?? {}; // Same for usage
+// 		const fixedCostsData = fixedcosts?.[0] ?? {}; // Same for fixedcosts
+// 		const maintenanceData = yearlymaintenancecosts?.[0] ?? {}; // Same for yearlymaintenancecosts
+// 		const variableCostsData = variablecosts?.[0] ?? {}; // Same for variablecosts
+
+// 		return {
+// 			vehiclename,
+// 			year,
+// 			make,
+// 			model,
+// 			trim,
+// 			highwaympg,
+// 			// Gas data (if available)
+// 			gascostpergallon: gasData.gascostpergallon,
+// 			milespergallonhighway: gasData.milespergallonhighway,
+// 			milespergalloncity: gasData.milespergalloncity,
+// 			// Electric data (if available)
+// 			costpercharge: electricData.costpercharge,
+// 			milespercharge: electricData.milespercharge,
+// 			electricrangemiles: electricData.electricrangemiles,
+// 			// Purchase and sales data
+// 			yearpurchased: purchaseData.yearpurchased,
+// 			purchaseprice: purchaseData.purchaseprice,
+// 			downpaymentamount: purchaseData.downpaymentamount,
+// 			willsellcarafteryears: purchaseData.willsellcarafteryears,
+// 			milesboughtat: purchaseData.milesboughtat,
+// 			willsellcaratmiles: purchaseData.willsellcaratmiles,
+// 			willsellcaratprice: purchaseData.willsellcaratprice,
+// 			// Usage data
+// 			averagedailymiles: usageData.averagedailymiles,
+// 			weeksperyear: usageData.weeksperyear,
+// 			percenthighway: usageData.percenthighway,
+// 			extradistancemiles: usageData.extradistancemiles,
+// 			extradistancepercenthighway: usageData.extradistancepercenthighway,
+// 			// Fixed costs
+// 			yearlyinsurancecost: fixedCostsData.yearlyinsurancecost,
+// 			yearlyregistrationcost: fixedCostsData.yearlyregistrationcost,
+// 			yearlytaxes: fixedCostsData.yearlytaxes,
+// 			monthlyloanpayment: fixedCostsData.monthlyloanpayment,
+// 			monthlywarrantycost: fixedCostsData.monthlywarrantycost,
+// 			inspectioncost: fixedCostsData.inspectioncost,
+// 			otheryearlycosts: fixedCostsData.otheryearlycosts,
+// 			// Yearly maintenance costs
+// 			oilchanges: maintenanceData.oilchanges,
+// 			tires: maintenanceData.tires,
+// 			batteries: maintenanceData.batteries,
+// 			brakes: maintenanceData.brakes,
+// 			other: maintenanceData.other,
+// 			depreciation: maintenanceData.depreciation,
+// 			// Variable costs
+// 			monthlyparkingcosts: variableCostsData.monthlyparkingcosts,
+// 			monthlytolls: variableCostsData.monthlytolls,
+// 			monthlycarwashcost: variableCostsData.monthlycarwashcost,
+// 			monthlymiscellaneouscosts: variableCostsData.monthlymiscellaneouscosts,
+// 			monthlycostdeductions: variableCostsData.monthlycostdeductions,
+// 		};
+// 	});
+// }
 
 // If vehicleid query parameter is passed in, it gets only that vehicle
 // if no vehicleid is passed in, it gets all vehicles for that user
