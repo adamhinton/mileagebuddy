@@ -64,14 +64,50 @@ async function getSingleVehicleById(
 			.single(),
 	];
 
+	/**Vehicle data is stored in several different tables
+	 * This fetches data from each relevant table and joins it
+	 */
 	const vehicleInfoQuery = supabase
 		.from("vehicles")
 		.select(
 			`
-		id, userid, type, 
-		vehicledata(id, make, model)`
+		userid, type,
+
+		vehicledata(
+			vehicleid, vehiclename, year, make, model, trim, highwaympg
+		),
+
+		gasvehicledata(
+			vehicleid, gascostpergallon, milespergallonhighway, milespergalloncity
+		),
+
+		electricvehicledata(
+			vehicleid, costpercharge, milespercharge, electricrangemiles
+		),
+
+		purchaseandsales(
+			vehicleid, yearpurchased, purchaseprice, downpaymentamount, willsellcarafteryears, milesboughtat, willsellcaratmiles, willsellcaratprice
+		),
+
+		usage(
+			vehicleid, averagedailymiles, weeksperyear, percenthighway, extradistancemiles, extradistancepercenthighway
+		),
+
+		fixedcosts(
+			vehicleid, yearlyinsurancecost, yearlyregistrationcost, yearlytaxes, monthlyloanpayment, monthlywarrantycost, inspectioncost, otheryearlycosts
+		),
+
+		yearlymaintenancecosts(
+			vehicleid, oilchanges, tires, batteries, brakes, other, depreciation
+		),
+
+		variablecosts(
+			vehicleid, monthlyparkingcosts, monthlytolls, monthlycarwashcost, monthlymiscellaneouscosts, monthlycostdeductions
 		)
-		.eq("id", 1);
+
+		`
+		)
+		.eq("userid", "1");
 
 	type VehicleInfoQueryType = QueryData<typeof vehicleInfoQuery>;
 
