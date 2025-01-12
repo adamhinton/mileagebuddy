@@ -52,7 +52,7 @@ export default function Page() {
 					const res = await fetch("api/vehicles?userid=1", {
 						method: "GET",
 					});
-					const data = await res.json();
+					const data: Tables<"vehicles">[] = await res.json();
 
 					console.log("data from GET vehicles:", data);
 				}}
