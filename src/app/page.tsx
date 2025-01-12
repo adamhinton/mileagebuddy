@@ -2,6 +2,7 @@
 
 import { User } from "@/zod/schemas/UserSchema";
 import { useEffect, useState } from "react";
+import { Tables } from "../../database.types";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
@@ -28,7 +29,7 @@ export default function Page() {
 			try {
 				const res = await fetch(`api/user?id=${id}`);
 				const data = await res.json();
-				const fetchedUser: User = data;
+				const fetchedUser: Tables<"users"> = data;
 				console.log("fetchedUser:", fetchedUser);
 			} catch (error) {
 				console.error("Error fetching single user in page.tsx:", error);
@@ -52,6 +53,7 @@ export default function Page() {
 						method: "GET",
 					});
 					const data = await res.json();
+
 					console.log("data from GET vehicles:", data);
 				}}
 			>
