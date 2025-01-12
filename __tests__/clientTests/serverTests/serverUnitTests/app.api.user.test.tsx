@@ -1,5 +1,5 @@
 // README
-// This is a test file for the server-side API route /api/user/slug
+// This is a test file for the server-side API route /api/user
 // Testing the GET operation to fetch a user by id
 
 // This file is for UNIT tests. It tests API endpoint logic with dummy data, doesn't interact with an actual DB.
