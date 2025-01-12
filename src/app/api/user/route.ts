@@ -3,6 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
+import { Tables } from "../../../../database.types";
 
 // import { NextApiRequest, NextApiResponse } from "next";
 
@@ -12,7 +13,12 @@ import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
 
 // Gets a user with query parameters by id or email
 // Ex GET api/users?id=2348 or GET api/users?email=bob@bob.com or GET api/users?email=bob_donaldson@gmail.com
-export async function GET(request: NextRequest) {
+export async function GET(
+	request: NextRequest
+	// This return type is a fancy way to say it returns a User or an error
+): Promise<
+	NextResponse<Tables<"users">[] | null> | NextResponse<{ error: string }>
+> {
 	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
 
@@ -28,21 +34,27 @@ export async function GET(request: NextRequest) {
 		);
 	}
 
-	const query = supabase.from("users").select("*");
+	const GetUsersQuery = supabase.from("users").select("*");
 
 	if (id) {
-		query.eq("id", id);
+		GetUsersQuery.eq("id", id);
 	}
 
 	if (email) {
-		query.eq("email", email);
+		GetUsersQuery.eq("email", email);
 	}
 
-	const { data, error } = await query;
+	const {
+		data,
+		error,
+	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
+		await GetUsersQuery;
 
-	if (error || !data || !data.length) {
-		return NextResponse.json({ error: "User not found" }, { status: 404 });
-	}
+	if (error) throw error;
+
+	// if (error || !data || !data.length) {
+	// 	return NextResponse.json({ error: "User not found" }, { status: 404 });
+	// }
 
 	return NextResponse.json(data);
 }
@@ -91,10 +103,8 @@ export async function PUT(request: NextRequest) {
 	const {
 		data,
 		error,
-	}: { data: object[] | null; error: PostgrestError | null } = await supabase
-		.from("users")
-		.update(body)
-		.eq("id", id);
+	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
+		await supabase.from("users").update(body).eq("id", id);
 
 	if (error) {
 		console.log("error:", error);
@@ -134,10 +144,8 @@ export async function DELETE(request: NextRequest) {
 	const {
 		data,
 		error,
-	}: { data: object[] | null; error: PostgrestError | null } = await supabase
-		.from("users")
-		.delete()
-		.eq("id", id);
+	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
+		await supabase.from("users").delete().eq("id", id);
 
 	if (error) {
 		return NextResponse.json({ error: error.message }, { status: 500 });
@@ -187,11 +195,12 @@ export async function POST(request: NextRequest) {
 	const {
 		data,
 		error,
-	}: { data: object[] | null; error: PostgrestError | null } = await supabase
-		.from("users")
-		.insert(body)
-		// This retrieves the newly created user's data
-		.select();
+	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
+		await supabase
+			.from("users")
+			.insert(body)
+			// This retrieves the newly created user's data
+			.select();
 
 	if (error) {
 		console.log("error:", error);
