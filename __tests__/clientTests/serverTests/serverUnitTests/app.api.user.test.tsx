@@ -61,7 +61,7 @@ describe("GET /api/user", () => {
 		expect(responseData).toEqual([mockUser]);
 		expect(mockDBCalls).toHaveBeenCalledWith("users");
 		expect(mockDBCalls().select).toHaveBeenCalledWith("*");
-		expect(mockDBCalls().eq).toHaveBeenCalledWith("id", "1");
+		expect(mockDBCalls().eq).toHaveBeenCalledWith("id", 1);
 	});
 
 	it("should return a user by email if email exists", async () => {
@@ -118,13 +118,13 @@ describe("GET /api/user", () => {
 describe("PUT /api/user", () => {
 	it("should update the user when valid data is provided", async () => {
 		const mockUser = {
-			id: "1",
+			id: 1,
 			isDarkMode: true,
 			email: "john.doe@gmail.com",
 		};
 
 		const updatedUser = {
-			id: "1",
+			id: 1,
 			isDarkMode: false,
 			email: "john.updated@gmail.com",
 		};
@@ -163,19 +163,19 @@ describe("PUT /api/user", () => {
 			message: "User updated successfully",
 			data: [updatedUser],
 		});
-		expect(mockDBCalls().update().eq).toHaveBeenCalledWith("id", "1");
+		expect(mockDBCalls().update().eq).toHaveBeenCalledWith("id", 1);
 		expect(mockDBCalls().update().eq).toHaveBeenCalledTimes(1);
 	});
 
 	it("should update the user when only passed an isDarkMode change", async () => {
 		const mockUser = {
-			id: "1",
+			id: 1,
 			isDarkMode: true,
 			email: "john.doe@gmail.com",
 		};
 
 		const updatedUser = {
-			id: "1",
+			id: 1,
 			isDarkMode: false,
 			email: "john.doe@gmail.com",
 		};
@@ -213,19 +213,19 @@ describe("PUT /api/user", () => {
 			message: "User updated successfully",
 			data: [updatedUser],
 		});
-		expect(mockDBCalls().update().eq).toHaveBeenCalledWith("id", "1");
+		expect(mockDBCalls().update().eq).toHaveBeenCalledWith("id", 1);
 		expect(mockDBCalls().update().eq).toHaveBeenCalledTimes(1);
 	});
 
 	it("should update the user when only passed an email change", async () => {
 		const mockUser = {
-			id: "1",
+			id: 1,
 			isDarkMode: true,
 			email: "john.doe@gmail.com",
 		};
 
 		const updatedUser = {
-			id: "1",
+			id: 1,
 			isDarkMode: true,
 			email: "jane@example.com",
 		};
@@ -263,7 +263,7 @@ describe("PUT /api/user", () => {
 			message: "User updated successfully",
 			data: [updatedUser],
 		});
-		expect(mockDBCalls().update().eq).toHaveBeenCalledWith("id", "1");
+		expect(mockDBCalls().update().eq).toHaveBeenCalledWith("id", 1);
 		expect(mockDBCalls().update().eq).toHaveBeenCalledTimes(1);
 	});
 
@@ -381,15 +381,15 @@ describe("PUT /api/user", () => {
 describe("DELETE /api/user", () => {
 	it("should delete a user by id if id exists", async () => {
 		const mockUsers = [
-			{ id: "1", email: "bob.smithjones@gmail.com", isDarkMode: false },
-			{ id: "2", email: "jane.smith@gmail.com", isDarkMode: true },
+			{ id: 1, email: "bob.smithjones@gmail.com", isDarkMode: false },
+			{ id: 1, email: "jane.smith@gmail.com", isDarkMode: true },
 		];
 		const mockDBCalls = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnValue({
 				eq: jest.fn().mockResolvedValue({ data: mockUsers, error: null }),
 			}),
 			delete: jest.fn().mockReturnValue({
-				eq: jest.fn().mockResolvedValue({ data: [{ id: "1" }], error: null }),
+				eq: jest.fn().mockResolvedValue({ data: [{ id: 1 }], error: null }),
 			}),
 		});
 
@@ -413,7 +413,7 @@ describe("DELETE /api/user", () => {
 			message: "User deleted successfully",
 			data: [
 				{
-					id: "1",
+					id: 1,
 				},
 			],
 		});

@@ -19,8 +19,6 @@ jest.mock("next/server", () => ({
 }));
 
 describe("GET /api/vehicles", () => {
-	let mockDBCalls: jest.Mock;
-	let mockVehicles: [];
-
 	beforeEach(() => {});
+	it("empty test for now", async () => {});
 });
