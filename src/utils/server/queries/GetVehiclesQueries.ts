@@ -4,35 +4,35 @@ const stringForJoiningVehicleTables = `
 		userid, type,
 
 		vehicledata(
-			vehicleid, vehiclename, year, make, model, trim, highwaympg
+			"vehicleID", vehiclename, year, make, model, trim, highwaympg
 		),
 
 		gasvehicledata(
-			vehicleid, gascostpergallon, milespergallonhighway, milespergalloncity
+			"vehicleID", gascostpergallon, milespergallonhighway, milespergalloncity
 		),
 
 		electricvehicledata(
-			vehicleid, costpercharge, milespercharge, electricrangemiles
+			"vehicleID", costpercharge, milespercharge, electricrangemiles
 		),
 
 		purchaseandsales(
-			vehicleid, yearpurchased, purchaseprice, downpaymentamount, willsellcarafteryears, milesboughtat, willsellcaratmiles, willsellcaratprice
+			"vehicleID", yearpurchased, purchaseprice, downpaymentamount, willsellcarafteryears, milesboughtat, willsellcaratmiles, willsellcaratprice
 		),
 
 		usage(
-			vehicleid, averagedailymiles, weeksperyear, percenthighway, extradistancemiles, extradistancepercenthighway
+			"vehicleID", averagedailymiles, weeksperyear, percenthighway, extradistancemiles, extradistancepercenthighway
 		),
 
 		fixedcosts(
-			vehicleid, yearlyinsurancecost, yearlyregistrationcost, yearlytaxes, monthlyloanpayment, monthlywarrantycost, inspectioncost, otheryearlycosts
+			"vehicleID", yearlyinsurancecost, yearlyregistrationcost, yearlytaxes, monthlyloanpayment, monthlywarrantycost, inspectioncost, otheryearlycosts
 		),
 
 		yearlymaintenancecosts(
-			vehicleid, oilchanges, tires, batteries, brakes, other, depreciation
+			"vehicleID", oilchanges, tires, batteries, brakes, other, depreciation
 		),
 
 		variablecosts(
-			vehicleid, monthlyparkingcosts, monthlytolls, monthlycarwashcost, monthlymiscellaneouscosts, monthlycostdeductions
+			"vehicleID", monthlyparkingcosts, monthlytolls, monthlycarwashcost, monthlymiscellaneouscosts, monthlycostdeductions
 		)
 
 		`;
