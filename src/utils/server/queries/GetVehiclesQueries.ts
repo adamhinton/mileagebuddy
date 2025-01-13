@@ -11,12 +11,12 @@ const stringForJoiningVehicleTables = `
 			"vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
 		),
 
-		electricvehicledata(
-			"vehicleID", costpercharge, milespercharge, electricrangemiles
+		"electricVehicleData"(
+			"vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles"
 		),
 
-		purchaseandsales(
-			"vehicleID", yearpurchased, purchaseprice, downpaymentamount, willsellcarafteryears, milesboughtat, willsellcaratmiles, willsellcaratprice
+		"purchaseAndSales"(
+			"vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", "willSellCarAtPrice"
 		),
 
 		usage(

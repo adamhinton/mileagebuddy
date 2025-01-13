@@ -47,28 +47,28 @@ CREATE TABLE "gasVehicleData" (
     CONSTRAINT fk_vehicle FOREIGN KEY ("vehicleID") REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
-CREATE TABLE electricVehicleData (
+CREATE TABLE "electricVehicleData" (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,
-    costPerCharge DECIMAL(10, 2) NOT NULL,
-    milesPerCharge DECIMAL(5, 2) NOT NULL,
-    electricRangeMiles DECIMAL(5, 2) NOT NULL,
+    "costPerCharge" DECIMAL(10, 2) NOT NULL,
+    "milesPerCharge" DECIMAL(5, 2) NOT NULL,
+    "electricRangeMiles" DECIMAL(5, 2) NOT NULL,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,
     CONSTRAINT fk_vehicle FOREIGN KEY ("vehicleID") REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
-CREATE TABLE purchaseAndSales (
+CREATE TABLE "purchaseAndSales" (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,
-    yearPurchased INT NULL,
-    purchasePrice DECIMAL(10, 2) NOT NULL,
-    downPaymentAmount DECIMAL(10, 2) NULL,
-    willSellCarAfterYears INT NOT NULL,
-    milesBoughtAt DECIMAL(10, 2) NOT NULL,
-    willSellCarAtMiles DECIMAL(10, 2) NOT NULL,
-    willSellCarAtPrice DECIMAL(10, 2) NOT NULL,
+    "yearPurchased" INT NULL,
+    "purchasePrice" DECIMAL(10, 2) NOT NULL,
+    "downPaymentAmount" DECIMAL(10, 2) NULL,
+    "willSellCarAfterYears" INT NOT NULL,
+    "milesBoughtAt" DECIMAL(10, 2) NOT NULL,
+    "willSellCarAtMiles" DECIMAL(10, 2) NOT NULL,
+    "willSellCarAtPrice" DECIMAL(10, 2) NOT NULL,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,

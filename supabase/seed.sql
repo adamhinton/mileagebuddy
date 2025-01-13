@@ -33,13 +33,13 @@ VALUES
 ('2', 3.39, 38.0, 28.0, NOW(), NOW()),
 ('3', 3.59, 35.0, 25.0, NOW(), NOW());
 
-INSERT INTO electricVehicleData ("vehicleID", costPerCharge, milesPerCharge, electricRangeMiles, "createdAt", "updatedAt")
+INSERT INTO "electricVehicleData" ("vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles", "createdAt", "updatedAt")
 VALUES
 ('4', 15.25, 350, 350, NOW(), NOW()),
 ('5', 8.50, 200, 215, NOW(), NOW()),
 ('6', 12.00, 260, 259, NOW(), NOW());
 
-INSERT INTO purchaseAndSales ("vehicleID", yearPurchased, purchasePrice, downPaymentAmount, willSellCarAfterYears, milesBoughtAt, willSellCarAtMiles, willSellCarAtPrice, "createdAt", "updatedAt")
+INSERT INTO "purchaseAndSales" ("vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", "willSellCarAtPrice", "createdAt", "updatedAt")
 VALUES
 ('1', 2020, 22000.00, 2000.00, 5, 10000, 80000, 12000.00, NOW(), NOW()),
 ('2', 2021, 25000.00, 2500.00, 4, 5000, 60000, 15000.00, NOW(), NOW()),
