@@ -20,6 +20,8 @@ export const VehicleSchema = z.object({
 	id: z.string(),
 	userID: z.string(),
 	vehicleType: z.union([z.literal("gas"), z.literal("electric")]),
+	// The order a user's vehicles are listed in, for drag and drop purposes etc
+	vehiclesorder: z.number(),
 
 	vehicleData: z.object({
 		vehicleName: z.string(),
@@ -104,5 +106,3 @@ export const VehicleSchema = z.object({
 		// everything in variableCosts is optional
 		.partial(),
 });
-
-export type Vehicle = z.infer<typeof VehicleSchema>;

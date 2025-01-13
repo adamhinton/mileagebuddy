@@ -30,13 +30,13 @@ jest.mock("next/server", () => ({
 
 describe("GET /api/user", () => {
 	let mockDBCalls: jest.Mock;
-	let mockUser: { id: string; isdarkmode: boolean; email: string };
+	let mockUser: { id: string; isDarkMode: boolean; email: string };
 
 	beforeEach(() => {
 		mockUser = {
 			id: "1",
 			email: "john@example.com",
-			isdarkmode: false,
+			isDarkMode: false,
 		};
 
 		mockDBCalls = jest.fn().mockReturnValue({
@@ -119,13 +119,13 @@ describe("PUT /api/user", () => {
 	it("should update the user when valid data is provided", async () => {
 		const mockUser = {
 			id: "1",
-			isdarkmode: true,
+			isDarkMode: true,
 			email: "john.doe@gmail.com",
 		};
 
 		const updatedUser = {
 			id: "1",
-			isdarkmode: false,
+			isDarkMode: false,
 			email: "john.updated@gmail.com",
 		};
 
@@ -146,7 +146,7 @@ describe("PUT /api/user", () => {
 			url: "http://localhost:3000/api/user?id=1",
 			json: jest.fn().mockResolvedValue({
 				email: "jane@example.com",
-				isdarkmode: true,
+				isDarkMode: true,
 			}),
 		};
 
@@ -167,16 +167,16 @@ describe("PUT /api/user", () => {
 		expect(mockDBCalls().update().eq).toHaveBeenCalledTimes(1);
 	});
 
-	it("should update the user when only passed an isdarkmode change", async () => {
+	it("should update the user when only passed an isDarkMode change", async () => {
 		const mockUser = {
 			id: "1",
-			isdarkmode: true,
+			isDarkMode: true,
 			email: "john.doe@gmail.com",
 		};
 
 		const updatedUser = {
 			id: "1",
-			isdarkmode: false,
+			isDarkMode: false,
 			email: "john.doe@gmail.com",
 		};
 
@@ -196,7 +196,7 @@ describe("PUT /api/user", () => {
 		const request = {
 			url: "http://localhost:3000/api/user?id=1",
 			json: jest.fn().mockResolvedValue({
-				isdarkmode: false,
+				isDarkMode: false,
 			}),
 		};
 
@@ -220,13 +220,13 @@ describe("PUT /api/user", () => {
 	it("should update the user when only passed an email change", async () => {
 		const mockUser = {
 			id: "1",
-			isdarkmode: true,
+			isDarkMode: true,
 			email: "john.doe@gmail.com",
 		};
 
 		const updatedUser = {
 			id: "1",
-			isdarkmode: true,
+			isDarkMode: true,
 			email: "jane@example.com",
 		};
 
@@ -270,7 +270,7 @@ describe("PUT /api/user", () => {
 	it("should return an error if no ID is provided", async () => {
 		const userWithoutId = {
 			email: "jane@example.com",
-			isdarkmode: true,
+			isDarkMode: true,
 		};
 
 		const mockDBCalls = jest.fn().mockReturnValue({
@@ -322,7 +322,7 @@ describe("PUT /api/user", () => {
 			url: "http://localhost:3000/api/user?id=999",
 			json: jest.fn().mockResolvedValue({
 				email: "jane@example.com",
-				isdarkmode: false,
+				isDarkMode: false,
 			}),
 		};
 
@@ -348,7 +348,7 @@ describe("PUT /api/user", () => {
 		const mockUser = {
 			id: "1",
 			email: "john.doe@gmail.com",
-			isdarkmode: false,
+			isDarkMode: false,
 		};
 
 		const mockDBCalls = jest.fn().mockReturnValue({
@@ -381,8 +381,8 @@ describe("PUT /api/user", () => {
 describe("DELETE /api/user", () => {
 	it("should delete a user by id if id exists", async () => {
 		const mockUsers = [
-			{ id: "1", email: "bob.smithjones@gmail.com", isdarkmode: false },
-			{ id: "2", email: "jane.smith@gmail.com", isdarkmode: true },
+			{ id: "1", email: "bob.smithjones@gmail.com", isDarkMode: false },
+			{ id: "2", email: "jane.smith@gmail.com", isDarkMode: true },
 		];
 		const mockDBCalls = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnValue({
@@ -474,7 +474,7 @@ describe("DELETE /api/user", () => {
 describe("POST /api/user", () => {
 	it("should create a new user and return the created user object", async () => {
 		const mockNewUser = {
-			isdarkmode: true,
+			isDarkMode: true,
 			email: "bob.smithjones@gmail.com",
 		};
 
@@ -500,7 +500,7 @@ describe("POST /api/user", () => {
 			query: {},
 			cookies: {},
 			body: {
-				isdarkmode: true,
+				isDarkMode: true,
 				email: "bob.smithjones@gmail.com",
 			},
 			env: {},
@@ -511,7 +511,7 @@ describe("POST /api/user", () => {
 		expect(mockDBCalls).toHaveBeenCalledWith("users");
 	});
 
-	it("Should create a user if isdarkmode is not provided", async () => {
+	it("Should create a user if isDarkMode is not provided", async () => {
 		const mockNewUser = {
 			email: "bob.smithjones@gmail.com",
 		};
@@ -551,7 +551,7 @@ describe("POST /api/user", () => {
 	it("should return an error if the email already exists in the database", async () => {
 		const mockNewUser = {
 			email: "bob.smithjones@gmail.com",
-			isdarkmode: true,
+			isDarkMode: true,
 		};
 
 		const mockDBCalls = jest.fn().mockReturnValue({

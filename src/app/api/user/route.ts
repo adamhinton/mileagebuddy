@@ -37,7 +37,7 @@ export async function GET(
 	const GetUsersQuery = supabase.from("users").select("*");
 
 	if (id) {
-		GetUsersQuery.eq("id", id);
+		GetUsersQuery.eq("id", Number(id));
 	}
 
 	if (email) {
@@ -89,9 +89,9 @@ export async function PUT(request: NextRequest) {
 	}
 
 	console.log("body.email:", body.email);
-	console.log("body.isdarkmode:", body.isdarkmode);
+	console.log("body.isDarkMode:", body.isDarkMode);
 
-	if (!body.email && body.isdarkmode === undefined) {
+	if (!body.email && body.isDarkMode === undefined) {
 		console.log("blah blah blah");
 		return NextResponse.json(
 			{
@@ -104,7 +104,7 @@ export async function PUT(request: NextRequest) {
 		data,
 		error,
 	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
-		await supabase.from("users").update(body).eq("id", id);
+		await supabase.from("users").update(body).eq("id", Number(id));
 
 	if (error) {
 		console.log("error:", error);
@@ -145,7 +145,7 @@ export async function DELETE(request: NextRequest) {
 		data,
 		error,
 	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
-		await supabase.from("users").delete().eq("id", id);
+		await supabase.from("users").delete().eq("id", Number(id));
 
 	if (error) {
 		return NextResponse.json({ error: error.message }, { status: 500 });

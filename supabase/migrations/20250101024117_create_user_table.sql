@@ -1,14 +1,7 @@
--- Note that in db calls isdarkmode has to be all lower case for postgres reasons
-
--- TODO:
--- ADD TO TABLE:
--- createdAT
--- updatedAt
--- deletedAt
--- And update this in our CRUD endpoints
+-- NOTE: Some table names and column names are wrapped in double quotes because that makes them case sensitive. Otherwise they would be all lower case, whcih is annoying when converting them to camel case in frontend.
 
 CREATE TABLE users (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   email text UNIQUE NOT NULL,
-  isdarkmode boolean DEFAULT true
+  "isDarkMode" boolean DEFAULT true
 )

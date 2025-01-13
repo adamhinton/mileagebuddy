@@ -77,7 +77,7 @@ export default function Page() {
 						method: "PUT",
 						body: JSON.stringify({
 							email: "random_email" + Math.random() + "@gmail.com",
-							isdarkmode: Math.random() < 0.5,
+							isDarkMode: Math.random() < 0.5,
 						}),
 					})
 						.then((res) => {
@@ -131,7 +131,7 @@ export default function Page() {
 						},
 						body: JSON.stringify({
 							email: "random_email" + Math.random() + "@gmail.com",
-							isdarkmode: Math.random() < 0.5,
+							isDarkMode: Math.random() < 0.5,
 						}),
 					})
 						.then((res) => {
