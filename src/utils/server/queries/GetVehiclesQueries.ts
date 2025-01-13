@@ -20,11 +20,11 @@ const stringForJoiningVehicleTables = `
 		),
 
 		usage(
-			"vehicleID", averagedailymiles, weeksperyear, percenthighway, extradistancemiles, extradistancepercenthighway
+			"vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", "extraDistanceMiles", "extraDistancePercentHighway"
 		),
 
-		fixedcosts(
-			"vehicleID", yearlyinsurancecost, yearlyregistrationcost, yearlytaxes, monthlyloanpayment, monthlywarrantycost, inspectioncost, otheryearlycosts
+		"fixedCosts"(
+			"vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts"
 		),
 
 		yearlymaintenancecosts(

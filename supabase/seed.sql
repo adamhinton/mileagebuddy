@@ -48,7 +48,7 @@ VALUES
 ('5', 2021, 32000.00, 3000.00, 5, 0, 50000, 27000.00, NOW(), NOW()),
 ('6', 2022, 35000.00, 4000.00, 6, 0, 70000, 33000.00, NOW(), NOW());
 
-INSERT INTO usage ("vehicleID", averageDailyMiles, weeksPerYear, percentHighway, extraDistanceMiles, extraDistancePercentHighway, "createdAt", "updatedAt")
+INSERT INTO usage ("vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", "extraDistanceMiles", "extraDistancePercentHighway", "createdAt", "updatedAt")
 VALUES
 ('1', 25.0, 52, 70.0, 100.0, 60.0, NOW(), NOW()),
 ('2', 30.0, 50, 65.0, 200.0, 50.0, NOW(), NOW()),
@@ -57,7 +57,7 @@ VALUES
 ('5', 25.0, 50, 75.0, 100.0, 65.0, NOW(), NOW()),
 ('6', 28.0, 52, 85.0, 50.0, 40.0, NOW(), NOW());
 
-INSERT INTO fixedCosts ("vehicleID", yearlyInsuranceCost, yearlyRegistrationCost, yearlyTaxes, monthlyLoanPayment, monthlyWarrantyCost, inspectionCost, otherYearlyCosts, "createdAt", "updatedAt")
+INSERT INTO "fixedCosts" ("vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts", "createdAt", "updatedAt")
 VALUES
 ('1', 1200.00, 150.00, 200.00, 350.00, 50.00, 100.00, 500.00, NOW(), NOW()),
 ('2', 1400.00, 175.00, 250.00, 400.00, 60.00, 120.00, 600.00, NOW(), NOW()),

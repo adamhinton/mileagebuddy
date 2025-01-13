@@ -1,7 +1,7 @@
 -- README
 -- Structure:
 -- - vehicles: The main table, holds the user vehicle data.
--- - "vehicleData", gasVehicleData, electricVehicleData, purchaseAndSales, usage, fixedCosts, yearlyMaintenanceCosts, and variableCosts: Sub-tables representing different aspects of the vehicle data.
+-- - "vehicleData", gasVehicleData, electricVehicleData, purchaseAndSales, usage, "fixedCosts", yearlyMaintenanceCosts, and variableCosts: Sub-tables representing different aspects of the vehicle data.
 -- - Each of these sub-tables references the `vehicles` table via `vehicleID`.
 -- - Cascade delete: When a user is deleted, all related vehicles will also be deleted.
 
@@ -75,31 +75,32 @@ CREATE TABLE "purchaseAndSales" (
     CONSTRAINT fk_vehicle FOREIGN KEY ("vehicleID") REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
+-- TODO: Total miles per year
 CREATE TABLE usage (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,
-    averageDailyMiles DECIMAL(10, 2) NOT NULL,
-    weeksPerYear INT NOT NULL,
-    percentHighway DECIMAL(5, 2) NOT NULL,
-    extraDistanceMiles DECIMAL(10, 2) NULL,
-    extraDistancePercentHighway DECIMAL(5, 2) NULL,
+    "averageDailyMiles" DECIMAL(10, 2) NOT NULL,
+    "weeksPerYear" INT NOT NULL,
+    "percentHighway" DECIMAL(5, 2) NOT NULL,
+    "extraDistanceMiles" DECIMAL(10, 2) NULL,
+    "extraDistancePercentHighway" DECIMAL(5, 2) NULL,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,
     CONSTRAINT fk_vehicle FOREIGN KEY ("vehicleID") REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
-CREATE TABLE fixedCosts (
+CREATE TABLE "fixedCosts" (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,
-    yearlyInsuranceCost DECIMAL(10, 2),
-    yearlyRegistrationCost DECIMAL(10, 2),
-    yearlyTaxes INTEGER,
-    yearlyParkingCost DECIMAL(10, 2),
-    monthlyLoanPayment INTEGER,
-    monthlyWarrantyCost INTEGER,
-    inspectionCost INTEGER,
-    otherYearlyCosts INTEGER,
+    "yearlyInsuranceCost" DECIMAL(10, 2),
+    "yearlyRegistrationCost" DECIMAL(10, 2),
+    "yearlyTaxes" INTEGER,
+    "yearlyParkingCost" DECIMAL(10, 2),
+    "monthlyLoanPayment" INTEGER,
+    "monthlyWarrantyCost" INTEGER,
+    "inspectionCost" INTEGER,
+    "otherYearlyCosts" INTEGER,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,
