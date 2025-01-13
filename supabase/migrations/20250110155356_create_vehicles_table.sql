@@ -35,7 +35,7 @@ CREATE TABLE "vehicleData" (
     CONSTRAINT fk_vehicle FOREIGN KEY ("vehicleID") REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
-CREATE TABLE gasVehicleData (
+CREATE TABLE "gasVehicleData" (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,
     "gasCostPerGallon" DECIMAL(10, 2) NOT NULL,

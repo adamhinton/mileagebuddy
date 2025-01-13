@@ -27,7 +27,7 @@ VALUES
 ('5', 'Nissan Leaf', 2021, 'Nissan', 'Leaf', 'S Plus', 0, NOW(), NOW()),
 ('6', 'Chevrolet Bolt EV', 2022, 'Chevrolet', 'Bolt EV', 'LT', 0, NOW(), NOW());
 
-INSERT INTO gasVehicleData ("vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity", "createdAt", "updatedAt")
+INSERT INTO "gasVehicleData" ("vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity", "createdAt", "updatedAt")
 VALUES
 ('1', 3.49, 40.0, 30.0, NOW(), NOW()),
 ('2', 3.39, 38.0, 28.0, NOW(), NOW()),
