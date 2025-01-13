@@ -37,13 +37,21 @@ async function getSingleVehicleById(
 }
 
 /** Get all vehicles belonging to a user */
-async function getVehiclesByUser(supabase: SupabaseClient, userId: number) {
+async function getVehiclesByUser(
+	supabase: SupabaseClient,
+	userId: number
+): Promise<VehiclesArrayReturnedFromDB> {
 	/** This is just the data from the vehicles table
 	 * There are several db tables that contain user data. Still need to aggregate all of them
 	 */
 	const vehiclesDataQuery = getVehiclesByUserIdQuery(String(userId));
-	const vehiclesData = await vehiclesDataQuery;
-	return vehiclesData;
+	const { data, error } = await vehiclesDataQuery;
+
+	if (error) {
+		throw new Error("Error fetching vehicle data in TEST: " + error.message);
+	}
+
+	return data;
 }
 
 // If vehicleid query parameter is passed in, it gets only that vehicle
@@ -74,8 +82,10 @@ export async function GET(request: Request) {
 		// If vehicleId is provided, get one vehicle. If no vehicleid is provided, get all the user's vehicles
 
 		if (vehicleID) {
+			console.log("vehicleid:", vehicleID);
 			// Fetch details of a single vehicle by its ID
 			const vehicle = await getSingleVehicleById(supabase, Number(vehicleID));
+			console.log("vehicle from getSingleVehicleById:", vehicle);
 			return NextResponse.json(vehicle, { status: 200 });
 		} else {
 			// Fetch all vehicles for the given user

@@ -3,6 +3,7 @@
 import { User } from "@/zod/schemas/UserSchema";
 import { useEffect, useState } from "react";
 import { Tables } from "../../database.types";
+import { VehiclesArrayReturnedFromDB } from "@/utils/server/types/GetVehicleTypes";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
@@ -52,8 +53,7 @@ export default function Page() {
 					const res = await fetch("api/vehicles?userid=1", {
 						method: "GET",
 					});
-					const data: Tables<"vehicles">[] = await res.json();
-
+					const data: VehiclesArrayReturnedFromDB = await res.json();
 					console.log("data from GET vehicles:", data);
 				}}
 			>
