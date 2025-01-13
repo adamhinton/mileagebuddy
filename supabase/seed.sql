@@ -18,7 +18,7 @@ VALUES
 ('1', 'electric', 1, NOW(), NOW()),
 ('1', 'electric', 1, NOW(), NOW());
 
-INSERT INTO vehicleData ("vehicleID", "vehicleName", year, make, model, trim, "highwayMPG", "createdAt", "updatedAt")
+INSERT INTO "vehicleData" ("vehicleID", "vehicleName", year, make, model, trim, "highwayMPG", "createdAt", "updatedAt")
 VALUES
 ('1', 'Ford Focus', 2020, 'Ford', 'Focus', 'SE', 35.5, NOW(), NOW()),
 ('2', 'Chevrolet Malibu', 2021, 'Chevrolet', 'Malibu', 'LT', 30.2, NOW(), NOW()),

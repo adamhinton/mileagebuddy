@@ -3,7 +3,7 @@ import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 const stringForJoiningVehicleTables = `
 		userid, type,
 
-		vehicledata(
+		"vehicleData"(
 			"vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
 		),
 

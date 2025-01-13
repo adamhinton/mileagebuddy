@@ -1,7 +1,7 @@
 -- README
 -- Structure:
 -- - vehicles: The main table, holds the user vehicle data.
--- - vehicleData, gasVehicleData, electricVehicleData, purchaseAndSales, usage, fixedCosts, yearlyMaintenanceCosts, and variableCosts: Sub-tables representing different aspects of the vehicle data.
+-- - "vehicleData", gasVehicleData, electricVehicleData, purchaseAndSales, usage, fixedCosts, yearlyMaintenanceCosts, and variableCosts: Sub-tables representing different aspects of the vehicle data.
 -- - Each of these sub-tables references the `vehicles` table via `vehicleID`.
 -- - Cascade delete: When a user is deleted, all related vehicles will also be deleted.
 
@@ -20,7 +20,7 @@ CREATE TABLE vehicles (
     CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE vehicleData (
+CREATE TABLE "vehicleData" (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,
     "vehicleName" VARCHAR(255) NOT NULL,
