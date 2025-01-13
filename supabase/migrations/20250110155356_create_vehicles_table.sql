@@ -9,6 +9,8 @@ CREATE TABLE vehicles (
     id SERIAL PRIMARY KEY,
     userID bigint NOT NULL,
     type VARCHAR(10) NOT NULL CHECK(type IN ('gas', 'electric')),
+    -- The order a user's vehicles are listed in, for drag and drop purposes etc
+    vehiclesorder INT NOT NULL,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     deletedAt TIMESTAMP DEFAULT NULL,

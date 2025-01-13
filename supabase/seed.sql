@@ -7,14 +7,14 @@ INSERT INTO "users" (email, isDarkMode) VALUES
 ('emma.davis@example.com', true);
 
 
-INSERT INTO vehicles (id, userID, type, createdAt, updatedAt)
+INSERT INTO vehicles (id, userID, type, vehiclesorder,createdAt, updatedAt)
 VALUES
-('1', '1', 'gas', NOW(), NOW()),
-('2', '1', 'gas', NOW(), NOW()),
-('3', '1', 'gas', NOW(), NOW()),
-('4', '1', 'electric', NOW(), NOW()),
-('5', '1', 'electric', NOW(), NOW()),
-('6', '1', 'electric', NOW(), NOW());
+('1', '1', 'gas', 1, NOW(), NOW()),
+('2', '1', 'gas', 1, NOW(), NOW()),
+('3', '1', 'gas', 1, NOW(), NOW()),
+('4', '1', 'electric', 1, NOW(), NOW()),
+('5', '1', 'electric', 1, NOW(), NOW()),
+('6', '1', 'electric', 1, NOW(), NOW());
 
 INSERT INTO vehicleData (vehicleID, vehicleName, year, make, model, trim, highwayMPG, createdAt, updatedAt)
 VALUES
