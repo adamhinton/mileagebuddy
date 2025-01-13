@@ -107,10 +107,10 @@ CREATE TABLE "fixedCosts" (
     CONSTRAINT fk_vehicle FOREIGN KEY ("vehicleID") REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
-CREATE TABLE yearlyMaintenanceCosts (
+CREATE TABLE "yearlyMaintenanceCosts" (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,
-    oilChanges DECIMAL(10, 2),
+    "oilChanges" DECIMAL(10, 2),
     tires DECIMAL(10, 2),
     batteries DECIMAL(10, 2),
     brakes DECIMAL(10, 2),
@@ -122,14 +122,14 @@ CREATE TABLE yearlyMaintenanceCosts (
     CONSTRAINT fk_vehicle FOREIGN KEY ("vehicleID") REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
-CREATE TABLE variableCosts (
+CREATE TABLE "variableCosts" (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,
-    monthlyParkingCosts DECIMAL(10, 2),
-    monthlyTolls DECIMAL(10, 2),
-    monthlyCarWashCost DECIMAL(10, 2),
-    monthlyMiscellaneousCosts DECIMAL(10, 2),
-    monthlyCostDeductions DECIMAL(10, 2),
+    "monthlyParkingCosts" DECIMAL(10, 2),
+    "monthlyTolls" DECIMAL(10, 2),
+    "monthlyCarWashCost" DECIMAL(10, 2),
+    "monthlyMiscellaneousCosts" DECIMAL(10, 2),
+    "monthlyCostDeductions" DECIMAL(10, 2),
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,

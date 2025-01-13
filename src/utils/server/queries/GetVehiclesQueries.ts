@@ -27,12 +27,12 @@ const stringForJoiningVehicleTables = `
 			"vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts"
 		),
 
-		yearlymaintenancecosts(
-			"vehicleID", oilchanges, tires, batteries, brakes, other, depreciation
+		"yearlyMaintenanceCosts"(
+			"vehicleID", "oilChanges", tires, batteries, brakes, other, depreciation
 		),
 
-		variablecosts(
-			"vehicleID", monthlyparkingcosts, monthlytolls, monthlycarwashcost, monthlymiscellaneouscosts, monthlycostdeductions
+		"variableCosts"(
+			"vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions"
 		)
 
 		`;
