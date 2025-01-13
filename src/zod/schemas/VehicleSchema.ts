@@ -21,7 +21,7 @@ export const VehicleSchema = z.object({
 	userID: z.string(),
 	vehicleType: z.union([z.literal("gas"), z.literal("electric")]),
 	// The order a user's vehicles are listed in, for drag and drop purposes etc
-	vehiclesorder: z.number(),
+	vehiclesOrder: z.number(),
 
 	vehicleData: z.object({
 		vehicleName: z.string(),

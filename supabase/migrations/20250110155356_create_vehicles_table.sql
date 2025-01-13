@@ -10,10 +10,10 @@ CREATE TABLE vehicles (
     userID bigint NOT NULL,
     type VARCHAR(10) NOT NULL CHECK(type IN ('gas', 'electric')),
     -- The order a user's vehicles are listed in, for drag and drop purposes etc
-    vehiclesorder INT NOT NULL,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deletedAt TIMESTAMP DEFAULT NULL,
+    "vehiclesOrder" INT NOT NULL,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "deletedAt" TIMESTAMP DEFAULT NULL,
     CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -26,9 +26,9 @@ CREATE TABLE vehicleData (
     model VARCHAR(255) NULL,
     trim VARCHAR(255) NULL,
     highwayMPG DECIMAL(5, 2) NOT NULL,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deletedAt TIMESTAMP DEFAULT NULL,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "deletedAt" TIMESTAMP DEFAULT NULL,
     CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
@@ -38,9 +38,9 @@ CREATE TABLE gasVehicleData (
     gasCostPerGallon DECIMAL(10, 2) NOT NULL,
     milesPerGallonHighway DECIMAL(5, 2) NOT NULL,
     milesPerGallonCity DECIMAL(5, 2) NOT NULL,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deletedAt TIMESTAMP DEFAULT NULL,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "deletedAt" TIMESTAMP DEFAULT NULL,
     CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
@@ -50,9 +50,9 @@ CREATE TABLE electricVehicleData (
     costPerCharge DECIMAL(10, 2) NOT NULL,
     milesPerCharge DECIMAL(5, 2) NOT NULL,
     electricRangeMiles DECIMAL(5, 2) NOT NULL,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deletedAt TIMESTAMP DEFAULT NULL,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "deletedAt" TIMESTAMP DEFAULT NULL,
     CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
@@ -66,9 +66,9 @@ CREATE TABLE purchaseAndSales (
     milesBoughtAt DECIMAL(10, 2) NOT NULL,
     willSellCarAtMiles DECIMAL(10, 2) NOT NULL,
     willSellCarAtPrice DECIMAL(10, 2) NOT NULL,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deletedAt TIMESTAMP DEFAULT NULL,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "deletedAt" TIMESTAMP DEFAULT NULL,
     CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
@@ -80,9 +80,9 @@ CREATE TABLE usage (
     percentHighway DECIMAL(5, 2) NOT NULL,
     extraDistanceMiles DECIMAL(10, 2) NULL,
     extraDistancePercentHighway DECIMAL(5, 2) NULL,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deletedAt TIMESTAMP DEFAULT NULL,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "deletedAt" TIMESTAMP DEFAULT NULL,
     CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
@@ -97,9 +97,9 @@ CREATE TABLE fixedCosts (
     monthlyWarrantyCost INTEGER,
     inspectionCost INTEGER,
     otherYearlyCosts INTEGER,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deletedAt TIMESTAMP DEFAULT NULL,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "deletedAt" TIMESTAMP DEFAULT NULL,
     CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
@@ -112,9 +112,9 @@ CREATE TABLE yearlyMaintenanceCosts (
     brakes DECIMAL(10, 2),
     other DECIMAL(10, 2),
     depreciation DECIMAL(10, 2),
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deletedAt TIMESTAMP DEFAULT NULL,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "deletedAt" TIMESTAMP DEFAULT NULL,
     CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
@@ -126,8 +126,8 @@ CREATE TABLE variableCosts (
     monthlyCarWashCost DECIMAL(10, 2),
     monthlyMiscellaneousCosts DECIMAL(10, 2),
     monthlyCostDeductions DECIMAL(10, 2),
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    deletedAt TIMESTAMP DEFAULT NULL,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "deletedAt" TIMESTAMP DEFAULT NULL,
     CONSTRAINT fk_vehicle FOREIGN KEY (vehicleID) REFERENCES vehicles(id) ON DELETE CASCADE
 );
