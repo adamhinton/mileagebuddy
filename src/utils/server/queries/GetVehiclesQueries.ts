@@ -42,45 +42,8 @@ export const getVehiclesByUserIdQuery = async (userId: string) => {
 	const supabase = await createClientSSROnly();
 	const vehicleInfoQuery = await supabase
 		.from("vehicles")
-		.select(
-			`
-		userid, type,
-
-		vehicledata(
-			vehicleid, vehiclename, year, make, model, trim, highwaympg
-		),
-
-		gasvehicledata(
-			vehicleid, gascostpergallon, milespergallonhighway, milespergalloncity
-		),
-
-		electricvehicledata(
-			vehicleid, costpercharge, milespercharge, electricrangemiles
-		),
-
-		purchaseandsales(
-			vehicleid, yearpurchased, purchaseprice, downpaymentamount, willsellcarafteryears, milesboughtat, willsellcaratmiles, willsellcaratprice
-		),
-
-		usage(
-			vehicleid, averagedailymiles, weeksperyear, percenthighway, extradistancemiles, extradistancepercenthighway
-		),
-
-		fixedcosts(
-			vehicleid, yearlyinsurancecost, yearlyregistrationcost, yearlytaxes, monthlyloanpayment, monthlywarrantycost, inspectioncost, otheryearlycosts
-		),
-
-		yearlymaintenancecosts(
-			vehicleid, oilchanges, tires, batteries, brakes, other, depreciation
-		),
-
-		variablecosts(
-			vehicleid, monthlyparkingcosts, monthlytolls, monthlycarwashcost, monthlymiscellaneouscosts, monthlycostdeductions
-		)
-
-		`
-		)
-		.eq("userid", userId);
+		.select(stringForJoiningVehicleTables)
+		.eq("userid", Number(userId));
 
 	return vehicleInfoQuery;
 };
