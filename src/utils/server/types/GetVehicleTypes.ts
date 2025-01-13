@@ -10,16 +10,9 @@ const supabase = await createClientSSROnly();
 
 const exampleGetVehiclesByUserQuery = getVehiclesByUserIdQuery("1");
 
+/**This is the same when getting one vehicle by id or multiple by user,
+ * because it always returns an array of vehicles -- even with length 1.
+ */
 export type VehiclesArrayReturnedFromDB = QueryData<
 	typeof exampleGetVehiclesByUserQuery
 >;
-
-const exampleGetSingleVehicleByIDQuery = getSingleVehicleByIdQuery(1);
-
-export type SingleVehicleFromDB = QueryData<
-	typeof exampleGetSingleVehicleByIDQuery
->;
-
-// const bob = {} as VehiclesReturnedFromDB;
-
-// bob[0].vehicledata?.highwaympg;
