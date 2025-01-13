@@ -38,9 +38,9 @@ CREATE TABLE vehicleData (
 CREATE TABLE gasVehicleData (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,
-    gasCostPerGallon DECIMAL(10, 2) NOT NULL,
-    milesPerGallonHighway DECIMAL(5, 2) NOT NULL,
-    milesPerGallonCity DECIMAL(5, 2) NOT NULL,
+    "gasCostPerGallon" DECIMAL(10, 2) NOT NULL,
+    "milesPerGallonHighway" DECIMAL(5, 2) NOT NULL,
+    "milesPerGallonCity" DECIMAL(5, 2) NOT NULL,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,

@@ -8,7 +8,7 @@ const stringForJoiningVehicleTables = `
 		),
 
 		gasvehicledata(
-			"vehicleID", gascostpergallon, milespergallonhighway, milespergalloncity
+			"vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
 		),
 
 		electricvehicledata(
