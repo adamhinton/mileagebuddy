@@ -50,11 +50,9 @@ export async function GET(
 	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
 		await GetUsersQuery;
 
-	if (error) throw error;
-
-	// if (error || !data || !data.length) {
-	// 	return NextResponse.json({ error: "User not found" }, { status: 404 });
-	// }
+	if (error || !data || !data.length) {
+		return NextResponse.json({ error: "User not found" }, { status: 404 });
+	}
 
 	return NextResponse.json(data);
 }
