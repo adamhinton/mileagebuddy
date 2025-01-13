@@ -4,7 +4,7 @@ const stringForJoiningVehicleTables = `
 		userid, type,
 
 		vehicledata(
-			"vehicleID", vehiclename, year, make, model, trim, highwaympg
+			"vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
 		),
 
 		gasvehicledata(

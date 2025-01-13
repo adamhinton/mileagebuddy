@@ -5,6 +5,8 @@
 -- - Each of these sub-tables references the `vehicles` table via `vehicleID`.
 -- - Cascade delete: When a user is deleted, all related vehicles will also be deleted.
 
+-- NOTE. IMPORTANT: Some table names and column names are wrapped in double quotes. This is to make them case sensitive, otherwise all keys returned from the backend would be lowercase which would be extremely annoying when trying to convert them to camel case for frontend use.
+
 CREATE TABLE vehicles (
     id SERIAL PRIMARY KEY,
     userID bigint NOT NULL,
@@ -14,18 +16,19 @@ CREATE TABLE vehicles (
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,
+    -- TODO: This may not associate correctly with userid
     CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE vehicleData (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,
-    vehicleName VARCHAR(255) NOT NULL,
+    "vehicleName" VARCHAR(255) NOT NULL,
     year INT NULL,
     make VARCHAR(255) NULL,
     model VARCHAR(255) NULL,
     trim VARCHAR(255) NULL,
-    highwayMPG DECIMAL(5, 2) NOT NULL,
+    "highwayMPG" DECIMAL(5, 2) NOT NULL,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,

@@ -1,3 +1,5 @@
+-- NOTE. IMPORTANT: Some table names and column names are wrapped in double quotes. This is to make them case sensitive, otherwise all keys returned from the backend would be lowercase which would be extremely annoying when trying to convert them to camel case for frontend use.
+
 -- TODO: Make sure this doesn't end up in prod db
 INSERT INTO "users" (email, "isDarkMode") VALUES
 ('TESTDUMMYTEST.smith@example.com', true),
@@ -16,7 +18,7 @@ VALUES
 ('1', 'electric', 1, NOW(), NOW()),
 ('1', 'electric', 1, NOW(), NOW());
 
-INSERT INTO vehicleData ("vehicleID", vehicleName, year, make, model, trim, highwayMPG, "createdAt", "updatedAt")
+INSERT INTO vehicleData ("vehicleID", "vehicleName", year, make, model, trim, "highwayMPG", "createdAt", "updatedAt")
 VALUES
 ('1', 'Ford Focus', 2020, 'Ford', 'Focus', 'SE', 35.5, NOW(), NOW()),
 ('2', 'Chevrolet Malibu', 2021, 'Chevrolet', 'Malibu', 'LT', 30.2, NOW(), NOW()),

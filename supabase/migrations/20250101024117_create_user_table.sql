@@ -1,4 +1,4 @@
--- NOTE: Some table names and column names are wrapped in double quotes because that makes them case sensitive. Otherwise they would be all lower case, whcih is annoying when converting them to camel case in frontend.
+-- NOTE. IMPORTANT: Some table names and column names are wrapped in double quotes. This is to make them case sensitive, otherwise all keys returned from the backend would be lowercase which would be extremely annoying when trying to convert them to camel case for frontend use.
 
 CREATE TABLE users (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
