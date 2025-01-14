@@ -2,7 +2,7 @@
 // README
 // This is a test file for the server-side API route /api/vehicles
 
-import { Vehicles } from "@/utils/server/types/GetVehicleTypes";
+import { Vehicle, Vehicles } from "@/utils/server/types/GetVehicleTypes";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { NextRequest } from "next/server";
 import { GET, POST } from "@/app/api/vehicles/route";
@@ -330,7 +330,7 @@ describe("POST /api/vehicles", () => {
 		},
 	];
 
-	it.only("Should create a vehicle then return the created vehicle object", async () => {
+	it("Should create a vehicle then return the created vehicle object", async () => {
 		// Mock the database call to 'insert_vehicle' to return a vehicleID
 		const mockInsertVehicle = jest
 			.fn()
@@ -373,5 +373,45 @@ describe("POST /api/vehicles", () => {
 		expect(responseData).toEqual(createdVehicle);
 
 		expect(mockInsertVehicle).toHaveBeenCalledTimes(1);
+	});
+
+	// There are a lot of required fields, we won't test all of them here, just spot-check
+	it.only("Should throw error if submitted without required fields", async () => {
+		const completeMockVehicle = mockVehicles[0];
+		const mockInsertVehicleWithoutAllFields: Vehicle = {
+			userid: 1,
+			type: "gas",
+			electricVehicleData: completeMockVehicle.electricVehicleData,
+			gasVehicleData: completeMockVehicle.gasVehicleData,
+			purchaseAndSales: completeMockVehicle.purchaseAndSales,
+			usage: completeMockVehicle.usage,
+			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
+			variableCosts: completeMockVehicle.variableCosts,
+			vehicleData: completeMockVehicle.vehicleData,
+		} as Vehicle;
+
+		const supabase = {
+			rpc: jest.fn().mockResolvedValue({ error: "error" }),
+			from: jest.fn().mockReturnValue({
+				select: jest.fn().mockReturnThis(),
+				eq: jest.fn().mockReturnThis(),
+				then: jest
+					.fn()
+					.mockImplementation((cb) => cb({ data: [], error: null })),
+			}),
+		};
+
+		const request = {
+			json: jest.fn().mockResolvedValue(mockInsertVehicleWithoutAllFields),
+			body: mockInsertVehicleWithoutAllFields,
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await POST(request);
+
+		expect(response.status).toBe(500);
+		expect(await response.json()).toEqual({
+			error: "Failed to insert vehicle data",
+		});
 	});
 });
