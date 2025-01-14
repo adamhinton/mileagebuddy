@@ -7,6 +7,9 @@
 
 -- NOTE. IMPORTANT: Some table names and column names are wrapped in double quotes. This is to make them case sensitive, otherwise all keys returned from the backend would be lowercase which would be extremely annoying when trying to convert them to camel case for frontend use.
 
+-- As of 1.14.2025, deleting a vehicle will also delete its sub tables.
+-- Haven't tested yet whether deleting a user deletes its vehicles (and sub tables)
+
 CREATE TABLE vehicles (
     id SERIAL PRIMARY KEY,
     userID bigint NOT NULL,

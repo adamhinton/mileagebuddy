@@ -121,6 +121,16 @@ export default function Page() {
 				Post Vehicle
 			</button>
 
+			<button
+				onClick={() =>
+					fetch("/api/vehicles?vehicleid=15", { method: "DELETE" })
+						.then((res) => res.json())
+						.then((data) => console.log("data from delete:", data))
+				}
+			>
+				DELETE vehicle
+			</button>
+
 			{/* GET api/vehicles */}
 
 			<button

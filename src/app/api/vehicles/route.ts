@@ -68,7 +68,9 @@ export async function GET(request: Request) {
 /** I wrote a DB function for this since it was complicated with all these different tables
  * See insert_vehicle_function.sql
  */
-export async function POST(request: Request) {
+export async function POST(
+	request: Request
+): Promise<NextResponse<Vehicle | { error: string }>> {
 	const supabase = await createClientSSROnly();
 
 	const body: Vehicle = await request.json();
@@ -119,6 +121,79 @@ export async function POST(request: Request) {
 		console.error("Error inserting vehicle data:", error);
 		return NextResponse.json(
 			{ error: "Failed to insert vehicle data" },
+			{ status: 500 }
+		);
+	}
+}
+
+export async function DELETE(
+	request: Request
+): Promise<NextResponse<Vehicle | { error: string }>> {
+	const supabase = await createClientSSROnly();
+	const url = new URL(request.url!);
+	const vehicleID = url.searchParams.get("vehicleid");
+
+	const isVehicleExistsInDB = await getSingleVehicleById(
+		supabase,
+		Number(vehicleID!)
+	);
+
+	if (isVehicleExistsInDB.length === 0) {
+		return NextResponse.json(
+			{ error: `Vehicle with id ${vehicleID} not found` },
+			{ status: 404 }
+		);
+	}
+
+	if (!vehicleID) {
+		return NextResponse.json(
+			{
+				error:
+					"vehicleid is required. Must be formatted like: /api/vehicles?vehicleid=2348",
+			},
+			{ status: 400 }
+		);
+	}
+
+	try {
+		const bobBefore = await supabase
+			.from("fixedCosts")
+			.select("*")
+			.eq("id", Number(vehicleID))
+			.select();
+
+		console.log("bobBefore:", bobBefore);
+
+		// Data will be an array of one vehicle
+		// This delete also deletes all sub tables due to ON DELETE CASCADE
+		const { data, error } = await supabase
+			.from("vehicles")
+			.delete()
+			.eq("id", Number(vehicleID))
+			.select();
+
+		// This should never happen, but TS needed to know data wouldn't be null
+		if (data === null || data.length === 0) {
+			return NextResponse.json(
+				{ error: `Vehicle with id ${vehicleID} not found` },
+				{ status: 404 }
+			);
+		}
+
+		// This will only be the data from the "vehicles" table
+		// But all other sub tables will be deleted as well
+		const deletedVehicle: Vehicle = data[0] as unknown as Vehicle;
+
+		console.log("deletedVehicle:", deletedVehicle);
+		if (error) throw error;
+		return NextResponse.json(deletedVehicle, {
+			status: 200,
+			statusText: "Vehicle deleted successfully",
+		});
+	} catch (error) {
+		console.error("Error deleting vehicle data:", error);
+		return NextResponse.json(
+			{ error: "Failed to delete vehicle data" },
 			{ status: 500 }
 		);
 	}
