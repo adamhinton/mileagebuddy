@@ -86,22 +86,31 @@ export async function POST(request: Request) {
 
 	try {
 		const { data, error } = await supabase.rpc("insert_vehicle", {
+			// These parameter names had to be all lower case to play nice with SQL
 			_userid: userid,
 			_type: type,
-			_vehiclesOrder: vehiclesOrder,
-			_vehicleData: vehicleData,
-			_gasVehicleData: gasVehicleData,
-			_electricVehicleData: electricVehicleData,
-			_purchaseAndSales: purchaseAndSales,
+			_vehiclesorder: vehiclesOrder,
+			_vehicledata: vehicleData,
+			_gasvehicledata: gasVehicleData,
+			_electricvehicledata: electricVehicleData,
+			_purchaseandsales: purchaseAndSales,
 			_usage: usage,
-			_fixedCosts: fixedCosts,
-			_yearlyMaintenanceCosts: yearlyMaintenanceCosts,
-			_variableCosts: variableCosts,
+			_fixedcosts: fixedCosts,
+			_yearlymaintenancecosts: yearlyMaintenanceCosts,
+			_variablecosts: variableCosts,
 		});
 
 		if (error) throw error;
 
-		return NextResponse.json(data, { status: 200 });
+		console.log("data in POST api/vehicle:", data);
+
+		const newVehicleID = data;
+
+		// getSingleVehicleById returns an array with one Vehicle
+		const newVehicleArray = await getSingleVehicleById(supabase, newVehicleID!);
+		const newVehicle = newVehicleArray[0];
+
+		return NextResponse.json(newVehicle, { status: 200 });
 	} catch (error) {
 		console.error("Error inserting vehicle data:", error);
 		return NextResponse.json(
@@ -109,6 +118,4 @@ export async function POST(request: Request) {
 			{ status: 500 }
 		);
 	}
-	// return res.status(405).json({ error: "Method not allowed" });
-	return NextResponse.json({ error: "Method not allowed" });
 }

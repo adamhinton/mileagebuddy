@@ -15,7 +15,6 @@ const mockVehicle = {
 	userid: 1,
 	vehiclesOrder: 1,
 	vehicleData: {
-		vehicleID: 2,
 		vehicleName: "Tesla Model 3",
 		year: 2020,
 		make: "Tesla",
@@ -24,13 +23,11 @@ const mockVehicle = {
 		highwayMPG: 35.5,
 	},
 	gasVehicleData: {
-		vehicleID: 2,
 		gasCostPerGallon: 3.5,
 		milesPerGallonHighway: 35.5,
 		milesPerGallonCity: 35.5,
 	},
 	purchaseAndSales: {
-		vehicleID: 2,
 		yearPurchased: 2020,
 		purchasePrice: 22000.0,
 		downPaymentAmount: 2000.0,
@@ -40,7 +37,6 @@ const mockVehicle = {
 		willSellCarAtPrice: 12000.0,
 	},
 	usage: {
-		vehicleID: 2,
 		averageDailyMiles: 100,
 		weeksPerYear: 52,
 		percentHighway: 0.5,
@@ -48,7 +44,6 @@ const mockVehicle = {
 		extraDistancePercentHighway: 0,
 	},
 	fixedCosts: {
-		vehicleID: 2,
 		yearlyInsuranceCost: 1000.0,
 		yearlyRegistrationCost: 100.0,
 		yearlyTaxes: 100.0,
@@ -58,7 +53,6 @@ const mockVehicle = {
 		otherYearlyCosts: 300.0,
 	},
 	yearlyMaintenanceCosts: {
-		vehicleID: 2,
 		oilChanges: 100.0,
 		tires: 200.0,
 		batteries: 300.0,
@@ -67,7 +61,6 @@ const mockVehicle = {
 		depreciation: 800.0,
 	},
 	variableCosts: {
-		vehicleID: 2,
 		monthlyParkingCosts: 100.0,
 		monthlyTolls: 50.0,
 		monthlyCarWashCost: 20.0,

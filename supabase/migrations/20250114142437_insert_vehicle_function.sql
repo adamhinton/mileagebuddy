@@ -1,9 +1,3 @@
--- README
--- Vehicles are complex objects, so we have multiple sub-tables storing data about vehicles.
--- See GetVehicleTypes.ts for more info about the type
--- This is a function to add a new Vehicle, inserting all its relevant values to the different tables
--- It only works if all inserts are successful; if not it rolls back all changes and throws error
-
 CREATE OR REPLACE FUNCTION insert_vehicle(
     _userID bigint,
     _type VARCHAR(10),
@@ -17,7 +11,7 @@ CREATE OR REPLACE FUNCTION insert_vehicle(
     _yearlyMaintenanceCosts jsonb,
     _variableCosts jsonb
 )
-RETURNS VOID AS $$
+RETURNS INTEGER AS $$  -- Return vehicleID
 DECLARE
     new_vehicle_id INTEGER;
 BEGIN
@@ -88,6 +82,7 @@ BEGIN
                 (_variableCosts->>'monthlyCostDeductions')::DECIMAL);
 
         -- Commit the transaction (this is implicit since we're using a transaction block)
+        RETURN new_vehicle_id;  -- Return the new vehicle ID
     EXCEPTION
         WHEN OTHERS THEN
             -- If any part fails, we roll back the transaction
