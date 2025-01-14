@@ -102,7 +102,7 @@ describe("GET /api/vehicles", () => {
 		},
 	];
 
-	it("Should return a list of vehicles", async () => {
+	it("Should return a list of vehicles by user id", async () => {
 		const mockDBCalls: jest.Mock = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnThis(),
 			eq: jest.fn().mockReturnThis(),
