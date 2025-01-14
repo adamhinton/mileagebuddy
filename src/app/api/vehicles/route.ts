@@ -163,8 +163,7 @@ export async function DELETE(
 			.from("vehicles")
 			.delete()
 			.eq("id", Number(vehicleID))
-			// This causes the delete statement to return the deleted vehicle
-			// Including data from sub tables
+			// This causes the delete statement to return the deleted vehicle, including data from sub tables
 			.select(stringForJoiningVehicleTables);
 
 		// This should never happen, but TS needed to know data wouldn't be null
