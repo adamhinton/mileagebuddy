@@ -1,5 +1,8 @@
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 
+// README
+// This file contains the strings for the db queries for GET api/vehicles
+
 /**The string we use in our select statement to get vehicles
  * It's longso we're saving it here to stay DRY
  * It just collects vehicle info from multiple tables in to one join

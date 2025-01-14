@@ -1,58 +1,9 @@
 import { NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { VehiclesArrayReturnedFromDB } from "@/utils/server/types/GetVehicleTypes";
 import {
-	getSingleVehicleByIdQuery,
-	getVehiclesByUserIdQuery,
-} from "@/utils/server/queries/GetVehiclesQueries";
-
-/**Looks up vehicle by id, assembles the data from the multiple sub-tables, and returns an array with just that vehicle*/
-async function getSingleVehicleById(
-	supabase: SupabaseClient,
-	vehicleId: number
-): Promise<VehiclesArrayReturnedFromDB> {
-	/**Vehicle data is stored in several different tables
-	 * This fetches data from each relevant table and joins it
-	 */
-
-	const vehicleInfoQuery = getSingleVehicleByIdQuery(vehicleId);
-
-	const { data, error } = await vehicleInfoQuery;
-
-	if (error) {
-		throw new Error("Error fetching vehicle data in TEST: " + error.message);
-	}
-
-	const vehicles: VehiclesArrayReturnedFromDB = data;
-
-	vehicles.map((vehicle, i) => {
-		console.log("vehicles[i]:", vehicles[i]);
-	});
-	console.log("error from test await vehicleInfoQuery:", error);
-
-	// Not sure why this thinks vehicleData is an empty object, works fine on frontend
-	// I'm sure I'll regret this when it crashes and breaks everything
-	return vehicles;
-}
-
-/** Get all vehicles belonging to a user */
-async function getVehiclesByUser(
-	supabase: SupabaseClient,
-	userId: number
-): Promise<VehiclesArrayReturnedFromDB> {
-	/** This is just the data from the vehicles table
-	 * There are several db tables that contain user data. Still need to aggregate all of them
-	 */
-	const vehiclesDataQuery = getVehiclesByUserIdQuery(String(userId));
-	const { data, error } = await vehiclesDataQuery;
-
-	if (error) {
-		throw new Error("Error fetching vehicle data in TEST: " + error.message);
-	}
-
-	return data;
-}
+	getSingleVehicleById,
+	getVehiclesByUser,
+} from "@/utils/server/queries/getVehicleUtils";
 
 // If vehicleid query parameter is passed in, it gets only that vehicle
 // if no vehicleid is passed in, it gets all vehicles for that user
