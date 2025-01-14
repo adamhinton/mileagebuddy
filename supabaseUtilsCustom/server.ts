@@ -11,6 +11,8 @@ import { Database } from "../database.types";
 /**
  * THIS ONLY WORKS IN SERVER COMPONENTS
  * THERE'S A DIFFERENT PROCESS IN CLIENT COMPONENTS, REFERENCE DOCS IF THERE'S NOT ALREADY A UTIL FOR THAT
+ * This creates a Supabase client, you use it to interact with db
+ * These are lightweight so it's fine to generate loads of them
  */
 export async function createClientSSROnly() {
 	const cookieStore = await cookies();

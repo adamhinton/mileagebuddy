@@ -3,7 +3,7 @@
 // As opposed to GetVehiclesQueries.ts in the same folder, which contains the strings of the db queries for GET
 
 import { SupabaseClient } from "@supabase/supabase-js";
-import { VehiclesArrayReturnedFromDB } from "../types/GetVehicleTypes";
+import { Vehicles } from "../types/GetVehicleTypes";
 import {
 	getSingleVehicleByIdQuery,
 	getVehiclesByUserIdQuery,
@@ -13,7 +13,7 @@ import {
 export async function getSingleVehicleById(
 	supabase: SupabaseClient,
 	vehicleId: number
-): Promise<VehiclesArrayReturnedFromDB> {
+): Promise<Vehicles> {
 	/**Vehicle data is stored in several different tables
 	 * This fetches data from each relevant table and joins it
 	 */
@@ -26,7 +26,7 @@ export async function getSingleVehicleById(
 		throw new Error("Error fetching vehicle data in TEST: " + error.message);
 	}
 
-	const vehicles: VehiclesArrayReturnedFromDB = data;
+	const vehicles: Vehicles = data;
 
 	vehicles.map((vehicle, i) => {
 		console.log("vehicles[i]:", vehicles[i]);
@@ -42,7 +42,7 @@ export async function getSingleVehicleById(
 export async function getVehiclesByUser(
 	supabase: SupabaseClient,
 	userId: number
-): Promise<VehiclesArrayReturnedFromDB> {
+): Promise<Vehicles> {
 	/** This is just the data from the vehicles table
 	 * There are several db tables that contain user data. Still need to aggregate all of them
 	 */

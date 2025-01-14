@@ -1,7 +1,7 @@
 // README
 // This is a test file for the server-side API route /api/vehicles
 
-import { VehiclesArrayReturnedFromDB } from "@/utils/server/types/GetVehicleTypes";
+import { Vehicles } from "@/utils/server/types/GetVehicleTypes";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { NextRequest } from "next/server";
 import { GET } from "@/app/api/vehicles/route";
@@ -32,7 +32,7 @@ jest.mock("next/server", () => ({
 describe("GET /api/vehicles", () => {
 	beforeEach(() => {});
 
-	const mockVehicles: VehiclesArrayReturnedFromDB = [
+	const mockVehicles: Vehicles = [
 		{
 			type: "gas",
 			userid: 1,
