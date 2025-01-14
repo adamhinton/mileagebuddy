@@ -480,7 +480,22 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      insert_vehicle: {
+        Args: {
+          _userid: number
+          _type: string
+          _vehiclesorder: number
+          _vehicledata: Json
+          _gasvehicledata: Json
+          _electricvehicledata: Json
+          _purchaseandsales: Json
+          _usage: Json
+          _fixedcosts: Json
+          _yearlymaintenancecosts: Json
+          _variablecosts: Json
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

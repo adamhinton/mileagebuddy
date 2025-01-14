@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import {
 	getSingleVehicleById,
 	getVehiclesByUser,
 } from "@/utils/server/queries/getVehicleUtils";
+import { Vehicle } from "@/utils/server/types/GetVehicleTypes";
+import { Database, Tables } from "../../../../database.types";
 
 // If vehicleid query parameter is passed in, it gets only that vehicle
 // if no vehicleid is passed in, it gets all vehicles for that user
@@ -65,5 +68,47 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
 	const supabase = await createClientSSROnly();
 
-	// const body:  = await request.json();
+	const body: Vehicle = await request.json();
+
+	const {
+		userid,
+		type,
+		vehiclesOrder,
+		vehicleData,
+		gasVehicleData,
+		electricVehicleData,
+		purchaseAndSales,
+		usage,
+		fixedCosts,
+		yearlyMaintenanceCosts,
+		variableCosts,
+	} = body;
+
+	try {
+		const { data, error } = await supabase.rpc("insert_vehicle", {
+			_userid: userid,
+			_type: type,
+			_vehiclesOrder: vehiclesOrder,
+			_vehicleData: vehicleData,
+			_gasVehicleData: gasVehicleData,
+			_electricVehicleData: electricVehicleData,
+			_purchaseAndSales: purchaseAndSales,
+			_usage: usage,
+			_fixedCosts: fixedCosts,
+			_yearlyMaintenanceCosts: yearlyMaintenanceCosts,
+			_variableCosts: variableCosts,
+		});
+
+		if (error) throw error;
+
+		return NextResponse.json(data, { status: 200 });
+	} catch (error) {
+		console.error("Error inserting vehicle data:", error);
+		return NextResponse.json(
+			{ error: "Failed to insert vehicle data" },
+			{ status: 500 }
+		);
+	}
+	// return res.status(405).json({ error: "Method not allowed" });
+	return NextResponse.json({ error: "Method not allowed" });
 }
