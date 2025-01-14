@@ -31,146 +31,78 @@ jest.mock("next/server", () => ({
 
 describe("GET /api/vehicles", () => {
 	beforeEach(() => {});
-	it("Should return a list of vehicles", async () => {
-		const mockVehicles: VehiclesArrayReturnedFromDB = [
-			{
-				type: "gas",
-				userid: 1,
-				id: 1,
-				vehiclesOrder: 1,
-				vehicleData: {
-					vehicleID: 1,
-					vehicleName: "Ford Focus",
-					year: 2020,
-					make: "Ford",
-					model: "Focus",
-					trim: "SE",
-					highwayMPG: 35.5,
-				},
-				gasVehicleData: {
-					vehicleID: 1,
-					gasCostPerGallon: 3.5,
-					milesPerGallonHighway: 35.5,
-					milesPerGallonCity: 35.5,
-				},
-				purchaseAndSales: {
-					vehicleID: 1,
-					yearPurchased: 2020,
-					purchasePrice: 22000.0,
-					downPaymentAmount: 2000.0,
-					willSellCarAfterYears: 5,
-					milesBoughtAt: 10000,
-					willSellCarAtMiles: 80000,
-					willSellCarAtPrice: 12000.0,
-				},
-				usage: {
-					vehicleID: 1,
-					averageDailyMiles: 100,
-					weeksPerYear: 52,
-					percentHighway: 0.5,
-					extraDistanceMiles: 0,
-					extraDistancePercentHighway: 0,
-				},
-				fixedCosts: {
-					vehicleID: 1,
-					yearlyInsuranceCost: 1000.0,
-					yearlyRegistrationCost: 100.0,
-					yearlyTaxes: 100.0,
-					monthlyLoanPayment: 300.0,
-					monthlyWarrantyCost: 30.0,
-					inspectionCost: 100.0,
-					otherYearlyCosts: 300.0,
-				},
-				yearlyMaintenanceCosts: {
-					vehicleID: 1,
-					oilChanges: 100.0,
-					tires: 200.0,
-					batteries: 300.0,
-					brakes: 100.0,
-					other: 100.0,
-					depreciation: 800.0,
-				},
-				variableCosts: {
-					// realistic numbers
-					vehicleID: 1,
-					monthlyParkingCosts: 100.0,
-					monthlyTolls: 50.0,
-					monthlyCarWashCost: 20.0,
-					monthlyMiscellaneousCosts: 50.0,
-					monthlyCostDeductions: 80.0,
-				},
-				electricVehicleData: null,
-			},
-			{
-				type: "electric",
-				userid: 1,
-				id: 2,
-				vehiclesOrder: 2,
-				vehicleData: {
-					vehicleID: 2,
-					vehicleName: "Nissan Leaf",
-					year: 2020,
-					make: "Nissan",
-					model: "Leaf",
-					trim: "SE",
-					highwayMPG: 35.5,
-				},
-				gasVehicleData: null,
-				purchaseAndSales: {
-					vehicleID: 2,
-					yearPurchased: 2020,
-					purchasePrice: 22000.0,
-					downPaymentAmount: 2000.0,
-					willSellCarAfterYears: 5,
-					milesBoughtAt: 10000,
-					willSellCarAtMiles: 80000,
-					willSellCarAtPrice: 12000.0,
-				},
-				usage: {
-					vehicleID: 2,
-					averageDailyMiles: 100,
-					weeksPerYear: 52,
-					percentHighway: 0.5,
-					extraDistanceMiles: 0,
-					extraDistancePercentHighway: 0,
-				},
-				fixedCosts: {
-					vehicleID: 2,
-					yearlyInsuranceCost: 1000.0,
-					yearlyRegistrationCost: 100.0,
-					yearlyTaxes: 100.0,
-					monthlyLoanPayment: 300.0,
-					monthlyWarrantyCost: 30.0,
-					inspectionCost: 100.0,
-					otherYearlyCosts: 300.0,
-				},
-				yearlyMaintenanceCosts: {
-					vehicleID: 2,
-					oilChanges: 100.0,
-					tires: 200.0,
-					batteries: 300.0,
-					brakes: 100.0,
-					other: 100.0,
-					depreciation: 800.0,
-				},
-				variableCosts: {
-					// realistic numbers
-					vehicleID: 2,
-					monthlyParkingCosts: 100.0,
-					monthlyTolls: 50.0,
-					monthlyCarWashCost: 20.0,
-					monthlyMiscellaneousCosts: 50.0,
-					monthlyCostDeductions: 80.0,
-				},
-				electricVehicleData: {
-					vehicleID: 2,
-					costPerCharge: 3.5,
-					milesPerCharge: 35.5,
-					electricRangeMiles: 35.5,
-				},
-			},
-		];
 
+	const mockVehicles: VehiclesArrayReturnedFromDB = [
+		{
+			type: "gas",
+			userid: 1,
+			id: 1,
+			vehiclesOrder: 1,
+			vehicleData: {
+				vehicleID: 1,
+				vehicleName: "Tesla Model 3",
+				year: 2020,
+				make: "Tesla",
+				model: "Model 3",
+				trim: "Base",
+				highwayMPG: 35.5,
+			},
+			gasVehicleData: {
+				vehicleID: 1,
+				gasCostPerGallon: 3.5,
+				milesPerGallonHighway: 35.5,
+				milesPerGallonCity: 35.5,
+			},
+			purchaseAndSales: {
+				vehicleID: 1,
+				yearPurchased: 2020,
+				purchasePrice: 22000.0,
+				downPaymentAmount: 2000.0,
+				willSellCarAfterYears: 5,
+				milesBoughtAt: 10000,
+				willSellCarAtMiles: 80000,
+				willSellCarAtPrice: 12000.0,
+			},
+			usage: {
+				vehicleID: 1,
+				averageDailyMiles: 100,
+				weeksPerYear: 52,
+				percentHighway: 0.5,
+				extraDistanceMiles: 0,
+				extraDistancePercentHighway: 0,
+			},
+			fixedCosts: {
+				vehicleID: 1,
+				yearlyInsuranceCost: 1000.0,
+				yearlyRegistrationCost: 100.0,
+				yearlyTaxes: 100.0,
+				monthlyLoanPayment: 300.0,
+				monthlyWarrantyCost: 30.0,
+				inspectionCost: 100.0,
+				otherYearlyCosts: 300.0,
+			},
+			yearlyMaintenanceCosts: {
+				vehicleID: 1,
+				oilChanges: 100.0,
+				tires: 200.0,
+				batteries: 300.0,
+				brakes: 100.0,
+				other: 100.0,
+				depreciation: 800.0,
+			},
+			variableCosts: {
+				vehicleID: 1,
+				monthlyParkingCosts: 100.0,
+				monthlyTolls: 50.0,
+				monthlyCarWashCost: 20.0,
+				monthlyMiscellaneousCosts: 50.0,
+				monthlyCostDeductions: 80.0,
+			},
+			electricVehicleData: null,
+		},
+	];
+
+	it("Should return a list of vehicles", async () => {
 		const mockDBCalls: jest.Mock = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnThis(),
 			eq: jest.fn().mockReturnThis(),
@@ -204,81 +136,13 @@ describe("GET /api/vehicles", () => {
 	});
 
 	it("Should return an array with one vehicle when called with /vehicles?userid=x&vehicleid=y", async () => {
-		const mockVehicles: VehiclesArrayReturnedFromDB = [
-			{
-				type: "gas",
-				userid: 1,
-				id: 1,
-				vehiclesOrder: 1,
-				vehicleData: {
-					vehicleID: 1,
-					vehicleName: "Tesla Model 3",
-					year: 2020,
-					make: "Tesla",
-					model: "Model 3",
-					trim: "Base",
-					highwayMPG: 35.5,
-				},
-				gasVehicleData: {
-					vehicleID: 1,
-					gasCostPerGallon: 3.5,
-					milesPerGallonHighway: 35.5,
-					milesPerGallonCity: 35.5,
-				},
-				purchaseAndSales: {
-					vehicleID: 1,
-					yearPurchased: 2020,
-					purchasePrice: 22000.0,
-					downPaymentAmount: 2000.0,
-					willSellCarAfterYears: 5,
-					milesBoughtAt: 10000,
-					willSellCarAtMiles: 80000,
-					willSellCarAtPrice: 12000.0,
-				},
-				usage: {
-					vehicleID: 1,
-					averageDailyMiles: 100,
-					weeksPerYear: 52,
-					percentHighway: 0.5,
-					extraDistanceMiles: 0,
-					extraDistancePercentHighway: 0,
-				},
-				fixedCosts: {
-					vehicleID: 1,
-					yearlyInsuranceCost: 1000.0,
-					yearlyRegistrationCost: 100.0,
-					yearlyTaxes: 100.0,
-					monthlyLoanPayment: 300.0,
-					monthlyWarrantyCost: 30.0,
-					inspectionCost: 100.0,
-					otherYearlyCosts: 300.0,
-				},
-				yearlyMaintenanceCosts: {
-					vehicleID: 1,
-					oilChanges: 100.0,
-					tires: 200.0,
-					batteries: 300.0,
-					brakes: 100.0,
-					other: 100.0,
-					depreciation: 800.0,
-				},
-				variableCosts: {
-					vehicleID: 1,
-					monthlyParkingCosts: 100.0,
-					monthlyTolls: 50.0,
-					monthlyCarWashCost: 20.0,
-					monthlyMiscellaneousCosts: 50.0,
-					monthlyCostDeductions: 80.0,
-				},
-				electricVehicleData: null,
-			},
-		];
-
 		const mockDBCalls: jest.Mock = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnThis(),
 			eq: jest.fn().mockReturnThis(),
 			then: jest.fn().mockImplementation((callback) => {
-				return Promise.resolve(callback({ data: mockVehicles, error: null }));
+				return Promise.resolve(
+					callback({ data: [mockVehicles[0]], error: null })
+				);
 			}),
 		});
 
@@ -298,7 +162,7 @@ describe("GET /api/vehicles", () => {
 
 		const responseData = await response.json();
 
-		expect(responseData).toEqual(mockVehicles);
+		expect(responseData).toEqual([mockVehicles[0]]);
 		expect(mockDBCalls).toHaveBeenCalledWith("vehicles");
 		expect(mockDBCalls().select).toHaveBeenCalledWith(
 			stringForJoiningVehicleTables
