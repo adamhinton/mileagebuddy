@@ -228,4 +228,31 @@ describe("GET /api/vehicles", () => {
 			error: "Vehicle with id 2348 not found for user with id 1",
 		});
 	});
+
+	it("Should return empty array if no vehicles found for specified user id", async () => {
+		const mockDBCalls: jest.Mock = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnThis(),
+			eq: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(callback({ data: [], error: null }));
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
+
+		const request = {
+			url: "http://localhost:3000/api/vehicles?userid=3",
+		} as NextRequest;
+
+		const response = await GET({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextRequest);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual([]);
+	});
 });
