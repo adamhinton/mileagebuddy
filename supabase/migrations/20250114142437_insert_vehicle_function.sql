@@ -24,7 +24,7 @@ BEGIN
     -- Begin a transaction block
     BEGIN
         -- Insert into the vehicles table
-        INSERT INTO vehicles("userID", "type", "vehiclesOrder")
+        INSERT INTO vehicles("userid", "type", "vehiclesOrder")
         VALUES (_userID, _type, _vehiclesOrder)
         RETURNING id INTO new_vehicle_id;
 
