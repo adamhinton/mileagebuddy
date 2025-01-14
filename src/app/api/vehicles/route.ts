@@ -7,6 +7,7 @@ import {
 } from "@/utils/server/queries/getVehicleUtils";
 import { Vehicle } from "@/utils/server/types/GetVehicleTypes";
 import { Database, Tables } from "../../../../database.types";
+import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehiclesQueries";
 
 // If vehicleid query parameter is passed in, it gets only that vehicle
 // if no vehicleid is passed in, it gets all vehicles for that user
@@ -156,21 +157,15 @@ export async function DELETE(
 	}
 
 	try {
-		const bobBefore = await supabase
-			.from("fixedCosts")
-			.select("*")
-			.eq("id", Number(vehicleID))
-			.select();
-
-		console.log("bobBefore:", bobBefore);
-
 		// Data will be an array of one vehicle
 		// This delete also deletes all sub tables due to ON DELETE CASCADE
 		const { data, error } = await supabase
 			.from("vehicles")
 			.delete()
 			.eq("id", Number(vehicleID))
-			.select();
+			// This causes the delete statement to return the deleted vehicle
+			// Including data from sub tables
+			.select(stringForJoiningVehicleTables);
 
 		// This should never happen, but TS needed to know data wouldn't be null
 		if (data === null || data.length === 0) {
@@ -180,8 +175,6 @@ export async function DELETE(
 			);
 		}
 
-		// This will only be the data from the "vehicles" table
-		// But all other sub tables will be deleted as well
 		const deletedVehicle: Vehicle = data[0] as unknown as Vehicle;
 
 		console.log("deletedVehicle:", deletedVehicle);

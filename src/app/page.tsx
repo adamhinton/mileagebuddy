@@ -123,7 +123,7 @@ export default function Page() {
 
 			<button
 				onClick={() =>
-					fetch("/api/vehicles?vehicleid=15", { method: "DELETE" })
+					fetch("/api/vehicles?vehicleid=17", { method: "DELETE" })
 						.then((res) => res.json())
 						.then((data) => console.log("data from delete:", data))
 				}
