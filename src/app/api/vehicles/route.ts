@@ -65,6 +65,9 @@ export async function GET(request: Request) {
 	}
 }
 
+/** I wrote a DB function for this since it was complicated with all these different tables
+ * See insert_vehicle_function.sql
+ */
 export async function POST(request: Request) {
 	const supabase = await createClientSSROnly();
 
@@ -85,6 +88,7 @@ export async function POST(request: Request) {
 	} = body;
 
 	try {
+		// Wrote db function insert_vehicle_function.sql for this
 		const { data, error } = await supabase.rpc("insert_vehicle", {
 			// These parameter names had to be all lower case to play nice with SQL
 			_userid: userid,
