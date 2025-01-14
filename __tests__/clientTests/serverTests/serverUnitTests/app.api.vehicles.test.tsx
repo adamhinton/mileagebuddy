@@ -416,7 +416,7 @@ describe("POST /api/vehicles", () => {
 		});
 	});
 
-	it.only("Should insert fine if gasVehicleData is null OR electricVehicleData is null but electricVehicleData isn't", async () => {
+	it("Should insert fine if electricVehicleData is null  but gasVehicleData isn't", async () => {
 		const completeMockVehicle = mockVehicles[0];
 		const vehicleWithNullElectricVehicleData: Vehicle = {
 			userid: 1,
@@ -457,5 +457,49 @@ describe("POST /api/vehicles", () => {
 
 		expect(response.status).toBe(200);
 		expect(responseData).toEqual(vehicleWithNullElectricVehicleData);
+	});
+
+	it.only("Should insert fine if gasVehicleData is null  but electricVehicleData isn't", async () => {
+		const completeMockVehicle = mockVehicles[0];
+		const vehicleWithNullGasVehicleData: Vehicle = {
+			userid: 1,
+			type: "gas",
+			vehiclesOrder: 1,
+			vehicleData: completeMockVehicle.vehicleData,
+			electricVehicleData: null,
+			gasVehicleData: null,
+			purchaseAndSales: completeMockVehicle.purchaseAndSales,
+			usage: completeMockVehicle.usage,
+			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
+			variableCosts: completeMockVehicle.variableCosts,
+			fixedCosts: completeMockVehicle.fixedCosts,
+		} as Vehicle;
+
+		const supabase = {
+			rpc: jest.fn().mockResolvedValue({ data: 1 }),
+			from: jest.fn().mockReturnValue({
+				select: jest.fn().mockReturnThis(),
+				eq: jest.fn().mockReturnThis(),
+				then: jest
+					.fn()
+					.mockImplementation((cb) =>
+						cb({ data: [vehicleWithNullGasVehicleData], error: null })
+					),
+			}),
+		};
+
+		(createClientSSROnly as jest.Mock).mockReturnValue(supabase);
+
+		const request = {
+			json: jest.fn().mockResolvedValue(vehicleWithNullGasVehicleData),
+			body: vehicleWithNullGasVehicleData,
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await POST(request);
+		const responseData = await response.json();
+
+		expect(response.status).toBe(200);
+		expect(responseData).toEqual(vehicleWithNullGasVehicleData);
 	});
 });
