@@ -199,4 +199,33 @@ describe("GET /api/vehicles", () => {
 				"userid is required. Must be formatted like: /api/vehicles?userid=2348. Or, optionally, api/vehicles?userid=1234&vehicleid=2348",
 		});
 	});
+
+	it("Should return an error on invalid vehicle id", async () => {
+		const mockDBCalls: jest.Mock = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnThis(),
+			eq: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(callback({ data: [], error: null }));
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
+
+		const request = {
+			url: "http://localhost:3000/api/vehicles?userid=1&vehicleid=2348",
+		} as NextRequest;
+
+		const response = await GET({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextRequest);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual({
+			error: "Vehicle with id 2348 not found for user with id 1",
+		});
+	});
 });

@@ -7,7 +7,7 @@ import {
 	getVehiclesByUserIdQuery,
 } from "@/utils/server/queries/GetVehiclesQueries";
 
-/**Looks up vehicle by id, assembles the data from the multiple sub-tables, and returns it */
+/**Looks up vehicle by id, assembles the data from the multiple sub-tables, and returns an array with just that vehicle*/
 async function getSingleVehicleById(
 	supabase: SupabaseClient,
 	vehicleId: number
@@ -84,9 +84,17 @@ export async function GET(request: Request) {
 		if (vehicleID) {
 			console.log("vehicleid:", vehicleID);
 			// Fetch details of a single vehicle by its ID
-			const vehicle = await getSingleVehicleById(supabase, Number(vehicleID));
-			console.log("vehicle from getSingleVehicleById:", vehicle);
-			return NextResponse.json(vehicle, { status: 200 });
+			const arrayWithSingleVehicle = await getSingleVehicleById(
+				supabase,
+				Number(vehicleID)
+			);
+			console.log("vehicle from getSingleVehicleById:", arrayWithSingleVehicle);
+			if (arrayWithSingleVehicle.length === 0) {
+				return NextResponse.json({
+					error: `Vehicle with id ${vehicleID} not found for user with id ${userID}`,
+				});
+			}
+			return NextResponse.json(arrayWithSingleVehicle, { status: 200 });
 		} else {
 			// Fetch all vehicles for the given user
 			const vehicles = await getVehiclesByUser(supabase, Number(userID));
