@@ -1,7 +1,11 @@
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 
-const stringForJoiningVehicleTables = `
-		userid, type,
+/**The string we use in our select statement to get vehicles
+ * It's longso we're saving it here to stay DRY
+ * It just collects vehicle info from multiple tables in to one join
+ */
+export const stringForJoiningVehicleTables = `
+		userid, type, id, "vehiclesOrder",
 
 		"vehicleData"(
 			"vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
