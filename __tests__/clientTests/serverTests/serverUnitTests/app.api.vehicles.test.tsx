@@ -169,4 +169,34 @@ describe("GET /api/vehicles", () => {
 		);
 		expect(mockDBCalls().eq).toHaveBeenCalledWith("id", 1);
 	});
+
+	it("Should return an error on invalid user id", async () => {
+		const mockDBCalls: jest.Mock = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnThis(),
+			eq: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(callback({ data: [], error: null }));
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
+
+		const request = {
+			url: "http://localhost:3000/api/vehicles",
+		} as NextRequest;
+
+		const response = await GET({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextRequest);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual({
+			error:
+				"userid is required. Must be formatted like: /api/vehicles?userid=2348. Or, optionally, api/vehicles?userid=1234&vehicleid=2348",
+		});
+	});
 });
