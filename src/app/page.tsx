@@ -3,7 +3,7 @@
 import { User } from "@/zod/schemas/UserSchema";
 import { useEffect, useState } from "react";
 import { Tables } from "../../database.types";
-import { Vehicles } from "@/utils/server/types/GetVehicleTypes";
+import { Vehicle, Vehicles } from "@/utils/server/types/GetVehicleTypes";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
@@ -107,6 +107,35 @@ export default function Page() {
 	return (
 		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center dark: bg-bl">
 			{/* dummy button to POST api/vehicles with mockVehicle */}
+
+			{/* PATCH api/vehicles with dummy Vehicle */}
+			<button
+				onClick={async () => {
+					const partialMockVehicle: Partial<Vehicle> = {
+						type: "gas",
+						userid: 1,
+						vehiclesOrder: 20,
+						vehicleData: {
+							vehicleName: "Hooba Stank",
+							year: 202342,
+							make: "fsdafasfsa",
+							model: "fsdfasfsa",
+							trim: "fsdfasfsa",
+							highwayMPG: 3434345.5,
+							vehicleID: 1,
+						},
+					};
+
+					const res = await fetch("api/vehicles?vehicleid=1", {
+						method: "PATCH",
+						body: JSON.stringify(partialMockVehicle),
+					});
+					const data = await res.json();
+					console.log("data from PATCH vehicles:", data);
+				}}
+			>
+				PATCH vehicle
+			</button>
 
 			<button
 				onClick={async () => {

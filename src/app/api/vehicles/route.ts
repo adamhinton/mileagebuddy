@@ -6,7 +6,6 @@ import {
 	getVehiclesByUser,
 } from "@/utils/server/queries/getVehicleUtils";
 import { Vehicle } from "@/utils/server/types/GetVehicleTypes";
-import { Database, Tables } from "../../../../database.types";
 import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehiclesQueries";
 
 // If vehicleid query parameter is passed in, it gets only that vehicle
@@ -66,6 +65,7 @@ export async function GET(request: Request) {
 	}
 }
 
+// TODO: Vehicle validation middleware
 /** I wrote a DB function for this since it was complicated with all these different tables
  * See insert_vehicle_function.sql
  */
@@ -190,4 +190,59 @@ export async function DELETE(
 	}
 }
 
-export async function PUT(request: Request) {}
+// TODO: Vehicle validation
+export async function PATCH(request: Request) {
+	const supabase = await createClientSSROnly();
+	const url = new URL(request.url!);
+	const vehicleID = url.searchParams.get("vehicleid");
+
+	if (!vehicleID) {
+		return NextResponse.json({
+			error:
+				"vehicleid is required. Must be formatted like: /api/vehicles?vehicleid=2348",
+		});
+	}
+
+	const body = await request.json();
+	const updatedPartialVehicle: Partial<Vehicle> = body;
+
+	// Some fields will be null
+	// Only the fields that are being updated will exist
+	const {
+		type,
+		vehiclesOrder,
+		vehicleData,
+		gasVehicleData,
+		electricVehicleData,
+		purchaseAndSales,
+		usage,
+		fixedCosts,
+		yearlyMaintenanceCosts,
+		variableCosts,
+	} = updatedPartialVehicle;
+
+	console.log("updatedPartialVehicle:", updatedPartialVehicle);
+	console.log(
+		"JSON.stringify(updatedPartialVehicle):",
+		JSON.stringify(updatedPartialVehicle)
+	);
+
+	try {
+		console.log("blah blah blah34324");
+		const { data, error } = await supabase.rpc("update_vehicle", {
+			_vehicleid: Number(vehicleID),
+			_partialdata: JSON.stringify(updatedPartialVehicle),
+		});
+		console.log("data in PATCH api/vehicle:", data);
+		console.log("error in PATCH api/vehicle:", error);
+		if (error) throw error;
+
+		return NextResponse.json(data, { status: 200 });
+	} catch (error) {
+		console.error("Error updating vehicle data:", error);
+		return NextResponse.json(
+			{ error: "Failed to update vehicle data" },
+			{ status: 500 }
+		);
+	}
+}
