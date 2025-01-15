@@ -645,4 +645,38 @@ describe("DELETE /api/vehicles", () => {
 		expect(response.status).toBe(200);
 		expect(responseData).toEqual(mockVehicles[0]);
 	});
+
+	it.only("Should reject calls without a vehicleid query param", async () => {
+		const supabase = {
+			from: jest.fn().mockReturnValue({
+				select: jest.fn().mockReturnValue({
+					eq: jest
+						.fn()
+						.mockResolvedValue({ data: [mockVehicles[0]], error: null }),
+				}),
+				delete: jest.fn().mockReturnValue({
+					eq: jest.fn().mockReturnValue({
+						select: jest.fn().mockResolvedValue({
+							data: [mockVehicles[0]],
+							error: null,
+						}),
+					}),
+				}),
+			}),
+		};
+		(createClientSSROnly as jest.Mock).mockReturnValue(supabase);
+
+		const request = {
+			url: "http://localhost:3000/api/vehicles",
+		} as NextRequest;
+
+		const response = await DELETE(request);
+		const responseData = await response.json();
+
+		expect(response.status).toBe(400);
+		expect(responseData).toEqual({
+			error:
+				"vehicleid is required. Must be formatted like: /api/vehicles?vehicleid=2348",
+		});
+	});
 });
