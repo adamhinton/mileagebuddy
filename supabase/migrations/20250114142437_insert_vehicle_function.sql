@@ -15,14 +15,11 @@ RETURNS INTEGER AS $$  -- Return vehicleID
 DECLARE
     new_vehicle_id INTEGER;
 BEGIN
-    -- Begin a transaction block
     BEGIN
-        -- Insert into the vehicles table
         INSERT INTO vehicles("userid", "type", "vehiclesOrder")
         VALUES (_userID, _type, _vehiclesOrder)
         RETURNING id INTO new_vehicle_id;
 
-        -- Insert vehicleData (can be applied for all vehicles)
         INSERT INTO "vehicleData" ("vehicleID", "vehicleName", "year", "make", "model", "trim", "highwayMPG")
         VALUES (new_vehicle_id, _vehicleData->>'vehicleName', (_vehicleData->>'year')::INT, _vehicleData->>'make', 
                 _vehicleData->>'model', _vehicleData->>'trim', (_vehicleData->>'highwayMPG')::DECIMAL);
@@ -43,7 +40,6 @@ BEGIN
                     (_electricVehicleData->>'electricRangeMiles')::DECIMAL);
         END IF;
 
-        -- Insert into purchaseAndSales table
         INSERT INTO "purchaseAndSales" ("vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", 
                                         "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", 
                                         "willSellCarAtPrice")
@@ -52,14 +48,12 @@ BEGIN
                 (_purchaseAndSales->>'milesBoughtAt')::DECIMAL, (_purchaseAndSales->>'willSellCarAtMiles')::DECIMAL,
                 (_purchaseAndSales->>'willSellCarAtPrice')::DECIMAL);
 
-        -- Insert into usage table
         INSERT INTO usage ("vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", 
                            "extraDistanceMiles", "extraDistancePercentHighway")
         VALUES (new_vehicle_id, (_usage->>'averageDailyMiles')::DECIMAL, (_usage->>'weeksPerYear')::INT,
                 (_usage->>'percentHighway')::DECIMAL, (_usage->>'extraDistanceMiles')::DECIMAL,
                 (_usage->>'extraDistancePercentHighway')::DECIMAL);
 
-        -- Insert into fixedCosts table
         INSERT INTO "fixedCosts" ("vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", 
                                   "yearlyParkingCost", "monthlyLoanPayment", "monthlyWarrantyCost", 
                                   "inspectionCost", "otherYearlyCosts")
@@ -68,13 +62,11 @@ BEGIN
                 (_fixedCosts->>'monthlyLoanPayment')::INT, (_fixedCosts->>'monthlyWarrantyCost')::INT,
                 (_fixedCosts->>'inspectionCost')::INT, (_fixedCosts->>'otherYearlyCosts')::INT);
 
-        -- Insert into yearlyMaintenanceCosts table
         INSERT INTO "yearlyMaintenanceCosts" ("vehicleID", "oilChanges", "tires", "batteries", "brakes", "other", "depreciation")
         VALUES (new_vehicle_id, (_yearlyMaintenanceCosts->>'oilChanges')::DECIMAL, (_yearlyMaintenanceCosts->>'tires')::DECIMAL,
                 (_yearlyMaintenanceCosts->>'batteries')::DECIMAL, (_yearlyMaintenanceCosts->>'brakes')::DECIMAL,
                 (_yearlyMaintenanceCosts->>'other')::DECIMAL, (_yearlyMaintenanceCosts->>'depreciation')::DECIMAL);
 
-        -- Insert into variableCosts table
         INSERT INTO "variableCosts" ("vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", 
                                      "monthlyMiscellaneousCosts", "monthlyCostDeductions")
         VALUES (new_vehicle_id, (_variableCosts->>'monthlyParkingCosts')::DECIMAL, (_variableCosts->>'monthlyTolls')::DECIMAL,
