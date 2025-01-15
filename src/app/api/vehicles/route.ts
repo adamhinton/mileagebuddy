@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import {
@@ -39,16 +38,21 @@ export async function GET(request: Request) {
 		if (vehicleID) {
 			console.log("vehicleid:", vehicleID);
 			// Fetch details of a single vehicle by its ID
+			/**
+			 * Will be an array with one vehicle if vehicle exists in db, or empty array if vehicle isn't in db
+			 */
 			const arrayWithSingleVehicle = await getSingleVehicleById(
 				supabase,
 				Number(vehicleID)
 			);
-			console.log("vehicle from getSingleVehicleById:", arrayWithSingleVehicle);
+
 			if (arrayWithSingleVehicle.length === 0) {
-				return NextResponse.json({
-					error: `Vehicle with id ${vehicleID} not found for user with id ${userID}`,
-				});
+				return NextResponse.json(
+					{ error: `Vehicle with id ${vehicleID} not found` },
+					{ status: 404 }
+				);
 			}
+
 			return NextResponse.json(arrayWithSingleVehicle, { status: 200 });
 		} else {
 			// Fetch all vehicles for the given user
@@ -118,7 +122,7 @@ export async function POST(
 		const newVehicleArray = await getSingleVehicleById(supabase, newVehicleID!);
 		const newVehicle = newVehicleArray[0];
 
-		return NextResponse.json(newVehicle, { status: 200 });
+		return NextResponse.json(newVehicle!, { status: 200 });
 	} catch (error) {
 		console.error("Error inserting vehicle data:", error);
 		return NextResponse.json(
@@ -192,6 +196,13 @@ export async function DELETE(
 }
 
 // TODO: Vehicle validation
+/**
+ * This takes in a Partial<Vehicle>
+ * So you don't have to include all data, obviously
+ * Only the tables included in the Partial<Vehicle> will be updated in the db
+ * This endpoint calls the db function update_vehicle which does most of the heavy lifting here
+ * The function only makes updates if all parts succeed
+ */
 export async function PATCH(
 	request: Request
 ): Promise<NextResponse<Vehicle> | NextResponse<{ error: string }>> {
@@ -210,9 +221,6 @@ export async function PATCH(
 		Number(vehicleID),
 		supabase
 	);
-
-	console.log("isVehicleExistsInDB:", isVehicleExistsInDB);
-
 	if (!isVehicleExistsInDB) {
 		return NextResponse.json({
 			error: `Vehicle with id ${vehicleID} not found`,
@@ -221,27 +229,6 @@ export async function PATCH(
 
 	const body = await request.json();
 	const updatedPartialVehicle: Partial<Vehicle> = body;
-
-	// Some fields will be null
-	// Only the fields that are being updated will exist
-	const {
-		type,
-		vehiclesOrder,
-		vehicleData,
-		gasVehicleData,
-		electricVehicleData,
-		purchaseAndSales,
-		usage,
-		fixedCosts,
-		yearlyMaintenanceCosts,
-		variableCosts,
-	} = updatedPartialVehicle;
-
-	console.log("updatedPartialVehicle:", updatedPartialVehicle);
-	console.log(
-		"JSON.stringify(updatedPartialVehicle):",
-		JSON.stringify(updatedPartialVehicle)
-	);
 
 	try {
 		// Not getting data because it would be only a partial Vehicle
@@ -252,12 +239,13 @@ export async function PATCH(
 		});
 		if (error) throw error;
 
+		// An array with one vehicle
 		const fullUpdatedVehicle = await getSingleVehicleById(
 			supabase,
 			Number(vehicleID)
 		);
 
-		return NextResponse.json(fullUpdatedVehicle[0], { status: 200 });
+		return NextResponse.json(fullUpdatedVehicle[0]!, { status: 200 });
 	} catch (error) {
 		console.error("Error updating vehicle data:", error);
 		return NextResponse.json(

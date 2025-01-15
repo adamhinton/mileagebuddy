@@ -3,17 +3,21 @@
 // As opposed to GetVehiclesQueries.ts in the same folder, which contains the strings of the db queries for GET
 
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Vehicles } from "../types/GetVehicleTypes";
+import { Vehicle, Vehicles } from "../types/GetVehicleTypes";
 import {
 	getSingleVehicleByIdQuery,
 	getVehiclesByUserIdQuery,
 } from "./GetVehiclesQueries";
 
-/**Looks up vehicle by id, assembles the data from the multiple sub-tables, and returns an array with just that vehicle*/
+type ArrayWithOneVehicle = [Vehicle?];
+
+/**Looks up vehicle by id, assembles the data from the multiple sub-tables, and returns an array with just that vehicle
+ * Returns empty array if vehicle doesn't exist
+ */
 export async function getSingleVehicleById(
 	supabase: SupabaseClient,
 	vehicleId: number
-): Promise<Vehicles> {
+): Promise<ArrayWithOneVehicle> {
 	/**Vehicle data is stored in several different tables
 	 * This fetches data from each relevant table and joins it
 	 */
@@ -28,14 +32,17 @@ export async function getSingleVehicleById(
 
 	const vehicles: Vehicles = data;
 
-	vehicles.map((vehicle, i) => {
-		console.log("vehicles[i]:", vehicles[i]);
-	});
-	console.log("error from test await vehicleInfoQuery:", error);
+	// vehicle ids are unique so this should never happen
+	if (vehicles.length > 1) {
+		throw new Error(
+			"Error fetching vehicle data in TEST: Multiple vehicles found. \n how did you even do that?"
+		);
+	}
 
-	// Not sure why this thinks vehicleData is an empty object, works fine on frontend
-	// I'm sure I'll regret this when it crashes and breaks everything
-	return vehicles;
+	// This returns an empty array if no vehicle exists by that id
+	// Otherwise, returns a single vehicle
+	if (!vehicles[0]) return [];
+	return [vehicles[0]];
 }
 
 /** Get all vehicles belonging to a user */

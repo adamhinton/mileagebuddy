@@ -226,7 +226,7 @@ describe("GET /api/vehicles", () => {
 		const responseData = await response.json();
 
 		expect(responseData).toEqual({
-			error: "Vehicle with id 2348 not found for user with id 1",
+			error: "Vehicle with id 2348 not found",
 		});
 	});
 
@@ -711,3 +711,5 @@ describe("DELETE /api/vehicles", () => {
 		});
 	});
 });
+
+describe("PATCH api/vehicles", () => {});
