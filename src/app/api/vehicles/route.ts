@@ -135,12 +135,12 @@ export async function DELETE(
 	const url = new URL(request.url!);
 	const vehicleID = url.searchParams.get("vehicleid");
 
-	const isVehicleExistsInDB = await getSingleVehicleById(
-		supabase,
-		Number(vehicleID!)
+	const isVehicleExistsInDB = await checkIfVehicleExistsInDB(
+		Number(vehicleID!),
+		supabase
 	);
 
-	if (isVehicleExistsInDB.length === 0) {
+	if (!isVehicleExistsInDB) {
 		return NextResponse.json(
 			{ error: `Vehicle with id ${vehicleID} not found` },
 			{ status: 404 }
