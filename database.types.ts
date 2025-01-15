@@ -494,6 +494,13 @@ export type Database = {
           _yearlymaintenancecosts: Json
           _variablecosts: Json
         }
+        Returns: number
+      }
+      update_vehicle: {
+        Args: {
+          _vehicleid: number
+          _partialdata: Json
+        }
         Returns: undefined
       }
     }
