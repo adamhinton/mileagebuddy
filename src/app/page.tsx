@@ -116,16 +116,15 @@ export default function Page() {
 						userid: 1,
 						vehiclesOrder: 20,
 						vehicleData: {
+							vehicleID: 1,
 							vehicleName: "Hooba Stank",
-							year: 202342,
+							year: 2042,
 							make: "fsdafasfsa",
 							model: "fsdfasfsa",
 							trim: "fsdfasfsa",
-							highwayMPG: 3434345.5,
-							vehicleID: 1,
+							highwayMPG: 343.5,
 						},
 					};
-
 					const res = await fetch("api/vehicles?vehicleid=1", {
 						method: "PATCH",
 						body: JSON.stringify(partialMockVehicle),
@@ -152,7 +151,7 @@ export default function Page() {
 
 			<button
 				onClick={() =>
-					fetch("/api/vehicles?vehicleid=11", { method: "DELETE" })
+					fetch("/api/vehicles?vehicleid=1", { method: "DELETE" })
 						.then((res) => res.json())
 						.then((data) => console.log("data from delete:", data))
 				}

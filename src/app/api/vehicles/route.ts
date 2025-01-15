@@ -228,11 +228,11 @@ export async function PATCH(request: Request) {
 	);
 
 	try {
-		console.log("blah blah blah34324");
 		const { data, error } = await supabase.rpc("update_vehicle", {
 			_vehicleid: Number(vehicleID),
-			_partialdata: JSON.stringify(updatedPartialVehicle),
+			_partialdata: updatedPartialVehicle, // Pass the object, not a string
 		});
+
 		console.log("data in PATCH api/vehicle:", data);
 		console.log("error in PATCH api/vehicle:", error);
 		if (error) throw error;
