@@ -176,7 +176,6 @@ export async function DELETE(
 
 		const deletedVehicle: Vehicle = data[0] as unknown as Vehicle;
 
-		console.log("deletedVehicle:", deletedVehicle);
 		if (error) throw error;
 		return NextResponse.json(deletedVehicle, {
 			status: 200,

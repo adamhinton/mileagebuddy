@@ -123,7 +123,7 @@ export default function Page() {
 
 			<button
 				onClick={() =>
-					fetch("/api/vehicles?vehicleid=17", { method: "DELETE" })
+					fetch("/api/vehicles?vehicleid=11", { method: "DELETE" })
 						.then((res) => res.json())
 						.then((data) => console.log("data from delete:", data))
 				}
@@ -146,7 +146,7 @@ export default function Page() {
 			</button>
 			<button
 				onClick={async () => {
-					const res = await fetch("/api/user?id=3", {
+					const res = await fetch("/api/user?id=1", {
 						method: "DELETE",
 					});
 					const data = await res.json();
