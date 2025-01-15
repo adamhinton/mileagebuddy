@@ -7,6 +7,7 @@ import {
 } from "@/utils/server/queries/getVehicleUtils";
 import { Vehicle } from "@/utils/server/types/GetVehicleTypes";
 import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehiclesQueries";
+import { SupabaseClient } from "@supabase/supabase-js";
 
 // If vehicleid query parameter is passed in, it gets only that vehicle
 // if no vehicleid is passed in, it gets all vehicles for that user
@@ -191,7 +192,9 @@ export async function DELETE(
 }
 
 // TODO: Vehicle validation
-export async function PATCH(request: Request) {
+export async function PATCH(
+	request: Request
+): Promise<NextResponse<Vehicle> | NextResponse<{ error: string }>> {
 	const supabase = await createClientSSROnly();
 	const url = new URL(request.url!);
 	const vehicleID = url.searchParams.get("vehicleid");
@@ -200,6 +203,19 @@ export async function PATCH(request: Request) {
 		return NextResponse.json({
 			error:
 				"vehicleid is required. Must be formatted like: /api/vehicles?vehicleid=2348",
+		});
+	}
+
+	const isVehicleExistsInDB = await checkIfVehicleExistsInDB(
+		Number(vehicleID),
+		supabase
+	);
+
+	console.log("isVehicleExistsInDB:", isVehicleExistsInDB);
+
+	if (!isVehicleExistsInDB) {
+		return NextResponse.json({
+			error: `Vehicle with id ${vehicleID} not found`,
 		});
 	}
 
@@ -228,16 +244,20 @@ export async function PATCH(request: Request) {
 	);
 
 	try {
-		const { data, error } = await supabase.rpc("update_vehicle", {
+		// Not getting data because it would be only a partial Vehicle
+		// Will fetch the full vehicle momentarily and return that
+		const { error } = await supabase.rpc("update_vehicle", {
 			_vehicleid: Number(vehicleID),
 			_partialdata: updatedPartialVehicle, // Pass the object, not a string
 		});
-
-		console.log("data in PATCH api/vehicle:", data);
-		console.log("error in PATCH api/vehicle:", error);
 		if (error) throw error;
 
-		return NextResponse.json(data, { status: 200 });
+		const fullUpdatedVehicle = await getSingleVehicleById(
+			supabase,
+			Number(vehicleID)
+		);
+
+		return NextResponse.json(fullUpdatedVehicle[0], { status: 200 });
 	} catch (error) {
 		console.error("Error updating vehicle data:", error);
 		return NextResponse.json(
@@ -246,3 +266,13 @@ export async function PATCH(request: Request) {
 		);
 	}
 }
+
+const checkIfVehicleExistsInDB = async (
+	vehicleID: number,
+	supabase: SupabaseClient
+): Promise<boolean> => {
+	// Should be an array with one vehicle
+	const vehicleArray = await getSingleVehicleById(supabase, vehicleID);
+
+	return vehicleArray.length > 0;
+};
