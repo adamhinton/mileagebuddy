@@ -12,6 +12,8 @@
 -- As of 1.14.2025, deleting a vehicle will also delete its sub tables.
 -- Deleting a user also deletes all vehicles and all sub tables.
 
+-- TODO: Total cost per year calculations
+
 CREATE TABLE vehicles (
     id SERIAL PRIMARY KEY,
     userID bigint NOT NULL,
