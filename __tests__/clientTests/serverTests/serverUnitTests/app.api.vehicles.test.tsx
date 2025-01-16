@@ -853,7 +853,6 @@ describe("PATCH api/vehicles", () => {
 
 		const response: NextResponse = await PATCH(request);
 		const responseData = await response.json();
-		console.log("responseData in PATCH test:", responseData);
 
 		expect(responseData.status).toBe(400);
 		expect(responseData.error).toEqual(

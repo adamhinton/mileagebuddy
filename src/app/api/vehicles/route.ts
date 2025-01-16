@@ -20,8 +20,6 @@ export async function GET(request: Request) {
 		const userID = url.searchParams.get("userid");
 		const vehicleID = url.searchParams.get("vehicleid");
 
-		console.log("userid:", userID, "vehicleid:", vehicleID);
-
 		// Ensure that the user ID is provided
 		if (!userID) {
 			return NextResponse.json(
@@ -113,8 +111,6 @@ export async function POST(
 		});
 
 		if (error) throw error;
-
-		console.log("data in POST api/vehicle:", data);
 
 		const newVehicleID = data;
 
