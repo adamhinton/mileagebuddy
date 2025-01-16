@@ -35,7 +35,7 @@ export async function getSingleVehicleById(
 	// vehicle ids are unique so this should never happen
 	if (vehicles.length > 1) {
 		throw new Error(
-			"Error fetching vehicle data in TEST: Multiple vehicles found. \n how did you even do that?"
+			"Error fetching vehicle data: Multiple vehicles found. \n how did you even do that?"
 		);
 	}
 
