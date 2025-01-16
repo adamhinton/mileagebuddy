@@ -886,4 +886,23 @@ describe("PATCH api/vehicles", () => {
 		expect(responseData.status).toBe(404);
 		expect(responseData.error).toEqual("Vehicle with id 1 not found");
 	});
+
+	it("Should throw error if no vehicle data is provided", async () => {
+		// Don't need to mock supabase since PATCH should reject call before using supabase
+
+		const request = {
+			url: "http://localhost:3000/api/vehicles?vehicleid=1",
+			method: "PATCH",
+			body: mockVehicle,
+			json: jest.fn().mockResolvedValue({}),
+		} as unknown as NextRequest;
+
+		const response: NextResponse = await PATCH(request);
+		const responseData = await response.json();
+
+		expect(responseData.status).toBe(400);
+		expect(responseData.error).toEqual(
+			"Must include at least one vehicle field to update"
+		);
+	});
 });
