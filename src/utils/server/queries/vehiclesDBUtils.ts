@@ -117,10 +117,65 @@ const deleteDBVehicleByID = async (
 	}
 };
 
-const addNewVehicleToDB = async (body: Vehicle) => {};
+/** Attempts to add a new vehicle's data to DB
+ * Returns the vehicle if successful, and an error if unsuccessful
+ */
+const addNewVehicleToDB = async (
+	body: Vehicle,
+	supabase: SupabaseClient
+): Promise<NextResponse<Vehicle | { error: string }>> => {
+	// Should only include the fields that need to be updated
+	const {
+		userid,
+		type,
+		vehiclesOrder,
+		vehicleData,
+		gasVehicleData,
+		electricVehicleData,
+		purchaseAndSales,
+		usage,
+		fixedCosts,
+		yearlyMaintenanceCosts,
+		variableCosts,
+	} = body;
+
+	try {
+		// Wrote db function insert_vehicle_function.sql for this
+		const { data, error } = await supabase.rpc("insert_vehicle", {
+			// These parameter names had to be all lower case to play nice with SQL
+			_userid: userid,
+			_type: type,
+			_vehiclesorder: vehiclesOrder,
+			_vehicledata: vehicleData,
+			_gasvehicledata: gasVehicleData,
+			_electricvehicledata: electricVehicleData,
+			_purchaseandsales: purchaseAndSales,
+			_usage: usage,
+			_fixedcosts: fixedCosts,
+			_yearlymaintenancecosts: yearlyMaintenanceCosts,
+			_variablecosts: variableCosts,
+		});
+
+		if (error) throw error;
+
+		const newVehicleID = data;
+
+		// getSingleVehicleById returns an array with one Vehicle
+		const newVehicleArray = await getSingleVehicleById(supabase, newVehicleID!);
+		const newVehicle = newVehicleArray[0];
+
+		return NextResponse.json(newVehicle!, { status: 200 });
+	} catch (error) {
+		console.error("Error inserting vehicle data:", error);
+		return NextResponse.json(
+			{ error: "Failed to insert vehicle data" },
+			{ status: 500 }
+		);
+	}
+};
 
 const VehiclesDBUtils = {
-	addNewVehicleToDB
+	addNewVehicleToDB,
 	deleteDBVehicleByID,
 	getSingleVehicleById,
 	getVehiclesByUser,
