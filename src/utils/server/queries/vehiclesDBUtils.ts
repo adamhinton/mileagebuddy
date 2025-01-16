@@ -117,7 +117,10 @@ const deleteDBVehicleByID = async (
 	}
 };
 
+const addNewVehicleToDB = async (body: Vehicle) => {};
+
 const VehiclesDBUtils = {
+	addNewVehicleToDB
 	deleteDBVehicleByID,
 	getSingleVehicleById,
 	getVehiclesByUser,
