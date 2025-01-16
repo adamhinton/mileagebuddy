@@ -165,6 +165,7 @@ BACKEND TESTING:
 -Right now, backend tests are UNIT tests that live in my server unit testing folder. They ensure that the API endpoint logic performs CRUD operations correctly on data passed in to them.
 -These tests don't actually interact with a real or testing DB.
 -If I write integration tests (aka tests that interact with a real db), they will live in my server integration testing folder.
+-Right now (1.15.2025) I have unit tests written for api/vehicles and api/users.
 
 HOSTING:
 -Vercel for frontend, and backend API endpoints
