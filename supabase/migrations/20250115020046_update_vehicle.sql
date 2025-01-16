@@ -1,6 +1,6 @@
 -- README
 -- This is, obviously, a function to update a vehicle in the DB
--- Triggered from PATCH api/vehicle?id=x
+-- Triggered from PATCH api/vehicles?id=x
 -- Takes in a Partial<Vehicle> (defined at GetVehicleTypes.ts)
 -- Only updates tables that are in the data passed-in
 -- Should just be able to pass in the Partial<Vehicle> and the function will do the rest
