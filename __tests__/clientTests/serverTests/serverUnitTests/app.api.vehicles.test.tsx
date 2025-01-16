@@ -860,4 +860,31 @@ describe("PATCH api/vehicles", () => {
 			"vehicleid is required. Must be formatted like: /api/vehicles?vehicleid=2348"
 		);
 	});
+
+	it("Should throw error if no vehicle is found by id", async () => {
+		const supabase = {
+			from: jest.fn().mockReturnValue({
+				select: jest.fn().mockReturnValue({
+					// Simulate no vehicle being found by the given id, therefore nothing to PATCH
+					eq: jest.fn().mockResolvedValue({ data: [], error: null }),
+				}),
+			}),
+		};
+
+		// Mock the Supabase client
+		(createClientSSROnly as jest.Mock).mockReturnValue(supabase);
+
+		const request = {
+			url: "http://localhost:3000/api/vehicles?vehicleid=1",
+			method: "PATCH",
+			body: mockVehicle,
+			json: jest.fn().mockResolvedValue(partialMockVehicle),
+		} as unknown as NextRequest;
+
+		const response: NextResponse = await PATCH(request);
+		const responseData = await response.json();
+
+		expect(responseData.status).toBe(404);
+		expect(responseData.error).toEqual("Vehicle with id 1 not found");
+	});
 });

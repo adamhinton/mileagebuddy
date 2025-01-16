@@ -225,6 +225,7 @@ export async function PATCH(
 	if (!isVehicleExistsInDB) {
 		return NextResponse.json({
 			error: `Vehicle with id ${vehicleID} not found`,
+			status: 404,
 		});
 	}
 
