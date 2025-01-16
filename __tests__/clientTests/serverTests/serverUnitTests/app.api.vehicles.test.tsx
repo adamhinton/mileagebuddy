@@ -4,11 +4,12 @@
 
 import { Vehicle, Vehicles } from "@/utils/server/types/GetVehicleTypes";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { DELETE, GET, PATCH, POST } from "@/app/api/vehicles/route";
 import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehiclesQueries";
 import { SupabaseClient } from "@supabase/supabase-js";
 import { Database } from "../../../../database.types";
+import { NextApiResponse } from "next";
 
 // This file is for UNIT tests. It tests API endpoint logic with dummy data, doesn't interact with an actual DB.
 // See README in servertests/serverunit tests for more info.
@@ -807,7 +808,7 @@ describe("PATCH api/vehicles", () => {
 		},
 	};
 
-	it.only("Should update existing vehicle by id and return the updated vehicle object", async () => {
+	it("Should update existing vehicle by id and return the updated vehicle object", async () => {
 		const supabase = {
 			from: jest.fn().mockReturnValue({
 				select: jest.fn().mockReturnValue({
@@ -838,5 +839,25 @@ describe("PATCH api/vehicles", () => {
 			...mockVehicle,
 			vehicleData: { ...mockVehicle.vehicleData },
 		});
+	});
+
+	it("Should return an error if no vehicle id is provided", async () => {
+		// don't need to mock supabase client since PATCH should reject call before using supabase
+
+		const request = {
+			url: "http://localhost:3000/api/vehicles",
+			method: "PATCH",
+			body: mockVehicle,
+			json: jest.fn().mockResolvedValue(partialMockVehicle),
+		} as unknown as NextRequest;
+
+		const response: NextResponse = await PATCH(request);
+		const responseData = await response.json();
+		console.log("responseData in PATCH test:", responseData);
+
+		expect(responseData.status).toBe(400);
+		expect(responseData.error).toEqual(
+			"vehicleid is required. Must be formatted like: /api/vehicles?vehicleid=2348"
+		);
 	});
 });

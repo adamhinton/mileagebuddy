@@ -212,6 +212,7 @@ export async function PATCH(
 
 	if (!vehicleID) {
 		return NextResponse.json({
+			status: 400,
 			error:
 				"vehicleid is required. Must be formatted like: /api/vehicles?vehicleid=2348",
 		});
