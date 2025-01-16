@@ -1,5 +1,5 @@
 // README:
-// This is, obviously, helper functions to for GET /api/vehicles
+// This is, obviously, helper functions to for CRUD endpoints in /api/vehicles
 // As opposed to GetVehiclesQueries.ts in the same folder, which contains the strings of the db queries for GET
 
 import { SupabaseClient } from "@supabase/supabase-js";
@@ -11,6 +11,7 @@ import {
 } from "./GetVehiclesQueries";
 import { NextResponse } from "next/server";
 
+/**For situations where db call will return an array but we specifically expect one (or 0) Vehicle */
 type ArrayWithOneVehicle = [Vehicle?];
 
 /**Looks up vehicle by id, assembles the data from the multiple sub-tables, and returns an array with just that vehicle
