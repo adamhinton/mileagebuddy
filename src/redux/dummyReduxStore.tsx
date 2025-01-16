@@ -4,7 +4,7 @@ import React, { ReactNode } from "react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
 import { User } from "@/zod/schemas/UserSchema";
-import { Vehicle } from "@/zod/schemas/VehicleSchema";
+import { Vehicle } from "@/utils/server/types/GetVehicleTypes";
 import userReducer from "./reducers/userReducer";
 import vehiclesReducer from "./reducers/vehiclesReducer";
 import isDarkModeReducer from "@/redux/reducers/darkModeReducer";
