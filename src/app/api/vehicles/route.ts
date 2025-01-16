@@ -96,28 +96,6 @@ export async function POST(
 		variableCosts,
 	} = body;
 
-	// if none of that stuff exists on body, throw error
-	if (
-		!userid &&
-		!type &&
-		!vehiclesOrder &&
-		!vehicleData &&
-		!gasVehicleData &&
-		!electricVehicleData &&
-		!purchaseAndSales &&
-		!usage &&
-		!fixedCosts &&
-		!yearlyMaintenanceCosts &&
-		!variableCosts
-	) {
-		return NextResponse.json(
-			{
-				error: "Must include at least one vehicle field to update",
-			},
-			{ status: 400 }
-		);
-	}
-
 	try {
 		// Wrote db function insert_vehicle_function.sql for this
 		const { data, error } = await supabase.rpc("insert_vehicle", {
@@ -239,6 +217,45 @@ export async function PATCH(
 		});
 	}
 
+	const body = await request.json();
+	const updatedPartialVehicle: Partial<Vehicle> = body;
+
+	// Should only include the fields that need to be updated
+	const {
+		userid,
+		type,
+		vehiclesOrder,
+		vehicleData,
+		gasVehicleData,
+		electricVehicleData,
+		purchaseAndSales,
+		usage,
+		fixedCosts,
+		yearlyMaintenanceCosts,
+		variableCosts,
+	} = updatedPartialVehicle;
+
+	// if none of that stuff exists on body, throw error
+	if (
+		!userid &&
+		!type &&
+		!vehiclesOrder &&
+		!vehicleData &&
+		!gasVehicleData &&
+		!electricVehicleData &&
+		!purchaseAndSales &&
+		!usage &&
+		!fixedCosts &&
+		!yearlyMaintenanceCosts &&
+		!variableCosts
+	) {
+		console.log("No fields to update in PATCH");
+		return NextResponse.json({
+			error: "Must include at least one vehicle field to update",
+			status: 400,
+		});
+	}
+
 	const isVehicleExistsInDB = await checkIfVehicleExistsInDB(
 		Number(vehicleID),
 		supabase
@@ -249,9 +266,6 @@ export async function PATCH(
 			status: 404,
 		});
 	}
-
-	const body = await request.json();
-	const updatedPartialVehicle: Partial<Vehicle> = body;
 
 	try {
 		// Not getting data because it would be only a partial Vehicle
