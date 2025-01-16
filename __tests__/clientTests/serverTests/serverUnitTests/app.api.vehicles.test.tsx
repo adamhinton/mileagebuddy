@@ -712,4 +712,8 @@ describe("DELETE /api/vehicles", () => {
 	});
 });
 
-describe("PATCH api/vehicles", () => {});
+describe("PATCH api/vehicles", () => {
+	beforeEach(() => {});
+
+	it("Should update existing vehicle by id and return the updated vehicle object", async () => {});
+});
