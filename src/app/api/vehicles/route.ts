@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
-import {
-	getSingleVehicleById,
-	getVehiclesByUser,
-} from "@/utils/server/queries/vehiclesDBUtils";
+import VehiclesDBUtils from "@/utils/server/queries/vehiclesDBUtils";
 import { Vehicle } from "@/utils/server/types/GetVehicleTypes";
 import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehiclesQueries";
-import { SupabaseClient } from "@supabase/supabase-js";
+
+const { getSingleVehicleById, getVehiclesByUser, checkIfVehicleExistsInDB } =
+	VehiclesDBUtils;
 
 // If vehicleid query parameter is passed in, it gets only that vehicle
 // if no vehicleid is passed in, it gets all vehicles for that user
@@ -291,13 +290,3 @@ export async function PATCH(
 		);
 	}
 }
-
-const checkIfVehicleExistsInDB = async (
-	vehicleID: number,
-	supabase: SupabaseClient
-): Promise<boolean> => {
-	// Should be an array with one vehicle
-	const vehicleArray = await getSingleVehicleById(supabase, vehicleID);
-
-	return vehicleArray.length > 0;
-};

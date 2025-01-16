@@ -5,6 +5,8 @@ import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
 import { Tables } from "../../../../database.types";
 
+// TODO: Get user's vehicles too
+
 // import { NextApiRequest, NextApiResponse } from "next";
 
 // TODO: User data validation. Middleware?

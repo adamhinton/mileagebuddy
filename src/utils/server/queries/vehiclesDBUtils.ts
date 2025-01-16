@@ -14,7 +14,7 @@ type ArrayWithOneVehicle = [Vehicle?];
 /**Looks up vehicle by id, assembles the data from the multiple sub-tables, and returns an array with just that vehicle
  * Returns empty array if vehicle doesn't exist
  */
-export async function getSingleVehicleById(
+async function getSingleVehicleById(
 	supabase: SupabaseClient,
 	vehicleId: number
 ): Promise<ArrayWithOneVehicle> {
@@ -46,7 +46,7 @@ export async function getSingleVehicleById(
 }
 
 /** Get all vehicles belonging to a user */
-export async function getVehiclesByUser(
+async function getVehiclesByUser(
 	supabase: SupabaseClient,
 	userId: number
 ): Promise<Vehicles> {
@@ -62,3 +62,21 @@ export async function getVehiclesByUser(
 
 	return data;
 }
+
+const checkIfVehicleExistsInDB = async (
+	vehicleID: number,
+	supabase: SupabaseClient
+): Promise<boolean> => {
+	// Should be an array with one vehicle
+	const vehicleArray = await getSingleVehicleById(supabase, vehicleID);
+
+	return vehicleArray.length > 0;
+};
+
+const VehiclesDBUtils = {
+	getSingleVehicleById,
+	getVehiclesByUser,
+	checkIfVehicleExistsInDB,
+};
+
+export default VehiclesDBUtils;
