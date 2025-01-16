@@ -2,11 +2,73 @@
 
 import { User } from "@/zod/schemas/UserSchema";
 import { useEffect, useState } from "react";
+import { Tables } from "../../database.types";
+import { Vehicle, Vehicles } from "@/utils/server/types/GetVehicleTypes";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
 // TODO: Add this to app
 //supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd/settings/api?showConnect=true
+
+const mockVehicle = {
+	type: "gas",
+	userid: 1,
+	vehiclesOrder: 1,
+	vehicleData: {
+		vehicleName: "Tesla Model 3",
+		year: 2020,
+		make: "Tesla",
+		model: "Model 3",
+		trim: "Base",
+		highwayMPG: 35.5,
+	},
+	gasVehicleData: {
+		gasCostPerGallon: 3.5,
+		milesPerGallonHighway: 35.5,
+		milesPerGallonCity: 35.5,
+	},
+	purchaseAndSales: {
+		yearPurchased: 2020,
+		purchasePrice: 22000.0,
+		downPaymentAmount: 2000.0,
+		willSellCarAfterYears: 5,
+		milesBoughtAt: 10000,
+		willSellCarAtMiles: 80000,
+		willSellCarAtPrice: 12000.0,
+	},
+	usage: {
+		averageDailyMiles: 100,
+		weeksPerYear: 52,
+		percentHighway: 0.5,
+		extraDistanceMiles: 0,
+		extraDistancePercentHighway: 0,
+	},
+	fixedCosts: {
+		yearlyInsuranceCost: 1000.0,
+		yearlyRegistrationCost: 100.0,
+		yearlyTaxes: 100.0,
+		monthlyLoanPayment: 300.0,
+		monthlyWarrantyCost: 30.0,
+		inspectionCost: 100.0,
+		otherYearlyCosts: 300.0,
+	},
+	yearlyMaintenanceCosts: {
+		oilChanges: 100.0,
+		tires: 200.0,
+		batteries: 300.0,
+		brakes: 100.0,
+		other: 100.0,
+		depreciation: 800.0,
+	},
+	variableCosts: {
+		monthlyParkingCosts: 100.0,
+		monthlyTolls: 50.0,
+		monthlyCarWashCost: 20.0,
+		monthlyMiscellaneousCosts: 50.0,
+		monthlyCostDeductions: 80.0,
+	},
+	electricVehicleData: null,
+};
 
 export default function Page() {
 	const [users, setUsers] = useState<User[]>([]);
@@ -28,7 +90,7 @@ export default function Page() {
 			try {
 				const res = await fetch(`api/user?id=${id}`);
 				const data = await res.json();
-				const fetchedUser: User = data;
+				const fetchedUser: Tables<"users"> = data;
 				console.log("fetchedUser:", fetchedUser);
 			} catch (error) {
 				console.error("Error fetching single user in page.tsx:", error);
@@ -44,9 +106,75 @@ export default function Page() {
 
 	return (
 		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center dark: bg-bl">
+			{/* dummy button to POST api/vehicles with mockVehicle */}
+
+			{/* PATCH api/vehicles with dummy Vehicle */}
 			<button
 				onClick={async () => {
-					const res = await fetch("/api/user?id=3", {
+					const partialMockVehicle: Partial<Vehicle> = {
+						type: "gas",
+						userid: 1,
+						vehiclesOrder: 20,
+						vehicleData: {
+							vehicleID: 1,
+							vehicleName: "Hooba Stank",
+							year: 2042,
+							make: "fsdafasfsa",
+							model: "fsdfasfsa",
+							trim: "fsdfasfsa",
+							highwayMPG: 343.5,
+						},
+					};
+					const res = await fetch("api/vehicles?vehicleid=1", {
+						method: "PATCH",
+						body: JSON.stringify(partialMockVehicle),
+					});
+					const data = await res.json();
+					console.log("data from PATCH vehicles:", data);
+				}}
+			>
+				PATCH vehicle
+			</button>
+
+			<button
+				onClick={async () => {
+					const res = await fetch("api/vehicles", {
+						method: "POST",
+						body: JSON.stringify(mockVehicle),
+					});
+					const data = await res.json();
+					console.log("data from POST vehicles:", data);
+				}}
+			>
+				Post Vehicle
+			</button>
+
+			<button
+				onClick={() =>
+					fetch("/api/vehicles?vehicleid=1", { method: "DELETE" })
+						.then((res) => res.json())
+						.then((data) => console.log("data from delete:", data))
+				}
+			>
+				DELETE vehicle
+			</button>
+
+			{/* GET api/vehicles */}
+
+			<button
+				onClick={async () => {
+					const res = await fetch("api/vehicles?userid=1", {
+						method: "GET",
+					});
+					const data: Vehicles = await res.json();
+					console.log("data from GET vehicles:", data);
+				}}
+			>
+				Get Vehicles
+			</button>
+			<button
+				onClick={async () => {
+					const res = await fetch("/api/user?id=1", {
 						method: "DELETE",
 					});
 					const data = await res.json();
@@ -62,7 +190,7 @@ export default function Page() {
 						method: "PUT",
 						body: JSON.stringify({
 							email: "random_email" + Math.random() + "@gmail.com",
-							isdarkmode: Math.random() < 0.5,
+							isDarkMode: Math.random() < 0.5,
 						}),
 					})
 						.then((res) => {
@@ -116,7 +244,7 @@ export default function Page() {
 						},
 						body: JSON.stringify({
 							email: "random_email" + Math.random() + "@gmail.com",
-							isdarkmode: Math.random() < 0.5,
+							isDarkMode: Math.random() < 0.5,
 						}),
 					})
 						.then((res) => {
