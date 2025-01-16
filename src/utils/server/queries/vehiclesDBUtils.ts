@@ -15,6 +15,7 @@ import { NextResponse } from "next/server";
 type ArrayWithOneOrZeroVehicles = [Vehicle?];
 
 /**Looks up vehicle by id, assembles the data from the multiple sub-tables, and returns an array with just that vehicle
+ *
  * Returns empty array if vehicle doesn't exist
  */
 async function getSingleVehicleById(
@@ -22,6 +23,7 @@ async function getSingleVehicleById(
 	vehicleId: number
 ): Promise<ArrayWithOneOrZeroVehicles> {
 	/**Vehicle data is stored in several different tables
+	 *
 	 * This fetches data from each relevant table and joins it
 	 */
 
@@ -77,7 +79,9 @@ const checkIfVehicleExistsInDB = async (
 };
 
 /** Attempts to delete a vehicle by its id
+ *
  * The DELETE endpoint which calls it has already validated that vehicle exists and that vehicleID is valid
+ *
  * Returns the deleted vehicle or an error message
  */
 const deleteDBVehicleByID = async (
@@ -119,6 +123,7 @@ const deleteDBVehicleByID = async (
 };
 
 /** Attempts to add a new vehicle's data to DB
+ *
  * Returns the vehicle if successful, and an error if unsuccessful
  */
 const addNewVehicleToDB = async (
