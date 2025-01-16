@@ -181,7 +181,7 @@ IMPORTANT: All of the below stuff about local backend is taken care of by my `np
 -SO, you ONLY need to run `npm run dev: setup` to set up BOTH the local frontend AND backend. Unless you get some kind of error, then see the below for detailed steps.
 -Run `npx supabase link` and link project to Supabase
 -It'll ask for the project ref. I got that from here: -https://supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd
--Note that it's just the letters of the project, not the whole url. For example if the project is https://supabase.co/82394fajsafas, run `npx supabase link --project-ref 82394fajsafas`
+-Note that it's just the letters of the project, not the whole url. For example if the project is https://supabase.co/82394fajsafas, run `npx supabase link --project-ref 82394fajsafas`. That's just a placeholder project id, you need to get it from supabase.
 -Run `npx supabase db pull`
 -Run `npx supabase start`
 -Run `npx supabase migration up`
