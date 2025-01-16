@@ -9,6 +9,7 @@ const {
 	getVehiclesByUser,
 	checkIfVehicleExistsInDB,
 	deleteDBVehicleByID,
+	updateVehicleInDB,
 } = VehiclesDBUtils;
 
 // If vehicleid query parameter is passed in, it gets only that vehicle
@@ -133,7 +134,7 @@ export async function DELETE(
  */
 export async function PATCH(
 	request: Request
-): Promise<NextResponse<Vehicle> | NextResponse<{ error: string }>> {
+): Promise<NextResponse<Vehicle | { error: string }>> {
 	const supabase = await createClientSSROnly();
 
 	const url = new URL(request.url!);
@@ -179,7 +180,6 @@ export async function PATCH(
 		!yearlyMaintenanceCosts &&
 		!variableCosts
 	) {
-		console.log("No fields to update in PATCH");
 		return NextResponse.json({
 			error: "Must include at least one vehicle field to update",
 			status: 400,
@@ -197,27 +197,12 @@ export async function PATCH(
 		});
 	}
 
-	try {
-		// Not getting data because it would be only a partial Vehicle
-		// Will fetch the full vehicle momentarily and return that
-		const { error } = await supabase.rpc("update_vehicle", {
-			_vehicleid: Number(vehicleID),
-			_partialdata: updatedPartialVehicle,
-		});
-		if (error) throw error;
+	// Either the FULL updated vehicle or an error
+	const response = await updateVehicleInDB(
+		updatedPartialVehicle,
+		supabase,
+		Number(vehicleID)
+	);
 
-		// An array with one vehicle
-		const fullUpdatedVehicle = await getSingleVehicleById(
-			supabase,
-			Number(vehicleID)
-		);
-
-		return NextResponse.json(fullUpdatedVehicle[0]!, { status: 200 });
-	} catch (error) {
-		console.error("Error updating vehicle data:", error);
-		return NextResponse.json(
-			{ error: "Failed to update vehicle data" },
-			{ status: 500 }
-		);
-	}
+	return response;
 }

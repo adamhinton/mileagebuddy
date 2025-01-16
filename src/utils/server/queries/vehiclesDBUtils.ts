@@ -181,12 +181,88 @@ const addNewVehicleToDB = async (
 	}
 };
 
+/**
+ *
+ * @param updatedPartialVehicle a Vehicle with only the fields that need  updated
+ * @param supabase supabase client
+ * @returns either the full updated Vehicle (including unchanged fields) or an error
+ *
+ * This calls update_vehicle_function.sql which does most of the heavy lifting
+ *
+ * Only updates tables in DB if ALL parts succeed, otherwise rolls everything back
+ */
+const updateVehicleInDB = async (
+	updatedPartialVehicle: Partial<Vehicle>,
+	supabase: SupabaseClient,
+	vehicleID: number
+): Promise<NextResponse<Vehicle | { error: string }>> => {
+	// Should only include the fields that need to be updated
+	const {
+		userid,
+		type,
+		vehiclesOrder,
+		vehicleData,
+		gasVehicleData,
+		electricVehicleData,
+		purchaseAndSales,
+		usage,
+		fixedCosts,
+		yearlyMaintenanceCosts,
+		variableCosts,
+	} = updatedPartialVehicle;
+
+	// if none of that stuff exists on body, throw error
+	if (
+		!userid &&
+		!type &&
+		!vehiclesOrder &&
+		!vehicleData &&
+		!gasVehicleData &&
+		!electricVehicleData &&
+		!purchaseAndSales &&
+		!usage &&
+		!fixedCosts &&
+		!yearlyMaintenanceCosts &&
+		!variableCosts
+	) {
+		return NextResponse.json({
+			error: "Must include at least one vehicle field to update",
+			status: 400,
+		});
+	}
+
+	try {
+		// Not getting data because it would be only a partial Vehicle
+		// Will fetch the full vehicle momentarily and return that
+		const { error } = await supabase.rpc("update_vehicle", {
+			_vehicleid: Number(vehicleID),
+			_partialdata: updatedPartialVehicle,
+		});
+		if (error) throw error;
+
+		// An array with one vehicle
+		const fullUpdatedVehicle = await getSingleVehicleById(
+			supabase,
+			Number(vehicleID)
+		);
+
+		return NextResponse.json(fullUpdatedVehicle[0]!, { status: 200 });
+	} catch (error) {
+		console.error("Error updating vehicle data:", error);
+		return NextResponse.json(
+			{ error: "Failed to update vehicle data" },
+			{ status: 500 }
+		);
+	}
+};
+
 const VehiclesDBUtils = {
 	addNewVehicleToDB,
 	deleteDBVehicleByID,
 	getSingleVehicleById,
 	getVehiclesByUser,
 	checkIfVehicleExistsInDB,
+	updateVehicleInDB,
 };
 
 export default VehiclesDBUtils;
