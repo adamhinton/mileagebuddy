@@ -119,12 +119,18 @@ export const VehicleSchema = z.object({
 
 const GasVehicleSchema = VehicleSchema.extend({
 	type: z.literal("gas"),
-	electricVehicleData: z.null(),
+	electricVehicleData: z
+		.null()
+		.describe("electricVehicleData must be null because this is a gas vehicle"),
 });
 
 const ElectricVehicleSchema = VehicleSchema.extend({
 	type: z.literal("electric"),
-	gasVehicleData: z.null(),
+	gasVehicleData: z
+		.null()
+		.describe(
+			"gasVehicleData must be null because this is an electric vehicle"
+		),
 });
 
 type GasVehicle = z.infer<typeof GasVehicleSchema>;
