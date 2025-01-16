@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // README
 // This is a test file for the server-side API route /api/vehicles
 
@@ -335,11 +334,6 @@ describe("POST /api/vehicles", () => {
 			.fn()
 			.mockResolvedValue({ data: 1, error: null }); // Mocked RPC response
 
-		const mockGetVehicleData = jest.fn().mockResolvedValue({
-			data: mockVehicles[0],
-			error: null,
-		});
-
 		// Mock Supabase client methods
 		const supabase = {
 			rpc: mockInsertVehicle,
@@ -354,8 +348,6 @@ describe("POST /api/vehicles", () => {
 
 		// Mock the Supabase client (You may need to mock the import path depending on how you are using it)
 		(createClientSSROnly as jest.Mock).mockReturnValue(supabase);
-
-		const requestBody = mockVehicles[0];
 
 		const request = {
 			json: jest.fn().mockResolvedValue(mockVehicles[0]),

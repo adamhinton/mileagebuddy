@@ -1,11 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { createClient, QueryData, SupabaseClient } from "@supabase/supabase-js";
-import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
-import {
-	getSingleVehicleByIdQuery,
-	getVehiclesByUserIdQuery,
-} from "../queries/GetVehiclesQueries";
+import { QueryData } from "@supabase/supabase-js";
+import { getVehiclesByUserIdQuery } from "../queries/GetVehiclesQueries";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const exampleGetVehiclesByUserQuery = getVehiclesByUserIdQuery("1");
 
 /**This is the same when getting one vehicle by id or multiple by user,
