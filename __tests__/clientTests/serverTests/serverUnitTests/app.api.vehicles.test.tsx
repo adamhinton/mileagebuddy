@@ -2,7 +2,7 @@
 // This is a test file for the server-side API route /api/vehicles
 
 import { Vehicle, Vehicles } from "@/utils/server/types/GetVehicleTypes";
-import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
+import { createClientSSROnly } from "../../../../src/utils/server/supabaseUtilsCustom/server";
 import { NextRequest, NextResponse } from "next/server";
 import { DELETE, GET, PATCH, POST } from "@/app/api/vehicles/route";
 import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehiclesQueries";

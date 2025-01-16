@@ -1,4 +1,4 @@
-import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
+import { createClientSSROnly } from "../supabaseUtilsCustom/server";
 
 // README
 // This file contains the strings for the db queries for GET api/vehicles

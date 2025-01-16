@@ -6,7 +6,7 @@
 
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import { Database } from "../database.types";
+import { Database } from "../../../../database.types";
 
 /**
  * THIS ONLY WORKS IN SERVER COMPONENTS

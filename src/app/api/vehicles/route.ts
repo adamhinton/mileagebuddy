@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
+import { createClientSSROnly } from "../../../utils/server/supabaseUtilsCustom/server";
 import VehiclesDBUtils from "@/utils/server/queries/vehiclesDBUtils";
 import { Vehicle } from "@/utils/server/types/GetVehicleTypes";
 
