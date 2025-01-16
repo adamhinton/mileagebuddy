@@ -1,4 +1,7 @@
-// basic nextjs route.ts with GET dummy to make sure it works
+// README
+// basic nextjs route.ts with CRUD endpoints for the users table
+// I didn't build out a utils file because this endpoint is relatively simple. But will make utils if it gets more complex
+// TODO: Probably delete public.users and just use the supabase auth.users built in table. But can still use this same endpoint
 
 import { NextRequest, NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
@@ -120,6 +123,7 @@ export async function PUT(request: NextRequest) {
 // Must have an id attached as query parameter to the API endpoint call
 // for example, DELETE /api/users?id=2348
 // Only takes ID
+// NOTE that this will (should) delete all associated vehicle data too (ON DELETE CASCADE)
 // TODO: Make this param a Request, not a NextApiRequest
 export async function DELETE(request: NextRequest) {
 	const url = new URL(request.url!);
@@ -172,8 +176,6 @@ export async function POST(request: NextRequest) {
 			{ status: 400 }
 		);
 	}
-
-	console.log("body:", body);
 
 	// TODO: Test this more thoroughly
 	const isUserExistsInDB = await checkIfUserExistsInDB(
