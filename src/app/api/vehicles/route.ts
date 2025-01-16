@@ -11,13 +11,12 @@ const {
 	deleteDBVehicleByID,
 } = VehiclesDBUtils;
 
-/** The client that we will use to interact with supabase in all of these route handlers */
-const supabase = await createClientSSROnly();
-
 // If vehicleid query parameter is passed in, it gets only that vehicle
 // if no vehicleid is passed in, it gets all vehicles for that user
 // Right now userid must be passed in (api/vehicles?userid=1 or optionally, api/vehicles?userid=1&vehicleid=4) but that can be nixed once we get auth set up, since it'll only get vehicles for an authenticated user
 export async function GET(request: Request) {
+	const supabase = await createClientSSROnly();
+
 	const url = new URL(request.url!);
 
 	try {
@@ -79,6 +78,8 @@ export async function GET(request: Request) {
 export async function POST(
 	request: Request
 ): Promise<NextResponse<Vehicle | { error: string }>> {
+	const supabase = await createClientSSROnly();
+
 	const body: Vehicle = await request.json();
 
 	const response = await addNewVehicleToDB(body, supabase);
@@ -89,6 +90,8 @@ export async function POST(
 export async function DELETE(
 	request: Request
 ): Promise<NextResponse<Vehicle | { error: string }>> {
+	const supabase = await createClientSSROnly();
+
 	const url = new URL(request.url!);
 	const vehicleID = url.searchParams.get("vehicleid");
 
@@ -131,6 +134,8 @@ export async function DELETE(
 export async function PATCH(
 	request: Request
 ): Promise<NextResponse<Vehicle> | NextResponse<{ error: string }>> {
+	const supabase = await createClientSSROnly();
+
 	const url = new URL(request.url!);
 	const vehicleID = url.searchParams.get("vehicleid");
 
