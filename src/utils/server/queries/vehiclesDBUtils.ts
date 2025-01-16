@@ -12,7 +12,7 @@ import {
 import { NextResponse } from "next/server";
 
 /**For situations where db call will return an array but we specifically expect one (or 0) Vehicle */
-type ArrayWithOneVehicle = [Vehicle?];
+type ArrayWithOneOrZeroVehicles = [Vehicle?];
 
 /**Looks up vehicle by id, assembles the data from the multiple sub-tables, and returns an array with just that vehicle
  * Returns empty array if vehicle doesn't exist
@@ -20,7 +20,7 @@ type ArrayWithOneVehicle = [Vehicle?];
 async function getSingleVehicleById(
 	supabase: SupabaseClient,
 	vehicleId: number
-): Promise<ArrayWithOneVehicle> {
+): Promise<ArrayWithOneOrZeroVehicles> {
 	/**Vehicle data is stored in several different tables
 	 * This fetches data from each relevant table and joins it
 	 */
