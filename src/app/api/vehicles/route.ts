@@ -71,6 +71,8 @@ export async function GET(request: Request) {
 // TODO: Vehicle validation middleware
 /** I wrote a DB function for this since it was complicated with all these different tables
  * See insert_vehicle_function.sql
+ * NOTE: This only needs a Partial<Vehicle>, and only updates the fields/tables included on the passed-in Vehicle.
+ * So, you only need to pass in items that need updated.
  */
 export async function POST(
 	request: Request
@@ -79,6 +81,7 @@ export async function POST(
 
 	const body: Vehicle = await request.json();
 
+	// Should only include the fields that need to be updated
 	const {
 		userid,
 		type,
@@ -92,6 +95,28 @@ export async function POST(
 		yearlyMaintenanceCosts,
 		variableCosts,
 	} = body;
+
+	// if none of that stuff exists on body, throw error
+	if (
+		!userid &&
+		!type &&
+		!vehiclesOrder &&
+		!vehicleData &&
+		!gasVehicleData &&
+		!electricVehicleData &&
+		!purchaseAndSales &&
+		!usage &&
+		!fixedCosts &&
+		!yearlyMaintenanceCosts &&
+		!variableCosts
+	) {
+		return NextResponse.json(
+			{
+				error: "Must include at least one vehicle field to update",
+			},
+			{ status: 400 }
+		);
+	}
 
 	try {
 		// Wrote db function insert_vehicle_function.sql for this
