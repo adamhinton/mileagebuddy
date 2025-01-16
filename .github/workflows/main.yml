@@ -1,0 +1,18 @@
+name: Enforce Staging to Master Merge
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  check-merge-source:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check if the source branch is 'staging'
+        run: |
+          if [[ "${GITHUB_HEAD_REF}" != "staging" ]]; then
+            echo "ERROR: Pull request to 'master' must come from 'staging' branch only."
+            exit 1
+          fi
