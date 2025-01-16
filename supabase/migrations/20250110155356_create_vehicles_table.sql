@@ -1,4 +1,6 @@
 -- README
+-- Vehicles in this project are complicated objects. So there's a main `vehicles` table, then seven sub-tables
+-- See GetVehicleTypes.ts for more info
 -- Structure:
 -- - vehicles: The main table, holds the user vehicle data.
 -- - "vehicleData", gasVehicleData, electricVehicleData, purchaseAndSales, usage, "fixedCosts", yearlyMaintenanceCosts, and variableCosts: Sub-tables representing different aspects of the vehicle data.
@@ -8,7 +10,9 @@
 -- NOTE. IMPORTANT: Some table names and column names are wrapped in double quotes. This is to make them case sensitive, otherwise all keys returned from the backend would be lowercase which would be extremely annoying when trying to convert them to camel case for frontend use.
 
 -- As of 1.14.2025, deleting a vehicle will also delete its sub tables.
--- Haven't tested yet whether deleting a user deletes its vehicles (and sub tables)
+-- Deleting a user also deletes all vehicles and all sub tables.
+
+-- TODO: Total cost per year calculations
 
 CREATE TABLE vehicles (
     id SERIAL PRIMARY KEY,

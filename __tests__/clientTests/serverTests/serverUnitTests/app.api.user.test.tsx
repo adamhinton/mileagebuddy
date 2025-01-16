@@ -11,7 +11,7 @@
  */
 
 import { DELETE, GET, PUT, POST } from "@/app/api/user/route";
-import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
+import { createClientSSROnly } from "../../../../src/utils/server/supabaseUtilsCustom/server";
 import { NextRequest } from "next/server";
 
 // Mock the Supabase client

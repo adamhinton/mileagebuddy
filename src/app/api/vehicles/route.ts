@@ -1,22 +1,26 @@
 import { NextResponse } from "next/server";
-import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
-import {
+import { createClientSSROnly } from "../../../utils/server/supabaseUtilsCustom/server";
+import VehiclesDBUtils from "@/utils/server/queries/vehiclesDBUtils";
+import { Vehicle } from "@/utils/server/types/GetVehicleTypes";
+
+const {
+	addNewVehicleToDB,
 	getSingleVehicleById,
 	getVehiclesByUser,
-} from "@/utils/server/queries/getVehicleUtils";
-import { Vehicle } from "@/utils/server/types/GetVehicleTypes";
-import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehiclesQueries";
-import { SupabaseClient } from "@supabase/supabase-js";
+	checkIfVehicleExistsInDB,
+	deleteDBVehicleByID,
+	updateVehicleInDB,
+} = VehiclesDBUtils;
 
 // If vehicleid query parameter is passed in, it gets only that vehicle
 // if no vehicleid is passed in, it gets all vehicles for that user
 // Right now userid must be passed in (api/vehicles?userid=1 or optionally, api/vehicles?userid=1&vehicleid=4) but that can be nixed once we get auth set up, since it'll only get vehicles for an authenticated user
 export async function GET(request: Request) {
+	const supabase = await createClientSSROnly();
+
 	const url = new URL(request.url!);
 
 	try {
-		const supabase = await createClientSSROnly();
-
 		const userID = url.searchParams.get("userid");
 		const vehicleID = url.searchParams.get("vehicleid");
 
@@ -34,7 +38,6 @@ export async function GET(request: Request) {
 		// If vehicleId is provided, get one vehicle. If no vehicleid is provided, get all the user's vehicles
 
 		if (vehicleID) {
-			console.log("vehicleid:", vehicleID);
 			// Fetch details of a single vehicle by its ID
 			/**
 			 * Will be an array with one vehicle if vehicle exists in db, or empty array if vehicle isn't in db
@@ -58,10 +61,9 @@ export async function GET(request: Request) {
 			return NextResponse.json(vehicles, { status: 200 });
 		}
 	} catch (error) {
-		console.error("Error fetching vehicle data:", error);
 		return NextResponse.json(
 			{
-				error: "Failed to fetch vehicle data",
+				error: "Failed to fetch vehicle data" + error,
 			},
 			{ status: 500 }
 		);
@@ -81,60 +83,16 @@ export async function POST(
 
 	const body: Vehicle = await request.json();
 
-	// Should only include the fields that need to be updated
-	const {
-		userid,
-		type,
-		vehiclesOrder,
-		vehicleData,
-		gasVehicleData,
-		electricVehicleData,
-		purchaseAndSales,
-		usage,
-		fixedCosts,
-		yearlyMaintenanceCosts,
-		variableCosts,
-	} = body;
+	const response = await addNewVehicleToDB(body, supabase);
 
-	try {
-		// Wrote db function insert_vehicle_function.sql for this
-		const { data, error } = await supabase.rpc("insert_vehicle", {
-			// These parameter names had to be all lower case to play nice with SQL
-			_userid: userid,
-			_type: type,
-			_vehiclesorder: vehiclesOrder,
-			_vehicledata: vehicleData,
-			_gasvehicledata: gasVehicleData,
-			_electricvehicledata: electricVehicleData,
-			_purchaseandsales: purchaseAndSales,
-			_usage: usage,
-			_fixedcosts: fixedCosts,
-			_yearlymaintenancecosts: yearlyMaintenanceCosts,
-			_variablecosts: variableCosts,
-		});
-
-		if (error) throw error;
-
-		const newVehicleID = data;
-
-		// getSingleVehicleById returns an array with one Vehicle
-		const newVehicleArray = await getSingleVehicleById(supabase, newVehicleID!);
-		const newVehicle = newVehicleArray[0];
-
-		return NextResponse.json(newVehicle!, { status: 200 });
-	} catch (error) {
-		console.error("Error inserting vehicle data:", error);
-		return NextResponse.json(
-			{ error: "Failed to insert vehicle data" },
-			{ status: 500 }
-		);
-	}
+	return response;
 }
 
 export async function DELETE(
 	request: Request
 ): Promise<NextResponse<Vehicle | { error: string }>> {
 	const supabase = await createClientSSROnly();
+
 	const url = new URL(request.url!);
 	const vehicleID = url.searchParams.get("vehicleid");
 
@@ -160,38 +118,10 @@ export async function DELETE(
 		);
 	}
 
-	try {
-		// Data will be an array of one vehicle
-		// This delete also deletes all sub tables due to ON DELETE CASCADE
-		const { data, error } = await supabase
-			.from("vehicles")
-			.delete()
-			.eq("id", Number(vehicleID))
-			// This causes the delete statement to return the deleted vehicle, including data from sub tables
-			.select(stringForJoiningVehicleTables);
+	const response: NextResponse<Vehicle | { error: string }> =
+		await deleteDBVehicleByID(Number(vehicleID), supabase);
 
-		// This should never happen, but TS needed to know data wouldn't be null
-		if (data === null || data.length === 0) {
-			return NextResponse.json(
-				{ error: `Vehicle with id ${vehicleID} not found` },
-				{ status: 404 }
-			);
-		}
-
-		const deletedVehicle: Vehicle = data[0] as unknown as Vehicle;
-
-		if (error) throw error;
-		return NextResponse.json(deletedVehicle, {
-			status: 200,
-			statusText: "Vehicle deleted successfully",
-		});
-	} catch (error) {
-		console.error("Error deleting vehicle data:", error);
-		return NextResponse.json(
-			{ error: "Failed to delete vehicle data" },
-			{ status: 500 }
-		);
-	}
+	return response;
 }
 
 // TODO: Vehicle validation
@@ -204,8 +134,9 @@ export async function DELETE(
  */
 export async function PATCH(
 	request: Request
-): Promise<NextResponse<Vehicle> | NextResponse<{ error: string }>> {
+): Promise<NextResponse<Vehicle | { error: string }>> {
 	const supabase = await createClientSSROnly();
+
 	const url = new URL(request.url!);
 	const vehicleID = url.searchParams.get("vehicleid");
 
@@ -249,7 +180,6 @@ export async function PATCH(
 		!yearlyMaintenanceCosts &&
 		!variableCosts
 	) {
-		console.log("No fields to update in PATCH");
 		return NextResponse.json({
 			error: "Must include at least one vehicle field to update",
 			status: 400,
@@ -267,37 +197,12 @@ export async function PATCH(
 		});
 	}
 
-	try {
-		// Not getting data because it would be only a partial Vehicle
-		// Will fetch the full vehicle momentarily and return that
-		const { error } = await supabase.rpc("update_vehicle", {
-			_vehicleid: Number(vehicleID),
-			_partialdata: updatedPartialVehicle,
-		});
-		if (error) throw error;
+	// Either the FULL updated vehicle or an error
+	const response = await updateVehicleInDB(
+		updatedPartialVehicle,
+		supabase,
+		Number(vehicleID)
+	);
 
-		// An array with one vehicle
-		const fullUpdatedVehicle = await getSingleVehicleById(
-			supabase,
-			Number(vehicleID)
-		);
-
-		return NextResponse.json(fullUpdatedVehicle[0]!, { status: 200 });
-	} catch (error) {
-		console.error("Error updating vehicle data:", error);
-		return NextResponse.json(
-			{ error: "Failed to update vehicle data" },
-			{ status: 500 }
-		);
-	}
+	return response;
 }
-
-const checkIfVehicleExistsInDB = async (
-	vehicleID: number,
-	supabase: SupabaseClient
-): Promise<boolean> => {
-	// Should be an array with one vehicle
-	const vehicleArray = await getSingleVehicleById(supabase, vehicleID);
-
-	return vehicleArray.length > 0;
-};
