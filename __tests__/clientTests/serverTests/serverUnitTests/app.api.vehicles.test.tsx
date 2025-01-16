@@ -5,8 +5,10 @@
 import { Vehicle, Vehicles } from "@/utils/server/types/GetVehicleTypes";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { NextRequest } from "next/server";
-import { DELETE, GET, POST } from "@/app/api/vehicles/route";
+import { DELETE, GET, PATCH, POST } from "@/app/api/vehicles/route";
 import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehiclesQueries";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { Database } from "../../../../database.types";
 
 // This file is for UNIT tests. It tests API endpoint logic with dummy data, doesn't interact with an actual DB.
 // See README in servertests/serverunit tests for more info.
@@ -712,8 +714,129 @@ describe("DELETE /api/vehicles", () => {
 	});
 });
 
+// PATCH testing plan:
+// Mock isVehicleExistsInDB
+// Body should be Partial<Vehicle>
+// Mock supabase.rpc(update_vehicle), return empty array or error
+// Mock getSingleVehicleById to include the updated data
+// IMPORTANT: Most of that is happy path stuff, adjust accordingly for other paths
 describe("PATCH api/vehicles", () => {
 	beforeEach(() => {});
 
-	it("Should update existing vehicle by id and return the updated vehicle object", async () => {});
+	const mockVehicle: Vehicle = {
+		type: "gas",
+		userid: 1,
+		id: 1,
+		vehiclesOrder: 1,
+		vehicleData: {
+			vehicleID: 1,
+			vehicleName: "Tesla Model 3",
+			year: 2020,
+			make: "Tesla",
+			model: "Model 3",
+			trim: "Base",
+			highwayMPG: 35.5,
+		},
+		gasVehicleData: {
+			vehicleID: 1,
+			gasCostPerGallon: 3.5,
+			milesPerGallonHighway: 35.5,
+			milesPerGallonCity: 35.5,
+		},
+		purchaseAndSales: {
+			vehicleID: 1,
+			yearPurchased: 2020,
+			purchasePrice: 22000.0,
+			downPaymentAmount: 2000.0,
+			willSellCarAfterYears: 5,
+			milesBoughtAt: 10000,
+			willSellCarAtMiles: 80000,
+			willSellCarAtPrice: 12000.0,
+		},
+		usage: {
+			vehicleID: 1,
+			averageDailyMiles: 100,
+			weeksPerYear: 52,
+			percentHighway: 0.5,
+			extraDistanceMiles: 0,
+			extraDistancePercentHighway: 0,
+		},
+		fixedCosts: {
+			vehicleID: 1,
+			yearlyInsuranceCost: 1000.0,
+			yearlyRegistrationCost: 100.0,
+			yearlyTaxes: 100.0,
+			monthlyLoanPayment: 300.0,
+			monthlyWarrantyCost: 30.0,
+			inspectionCost: 100.0,
+			otherYearlyCosts: 300.0,
+		},
+		yearlyMaintenanceCosts: {
+			vehicleID: 1,
+			oilChanges: 100.0,
+			tires: 200.0,
+			batteries: 300.0,
+			brakes: 100.0,
+			other: 100.0,
+			depreciation: 800.0,
+		},
+		variableCosts: {
+			vehicleID: 1,
+			monthlyParkingCosts: 100.0,
+			monthlyTolls: 50.0,
+			monthlyCarWashCost: 20.0,
+			monthlyMiscellaneousCosts: 50.0,
+			monthlyCostDeductions: 80.0,
+		},
+		electricVehicleData: null,
+	};
+
+	const partialMockVehicle: Partial<Vehicle> = {
+		type: "gas",
+		userid: 1,
+		id: 1,
+		vehiclesOrder: 1,
+		vehicleData: {
+			vehicleID: 1,
+			vehicleName: "UPDATE TEST",
+			year: 2042,
+			make: "TEST UPDATE",
+			model: "TEST UPDATED TEST",
+			trim: "Base",
+			highwayMPG: 35.5,
+		},
+	};
+
+	it.only("Should update existing vehicle by id and return the updated vehicle object", async () => {
+		const supabase = {
+			from: jest.fn().mockReturnValue({
+				select: jest.fn().mockReturnValue({
+					eq: jest.fn().mockResolvedValue({ data: [mockVehicle], error: null }),
+				}),
+			}),
+			rpc: jest.fn().mockReturnValue({
+				// update_vehicle doesn't return anything when it's successful
+				update_vehicle: jest.fn().mockResolvedValue({ error: null }),
+			}),
+		};
+
+		// Mock the Supabase client
+		(createClientSSROnly as jest.Mock).mockReturnValue(supabase);
+
+		const request = {
+			url: "http://localhost:3000/api/vehicles?vehicleid=1",
+			method: "PATCH",
+			body: mockVehicle,
+			json: jest.fn().mockResolvedValue(partialMockVehicle),
+		} as unknown as NextRequest;
+
+		const response = await PATCH(request);
+		const responseData: Vehicle = await response.json();
+
+		expect(response.status).toBe(200);
+		expect(responseData).toEqual({
+			...mockVehicle,
+			vehicleData: { ...mockVehicle.vehicleData },
+		});
+	});
 });

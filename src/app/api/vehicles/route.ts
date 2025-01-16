@@ -235,7 +235,7 @@ export async function PATCH(
 		// Will fetch the full vehicle momentarily and return that
 		const { error } = await supabase.rpc("update_vehicle", {
 			_vehicleid: Number(vehicleID),
-			_partialdata: updatedPartialVehicle, // Pass the object, not a string
+			_partialdata: updatedPartialVehicle,
 		});
 		if (error) throw error;
 
