@@ -65,7 +65,6 @@ export async function GET(
 // Must have an id attached as query parameter to the API endpoint call
 // for example, PUT /api/users?id=2348
 // Only takes ID
-// TODO: Make this param a Request, not a NextApiRequest
 export async function PUT(request: NextRequest) {
 	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
@@ -83,19 +82,13 @@ export async function PUT(request: NextRequest) {
 		);
 	}
 
-	console.log("body:", body);
-
 	// TODO: This may be unnecessary
 	const isUserExistsInDB = await checkIfUserExistsInDB("id", id, supabase);
 	if (!isUserExistsInDB) {
 		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
 	}
 
-	console.log("body.email:", body.email);
-	console.log("body.isDarkMode:", body.isDarkMode);
-
 	if (!body.email && body.isDarkMode === undefined) {
-		console.log("blah blah blah");
 		return NextResponse.json(
 			{
 				error: "User data to update is required",
@@ -110,7 +103,6 @@ export async function PUT(request: NextRequest) {
 		await supabase.from("users").update(body).eq("id", Number(id));
 
 	if (error) {
-		console.log("error:", error);
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 
@@ -124,7 +116,6 @@ export async function PUT(request: NextRequest) {
 // for example, DELETE /api/users?id=2348
 // Only takes ID
 // NOTE that this will (should) delete all associated vehicle data too (ON DELETE CASCADE)
-// TODO: Make this param a Request, not a NextApiRequest
 export async function DELETE(request: NextRequest) {
 	const url = new URL(request.url!);
 	const supabase = await createClientSSROnly();
@@ -168,7 +159,6 @@ export async function POST(request: NextRequest) {
 	const body = await request.json();
 
 	if (!body.email) {
-		console.log("no body.email");
 		return NextResponse.json(
 			{
 				error: "Email required",
@@ -185,7 +175,6 @@ export async function POST(request: NextRequest) {
 	);
 
 	if (isUserExistsInDB) {
-		console.log("isUserExistsInDB:", isUserExistsInDB);
 		return NextResponse.json(
 			{
 				error: "User already in DB",
@@ -205,7 +194,6 @@ export async function POST(request: NextRequest) {
 			.select();
 
 	if (error) {
-		console.log("error:", error);
 		return NextResponse.json({ error: error.message }, { status: 500 });
 	}
 
