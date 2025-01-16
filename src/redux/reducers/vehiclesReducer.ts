@@ -6,33 +6,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Vehicles, Vehicle } from "@/utils/server/types/GetVehicleTypes";
 
-const initialState: Vehicles = mockVehicles;
-
-// vehicles reducer
-const vehiclesSlice = createSlice({
-	name: "vehicles",
-	initialState: initialState,
-	reducers: {
-		addVehicle: (state, action: PayloadAction<Vehicle>) => {
-			state.push(action.payload);
-		},
-		removeOneVehicle: (state, action: PayloadAction<number>) => {
-			state.splice(action.payload, 1);
-		},
-		setVehicles: (state, action: PayloadAction<Vehicle[]>) => {
-			state.length = 0;
-			state.push(...action.payload);
-		},
-		removeAllVehicles: (state) => {
-			state.length = 0;
-		},
-	},
-});
-
-export const { addVehicle, removeOneVehicle, setVehicles, removeAllVehicles } =
-	vehiclesSlice.actions;
-export default vehiclesSlice.reducer;
-
 const mockVehicles: Vehicles = [
 	{
 		type: "gas",
@@ -102,3 +75,30 @@ const mockVehicles: Vehicles = [
 		electricVehicleData: null,
 	},
 ];
+
+const initialState: Vehicles = mockVehicles;
+
+// vehicles reducer
+const vehiclesSlice = createSlice({
+	name: "vehicles",
+	initialState: initialState,
+	reducers: {
+		addVehicle: (state, action: PayloadAction<Vehicle>) => {
+			state.push(action.payload);
+		},
+		removeOneVehicle: (state, action: PayloadAction<number>) => {
+			state.splice(action.payload, 1);
+		},
+		setVehicles: (state, action: PayloadAction<Vehicle[]>) => {
+			state.length = 0;
+			state.push(...action.payload);
+		},
+		removeAllVehicles: (state) => {
+			state.length = 0;
+		},
+	},
+});
+
+export const { addVehicle, removeOneVehicle, setVehicles, removeAllVehicles } =
+	vehiclesSlice.actions;
+export default vehiclesSlice.reducer;
