@@ -3,7 +3,7 @@ import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import {
 	getSingleVehicleById,
 	getVehiclesByUser,
-} from "@/utils/server/queries/getVehicleUtils";
+} from "@/utils/server/queries/vehiclesDBUtils";
 import { Vehicle } from "@/utils/server/types/GetVehicleTypes";
 import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehiclesQueries";
 import { SupabaseClient } from "@supabase/supabase-js";

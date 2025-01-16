@@ -7,9 +7,6 @@ import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import { NextRequest, NextResponse } from "next/server";
 import { DELETE, GET, PATCH, POST } from "@/app/api/vehicles/route";
 import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehiclesQueries";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { Database } from "../../../../database.types";
-import { NextApiResponse } from "next";
 
 // This file is for UNIT tests. It tests API endpoint logic with dummy data, doesn't interact with an actual DB.
 // See README in servertests/serverunit tests for more info.
