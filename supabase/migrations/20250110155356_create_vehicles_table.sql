@@ -1,4 +1,6 @@
 -- README
+-- Vehicles in this project are complicated objects. So there's a main `vehicles` table, then seven sub-tables
+-- See GetVehicleTypes.ts for more info
 -- Structure:
 -- - vehicles: The main table, holds the user vehicle data.
 -- - "vehicleData", gasVehicleData, electricVehicleData, purchaseAndSales, usage, "fixedCosts", yearlyMaintenanceCosts, and variableCosts: Sub-tables representing different aspects of the vehicle data.
