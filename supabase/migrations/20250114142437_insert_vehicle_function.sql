@@ -1,3 +1,14 @@
+-- README
+-- This is, obviously, a function to insert a vehicle in the DB
+-- Triggered from POST api/vehicles
+-- Takes in a Vehicle (defined at GetVehicleTypes.ts)
+-- Should just be able to pass in the Vehicle and the function will do the rest
+-- This only updates any table if all updates are successful, otherwise it rolls back
+-- Note that vehicles are complicated objects, so there are eight different tables containing vehicle data
+-- This function only returns the new vehicle's id, then the POST fetches that vehicle and returns the full vehicle data
+-- That isn't totally efficient, but it does separate concerns. If this project gets a lot of traffic, it'll be easy to streamline later.
+
+
 CREATE OR REPLACE FUNCTION insert_vehicle(
     _userID bigint,
     _type VARCHAR(10),
