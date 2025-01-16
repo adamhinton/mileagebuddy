@@ -7,7 +7,9 @@ import { Vehicle, Vehicles } from "../types/GetVehicleTypes";
 import {
 	getSingleVehicleByIdQuery,
 	getVehiclesByUserIdQuery,
+	stringForJoiningVehicleTables,
 } from "./GetVehiclesQueries";
+import { NextResponse } from "next/server";
 
 type ArrayWithOneVehicle = [Vehicle?];
 
@@ -73,7 +75,50 @@ const checkIfVehicleExistsInDB = async (
 	return vehicleArray.length > 0;
 };
 
+/** Attempts to delete a vehicle by its id
+ * The DELETE endpoint which calls it has already validated that vehicle exists and that vehicleID is valid
+ * Returns the deleted vehicle or an error message
+ */
+const deleteDBVehicleByID = async (
+	vehicleID: number,
+	supabase: SupabaseClient
+): Promise<NextResponse<Vehicle | { error: string }>> => {
+	try {
+		// Data will be an array of one vehicle
+		// This delete also deletes all sub tables due to ON DELETE CASCADE
+		const { data, error } = await supabase
+			.from("vehicles")
+			.delete()
+			.eq("id", Number(vehicleID))
+			// This causes the delete statement to return the deleted vehicle, including data from sub tables
+			.select(stringForJoiningVehicleTables);
+
+		// This should never happen, but TS needed to know data wouldn't be null
+		if (data === null || data.length === 0) {
+			return NextResponse.json(
+				{ error: `Vehicle with id ${vehicleID} not found` },
+				{ status: 404 }
+			);
+		}
+
+		const deletedVehicle: Vehicle = data[0] as unknown as Vehicle;
+
+		if (error) throw error;
+		return NextResponse.json(deletedVehicle, {
+			status: 200,
+			statusText: "Vehicle deleted successfully",
+		});
+	} catch (error) {
+		console.error("Error deleting vehicle data:", error);
+		return NextResponse.json(
+			{ error: "Failed to delete vehicle data" },
+			{ status: 500 }
+		);
+	}
+};
+
 const VehiclesDBUtils = {
+	deleteDBVehicleByID,
 	getSingleVehicleById,
 	getVehiclesByUser,
 	checkIfVehicleExistsInDB,

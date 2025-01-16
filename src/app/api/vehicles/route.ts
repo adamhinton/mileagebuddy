@@ -2,10 +2,16 @@ import { NextResponse } from "next/server";
 import { createClientSSROnly } from "../../../../supabaseUtilsCustom/server";
 import VehiclesDBUtils from "@/utils/server/queries/vehiclesDBUtils";
 import { Vehicle } from "@/utils/server/types/GetVehicleTypes";
-import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehiclesQueries";
 
-const { getSingleVehicleById, getVehiclesByUser, checkIfVehicleExistsInDB } =
-	VehiclesDBUtils;
+const {
+	getSingleVehicleById,
+	getVehiclesByUser,
+	checkIfVehicleExistsInDB,
+	deleteDBVehicleByID,
+} = VehiclesDBUtils;
+
+/** The client that we will use to interact with supabase in all of these route handlers */
+const supabase = await createClientSSROnly();
 
 // If vehicleid query parameter is passed in, it gets only that vehicle
 // if no vehicleid is passed in, it gets all vehicles for that user
@@ -14,8 +20,6 @@ export async function GET(request: Request) {
 	const url = new URL(request.url!);
 
 	try {
-		const supabase = await createClientSSROnly();
-
 		const userID = url.searchParams.get("userid");
 		const vehicleID = url.searchParams.get("vehicleid");
 
@@ -33,7 +37,6 @@ export async function GET(request: Request) {
 		// If vehicleId is provided, get one vehicle. If no vehicleid is provided, get all the user's vehicles
 
 		if (vehicleID) {
-			console.log("vehicleid:", vehicleID);
 			// Fetch details of a single vehicle by its ID
 			/**
 			 * Will be an array with one vehicle if vehicle exists in db, or empty array if vehicle isn't in db
@@ -57,10 +60,9 @@ export async function GET(request: Request) {
 			return NextResponse.json(vehicles, { status: 200 });
 		}
 	} catch (error) {
-		console.error("Error fetching vehicle data:", error);
 		return NextResponse.json(
 			{
-				error: "Failed to fetch vehicle data",
+				error: "Failed to fetch vehicle data" + error,
 			},
 			{ status: 500 }
 		);
@@ -76,8 +78,6 @@ export async function GET(request: Request) {
 export async function POST(
 	request: Request
 ): Promise<NextResponse<Vehicle | { error: string }>> {
-	const supabase = await createClientSSROnly();
-
 	const body: Vehicle = await request.json();
 
 	// Should only include the fields that need to be updated
@@ -133,7 +133,6 @@ export async function POST(
 export async function DELETE(
 	request: Request
 ): Promise<NextResponse<Vehicle | { error: string }>> {
-	const supabase = await createClientSSROnly();
 	const url = new URL(request.url!);
 	const vehicleID = url.searchParams.get("vehicleid");
 
@@ -159,38 +158,10 @@ export async function DELETE(
 		);
 	}
 
-	try {
-		// Data will be an array of one vehicle
-		// This delete also deletes all sub tables due to ON DELETE CASCADE
-		const { data, error } = await supabase
-			.from("vehicles")
-			.delete()
-			.eq("id", Number(vehicleID))
-			// This causes the delete statement to return the deleted vehicle, including data from sub tables
-			.select(stringForJoiningVehicleTables);
+	const response: NextResponse<Vehicle | { error: string }> =
+		await deleteDBVehicleByID(Number(vehicleID), supabase);
 
-		// This should never happen, but TS needed to know data wouldn't be null
-		if (data === null || data.length === 0) {
-			return NextResponse.json(
-				{ error: `Vehicle with id ${vehicleID} not found` },
-				{ status: 404 }
-			);
-		}
-
-		const deletedVehicle: Vehicle = data[0] as unknown as Vehicle;
-
-		if (error) throw error;
-		return NextResponse.json(deletedVehicle, {
-			status: 200,
-			statusText: "Vehicle deleted successfully",
-		});
-	} catch (error) {
-		console.error("Error deleting vehicle data:", error);
-		return NextResponse.json(
-			{ error: "Failed to delete vehicle data" },
-			{ status: 500 }
-		);
-	}
+	return response;
 }
 
 // TODO: Vehicle validation
@@ -204,7 +175,6 @@ export async function DELETE(
 export async function PATCH(
 	request: Request
 ): Promise<NextResponse<Vehicle> | NextResponse<{ error: string }>> {
-	const supabase = await createClientSSROnly();
 	const url = new URL(request.url!);
 	const vehicleID = url.searchParams.get("vehicleid");
 
