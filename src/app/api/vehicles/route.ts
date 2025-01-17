@@ -3,6 +3,7 @@ import VehiclesDBUtils from "@/app/utils/server/queries/vehiclesDBUtils";
 import {
 	Vehicle,
 	VehicleSchema,
+	VehicleToBePostedSchema,
 } from "@/app/utils/server/types/GetVehicleTypes";
 import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
 
@@ -86,8 +87,9 @@ export async function POST(
 
 	const body: Vehicle = await request.json();
 
-	const safeParsed = VehicleSchema.safeParse(body);
+	const safeParsed = VehicleToBePostedSchema.safeParse(body);
 	console.log("safeParsed.error:", safeParsed.error);
+	console.log("safeParsed:", safeParsed);
 
 	const response = await addNewVehicleToDB(body, supabase);
 

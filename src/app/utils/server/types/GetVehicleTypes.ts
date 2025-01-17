@@ -218,30 +218,46 @@ export const VehicleToBePostedSchema = VehicleSchema.omit({
 	id: true,
 }).merge(
 	z.object({
-		vehicleData: z.object({
-			vehicleID: z.never(),
-		}),
-		gasVehicleData: z.object({
-			vehicleID: z.never(),
-		}),
-		electricVehicleData: z.object({
-			vehicleID: z.never(),
-		}),
-		purchaseAndSales: z.object({
-			vehicleID: z.never(),
-		}),
-		usage: z.object({
-			vehicleID: z.never(),
-		}),
-		fixedCosts: z.object({
-			vehicleID: z.never(),
-		}),
-		yearlyMaintenanceCosts: z.object({
-			vehicleID: z.never(),
-		}),
-		variableCosts: z.object({
-			vehicleID: z.never(),
-		}),
+		vehicleData: z
+			.object({
+				vehicleID: z.never().optional(),
+			})
+			.omit({ vehicleID: true }),
+		gasVehicleData: z
+			.object({
+				vehicleID: z.never().optional(),
+			})
+			.omit({ vehicleID: true }),
+		electricVehicleData: z
+			.object({
+				vehicleID: z.never().optional(),
+			})
+			.omit({ vehicleID: true }),
+		purchaseAndSales: z
+			.object({
+				vehicleID: z.never().optional(),
+			})
+			.omit({ vehicleID: true }),
+		usage: z
+			.object({
+				vehicleID: z.never().optional(),
+			})
+			.omit({ vehicleID: true }),
+		fixedCosts: z
+			.object({
+				vehicleID: z.never().optional(),
+			})
+			.omit({ vehicleID: true }),
+		yearlyMaintenanceCosts: z
+			.object({
+				vehicleID: z.never().optional(),
+			})
+			.omit({ vehicleID: true }),
+		variableCosts: z
+			.object({
+				vehicleID: z.never().optional(),
+			})
+			.omit({ vehicleID: true }),
 	})
 );
 
