@@ -1,11 +1,11 @@
 // README
 // This is a test file for the server-side API route /api/vehicles
 
-import { Vehicle, Vehicles } from "@/utils/server/types/GetVehicleTypes";
-import { createClientSSROnly } from "../../../../src/utils/server/supabaseUtilsCustom/server";
+import { Vehicles, Vehicle } from "@/app/utils/server/types/GetVehicleTypes";
 import { NextRequest, NextResponse } from "next/server";
 import { DELETE, GET, PATCH, POST } from "@/app/api/vehicles/route";
-import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehiclesQueries";
+import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
+import { stringForJoiningVehicleTables } from "@/app/utils/server/queries/vehiclesDBUtils";
 
 // This file is for UNIT tests. It tests API endpoint logic with dummy data, doesn't interact with an actual DB.
 // See README in servertests/serverunit tests for more info.
@@ -16,9 +16,13 @@ import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehicle
  */
 
 // Mock the Supabase client
-jest.mock("../../../../supabaseUtilsCustom/server", () => ({
-	createClientSSROnly: jest.fn(),
-}));
+// It didn't recognize relative imports, not sure why
+jest.mock(
+	"../../../../src/app/utils/server/supabaseUtilsCustom/server",
+	() => ({
+		createClientSSROnly: jest.fn(),
+	})
+);
 
 jest.mock("next/server", () => ({
 	NextResponse: {
@@ -32,7 +36,7 @@ jest.mock("next/server", () => ({
 describe("GET /api/vehicles", () => {
 	beforeEach(() => {});
 
-	const mockVehicles: Vehicles = [
+	const mockVehicles: Vehicle[] = [
 		{
 			type: "gas",
 			userid: 1,
@@ -79,6 +83,7 @@ describe("GET /api/vehicles", () => {
 				monthlyLoanPayment: 300.0,
 				monthlyWarrantyCost: 30.0,
 				inspectionCost: 100.0,
+				yearlyParkingCost: 100.0,
 				otherYearlyCosts: 300.0,
 			},
 			yearlyMaintenanceCosts: {
@@ -305,6 +310,7 @@ describe("POST /api/vehicles", () => {
 				monthlyLoanPayment: 300.0,
 				monthlyWarrantyCost: 30.0,
 				inspectionCost: 100.0,
+				yearlyParkingCost: 100.0,
 				otherYearlyCosts: 300.0,
 			},
 			yearlyMaintenanceCosts: {

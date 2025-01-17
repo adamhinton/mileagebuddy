@@ -6,7 +6,6 @@ import { Tables } from "../../database.types";
 import {
 	Vehicle,
 	Vehicles,
-	VehicleToBePostedSchema,
 	Vehicle_For_db_POST,
 } from "../app/utils/server/types/GetVehicleTypes";
 // README:
@@ -96,7 +95,7 @@ export default function Page() {
 				const fetchedUsers: User[] = data;
 				setUsers(fetchedUsers);
 			} catch (error) {
-				console.error("Error fetching users in page.tsx:", error);
+				return error;
 			}
 		};
 
@@ -107,8 +106,9 @@ export default function Page() {
 				const data = await res.json();
 				const fetchedUser: Tables<"users"> = data;
 				console.log("fetchedUser:", fetchedUser);
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			} catch (error) {
-				console.error("Error fetching single user in page.tsx:", error);
+				// console.error("Error fetching single user in page.tsx:", error);
 			}
 		};
 

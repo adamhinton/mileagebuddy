@@ -11,13 +11,17 @@
  */
 
 import { DELETE, GET, PUT, POST } from "@/app/api/user/route";
-import { createClientSSROnly } from "../../../../src/utils/server/supabaseUtilsCustom/server";
+// import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
+import { createClientSSROnly } from "../../../../src/app/utils/server/supabaseUtilsCustom/server";
 import { NextRequest } from "next/server";
 
 // Mock the Supabase client
-jest.mock("../../../../supabaseUtilsCustom/server", () => ({
-	createClientSSROnly: jest.fn(),
-}));
+jest.mock(
+	"../../../../src/app/utils/server/supabaseUtilsCustom/server",
+	() => ({
+		createClientSSROnly: jest.fn(),
+	})
+);
 
 jest.mock("next/server", () => ({
 	NextResponse: {

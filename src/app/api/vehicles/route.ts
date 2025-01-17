@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import VehiclesDBUtils from "@/app/utils/server/queries/vehiclesDBUtils";
 import {
 	Vehicle,
-	VehicleSchema,
 	VehicleToBePostedSchema,
 } from "@/app/utils/server/types/GetVehicleTypes";
 import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
