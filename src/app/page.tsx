@@ -75,18 +75,13 @@ const mockVehicle = {
 	electricVehicleData: null,
 };
 
-const checkZodClient = (mockVehicle: Vehicle_For_db_POST) => {
-	const safeParsed = VehicleToBePostedSchema.safeParse(mockVehicle);
-	console.log("safeParsed:", safeParsed);
-};
-
 export default function Page() {
 	const [users, setUsers] = useState<User[]>([]);
 
-	const safeParsed = VehicleToBePostedSchema.safeParse(mockVehicle);
-	console.log("safeParsed:", safeParsed);
-
 	useEffect(() => {
+		// const safeParsed = VehicleToBePostedSchema.safeParse(mockVehicle);
+		// console.log("safeParsed:", safeParsed);
+
 		const fetchData = async () => {
 			try {
 				const res = await fetch("/api/user?id=3");

@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import VehiclesDBUtils from "@/app/utils/server/queries/vehiclesDBUtils";
-import { Vehicle } from "@/app/utils/server/types/GetVehicleTypes";
+import {
+	Vehicle,
+	VehicleSchema,
+} from "@/app/utils/server/types/GetVehicleTypes";
 import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
 
 const {
@@ -83,8 +86,8 @@ export async function POST(
 
 	const body: Vehicle = await request.json();
 
-	// const safeParsed = VehicleSchema.safeParse(body);
-	// console.log("safeParsed.error:", safeParsed.error);
+	const safeParsed = VehicleSchema.safeParse(body);
+	console.log("safeParsed.error:", safeParsed.error);
 
 	const response = await addNewVehicleToDB(body, supabase);
 
