@@ -18,7 +18,6 @@ import {
 const mockVehicle: Vehicle_For_db_POST = {
 	type: "gas" as const,
 	userid: 1,
-	id: 1,
 	vehiclesOrder: 1,
 	vehicleData: {
 		vehicleName: "Tesla Model 3",
