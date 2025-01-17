@@ -19,6 +19,7 @@ import { Database } from "../../../../database.types";
  */
 export async function createClientSSROnly() {
 	const cookieStore = await cookies();
+	cookieStore.getAll();
 	const isDev = process.env.NODE_ENV === "development";
 
 	return createServerClient<Database>(

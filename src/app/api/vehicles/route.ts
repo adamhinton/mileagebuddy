@@ -83,6 +83,9 @@ export async function POST(
 
 	const body: Vehicle = await request.json();
 
+	// const safeParsed = VehicleSchema.safeParse(body);
+	// console.log("safeParsed.error:", safeParsed.error);
+
 	const response = await addNewVehicleToDB(body, supabase);
 
 	return response;

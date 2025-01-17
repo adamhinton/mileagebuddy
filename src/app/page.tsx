@@ -3,7 +3,12 @@
 import { User } from "@/zod/schemas/UserSchema";
 import { useEffect, useState } from "react";
 import { Tables } from "../../database.types";
-import { Vehicle, Vehicles } from "@/utils/server/types/GetVehicleTypes";
+import {
+	Vehicle,
+	Vehicles,
+	VehicleToBePostedSchema,
+	Vehicle_For_db_POST,
+} from "@/utils/server/types/GetVehicleTypes";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
@@ -11,7 +16,7 @@ import { Vehicle, Vehicles } from "@/utils/server/types/GetVehicleTypes";
 //supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd/settings/api?showConnect=true
 
 const mockVehicle = {
-	type: "gas",
+	type: "gas" as const,
 	userid: 1,
 	vehiclesOrder: 1,
 	vehicleData: {
@@ -70,8 +75,16 @@ const mockVehicle = {
 	electricVehicleData: null,
 };
 
+const checkZodClient = (mockVehicle: Vehicle_For_db_POST) => {
+	const safeParsed = VehicleToBePostedSchema.safeParse(mockVehicle);
+	console.log("safeParsed:", safeParsed);
+};
+
 export default function Page() {
 	const [users, setUsers] = useState<User[]>([]);
+
+	const safeParsed = VehicleToBePostedSchema.safeParse(mockVehicle);
+	console.log("safeParsed:", safeParsed);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -138,6 +151,9 @@ export default function Page() {
 
 			<button
 				onClick={async () => {
+					console.log("blah blah blah");
+
+					// checkZodClient(mockVehicle);
 					const res = await fetch("api/vehicles", {
 						method: "POST",
 						body: JSON.stringify(mockVehicle),

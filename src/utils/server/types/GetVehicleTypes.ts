@@ -8,6 +8,12 @@
 // Also a partial type for updating a vehicle with only the needed data (TODO)
 // And a type without id's for creating a new vehicle (TODO), because the db hasn't assigned them id's yet
 
+// GUIDE:
+// Here are the types to use in different situations
+// Vehicle you're GETTING from the DB: Vehicle
+// Vehicle you're POSTING to the DB: Vehicle_For_db_POST
+// Vehicle you're PATCHING to the DB: TODO, will write this soon
+
 import { getVehiclesByUserIdQuery } from "../queries/GetVehiclesQueries";
 import z from "zod";
 
@@ -30,7 +36,6 @@ export type Vehicles = z.infer<typeof VehicleSchema>[];
  *
  * Further types will be inferred from this.
  */
-export type VehiclePrototype = Vehicles[number];
 export const VehicleSchema = z.object({
 	id: z.number().readonly(),
 	userid: z.number().readonly(),
@@ -39,50 +44,47 @@ export const VehicleSchema = z.object({
 
 	vehicleData: z.object({
 		vehicleID: z.number().readonly(),
-		vehicleName: z.string(),
-		year: z.number().nullable(),
-		make: z.string().nullable(),
-		model: z.string().nullable(),
-		trim: z.string().nullable(),
-		highwayMPG: z.number().nullable(),
+		vehicleName: z.string().min(1).max(30),
+		year: z.number().min(1875).max(2100).nullable(),
+		make: z.string().min(1).max(30).nullable(),
+		model: z.string().min(1).max(30).nullable(),
+		trim: z.string().min(1).max(30).nullable(),
+		highwayMPG: z.number().positive().nullable(),
 	}),
 
-	gasVehicleData: z
-		.object({
-			vehicleID: z.number().readonly(),
-			gasCostPerGallon: z.number().positive().nullable(),
-			milesPerGallonHighway: z.number().positive().nullable(),
-			milesPerGallonCity: z.number().positive().nullable(),
-		})
-		.nullable(),
-
-	electricVehicleData: z
-		.object({
-			vehicleID: z.number().readonly(),
-			costPerCharge: z.number().positive().nullable(),
-			milesPerCharge: z.number().positive().nullable(),
-			electricRangeMiles: z.number().positive().nullable(),
-		})
-		.nullable(),
-
-	purchaseAndSales: z.object({
+	gasVehicleData: z.object({
 		vehicleID: z.number().readonly(),
-		yearPurchased: z.number().nullable(),
-		purchasePrice: z.number().positive(),
-		downPaymentAmount: z.number().positive().nullable(),
-		willSellCarAfterYears: z.number().positive(),
-		milesBoughtAt: z.number().positive(),
-		willSellCarAtMiles: z.number().positive(),
-		willSellCarAtPrice: z.number().positive(),
+		gasCostPerGallon: z.number().max(1000).positive().nullable(),
+		milesPerGallonHighway: z.number().positive().nullable(),
+		milesPerGallonCity: z.number().positive().nullable(),
 	}),
+	electricVehicleData: z.object({
+		vehicleID: z.number().readonly(),
+		costPerCharge: z.number().positive().nullable(),
+		milesPerCharge: z.number().positive().nullable(),
+		electricRangeMiles: z.number().positive().nullable(),
+	}),
+	purchaseAndSales: z
+		.object({
+			vehicleID: z.number().readonly(),
+			yearPurchased: z.number().positive().nullable(),
+			purchasePrice: z.number().positive(),
+			downPaymentAmount: z.number().positive().nullable(),
+			willSellCarAfterYears: z.number().positive(),
+			milesBoughtAt: z.number().positive(),
+			willSellCarAtMiles: z.number().positive(),
+			willSellCarAtPrice: z.number().positive(),
+		})
+		.refine((data) => data.milesBoughtAt <= data.willSellCarAtMiles)
+		.describe("milesBoughtAt must be less than or equal to willSellCarAtMiles"),
 
 	usage: z.object({
 		vehicleID: z.number().readonly(),
-		averageDailyMiles: z.number().positive(),
-		weeksPerYear: z.number().positive(),
-		percentHighway: z.number().positive(),
-		extraDistanceMiles: z.number().positive().nullable(),
-		extraDistancePercentHighway: z.number().positive().nullable(),
+		averageDailyMiles: z.number().nonnegative(),
+		weeksPerYear: z.number().nonnegative(),
+		percentHighway: z.number().positive().max(100),
+		extraDistanceMiles: z.number().nonnegative().nullable(),
+		extraDistancePercentHighway: z.number().positive().max(100).nullable(),
 	}),
 
 	fixedCosts: z.object({
@@ -210,4 +212,44 @@ const bob: Vehicle = {
 	},
 };
 
-console.log(bob);
+// Vehicle without any ids except userid, because it hasn't been sent to db yet
+// This is for POST requests
+export const VehicleToBePostedSchema = VehicleSchema.omit({
+	id: true,
+}).merge(
+	z.object({
+		vehicleData: z.object({
+			vehicleID: z.never(),
+		}),
+		gasVehicleData: z.object({
+			vehicleID: z.never(),
+		}),
+		electricVehicleData: z.object({
+			vehicleID: z.never(),
+		}),
+		purchaseAndSales: z.object({
+			vehicleID: z.never(),
+		}),
+		usage: z.object({
+			vehicleID: z.never(),
+		}),
+		fixedCosts: z.object({
+			vehicleID: z.never(),
+		}),
+		yearlyMaintenanceCosts: z.object({
+			vehicleID: z.never(),
+		}),
+		variableCosts: z.object({
+			vehicleID: z.never(),
+		}),
+	})
+);
+
+/**
+ * This doesn't have any ids anywhere because it's for a POST request
+ *
+ * So it wouldn't have been assigned an id or vehicleids yet by the db
+ *
+ * Use this type for POST requests!
+ */
+export type Vehicle_For_db_POST = z.infer<typeof VehicleToBePostedSchema>;
