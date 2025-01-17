@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { createClientSSROnly } from "../../../utils/server/supabaseUtilsCustom/server";
-import VehiclesDBUtils from "@/utils/server/queries/vehiclesDBUtils";
-import { Vehicle } from "@/utils/server/types/GetVehicleTypes";
+import VehiclesDBUtils from "@/app/utils/server/queries/vehiclesDBUtils";
+import { Vehicle } from "@/app/utils/server/types/GetVehicleTypes";
+import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
 
 const {
 	addNewVehicleToDB,

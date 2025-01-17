@@ -4,9 +4,9 @@
 // TODO: Probably delete public.users and just use the supabase auth.users built in table. But can still use this same endpoint
 
 import { NextRequest, NextResponse } from "next/server";
-import { createClientSSROnly } from "../../../utils/server/supabaseUtilsCustom/server";
 import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
 import { Tables } from "../../../../database.types";
+import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
 
 // TODO: Get user's vehicles too
 

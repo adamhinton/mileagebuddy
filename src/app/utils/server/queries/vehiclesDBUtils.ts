@@ -7,9 +7,49 @@ import { Vehicle, Vehicles } from "../types/GetVehicleTypes";
 import {
 	getSingleVehicleByIdQuery,
 	getVehiclesByUserIdQuery,
-	stringForJoiningVehicleTables,
 } from "./GetVehiclesQueries";
 import { NextResponse } from "next/server";
+
+/**The string we use in our select statement to get vehicles
+ * It's longso we're saving it here to stay DRY
+ * It just collects vehicle info from multiple tables in to one join
+ */
+export const stringForJoiningVehicleTables = `
+		userid, type, id, "vehiclesOrder",
+
+		"vehicleData"(
+			"vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
+		),
+
+		"gasVehicleData"(
+			"vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
+		),
+
+		"electricVehicleData"(
+			"vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles"
+		),
+
+		"purchaseAndSales"(
+			"vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", "willSellCarAtPrice"
+		),
+
+		usage(
+			"vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", "extraDistanceMiles", "extraDistancePercentHighway"
+		),
+
+		"fixedCosts"(
+			"vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts"
+		),
+
+		"yearlyMaintenanceCosts"(
+			"vehicleID", "oilChanges", tires, batteries, brakes, other, depreciation
+		),
+
+		"variableCosts"(
+			"vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions"
+		)
+
+		`;
 
 /**For situations where db call will return an array but we specifically expect one (or 0) Vehicle */
 type ArrayWithOneOrZeroVehicles = [Vehicle?];
@@ -35,7 +75,7 @@ async function getSingleVehicleById(
 		throw new Error("Error fetching vehicle data in TEST: " + error.message);
 	}
 
-	const vehicles: Vehicles = data;
+	const vehicles: Vehicles = data as unknown as Vehicles;
 
 	// vehicle ids are unique so this should never happen
 	if (vehicles.length > 1) {
@@ -47,7 +87,7 @@ async function getSingleVehicleById(
 	// This returns an empty array if no vehicle exists by that id
 	// Otherwise, returns a single vehicle
 	if (!vehicles[0]) return [];
-	return [vehicles[0]];
+	return [vehicles[0] as unknown as Vehicle];
 }
 
 /** Get all vehicles belonging to a user */
@@ -65,7 +105,7 @@ async function getVehiclesByUser(
 		throw new Error("Error fetching vehicle data in TEST: " + error.message);
 	}
 
-	return data;
+	return data as unknown as Vehicles;
 }
 
 const checkIfVehicleExistsInDB = async (
