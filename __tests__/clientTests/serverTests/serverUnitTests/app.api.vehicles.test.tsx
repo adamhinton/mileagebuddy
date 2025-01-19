@@ -371,7 +371,8 @@ describe("POST /api/vehicles", () => {
 	// There are a lot of required fields, we won't test all of them here, just spot-check
 	it("Should throw error if submitted without required fields", async () => {
 		const completeMockVehicle = mockVehicles[0];
-		const mockInsertVehicleWithoutAllFields: Vehicle = {
+		// no type declaration for this because it doesn't fit the type on purpose
+		const mockInsertVehicleWithoutAllFields = {
 			userid: 1,
 			type: "gas",
 			electricVehicleData: completeMockVehicle.electricVehicleData,
@@ -381,7 +382,7 @@ describe("POST /api/vehicles", () => {
 			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
 			variableCosts: completeMockVehicle.variableCosts,
 			vehicleData: completeMockVehicle.vehicleData,
-		} as Vehicle;
+		};
 
 		const supabase = {
 			rpc: jest.fn().mockResolvedValue({ error: "error" }),
@@ -411,7 +412,7 @@ describe("POST /api/vehicles", () => {
 
 	it("Should insert fine if electricVehicleData is null  but gasVehicleData isn't", async () => {
 		const completeMockVehicle = mockVehicles[0];
-		const vehicleWithNullElectricVehicleData: Vehicle = {
+		const vehicleWithNullElectricVehicleData = {
 			userid: 1,
 			type: "electric",
 			vehiclesOrder: 1,
@@ -423,7 +424,7 @@ describe("POST /api/vehicles", () => {
 			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
 			variableCosts: completeMockVehicle.variableCosts,
 			fixedCosts: completeMockVehicle.fixedCosts,
-		} as Vehicle;
+		};
 
 		const supabase = {
 			rpc: jest.fn().mockResolvedValue({ data: 1 }),
