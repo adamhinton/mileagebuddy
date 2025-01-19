@@ -214,52 +214,23 @@ const bob: Vehicle = {
 
 // Vehicle without any ids except userid, because it hasn't been sent to db yet
 // This is for POST requests
-export const VehicleToBePostedSchema = VehicleSchema.omit({
-	id: true,
-}).merge(
-	z.object({
-		vehicleData: z
-			.object({
-				vehicleID: z.never().optional(),
-			})
-			.omit({ vehicleID: true }),
-		gasVehicleData: z
-			.object({
-				vehicleID: z.never().optional(),
-			})
-			.omit({ vehicleID: true }),
-		electricVehicleData: z
-			.object({
-				vehicleID: z.never().optional(),
-			})
-			.omit({ vehicleID: true }),
-		purchaseAndSales: z
-			.object({
-				vehicleID: z.never().optional(),
-			})
-			.omit({ vehicleID: true }),
-		usage: z
-			.object({
-				vehicleID: z.never().optional(),
-			})
-			.omit({ vehicleID: true }),
-		fixedCosts: z
-			.object({
-				vehicleID: z.never().optional(),
-			})
-			.omit({ vehicleID: true }),
-		yearlyMaintenanceCosts: z
-			.object({
-				vehicleID: z.never().optional(),
-			})
-			.omit({ vehicleID: true }),
-		variableCosts: z
-			.object({
-				vehicleID: z.never().optional(),
-			})
-			.omit({ vehicleID: true }),
-	})
-);
+// I wasn't sure how to make it only exclude vehicleIDs, this looks clunky but does the job
+export const VehicleToBePostedSchema = VehicleSchema.omit({ id: true }).extend({
+	vehicleData: VehicleSchema.shape.vehicleData.omit({ vehicleID: true }),
+	gasVehicleData: VehicleSchema.shape.gasVehicleData.omit({ vehicleID: true }),
+	electricVehicleData: VehicleSchema.shape.electricVehicleData.omit({
+		vehicleID: true,
+	}),
+	purchaseAndSales: VehicleSchema.shape.purchaseAndSales.omit({
+		vehicleID: true,
+	}),
+	usage: VehicleSchema.shape.usage.omit({ vehicleID: true }),
+	fixedCosts: VehicleSchema.shape.fixedCosts.omit({ vehicleID: true }),
+	yearlyMaintenanceCosts: VehicleSchema.shape.yearlyMaintenanceCosts.omit({
+		vehicleID: true,
+	}),
+	variableCosts: VehicleSchema.shape.variableCosts.omit({ vehicleID: true }),
+});
 
 /**
  * This doesn't have any ids anywhere because it's for a POST request
