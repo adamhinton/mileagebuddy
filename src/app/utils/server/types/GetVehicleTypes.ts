@@ -22,7 +22,7 @@ const exampleGetVehiclesByUserQuery = getVehiclesByUserIdQuery("1");
 /**This is the same when getting one vehicle by id or multiple by user,
  * because it always returns an array of vehicles -- even with length 1.
  */
-export type Vehicles = z.infer<typeof VehicleSchema>[];
+export type Vehicles = Vehicle[];
 
 /**IMPORTANT:
  *
@@ -35,6 +35,11 @@ export type Vehicles = z.infer<typeof VehicleSchema>[];
  * This is the grandfather prototype of all Vehicles.
  *
  * Further types will be inferred from this.
+ *
+ * INFO:
+ * This is broken down further in to GasVehicleSchema and ElectricVehicleSchema
+ *
+ * Then, the Vehicle type is a union of those two types.
  */
 export const VehicleSchema = z.object({
 	id: z.number().readonly(),
