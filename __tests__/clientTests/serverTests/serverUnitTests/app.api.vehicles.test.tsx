@@ -455,19 +455,19 @@ describe("POST /api/vehicles", () => {
 
 	it("Should insert fine if gasVehicleData is null  but electricVehicleData isn't", async () => {
 		const completeMockVehicle = mockVehicles[0];
-		const vehicleWithNullGasVehicleData: Vehicle = {
+		const vehicleWithNullGasVehicleData: Vehicle_For_db_POST = {
 			userid: 1,
 			type: "gas",
 			vehiclesOrder: 1,
 			vehicleData: completeMockVehicle.vehicleData,
-			electricVehicleData: null,
+			electricVehicleData: {},
 			gasVehicleData: null,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
 			usage: completeMockVehicle.usage,
 			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
 			variableCosts: completeMockVehicle.variableCosts,
 			fixedCosts: completeMockVehicle.fixedCosts,
-		} as Vehicle;
+		};
 
 		const supabase = {
 			rpc: jest.fn().mockResolvedValue({ data: 1 }),
@@ -499,7 +499,7 @@ describe("POST /api/vehicles", () => {
 
 	it("Should throw error if both gasVehicleData and electricVehicleData are null", async () => {
 		const completeMockVehicle = mockVehicles[0];
-		const vehicleWithNullGasVehicleData: Vehicle = {
+		const vehicleWithNullGasVehicleData: Vehicle_For_db_POST = {
 			userid: 1,
 			type: "gas",
 			vehiclesOrder: 1,
@@ -511,7 +511,7 @@ describe("POST /api/vehicles", () => {
 			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
 			variableCosts: completeMockVehicle.variableCosts,
 			fixedCosts: completeMockVehicle.fixedCosts,
-		} as Vehicle;
+		};
 
 		const supabase = {
 			rpc: jest.fn().mockResolvedValue({ error: "error" }),
@@ -581,6 +581,7 @@ describe("DELETE /api/vehicles", () => {
 			},
 			fixedCosts: {
 				vehicleID: 1,
+				yearlyParkingCost: 100.0,
 				yearlyInsuranceCost: 1000.0,
 				yearlyRegistrationCost: 100.0,
 				yearlyTaxes: 100.0,
