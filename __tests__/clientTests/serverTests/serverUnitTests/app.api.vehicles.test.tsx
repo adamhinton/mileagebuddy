@@ -1,7 +1,11 @@
 // README
 // This is a test file for the server-side API route /api/vehicles
 
-import { Vehicles, Vehicle } from "@/app/utils/server/types/GetVehicleTypes";
+import {
+	Vehicles,
+	Vehicle,
+	Vehicle_For_db_POST,
+} from "@/app/utils/server/types/GetVehicleTypes";
 import { NextRequest, NextResponse } from "next/server";
 import { DELETE, GET, PATCH, POST } from "@/app/api/vehicles/route";
 import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
@@ -262,11 +266,10 @@ describe("GET /api/vehicles", () => {
 });
 
 describe("POST /api/vehicles", () => {
-	const mockVehicles: Vehicles = [
+	const mockVehicles: Vehicle_For_db_POST[] = [
 		{
 			type: "gas",
 			userid: 1,
-			id: 1,
 			vehiclesOrder: 1,
 			vehicleData: {
 				vehicleID: 1,
@@ -278,13 +281,11 @@ describe("POST /api/vehicles", () => {
 				highwayMPG: 35.5,
 			},
 			gasVehicleData: {
-				vehicleID: 1,
 				gasCostPerGallon: 3.5,
 				milesPerGallonHighway: 35.5,
 				milesPerGallonCity: 35.5,
 			},
 			purchaseAndSales: {
-				vehicleID: 1,
 				yearPurchased: 2020,
 				purchasePrice: 22000.0,
 				downPaymentAmount: 2000.0,
@@ -294,7 +295,6 @@ describe("POST /api/vehicles", () => {
 				willSellCarAtPrice: 12000.0,
 			},
 			usage: {
-				vehicleID: 1,
 				averageDailyMiles: 100,
 				weeksPerYear: 52,
 				percentHighway: 0.5,
@@ -302,7 +302,6 @@ describe("POST /api/vehicles", () => {
 				extraDistancePercentHighway: 0,
 			},
 			fixedCosts: {
-				vehicleID: 1,
 				yearlyInsuranceCost: 1000.0,
 				yearlyRegistrationCost: 100.0,
 				yearlyTaxes: 100.0,
@@ -313,7 +312,6 @@ describe("POST /api/vehicles", () => {
 				otherYearlyCosts: 300.0,
 			},
 			yearlyMaintenanceCosts: {
-				vehicleID: 1,
 				oilChanges: 100.0,
 				tires: 200.0,
 				batteries: 300.0,
@@ -322,14 +320,13 @@ describe("POST /api/vehicles", () => {
 				depreciation: 800.0,
 			},
 			variableCosts: {
-				vehicleID: 1,
 				monthlyParkingCosts: 100.0,
 				monthlyTolls: 50.0,
 				monthlyCarWashCost: 20.0,
 				monthlyMiscellaneousCosts: 50.0,
 				monthlyCostDeductions: 80.0,
 			},
-			electricVehicleData: null,
+			electricVehicleData: {},
 		},
 	];
 
