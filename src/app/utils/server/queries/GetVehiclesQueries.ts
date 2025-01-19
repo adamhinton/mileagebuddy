@@ -7,22 +7,18 @@ import { stringForJoiningVehicleTables } from "./vehiclesDBUtils";
 // This file contains the strings for the db queries for GET api/vehicles
 
 export const getVehiclesByUserIdQuery = async (userId: string) => {
-	console.log("blah blah blah");
 	const supabase = await createClientSSROnly();
-	const vehicleInfoQuery = await supabase
+	// Remove console.log since it's not needed
+	return supabase
 		.from("vehicles")
 		.select(stringForJoiningVehicleTables)
 		.eq("userid", Number(userId));
-
-	return vehicleInfoQuery;
 };
 
 export const getSingleVehicleByIdQuery = async (vehicleId: number) => {
 	const supabase = await createClientSSROnly();
-	const vehicleInfoQuery = supabase
+	return supabase
 		.from("vehicles")
 		.select(stringForJoiningVehicleTables)
 		.eq("id", vehicleId);
-
-	return vehicleInfoQuery;
 };
