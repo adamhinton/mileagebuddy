@@ -1,18 +1,20 @@
 import { updateSession } from "@/app/utils/server/supabaseUtilsCustom/supabaseMiddleware";
 import { type NextRequest } from "next/server";
+import { VehicleToBePostedSchema } from "./app/utils/server/types/GetVehicleTypes";
 
 export async function middleware(request: NextRequest) {
 	console.log("General middleware starting");
 
-	throw new Error(
-		"This is a custom middleware error. I'm trying to break this."
-	);
+	console.log("request.method:", request.method);
+	console.log("request.nextUrl.pathname:", request.nextUrl.pathname);
 
 	if (
 		request.method === "POST" &&
 		request.nextUrl.pathname === "/api/vehicles"
 	) {
 		console.log("blah blah blah 123 POST to api/vehicles");
+		const isSafe = VehicleToBePostedSchema.safeParse(request.body);
+		console.log("isSafe:,", isSafe);
 	}
 
 	// update user's auth session
