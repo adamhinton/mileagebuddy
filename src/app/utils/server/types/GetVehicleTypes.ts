@@ -4,31 +4,44 @@
 
 // README:
 // Here we define types for Vehicle (obviously)
-// We define the main VehicleSchema, then sub types for GasVehicle and ElectricVehicle
-// Also a partial type for updating a vehicle with only the needed data (TODO)
-// And a type without id's for creating a new vehicle (TODO), because the db hasn't assigned them id's yet
+// IMPORTANT: VehicleSchema is the daddy type that all these other types are based on. VehicleSchema is MANUALLLY WRITTEN by me, which means that any time you change your db schema, you have to update this type manually.
+// A number of sub types are defined:
+// GasVehicle and ElectricVehicle:
+// --> These are, respectively, vehicles where "type" = "gas" and electricVehicleData is null, and where "type" = "electric" and gasVehicleData is null
+// --> They form a union called Vehicle
+// VehicleSchema: The schema for a Vehicle, with all fields included
+// Vehicles type: An array of Vehicle
+// VehicleFromDB: A single Vehicle in the structure it is returned from the DB
+// VehicleToBePostedSchema: A Vehicle with all ids removed, for posting to the DB. Because it won't have ids before you post it.
+// --> Vehicle_For_db_POST: The inferred type of VehicleToBePostedSchema
 
 // GUIDE:
+// As outlined above:
 // Here are the types to use in different situations
-// Vehicle you're GETTING from the DB: Vehicle
+// Vehicle you're GETTING from the DB: VehicleFromDB
 // Vehicle you're POSTING to the DB: Vehicle_For_db_POST
 // Vehicle you're PATCHING to the DB: TODO, will write this soon
 
 import { QueryData } from "@supabase/supabase-js";
-import { getVehiclesByUserIdQuery } from "../queries/GetVehiclesQueries";
 import z from "zod";
+import { getVehiclesByUserIdQuery } from "../queries/GetVehiclesQueries";
 
-const exampleGetVehiclesByUserQuery = getVehiclesByUserIdQuery("1");
+/**This will be either an electric vehicle or gas vehicle
+ * depending on the type field.
+ */
+export type Vehicle = GasVehicle | ElectricVehicle;
 
 /**This is the same when getting one vehicle by id or multiple by user,
  * because it always returns an array of vehicles -- even with length 1.
  */
 export type Vehicles = Vehicle[];
 
+// This get the supabase-generated type of a vehicle returned from DB
+const exampleGetVehiclesByUserQuery = getVehiclesByUserIdQuery("1");
+/**This is what the Vehicles returned from the DB will look like */
 type VehiclesArrayFromDB = QueryData<typeof exampleGetVehiclesByUserQuery>;
-
-// Get a single vehicle type by indexing into the array type
-type VehicleFromDB = VehiclesArrayFromDB[number];
+/**This is what a single Vehicle returned from the DB will look like */
+export type VehicleFromDB = VehiclesArrayFromDB[number];
 
 /**IMPORTANT:
  *
@@ -148,11 +161,6 @@ const ElectricVehicleSchema = VehicleSchema.extend({
 
 type GasVehicle = z.infer<typeof GasVehicleSchema>;
 type ElectricVehicle = z.infer<typeof ElectricVehicleSchema>;
-
-/**This will be either an electric vehicle or gas vehicle
- * depending on the type field.
- */
-export type Vehicle = GasVehicle | ElectricVehicle;
 
 const bob: Vehicle = {
 	type: "gas",
