@@ -14,6 +14,7 @@
 // Vehicle you're POSTING to the DB: Vehicle_For_db_POST
 // Vehicle you're PATCHING to the DB: TODO, will write this soon
 
+import { QueryData } from "@supabase/supabase-js";
 import { getVehiclesByUserIdQuery } from "../queries/GetVehiclesQueries";
 import z from "zod";
 
@@ -24,11 +25,16 @@ const exampleGetVehiclesByUserQuery = getVehiclesByUserIdQuery("1");
  */
 export type Vehicles = Vehicle[];
 
+type VehiclesArrayFromDB = QueryData<typeof exampleGetVehiclesByUserQuery>;
+
+// Get a single vehicle type by indexing into the array type
+type VehicleFromDB = VehiclesArrayFromDB[number];
+
 /**IMPORTANT:
  *
  * This doesn't match what you expect?
  *
- * You have to manually update the zod Schema with any changes from the db.
+ * You have to manually update the zod Schema with any new changes to your db schema.
  *
  * This schema is manually generated.
  *
@@ -226,7 +232,9 @@ export const VehicleToBePostedSchema = VehicleSchema.omit({ id: true }).extend({
 	electricVehicleData: VehicleSchema.shape.electricVehicleData.omit({
 		vehicleID: true,
 	}),
-	purchaseAndSales: VehicleSchema.shape.purchaseAndSales.omit({
+	// Using innerType() because it has a refine and describe method used
+	// Not sure why this is necessary, something about extreacting the underlying schema
+	purchaseAndSales: VehicleSchema.shape.purchaseAndSales.innerType().omit({
 		vehicleID: true,
 	}),
 	usage: VehicleSchema.shape.usage.omit({ vehicleID: true }),
