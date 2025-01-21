@@ -43,6 +43,15 @@ type VehiclesArrayFromDB = QueryData<typeof exampleGetVehiclesByUserQuery>;
 /**This is what a single Vehicle returned from the DB will look like */
 export type VehicleFromDB = VehiclesArrayFromDB[number];
 
+/**
+ * This doesn't have any ids anywhere because it's for a POST request
+ *
+ * So it wouldn't have been assigned an id or vehicleids yet by the db
+ *
+ * Use this type for POST requests!
+ */
+export type Vehicle_For_db_POST = z.infer<typeof VehicleToBePostedSchema>;
+
 /**IMPORTANT:
  *
  * This doesn't match what you expect?
@@ -252,12 +261,3 @@ export const VehicleToBePostedSchema = VehicleSchema.omit({ id: true }).extend({
 	}),
 	variableCosts: VehicleSchema.shape.variableCosts.omit({ vehicleID: true }),
 });
-
-/**
- * This doesn't have any ids anywhere because it's for a POST request
- *
- * So it wouldn't have been assigned an id or vehicleids yet by the db
- *
- * Use this type for POST requests!
- */
-export type Vehicle_For_db_POST = z.infer<typeof VehicleToBePostedSchema>;
