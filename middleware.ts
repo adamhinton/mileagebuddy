@@ -2,6 +2,16 @@ import { updateSession } from "@/app/utils/server/supabaseUtilsCustom/middleware
 import { type NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
+	console.log("General middleware starting");
+
+	//If it's POST to api/vehicles ... code
+	if (
+		request.method === "POST" &&
+		request.nextUrl.pathname === "/api/vehicles"
+	) {
+		console.log("blah blah blah 123 POST to api/vehicles");
+	}
+
 	// update user's auth session
 	return await updateSession(request);
 }

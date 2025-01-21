@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // README:
 // This is, obviously, helper functions to for CRUD endpoints in /api/vehicles
 // As opposed to GetVehiclesQueries.ts in the same folder, which contains the strings of the db queries for GET
@@ -190,8 +191,8 @@ const addNewVehicleToDB = async (
 	} = body;
 
 	try {
-		const isSafe = VehicleToBePostedSchema.safeParse(body);
-		console.log("isSafe in addNewVehicleToDB:", isSafe);
+		// const isSafe = VehicleToBePostedSchema.safeParse(body);
+		// console.log("isSafe in addNewVehicleToDB:", isSafe);
 
 		// Wrote db function insert_vehicle_function.sql for this
 		// The db function should do auto-validation to make sure fields exist and are correct, but --- TODO: More thorough new Vehicle validation
