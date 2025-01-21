@@ -26,8 +26,8 @@ import { QueryData } from "@supabase/supabase-js";
 import z from "zod";
 import { getVehiclesByUserIdQuery } from "../queries/GetVehiclesQueries";
 
-/**This will be either an electric vehicle or gas vehicle
- * depending on the type field.
+/**This will be either an ElectricVehicle type or GasVehicle type
+ * depending on the "type" field ("type": "gas" or "type":  "electric").
  */
 export type Vehicle = GasVehicle | ElectricVehicle;
 
@@ -168,7 +168,9 @@ const ElectricVehicleSchema = VehicleSchema.extend({
 		),
 });
 
+/**Always has "type": "gas" and electricVehicleData: null */
 type GasVehicle = z.infer<typeof GasVehicleSchema>;
+/**Always has "type": "electric" and gasVehicleData: null */
 type ElectricVehicle = z.infer<typeof ElectricVehicleSchema>;
 
 const bob: Vehicle = {
