@@ -4,7 +4,10 @@ import { type NextRequest } from "next/server";
 export async function middleware(request: NextRequest) {
 	console.log("General middleware starting");
 
-	//If it's POST to api/vehicles ... code
+	throw new Error(
+		"This is a custom middleware error. I'm trying to break this."
+	);
+
 	if (
 		request.method === "POST" &&
 		request.nextUrl.pathname === "/api/vehicles"
