@@ -272,7 +272,6 @@ describe("POST /api/vehicles", () => {
 			userid: 1,
 			vehiclesOrder: 1,
 			vehicleData: {
-				vehicleID: 1,
 				vehicleName: "Tesla Model 3",
 				year: 2020,
 				make: "Tesla",
@@ -326,7 +325,7 @@ describe("POST /api/vehicles", () => {
 				monthlyMiscellaneousCosts: 50.0,
 				monthlyCostDeductions: 80.0,
 			},
-			electricVehicleData: {},
+			electricVehicleData: null,
 		},
 	];
 
@@ -457,10 +456,14 @@ describe("POST /api/vehicles", () => {
 		const completeMockVehicle = mockVehicles[0];
 		const vehicleWithNullGasVehicleData: Vehicle_For_db_POST = {
 			userid: 1,
-			type: "gas",
+			type: "electric",
 			vehiclesOrder: 1,
 			vehicleData: completeMockVehicle.vehicleData,
-			electricVehicleData: {},
+			electricVehicleData: {
+				costPerCharge: 15,
+				milesPerCharge: 200,
+				electricRangeMiles: 200,
+			},
 			gasVehicleData: null,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
 			usage: completeMockVehicle.usage,
@@ -499,7 +502,8 @@ describe("POST /api/vehicles", () => {
 
 	it("Should throw error if both gasVehicleData and electricVehicleData are null", async () => {
 		const completeMockVehicle = mockVehicles[0];
-		const vehicleWithNullGasVehicleData: Vehicle_For_db_POST = {
+		// No type label here beacuse this is deformed
+		const vehicleWithNullGasVehicleData = {
 			userid: 1,
 			type: "gas",
 			vehiclesOrder: 1,
@@ -764,6 +768,7 @@ describe("PATCH api/vehicles", () => {
 			monthlyWarrantyCost: 30.0,
 			inspectionCost: 100.0,
 			otherYearlyCosts: 300.0,
+			yearlyParkingCost: 100,
 		},
 		yearlyMaintenanceCosts: {
 			vehicleID: 1,
