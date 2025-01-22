@@ -112,7 +112,9 @@ export const BaseVehicleSchema = z.object({
 			willSellCarAtMiles: z.number().max(2_000_000).positive(),
 			willSellCarAtPrice: z.number().max(50_000_000).positive(),
 		})
-		.refine((data) => data.milesBoughtAt <= data.willSellCarAtMiles)
+		.refine((data) => {
+			return data.milesBoughtAt <= data.willSellCarAtMiles;
+		})
 		.describe("milesBoughtAt must be less than or equal to willSellCarAtMiles"),
 
 	usage: z.object({
@@ -254,7 +256,7 @@ const bob: Vehicle = {
 
 // This is for VehicleToBePostedSchema
 // // See notes above VehicleToBePostedSchema about why I had  to do this
-const GasVehicleSchemaNoIDs = GasVehicleSchema.omit({
+const GasVehicleSchemaForPOST = GasVehicleSchema.omit({
 	id: true,
 }).extend({
 	vehicleData: GasVehicleSchema.shape.vehicleData.omit({ vehicleID: true }),
@@ -276,7 +278,7 @@ const GasVehicleSchemaNoIDs = GasVehicleSchema.omit({
 
 // This is for VehicleToBePostedSchema
 // See notes above VehicleToBePostedSchema about why I had  to do this
-const ElectricVehicleSchemaNoIDs = ElectricVehicleSchema.omit({
+const ElectricVehicleSchemaForPOST = ElectricVehicleSchema.omit({
 	id: true,
 }).extend({
 	vehicleData: ElectricVehicleSchema.shape.vehicleData.omit({
@@ -312,6 +314,6 @@ const ElectricVehicleSchemaNoIDs = ElectricVehicleSchema.omit({
 // So I have to do this sort of clunky solution, which is to make a union of the two types without ids
 // TODO: Try to find a better way than this
 export const VehicleToBePostedSchema = z.union([
-	GasVehicleSchemaNoIDs,
-	ElectricVehicleSchemaNoIDs,
+	GasVehicleSchemaForPOST,
+	ElectricVehicleSchemaForPOST,
 ]);
