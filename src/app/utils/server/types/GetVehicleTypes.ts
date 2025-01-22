@@ -70,6 +70,8 @@ export type Vehicle_For_db_POST = z.infer<typeof VehicleToBePostedSchema>;
  *
  * IMPORTANT: Don't use this type for anything outside this file; VehicleSchema (and the type Vehicle which is inferred from it) is best.
  *
+ * Note: I left maxes on these to avoid ridiculously high number spam
+ *
  */
 export const BaseVehicleSchema = z.object({
 	id: z.number().readonly(),
@@ -84,73 +86,73 @@ export const BaseVehicleSchema = z.object({
 		make: z.string().min(1).max(30).nullable(),
 		model: z.string().min(1).max(30).nullable(),
 		trim: z.string().min(1).max(30).nullable(),
-		highwayMPG: z.number().positive().nullable(),
+		highwayMPG: z.number().max(5000).nonnegative().nullable(),
 	}),
 
 	gasVehicleData: z.object({
 		vehicleID: z.number().readonly(),
-		gasCostPerGallon: z.number().max(1000).positive().nullable(),
-		milesPerGallonHighway: z.number().positive().nullable(),
-		milesPerGallonCity: z.number().positive().nullable(),
+		gasCostPerGallon: z.number().max(1000).nonnegative().nullable(),
+		milesPerGallonHighway: z.number().max(1000).nonnegative().nullable(),
+		milesPerGallonCity: z.number().max(1000).nonnegative().nullable(),
 	}),
 	electricVehicleData: z.object({
 		vehicleID: z.number().readonly(),
-		costPerCharge: z.number().positive().nullable(),
-		milesPerCharge: z.number().positive().nullable(),
-		electricRangeMiles: z.number().positive().nullable(),
+		costPerCharge: z.number().nonnegative().max(1000).nonnegative().nullable(),
+		milesPerCharge: z.number().max(10_000).nullable(),
+		electricRangeMiles: z.number().max(10_000).nonnegative().nullable(),
 	}),
 	purchaseAndSales: z
 		.object({
 			vehicleID: z.number().readonly(),
-			yearPurchased: z.number().positive().nullable(),
-			purchasePrice: z.number().positive(),
-			downPaymentAmount: z.number().positive().nullable(),
-			willSellCarAfterYears: z.number().positive(),
-			milesBoughtAt: z.number().positive(),
-			willSellCarAtMiles: z.number().positive(),
-			willSellCarAtPrice: z.number().positive(),
+			yearPurchased: z.number().positive().max(2100).nullable(),
+			purchasePrice: z.number().max(50_000_000).positive(),
+			downPaymentAmount: z.number().max(50_000_000).nonnegative().nullable(),
+			willSellCarAfterYears: z.number().max(1000).positive(),
+			milesBoughtAt: z.number().max(2_000_000).positive(),
+			willSellCarAtMiles: z.number().max(2_000_000).positive(),
+			willSellCarAtPrice: z.number().max(50_000_000).positive(),
 		})
 		.refine((data) => data.milesBoughtAt <= data.willSellCarAtMiles)
 		.describe("milesBoughtAt must be less than or equal to willSellCarAtMiles"),
 
 	usage: z.object({
 		vehicleID: z.number().readonly(),
-		averageDailyMiles: z.number().nonnegative(),
-		weeksPerYear: z.number().nonnegative(),
-		percentHighway: z.number().positive().max(100),
-		extraDistanceMiles: z.number().nonnegative().nullable(),
-		extraDistancePercentHighway: z.number().positive().max(100).nullable(),
+		averageDailyMiles: z.number().max(5_000).nonnegative(),
+		weeksPerYear: z.number().nonnegative().max(52),
+		percentHighway: z.number().nonnegative().max(100),
+		extraDistanceMiles: z.number().nonnegative().max(500_000).nullable(),
+		extraDistancePercentHighway: z.number().nonnegative().max(100).nullable(),
 	}),
 
 	fixedCosts: z.object({
 		vehicleID: z.number().readonly(),
-		yearlyInsuranceCost: z.number().positive().nullable(),
-		yearlyRegistrationCost: z.number().positive().nullable(),
-		yearlyTaxes: z.number().positive().nullable(),
-		yearlyParkingCost: z.number().positive().nullable(),
-		monthlyLoanPayment: z.number().positive().nullable(),
-		monthlyWarrantyCost: z.number().positive().nullable(),
-		inspectionCost: z.number().positive().nullable(),
-		otherYearlyCosts: z.number().positive().nullable(),
+		yearlyInsuranceCost: z.number().nonnegative().max(500_000).nullable(),
+		yearlyRegistrationCost: z.number().nonnegative().max(50_000).nullable(),
+		yearlyTaxes: z.number().nonnegative().max(50_000_000).nullable(),
+		yearlyParkingCost: z.number().nonnegative().max(50_000).nullable(),
+		monthlyLoanPayment: z.number().max(50_000).nonnegative().nullable(),
+		monthlyWarrantyCost: z.number().max(50_000).nonnegative().nullable(),
+		inspectionCost: z.number().max(5_000).nonnegative().nullable(),
+		otherYearlyCosts: z.number().max(500_000).nonnegative().nullable(),
 	}),
 
 	yearlyMaintenanceCosts: z.object({
 		vehicleID: z.number().readonly(),
-		oilChanges: z.number().positive().nullable(),
-		tires: z.number().positive().nullable(),
-		batteries: z.number().positive().nullable(),
-		brakes: z.number().positive().nullable(),
-		other: z.number().positive().nullable(),
-		depreciation: z.number().positive().nullable(),
+		oilChanges: z.number().nonnegative().max(1_000).nullable(),
+		tires: z.number().nonnegative().max(50_000).nullable(),
+		batteries: z.number().nonnegative().max(50_000).nullable(),
+		brakes: z.number().nonnegative().max(50_000).nullable(),
+		other: z.number().nonnegative().max(500_000).nullable(),
+		depreciation: z.number().nonnegative().max(500_000).nullable(),
 	}),
 
 	variableCosts: z.object({
 		vehicleID: z.number().readonly(),
-		monthlyParkingCosts: z.number().positive().nullable(),
-		monthlyTolls: z.number().positive().nullable(),
-		monthlyCarWashCost: z.number().positive().nullable(),
-		monthlyMiscellaneousCosts: z.number().positive().nullable(),
-		monthlyCostDeductions: z.number().positive().nullable(),
+		monthlyParkingCosts: z.number().max(5_000).nonnegative().nullable(),
+		monthlyTolls: z.number().max(5_000).nonnegative().nullable(),
+		monthlyCarWashCost: z.number().max(5_000).nonnegative().nullable(),
+		monthlyMiscellaneousCosts: z.number().max(500_000).nonnegative().nullable(),
+		monthlyCostDeductions: z.number().max(500_000).nonnegative().nullable(),
 	}),
 });
 
