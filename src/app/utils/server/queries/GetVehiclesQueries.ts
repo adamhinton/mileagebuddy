@@ -8,7 +8,6 @@ import { stringForJoiningVehicleTables } from "./vehiclesDBUtils";
 
 export const getVehiclesByUserIdQuery = async (userId: string) => {
 	const supabase = await createClientSSROnly();
-	// Remove console.log since it's not needed
 	return supabase
 		.from("vehicles")
 		.select(stringForJoiningVehicleTables)

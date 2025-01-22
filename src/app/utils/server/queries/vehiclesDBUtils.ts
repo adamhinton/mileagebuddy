@@ -1,14 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // README:
 // This is, obviously, helper functions to for CRUD endpoints in /api/vehicles
 // As opposed to GetVehiclesQueries.ts in the same folder, which contains the strings of the db queries for GET
 
 import { SupabaseClient } from "@supabase/supabase-js";
-import {
-	Vehicle,
-	Vehicles,
-	VehicleToBePostedSchema,
-} from "../types/GetVehicleTypes";
+import { Vehicle, Vehicles } from "../types/GetVehicleTypes";
 import {
 	getSingleVehicleByIdQuery,
 	getVehiclesByUserIdQuery,
