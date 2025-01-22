@@ -138,7 +138,7 @@ const deleteDBVehicleByID = async (
 			// This causes the delete statement to return the deleted vehicle, including data from sub tables
 			.select(stringForJoiningVehicleTables);
 
-		// This should never happen, but TS needed to know data wouldn't be null
+		// This should never happen since the endpoint has already checked that the vehicle exists, but TS needed to know data wouldn't be null
 		if (data === null || data.length === 0) {
 			return NextResponse.json(
 				{ error: `Vehicle with id ${vehicleID} not found` },

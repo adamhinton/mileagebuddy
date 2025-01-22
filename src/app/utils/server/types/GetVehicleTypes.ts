@@ -22,12 +22,12 @@
 // Vehicle you're POSTING to the DB: Vehicle_For_db_POST
 // Vehicle you're PATCHING to the DB: TODO, will write this soon
 
-import { QueryData } from "@supabase/supabase-js";
 import z from "zod";
-import { getVehiclesByUserIdQuery } from "../queries/GetVehiclesQueries";
 
 /**This will be either an ElectricVehicle type or GasVehicle type
  * depending on the "type" field ("type": "gas" or "type":  "electric").
+ * This matches what you will receive from a GET request to the db.
+ * There are other types for vehicles you haven't POSTed yet, or PATCH vehicles.
  */
 export type Vehicle = GasVehicle | ElectricVehicle;
 
@@ -36,12 +36,13 @@ export type Vehicle = GasVehicle | ElectricVehicle;
  */
 export type Vehicles = Vehicle[];
 
-// This get the supabase-generated type of a vehicle returned from DB
-const exampleGetVehiclesByUserQuery = getVehiclesByUserIdQuery("1");
-/**This is what the Vehicles returned from the DB will look like */
-type VehiclesArrayFromDB = QueryData<typeof exampleGetVehiclesByUserQuery>;
-/**This is what a single Vehicle returned from the DB will look like */
-export type VehicleFromDB = VehiclesArrayFromDB[number];
+// This caused problems because under the hood it creates a supabase client in the global scope, which isn't allowed. You have to make it in a function. I decided to just define the type myself.
+// // This get the supabase-generated type of a vehicle returned from DB
+// const exampleGetVehiclesByUserQuery = getVehiclesByUserIdQuery("1");
+// /**This is what the Vehicles returned from the DB will look like */
+// type VehiclesArrayFromDB = QueryData<typeof exampleGetVehiclesByUserQuery>;
+// /**This is what a single Vehicle returned from the DB will look like */
+// export type VehicleFromDB = VehiclesArrayFromDB[number];
 
 /**
  * This doesn't have any ids anywhere because it's for a POST request
