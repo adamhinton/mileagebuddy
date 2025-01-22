@@ -29,7 +29,7 @@ import z from "zod";
  * This matches what you will receive from a GET request to the db.
  * There are other types for vehicles you haven't POSTed yet, or PATCH vehicles.
  */
-export type Vehicle = z.infer<typeof NewVehicleSchema>;
+export type Vehicle = z.infer<typeof VehicleSchema>;
 
 /**This is the same when getting one vehicle by id or multiple by user,
  * because it always returns an array of vehicles -- even with length 1.
@@ -175,13 +175,17 @@ const ElectricVehicleSchema = BaseVehicleSchema.extend({
 		),
 });
 
-const NewVehicleSchema = z.union([GasVehicleSchema, ElectricVehicleSchema]);
+/**
+ * The type Vehicle is inferred from this
+ */
+const VehicleSchema = z.union([GasVehicleSchema, ElectricVehicleSchema]);
 
 /**Always has "type": "gas" and electricVehicleData: null */
 type GasVehicle = z.infer<typeof GasVehicleSchema>;
 /**Always has "type": "electric" and gasVehicleData: null */
 type ElectricVehicle = z.infer<typeof ElectricVehicleSchema>;
 
+// For testing, delete later
 const bob: Vehicle = {
 	type: "gas",
 	electricVehicleData: null,
@@ -251,30 +255,52 @@ const bob: Vehicle = {
 	},
 };
 
+// This is for db POST types
+// It's a dry way to omit vehicle IDs from schemas, which I have to do on every object and sub-object
+// This is because I don't want to send vehicleIDs to the db, because the db will assign them
+const omitVehicleID = <
+	T extends z.ZodObject<Record<string, z.ZodTypeAny>, "strip", z.ZodTypeAny>,
+>(
+	schema: T
+) => schema.omit({ vehicleID: true });
+
 // Vehicle without any ids except userid, because it hasn't been sent to db yet
 // This is for POST requests
 // I wasn't sure how to make it only exclude vehicleIDs, this looks clunky but does the job
-export const VehicleToBePostedSchema = NewVehicleSchema.omit({
-	id: true,
-}).extend({
-	vehicleData: BaseVehicleSchema.shape.vehicleData.omit({ vehicleID: true }),
-	gasVehicleData: BaseVehicleSchema.shape.gasVehicleData.omit({
-		vehicleID: true,
+// Vehicle schema for POST requests
+// NOTE: Since VehicleSchema is a union type, I can't just do VehicleSchema.omit
+// So I have to do this sort of clunky solution, which is to make a union of the two types without ids
+// TODO: Try to find a better way than this
+export const VehicleToBePostedSchema = z.union([
+	GasVehicleSchema.omit({ id: true }).extend({
+		vehicleData: omitVehicleID(BaseVehicleSchema.shape.vehicleData),
+		gasVehicleData: omitVehicleID(BaseVehicleSchema.shape.gasVehicleData),
+		electricVehicleData: z.null(),
+		purchaseAndSales: omitVehicleID(
+			BaseVehicleSchema.shape.purchaseAndSales.innerType()
+		),
+		usage: omitVehicleID(BaseVehicleSchema.shape.usage),
+		fixedCosts: omitVehicleID(BaseVehicleSchema.shape.fixedCosts),
+		yearlyMaintenanceCosts: omitVehicleID(
+			BaseVehicleSchema.shape.yearlyMaintenanceCosts
+		),
+		variableCosts: omitVehicleID(BaseVehicleSchema.shape.variableCosts),
 	}),
-	electricVehicleData: BaseVehicleSchema.shape.electricVehicleData.omit({
-		vehicleID: true,
+
+	ElectricVehicleSchema.omit({ id: true }).extend({
+		vehicleData: omitVehicleID(BaseVehicleSchema.shape.vehicleData),
+		gasVehicleData: z.null(),
+		electricVehicleData: omitVehicleID(
+			BaseVehicleSchema.shape.electricVehicleData
+		),
+		purchaseAndSales: omitVehicleID(
+			BaseVehicleSchema.shape.purchaseAndSales.innerType()
+		),
+		usage: omitVehicleID(BaseVehicleSchema.shape.usage),
+		fixedCosts: omitVehicleID(BaseVehicleSchema.shape.fixedCosts),
+		yearlyMaintenanceCosts: omitVehicleID(
+			BaseVehicleSchema.shape.yearlyMaintenanceCosts
+		),
+		variableCosts: omitVehicleID(BaseVehicleSchema.shape.variableCosts),
 	}),
-	// Using innerType() because it has a refine and describe method used
-	// Not sure why this is necessary, something about extreacting the underlying schema
-	purchaseAndSales: BaseVehicleSchema.shape.purchaseAndSales.innerType().omit({
-		vehicleID: true,
-	}),
-	usage: BaseVehicleSchema.shape.usage.omit({ vehicleID: true }),
-	fixedCosts: BaseVehicleSchema.shape.fixedCosts.omit({ vehicleID: true }),
-	yearlyMaintenanceCosts: BaseVehicleSchema.shape.yearlyMaintenanceCosts.omit({
-		vehicleID: true,
-	}),
-	variableCosts: BaseVehicleSchema.shape.variableCosts.omit({
-		vehicleID: true,
-	}),
-});
+]);
