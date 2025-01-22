@@ -29,7 +29,7 @@ import z from "zod";
  * This matches what you will receive from a GET request to the db.
  * There are other types for vehicles you haven't POSTed yet, or PATCH vehicles.
  */
-export type Vehicle = GasVehicle | ElectricVehicle;
+export type Vehicle = z.infer<typeof NewVehicleSchema>;
 
 /**This is the same when getting one vehicle by id or multiple by user,
  * because it always returns an array of vehicles -- even with length 1.
@@ -66,11 +66,17 @@ export type Vehicle_For_db_POST = z.infer<typeof VehicleToBePostedSchema>;
  * Further types will be inferred from this.
  *
  * INFO:
- * This is broken down further in to GasVehicleSchema and ElectricVehicleSchema
+ *
+ * This is the grandaddy schema that Vehicles are inferred from.
+ *
+ * This is broken down further in to GasVehicleSchema and ElectricVehicleSchema, which are then combined in to VehicleSchema.
  *
  * Then, the Vehicle type is a union of those two types.
+ *
+ * IMPORTANT: Don't use this type for anything outside this file; VehicleSchema (and the type Vehicle which is inferred from it) is best.
+ *
  */
-export const VehicleSchema = z.object({
+export const BaseVehicleSchema = z.object({
 	id: z.number().readonly(),
 	userid: z.number().readonly(),
 	vehiclesOrder: z.number().positive(),
@@ -153,14 +159,14 @@ export const VehicleSchema = z.object({
 	}),
 });
 
-const GasVehicleSchema = VehicleSchema.extend({
+const GasVehicleSchema = BaseVehicleSchema.extend({
 	type: z.literal("gas"),
 	electricVehicleData: z
 		.null()
 		.describe("electricVehicleData must be null because this is a gas vehicle"),
 });
 
-const ElectricVehicleSchema = VehicleSchema.extend({
+const ElectricVehicleSchema = BaseVehicleSchema.extend({
 	type: z.literal("electric"),
 	gasVehicleData: z
 		.null()
@@ -168,6 +174,8 @@ const ElectricVehicleSchema = VehicleSchema.extend({
 			"gasVehicleData must be null because this is an electric vehicle"
 		),
 });
+
+const NewVehicleSchema = z.union([GasVehicleSchema, ElectricVehicleSchema]);
 
 /**Always has "type": "gas" and electricVehicleData: null */
 type GasVehicle = z.infer<typeof GasVehicleSchema>;
@@ -246,21 +254,27 @@ const bob: Vehicle = {
 // Vehicle without any ids except userid, because it hasn't been sent to db yet
 // This is for POST requests
 // I wasn't sure how to make it only exclude vehicleIDs, this looks clunky but does the job
-export const VehicleToBePostedSchema = VehicleSchema.omit({ id: true }).extend({
-	vehicleData: VehicleSchema.shape.vehicleData.omit({ vehicleID: true }),
-	gasVehicleData: VehicleSchema.shape.gasVehicleData.omit({ vehicleID: true }),
-	electricVehicleData: VehicleSchema.shape.electricVehicleData.omit({
+export const VehicleToBePostedSchema = NewVehicleSchema.omit({
+	id: true,
+}).extend({
+	vehicleData: BaseVehicleSchema.shape.vehicleData.omit({ vehicleID: true }),
+	gasVehicleData: BaseVehicleSchema.shape.gasVehicleData.omit({
+		vehicleID: true,
+	}),
+	electricVehicleData: BaseVehicleSchema.shape.electricVehicleData.omit({
 		vehicleID: true,
 	}),
 	// Using innerType() because it has a refine and describe method used
 	// Not sure why this is necessary, something about extreacting the underlying schema
-	purchaseAndSales: VehicleSchema.shape.purchaseAndSales.innerType().omit({
+	purchaseAndSales: BaseVehicleSchema.shape.purchaseAndSales.innerType().omit({
 		vehicleID: true,
 	}),
-	usage: VehicleSchema.shape.usage.omit({ vehicleID: true }),
-	fixedCosts: VehicleSchema.shape.fixedCosts.omit({ vehicleID: true }),
-	yearlyMaintenanceCosts: VehicleSchema.shape.yearlyMaintenanceCosts.omit({
+	usage: BaseVehicleSchema.shape.usage.omit({ vehicleID: true }),
+	fixedCosts: BaseVehicleSchema.shape.fixedCosts.omit({ vehicleID: true }),
+	yearlyMaintenanceCosts: BaseVehicleSchema.shape.yearlyMaintenanceCosts.omit({
 		vehicleID: true,
 	}),
-	variableCosts: VehicleSchema.shape.variableCosts.omit({ vehicleID: true }),
+	variableCosts: BaseVehicleSchema.shape.variableCosts.omit({
+		vehicleID: true,
+	}),
 });
