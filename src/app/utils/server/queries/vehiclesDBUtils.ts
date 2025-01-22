@@ -3,7 +3,11 @@
 // As opposed to GetVehiclesQueries.ts in the same folder, which contains the strings of the db queries for GET
 
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Vehicle, Vehicles } from "../types/GetVehicleTypes";
+import {
+	Vehicle,
+	Vehicle_For_db_POST,
+	Vehicles,
+} from "../types/GetVehicleTypes";
 import {
 	getSingleVehicleByIdQuery,
 	getVehiclesByUserIdQuery,
@@ -167,7 +171,7 @@ const deleteDBVehicleByID = async (
  * Returns the vehicle if successful, and an error if unsuccessful
  */
 const addNewVehicleToDB = async (
-	body: Vehicle,
+	body: Vehicle_For_db_POST,
 	supabase: SupabaseClient
 ): Promise<NextResponse<Vehicle | { error: string }>> => {
 	// Should only include the fields that need to be updated
