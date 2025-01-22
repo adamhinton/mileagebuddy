@@ -52,6 +52,9 @@ export type Vehicles = Vehicle[];
  * Use this type for POST requests!
  */
 export type Vehicle_For_db_POST = z.infer<typeof VehicleToBePostedSchema>;
+// const vFDBPG: Vehicle_For_db_POST = {
+// 	type: "gas",
+// } as unknown as Vehicle_For_db_POST;
 
 /**IMPORTANT:
  *
@@ -255,14 +258,57 @@ const bob: Vehicle = {
 	},
 };
 
-// This is for db POST types
-// It's a dry way to omit vehicle IDs from schemas, which I have to do on every object and sub-object
-// This is because I don't want to send vehicleIDs to the db, because the db will assign them
-const omitVehicleID = <
-	T extends z.ZodObject<Record<string, z.ZodTypeAny>, "strip", z.ZodTypeAny>,
->(
-	schema: T
-) => schema.omit({ vehicleID: true });
+// This is for VehicleToBePostedSchema// See notes above VehicleToBePostedSchema about why I had  to do this
+const GasVehicleSchemaNoIDs = GasVehicleSchema.omit({
+	id: true,
+}).extend({
+	vehicleData: GasVehicleSchema.shape.vehicleData.omit({ vehicleID: true }),
+	gasVehicleData: GasVehicleSchema.shape.gasVehicleData.omit({
+		vehicleID: true,
+	}),
+	fixedCosts: GasVehicleSchema.shape.fixedCosts.omit({ vehicleID: true }),
+	yearlyMaintenanceCosts: GasVehicleSchema.shape.yearlyMaintenanceCosts.omit({
+		vehicleID: true,
+	}),
+	variableCosts: GasVehicleSchema.shape.variableCosts.omit({ vehicleID: true }),
+	// Need innerType here because it has a describe and refine block
+	// Don't ask me why, that's what Google says
+	purchaseAndSales: GasVehicleSchema.shape.purchaseAndSales.innerType().omit({
+		vehicleID: true,
+	}),
+	usage: GasVehicleSchema.shape.usage.omit({ vehicleID: true }),
+});
+
+// This is for VehicleToBePostedSchema
+// See notes above VehicleToBePostedSchema about why I had  to do this
+const ElectricVehicleSchemaNoIDs = ElectricVehicleSchema.omit({
+	id: true,
+	userid: true,
+}).extend({
+	vehicleData: ElectricVehicleSchema.shape.vehicleData.omit({
+		vehicleID: true,
+	}),
+
+	electricVehicleData: ElectricVehicleSchema.shape.electricVehicleData.omit({
+		vehicleID: true,
+	}),
+	fixedCosts: ElectricVehicleSchema.shape.fixedCosts.omit({ vehicleID: true }),
+	yearlyMaintenanceCosts:
+		ElectricVehicleSchema.shape.yearlyMaintenanceCosts.omit({
+			vehicleID: true,
+		}),
+	variableCosts: ElectricVehicleSchema.shape.variableCosts.omit({
+		vehicleID: true,
+	}),
+	// Need innerType here because it has a describe and refine block
+	// Don't ask me why, that's what Google says
+	purchaseAndSales: ElectricVehicleSchema.shape.purchaseAndSales
+		.innerType()
+		.omit({
+			vehicleID: true,
+		}),
+	usage: ElectricVehicleSchema.shape.usage.omit({ vehicleID: true }),
+});
 
 // Vehicle without any ids except userid, because it hasn't been sent to db yet
 // This is for POST requests
@@ -271,36 +317,7 @@ const omitVehicleID = <
 // NOTE: Since VehicleSchema is a union type, I can't just do VehicleSchema.omit
 // So I have to do this sort of clunky solution, which is to make a union of the two types without ids
 // TODO: Try to find a better way than this
-export const VehicleToBePostedSchema = z.union([
-	GasVehicleSchema.omit({ id: true }).extend({
-		vehicleData: omitVehicleID(BaseVehicleSchema.shape.vehicleData),
-		gasVehicleData: omitVehicleID(BaseVehicleSchema.shape.gasVehicleData),
-		electricVehicleData: z.null(),
-		purchaseAndSales: omitVehicleID(
-			BaseVehicleSchema.shape.purchaseAndSales.innerType()
-		),
-		usage: omitVehicleID(BaseVehicleSchema.shape.usage),
-		fixedCosts: omitVehicleID(BaseVehicleSchema.shape.fixedCosts),
-		yearlyMaintenanceCosts: omitVehicleID(
-			BaseVehicleSchema.shape.yearlyMaintenanceCosts
-		),
-		variableCosts: omitVehicleID(BaseVehicleSchema.shape.variableCosts),
-	}),
-
-	ElectricVehicleSchema.omit({ id: true }).extend({
-		vehicleData: omitVehicleID(BaseVehicleSchema.shape.vehicleData),
-		gasVehicleData: z.null(),
-		electricVehicleData: omitVehicleID(
-			BaseVehicleSchema.shape.electricVehicleData
-		),
-		purchaseAndSales: omitVehicleID(
-			BaseVehicleSchema.shape.purchaseAndSales.innerType()
-		),
-		usage: omitVehicleID(BaseVehicleSchema.shape.usage),
-		fixedCosts: omitVehicleID(BaseVehicleSchema.shape.fixedCosts),
-		yearlyMaintenanceCosts: omitVehicleID(
-			BaseVehicleSchema.shape.yearlyMaintenanceCosts
-		),
-		variableCosts: omitVehicleID(BaseVehicleSchema.shape.variableCosts),
-	}),
+export const VehicleToBePostedSchema = z.discriminatedUnion("type", [
+	GasVehicleSchemaNoIDs,
+	ElectricVehicleSchemaNoIDs,
 ]);

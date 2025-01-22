@@ -27,13 +27,11 @@ const mockVehicle: Vehicle_For_db_POST = {
 		highwayMPG: 35.5,
 	},
 	gasVehicleData: {
-		vehicleID: 1,
 		gasCostPerGallon: 3.5,
 		milesPerGallonHighway: 35.5,
 		milesPerGallonCity: 35.5,
 	},
 	purchaseAndSales: {
-		vehicleID: 1,
 		yearPurchased: 2020,
 		purchasePrice: 22000.0,
 		downPaymentAmount: 2000.0,
@@ -43,7 +41,6 @@ const mockVehicle: Vehicle_For_db_POST = {
 		willSellCarAtPrice: 12000.0,
 	},
 	usage: {
-		vehicleID: 1,
 		averageDailyMiles: 100,
 		weeksPerYear: 52,
 		percentHighway: 0.5,
@@ -51,7 +48,6 @@ const mockVehicle: Vehicle_For_db_POST = {
 		extraDistancePercentHighway: 4,
 	},
 	fixedCosts: {
-		vehicleID: 1,
 		yearlyInsuranceCost: 1000.0,
 		yearlyRegistrationCost: 100.0,
 		yearlyTaxes: 100.0,
@@ -59,10 +55,9 @@ const mockVehicle: Vehicle_For_db_POST = {
 		monthlyWarrantyCost: 30.0,
 		inspectionCost: 100.0,
 		otherYearlyCosts: 300.0,
-		yearlyParkingCosts: 100.0,
+		yearlyParkingCost: 100.0,
 	},
 	yearlyMaintenanceCosts: {
-		vehicleID: 1,
 		oilChanges: 100.0,
 		tires: 200.0,
 		batteries: 300.0,
@@ -71,14 +66,13 @@ const mockVehicle: Vehicle_For_db_POST = {
 		depreciation: 800.0,
 	},
 	variableCosts: {
-		vehicleID: 1,
 		monthlyParkingCosts: 100.0,
 		monthlyTolls: 50.0,
 		monthlyCarWashCost: 20.0,
 		monthlyMiscellaneousCosts: 50.0,
 		monthlyCostDeductions: 80.0,
 	},
-	electricVehicleData: {},
+	electricVehicleData: null,
 };
 
 export default function Page() {

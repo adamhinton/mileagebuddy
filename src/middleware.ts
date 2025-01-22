@@ -5,16 +5,21 @@ import { VehicleToBePostedSchema } from "./app/utils/server/types/GetVehicleType
 export async function middleware(request: NextRequest) {
 	console.log("General middleware starting");
 
-	console.log("request.method:", request.method);
-	console.log("request.nextUrl.pathname:", request.nextUrl.pathname);
-
+	//If it's POST to api/vehicles ... code
 	if (
 		request.method === "POST" &&
 		request.nextUrl.pathname === "/api/vehicles"
 	) {
+		// console.log("request:", request.clone().json());
+
+		const body = await request.json();
+
+		const isSafe = VehicleToBePostedSchema.safeParse(body);
+		console.log("isSafe:", isSafe);
+		console.log("isSafe.error:", isSafe.error);
+
+		// console.log("body:", body);
 		console.log("blah blah blah 123 POST to api/vehicles");
-		const isSafe = VehicleToBePostedSchema.safeParse(request.body);
-		console.log("isSafe:,", isSafe);
 	}
 
 	// update user's auth session
