@@ -250,7 +250,8 @@ const bob: Vehicle = {
 	},
 };
 
-// This is for VehicleToBePostedSchema// See notes above VehicleToBePostedSchema about why I had  to do this
+// This is for VehicleToBePostedSchema
+// // See notes above VehicleToBePostedSchema about why I had  to do this
 const GasVehicleSchemaNoIDs = GasVehicleSchema.omit({
 	id: true,
 }).extend({
@@ -275,7 +276,6 @@ const GasVehicleSchemaNoIDs = GasVehicleSchema.omit({
 // See notes above VehicleToBePostedSchema about why I had  to do this
 const ElectricVehicleSchemaNoIDs = ElectricVehicleSchema.omit({
 	id: true,
-	userid: true,
 }).extend({
 	vehicleData: ElectricVehicleSchema.shape.vehicleData.omit({
 		vehicleID: true,
@@ -309,7 +309,7 @@ const ElectricVehicleSchemaNoIDs = ElectricVehicleSchema.omit({
 // NOTE: Since VehicleSchema is a union type, I can't just do VehicleSchema.omit
 // So I have to do this sort of clunky solution, which is to make a union of the two types without ids
 // TODO: Try to find a better way than this
-export const VehicleToBePostedSchema = z.discriminatedUnion("type", [
+export const VehicleToBePostedSchema = z.union([
 	GasVehicleSchemaNoIDs,
 	ElectricVehicleSchemaNoIDs,
 ]);
