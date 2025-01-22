@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
+// TODO: Clean up this file
+
 // NOTE: To get the type of sub-objects within Vehicles, do this:
 // const fixedCosts: Vehicle["fixedCosts"] = ...
 
@@ -18,7 +21,7 @@
 // GUIDE:
 // As outlined above:
 // Here are the types to use in different situations
-// Vehicle you're GETTING from the DB: VehicleFromDB
+// Vehicle you're GETTING from the DB: Vehicle
 // Vehicle you're POSTING to the DB: Vehicle_For_db_POST
 // Vehicle you're PATCHING to the DB: TODO, will write this soon
 
@@ -31,18 +34,10 @@ import z from "zod";
  */
 export type Vehicle = z.infer<typeof VehicleSchema>;
 
-/**This is the same when getting one vehicle by id or multiple by user,
- * because it always returns an array of vehicles -- even with length 1.
+/**This is what you get back from the db
+ * It has all the ids and stuff
  */
 export type Vehicles = Vehicle[];
-
-// This caused problems because under the hood it creates a supabase client in the global scope, which isn't allowed. You have to make it in a function. I decided to just define the type myself.
-// // This get the supabase-generated type of a vehicle returned from DB
-// const exampleGetVehiclesByUserQuery = getVehiclesByUserIdQuery("1");
-// /**This is what the Vehicles returned from the DB will look like */
-// type VehiclesArrayFromDB = QueryData<typeof exampleGetVehiclesByUserQuery>;
-// /**This is what a single Vehicle returned from the DB will look like */
-// export type VehicleFromDB = VehiclesArrayFromDB[number];
 
 /**
  * This doesn't have any ids anywhere because it's for a POST request
@@ -52,9 +47,6 @@ export type Vehicles = Vehicle[];
  * Use this type for POST requests!
  */
 export type Vehicle_For_db_POST = z.infer<typeof VehicleToBePostedSchema>;
-// const vFDBPG: Vehicle_For_db_POST = {
-// 	type: "gas",
-// } as unknown as Vehicle_For_db_POST;
 
 /**IMPORTANT:
  *
