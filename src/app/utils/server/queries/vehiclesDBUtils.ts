@@ -72,7 +72,7 @@ async function getSingleVehicleById(
 	const { data, error } = await vehicleInfoQuery;
 
 	if (error) {
-		throw new Error("Error fetching vehicle data in TEST: " + error.message);
+		throw new Error("Error fetching vehicle data: " + error.message);
 	}
 
 	const vehicles: Vehicles = data as unknown as Vehicles;
