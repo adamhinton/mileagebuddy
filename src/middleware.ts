@@ -15,8 +15,17 @@ export async function middleware(request: NextRequest) {
 		const body = await request.json();
 
 		const isSafe = VehicleToBePostedSchema.safeParse(body);
-		console.log("isSafe:", isSafe);
+		// console.log("isSafe:", isSafe);
 		console.log("isSafe.error:", isSafe.error);
+
+		if (isSafe.error) {
+			return new Response(JSON.stringify(isSafe.error), {
+				status: 400,
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+		}
 
 		// console.log("body:", body);
 		console.log("blah blah blah 123 POST to api/vehicles");
