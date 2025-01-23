@@ -411,12 +411,16 @@ describe("POST /api/vehicles", () => {
 
 	it("Should insert fine if electricVehicleData is null  but gasVehicleData isn't", async () => {
 		const completeMockVehicle = mockVehicles[0];
-		const vehicleWithNullElectricVehicleData = {
+		const vehicleWithNullElectricVehicleData: Vehicle_For_db_POST = {
 			userid: 1,
 			type: "electric",
 			vehiclesOrder: 1,
 			vehicleData: completeMockVehicle.vehicleData,
-			electricVehicleData: null,
+			electricVehicleData: {
+				costPerCharge: 15,
+				milesPerCharge: 200,
+				electricRangeMiles: 200,
+			},
 			gasVehicleData: null,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
 			usage: completeMockVehicle.usage,
