@@ -36,7 +36,7 @@ const mockVehicle: Vehicle_For_db_POST = {
 		purchasePrice: 22000.0,
 		downPaymentAmount: 2000.0,
 		willSellCarAfterYears: 5,
-		milesBoughtAt: 90000,
+		milesBoughtAt: 70000,
 		willSellCarAtMiles: 80000,
 		willSellCarAtPrice: 12000.0,
 	},

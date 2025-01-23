@@ -216,6 +216,7 @@ const VehicleSchema = z.union([GasVehicleSchema, ElectricVehicleSchema]);
 // @ts-expect-error vehicleData is untyped because the type Vehicle hasn't been created yet
 const refineZodVehicleValidation = (vehicleData) => {
 	let isVehicleValid = true;
+	let error = "";
 
 	const milesBoughtAt = vehicleData.purchaseAndSales.milesBoughtAt;
 	const willSellCarAtMiles = vehicleData.purchaseAndSales.willSellCarAtMiles;
@@ -223,9 +224,11 @@ const refineZodVehicleValidation = (vehicleData) => {
 	// Right now this is the only refinement we need.
 	if (milesBoughtAt > willSellCarAtMiles) {
 		isVehicleValid = false;
+
+		error = "milesBoughtAt must be less than or equal to willSellCarAtMiles";
 	}
 
-	return isVehicleValid;
+	return { isVehicleValid, error };
 };
 
 /**Always has "type": "gas" and electricVehicleData: null */
@@ -319,9 +322,18 @@ const GasVehicleSchemaForPOST = GasVehicleSchema.omit({
 	variableCosts: GasVehicleSchema.shape.variableCosts.omit({ vehicleID: true }),
 	// Need innerType here because it has a describe and refine block
 	// Don't ask me why, that's what Google says
-	purchaseAndSales: GasVehicleSchema.shape.purchaseAndSales.innerType().omit({
-		vehicleID: true,
-	}),
+	// Also have to add .refine again because .refine doesn't get passed down to extended schemas
+	// Which is really stupid and I'm definitely going to forget this when I extend this again
+	purchaseAndSales: GasVehicleSchema.shape.purchaseAndSales
+		.innerType()
+		.omit({
+			vehicleID: true,
+		})
+		.refine((data) => {
+			return data.milesBoughtAt <= data.willSellCarAtMiles;
+		})
+		.describe("milesBoughtAt must be less than or equal to willSellCarAtMiles"),
+
 	usage: GasVehicleSchema.shape.usage.omit({ vehicleID: true }),
 });
 
@@ -364,6 +376,13 @@ const ElectricVehicleSchemaForPOST = ElectricVehicleSchema.omit({
 // TODO: Try to find a better way than this
 export const VehicleToBePostedSchema = z
 	.union([GasVehicleSchemaForPOST, ElectricVehicleSchemaForPOST])
-	.refine((data) => {
-		return refineZodVehicleValidation(data);
-	});
+	.refine(
+		(data) => {
+			const validation = refineZodVehicleValidation(data);
+			return validation.isVehicleValid;
+		},
+		(data) => ({
+			message: refineZodVehicleValidation(data).error,
+		})
+	);
+// refineZodVehicleValidation returns {isVehicleValid: boolean, error: string}; rewrite this .refine to get that and .describe the text of the error
