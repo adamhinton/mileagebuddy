@@ -15,7 +15,7 @@ import {
 //supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd/settings/api?showConnect=true
 
 const mockVehicle: Vehicle_For_db_POST = {
-	type: "gas" as const,
+	type: "gas",
 	userid: 1,
 	vehiclesOrder: 1,
 	vehicleData: {
@@ -36,7 +36,7 @@ const mockVehicle: Vehicle_For_db_POST = {
 		purchasePrice: 22000.0,
 		downPaymentAmount: 2000.0,
 		willSellCarAfterYears: 5,
-		milesBoughtAt: 10000,
+		milesBoughtAt: 90000,
 		willSellCarAtMiles: 80000,
 		willSellCarAtPrice: 12000.0,
 	},
