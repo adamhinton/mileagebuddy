@@ -190,6 +190,10 @@ const ElectricVehicleSchema = BaseVehicleSchema.innerType().extend({
 
 /**
  * The type Vehicle is inferred from this
+ *
+ * IMPORTANT: Extending this schema? Make sure to slap .refine(data =>{ return refineZodVehicleValidation(data)}) on the end of your new schema
+ * This is because Zod can't handle unions or sub-types like .extend, .omit etc. with .refine
+ * And .refine is important for more complex validations that can't be done with built in Zod functions like .max() or .nonnegative()
  */
 const VehicleSchema = z.union([GasVehicleSchema, ElectricVehicleSchema]);
 
@@ -203,6 +207,8 @@ const VehicleSchema = z.union([GasVehicleSchema, ElectricVehicleSchema]);
  * It's hacky and dumb but it's what we have to do, Zod is aware of this issue and says it's a limitation.
  *
  * Right now (1.22.25) we have a limited number of refinements needed. If we need more we may need to revisit this.
+ *
+ * For more info on this issue with a response from the Zod developers, see: https://github.com/colinhacks/zod/issues/454
  *
  * @param vehicleData a Vehicle
  * @returns boolean
