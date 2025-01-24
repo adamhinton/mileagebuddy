@@ -106,6 +106,9 @@ const ElectricVehicleDataSchema = z.object({
 	electricRangeMiles: z.number().max(10_000).nonnegative().nullable(),
 });
 
+/** This is a SUB OBJECT of BaseVehicleSchema
+ * This is NOT a vehicle, it just has some basic data
+ */
 const PurchaseAndSalesSchema = z
 	.object({
 		vehicleID: z.number().readonly(),
@@ -135,6 +138,9 @@ const UsageSchema = z.object({
 	extraDistancePercentHighway: z.number().nonnegative().max(100).nullable(),
 });
 
+/** This is a SUB OBJECT of BaseVehicleSchema
+ * This is NOT a vehicle, it just has some basic data
+ */
 const FixedCostsSchema = z.object({
 	vehicleID: z.number().readonly(),
 	yearlyInsuranceCost: z.number().nonnegative().max(500_000).nullable(),
@@ -147,6 +153,9 @@ const FixedCostsSchema = z.object({
 	otherYearlyCosts: z.number().max(500_000).nonnegative().nullable(),
 });
 
+/** This is a SUB OBJECT of BaseVehicleSchema
+ * This is NOT a vehicle, it just has some basic data
+ */
 const YearlyMaintenanceCostsSchema = z.object({
 	vehicleID: z.number().readonly(),
 	oilChanges: z.number().nonnegative().max(1_000).nullable(),
@@ -157,6 +166,9 @@ const YearlyMaintenanceCostsSchema = z.object({
 	depreciation: z.number().nonnegative().max(500_000).nullable(),
 });
 
+/** This is a SUB OBJECT of BaseVehicleSchema
+ * This is NOT a vehicle, it just has some basic data
+ */
 const VariableCostsSchema = z.object({
 	vehicleID: z.number().readonly(),
 	monthlyParkingCosts: z.number().max(5_000).nonnegative().nullable(),
