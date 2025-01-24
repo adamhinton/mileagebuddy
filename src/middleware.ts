@@ -3,31 +3,22 @@ import { type NextRequest } from "next/server";
 import { VehicleToBePostedSchema } from "./app/utils/server/types/GetVehicleTypes";
 
 export async function middleware(request: NextRequest) {
-	console.log("General middleware starting");
+	const body = await request.json();
 
-	//If it's POST to api/vehicles ... code
 	if (
 		request.method === "POST" &&
 		request.nextUrl.pathname === "/api/vehicles"
 	) {
-		// console.log("request:", request.clone().json());
-
-		const body = await request.json();
-
-		const isSafe = VehicleToBePostedSchema.safeParse(body);
-		console.log("isSafe.error:", isSafe.error);
-
-		if (isSafe.error) {
-			return new Response(JSON.stringify(isSafe.error), {
+		const isVehicleValid = VehicleToBePostedSchema.safeParse(body);
+		if (isVehicleValid.error) {
+			console.log("error in POST error block:", isVehicleValid.error);
+			return new Response(JSON.stringify(isVehicleValid.error), {
 				status: 400,
 				headers: {
 					"Content-Type": "application/json",
 				},
 			});
 		}
-
-		// console.log("body:", body);
-		console.log("blah blah blah 123 POST to api/vehicles");
 	}
 
 	// update user's auth session

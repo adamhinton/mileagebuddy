@@ -3,7 +3,6 @@ import VehiclesDBUtils from "@/app/utils/server/queries/vehiclesDBUtils";
 import {
 	Vehicle,
 	Vehicle_For_db_POST,
-	VehicleToBePostedSchema,
 } from "@/app/utils/server/types/GetVehicleTypes";
 import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
 
@@ -85,9 +84,8 @@ export async function POST(
 ): Promise<NextResponse<Vehicle | { error: string }>> {
 	const supabase = await createClientSSROnly();
 
-	const body: Vehicle_For_db_POST = VehicleToBePostedSchema.parse(
-		await request.json()
-	);
+	// Body has already been validated against VehicleToBePostedSchema in the middleware
+	const body: Vehicle_For_db_POST = await request.json();
 
 	const response = await addNewVehicleToDB(body, supabase);
 

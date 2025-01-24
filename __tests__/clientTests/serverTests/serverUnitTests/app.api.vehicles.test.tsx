@@ -511,14 +511,14 @@ describe("POST /api/vehicles", () => {
 			userid: 1,
 			type: "gas",
 			vehiclesOrder: 1,
-			vehicleData: completeMockVehicle.vehicleData,
+			vehicleData: { ...completeMockVehicle.vehicleData },
 			electricVehicleData: null,
 			gasVehicleData: null,
-			purchaseAndSales: completeMockVehicle.purchaseAndSales,
-			usage: completeMockVehicle.usage,
-			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
-			variableCosts: completeMockVehicle.variableCosts,
-			fixedCosts: completeMockVehicle.fixedCosts,
+			purchaseAndSales: { ...completeMockVehicle.purchaseAndSales },
+			usage: { ...completeMockVehicle.usage },
+			yearlyMaintenanceCosts: { ...completeMockVehicle.yearlyMaintenanceCosts },
+			variableCosts: { ...completeMockVehicle.variableCosts },
+			fixedCosts: { ...completeMockVehicle.fixedCosts },
 		};
 
 		const supabase = {
@@ -533,13 +533,21 @@ describe("POST /api/vehicles", () => {
 		};
 		(createClientSSROnly as jest.Mock).mockReturnValue(supabase);
 
+		console.log(
+			"vehicleWithNullGasVehicleData:",
+			vehicleWithNullGasVehicleData
+		);
+
 		const request = {
-			json: jest.fn().mockResolvedValue({ error: "error" }),
+			json: jest.fn().mockResolvedValue(vehicleWithNullGasVehicleData),
 			body: vehicleWithNullGasVehicleData,
 			headers: { "Content-Type": "application/json" },
 		} as unknown as NextRequest;
 
 		const response = await POST(request);
+
+		console.log("response in TEST:", response);
+
 		const responseData = await response.json();
 
 		expect(response.status).toBe(500);

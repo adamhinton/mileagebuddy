@@ -134,6 +134,7 @@ export default function Page() {
 							highwayMPG: 343.5,
 						},
 					};
+
 					const res = await fetch("api/vehicles?vehicleid=1", {
 						method: "PATCH",
 						body: JSON.stringify(partialMockVehicle),
@@ -149,10 +150,87 @@ export default function Page() {
 				onClick={async () => {
 					console.log("blah blah blah");
 
+					const completeMockVehicle = {
+						type: "gas",
+						userid: 1,
+						vehiclesOrder: 1,
+						vehicleData: {
+							vehicleName: "Tesla Model 3",
+							year: 2020,
+							make: "Tesla",
+							model: "Model 3",
+							trim: "Base",
+							highwayMPG: 35.5,
+						},
+						gasVehicleData: {
+							gasCostPerGallon: 3.5,
+							milesPerGallonHighway: 35.5,
+							milesPerGallonCity: 35.5,
+						},
+						purchaseAndSales: {
+							yearPurchased: 2020,
+							purchasePrice: 22000.0,
+							downPaymentAmount: 2000.0,
+							willSellCarAfterYears: 5,
+							milesBoughtAt: 10000,
+							willSellCarAtMiles: 80000,
+							willSellCarAtPrice: 12000.0,
+						},
+						usage: {
+							averageDailyMiles: 100,
+							weeksPerYear: 52,
+							percentHighway: 0.5,
+							extraDistanceMiles: 0,
+							extraDistancePercentHighway: 0,
+						},
+						fixedCosts: {
+							yearlyInsuranceCost: 1000.0,
+							yearlyRegistrationCost: 100.0,
+							yearlyTaxes: 100.0,
+							monthlyLoanPayment: 300.0,
+							monthlyWarrantyCost: 30.0,
+							inspectionCost: 100.0,
+							yearlyParkingCost: 100.0,
+							otherYearlyCosts: 300.0,
+						},
+						yearlyMaintenanceCosts: {
+							oilChanges: 100.0,
+							tires: 200.0,
+							batteries: 300.0,
+							brakes: 100.0,
+							other: 100.0,
+							depreciation: 800.0,
+						},
+						variableCosts: {
+							monthlyParkingCosts: 100.0,
+							monthlyTolls: 50.0,
+							monthlyCarWashCost: 20.0,
+							monthlyMiscellaneousCosts: 50.0,
+							monthlyCostDeductions: 80.0,
+						},
+						electricVehicleData: null,
+					};
+
+					const vehicleWithNullGasVehicleData = {
+						userid: 1,
+						type: "gas",
+						vehiclesOrder: 1,
+						vehicleData: { ...completeMockVehicle.vehicleData },
+						electricVehicleData: null,
+						gasVehicleData: null,
+						purchaseAndSales: { ...completeMockVehicle.purchaseAndSales },
+						usage: { ...completeMockVehicle.usage },
+						yearlyMaintenanceCosts: {
+							...completeMockVehicle.yearlyMaintenanceCosts,
+						},
+						variableCosts: { ...completeMockVehicle.variableCosts },
+						fixedCosts: { ...completeMockVehicle.fixedCosts },
+					};
+
 					// checkZodClient(mockVehicle);
 					const res = await fetch("api/vehicles", {
 						method: "POST",
-						body: JSON.stringify(mockVehicle),
+						body: JSON.stringify(vehicleWithNullGasVehicleData),
 					});
 					const data = await res.json();
 					console.log("data from POST vehicles:", data);
