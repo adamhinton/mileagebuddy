@@ -7,7 +7,7 @@ import {
 	Vehicle,
 	Vehicles,
 	Vehicle_For_db_POST,
-} from "../app/utils/server/types/GetVehicleTypes";
+} from "./utils/server/types/VehicleTypes/GetVehicleTypes";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 

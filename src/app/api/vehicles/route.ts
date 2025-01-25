@@ -3,7 +3,7 @@ import VehiclesDBUtils from "@/app/utils/server/queries/vehiclesDBUtils";
 import {
 	Vehicle,
 	Vehicle_For_db_POST,
-} from "@/app/utils/server/types/GetVehicleTypes";
+} from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
 
 const {

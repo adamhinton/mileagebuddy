@@ -7,7 +7,7 @@ import {
 	Vehicle,
 	Vehicle_For_db_POST,
 	Vehicles,
-} from "../types/GetVehicleTypes";
+} from "../types/VehicleTypes/GetVehicleTypes";
 import {
 	getSingleVehicleByIdQuery,
 	getVehiclesByUserIdQuery,

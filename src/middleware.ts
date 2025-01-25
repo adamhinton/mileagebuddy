@@ -1,6 +1,6 @@
 import { updateSession } from "@/app/utils/server/supabaseUtilsCustom/supabaseMiddleware";
 import { type NextRequest } from "next/server";
-import { VehicleToBePostedSchema } from "./app/utils/server/types/GetVehicleTypes";
+import { VehicleToBePostedSchema } from "./app/utils/server/types/VehicleTypes/GetVehicleTypes";
 
 export async function middleware(request: NextRequest) {
 	const body = await request.json();
