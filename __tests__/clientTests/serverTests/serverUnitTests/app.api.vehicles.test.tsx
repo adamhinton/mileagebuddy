@@ -5,7 +5,7 @@ import {
 	Vehicles,
 	Vehicle,
 	Vehicle_For_db_POST,
-} from "@/app/utils/server/types/GetVehicleTypes";
+} from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { NextRequest, NextResponse } from "next/server";
 import { DELETE, GET, PATCH, POST } from "@/app/api/vehicles/route";
 import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
