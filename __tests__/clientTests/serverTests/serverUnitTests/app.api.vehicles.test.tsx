@@ -4,12 +4,12 @@
 import {
 	Vehicles,
 	Vehicle,
-	Vehicle_For_db_POST,
 } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { NextRequest, NextResponse } from "next/server";
 import { DELETE, GET, PATCH, POST } from "@/app/api/vehicles/route";
 import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
 import { stringForJoiningVehicleTables } from "@/app/utils/server/queries/vehiclesDBUtils";
+import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 
 // This file is for UNIT tests. It tests API endpoint logic with dummy data, doesn't interact with an actual DB.
 // See README in servertests/serverunit tests for more info.

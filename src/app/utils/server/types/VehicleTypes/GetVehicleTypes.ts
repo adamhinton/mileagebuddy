@@ -44,15 +44,6 @@ export type Vehicle = z.infer<typeof VehicleSchema>;
  */
 export type Vehicles = Vehicle[];
 
-/**
- * This doesn't have any ids anywhere because it's for a POST request
- *
- * So it wouldn't have been assigned an id or vehicleids yet by the db
- *
- * Use this type for POST requests!
- */
-export type Vehicle_For_db_POST = z.infer<typeof VehicleToBePostedSchema>;
-
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */

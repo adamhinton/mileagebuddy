@@ -12,6 +12,15 @@ import {
 	refineZodVehicleValidation,
 } from "./GetVehicleTypes";
 
+/**
+ * This doesn't have any ids anywhere because it's for a POST request
+ *
+ * So it wouldn't have been assigned an id or vehicleids yet by the db
+ *
+ * Use this type for POST requests!
+ */
+export type Vehicle_For_db_POST = z.infer<typeof VehicleToBePostedSchema>;
+
 // // See notes above VehicleToBePostedSchema about why I had  to do this
 export const GasVehicleSchemaForPOST = GasVehicleSchema.omit({
 	id: true,

@@ -3,16 +3,13 @@
 // As opposed to GetVehiclesQueries.ts in the same folder, which contains the strings of the db queries for GET
 
 import { SupabaseClient } from "@supabase/supabase-js";
-import {
-	Vehicle,
-	Vehicle_For_db_POST,
-	Vehicles,
-} from "../types/VehicleTypes/GetVehicleTypes";
+import { Vehicle, Vehicles } from "../types/VehicleTypes/GetVehicleTypes";
 import {
 	getSingleVehicleByIdQuery,
 	getVehiclesByUserIdQuery,
 } from "./GetVehiclesQueries";
 import { NextResponse } from "next/server";
+import { Vehicle_For_db_POST } from "../types/VehicleTypes/POSTVehicleTypes";
 
 /**The string we use in our select statement to get vehicles
  * It's longso we're saving it here to stay DRY
