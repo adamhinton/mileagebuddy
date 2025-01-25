@@ -26,6 +26,11 @@
 // Vehicle you're PATCHING to the DB: TODO, will write this soon
 
 import z from "zod";
+import {
+	ElectricVehicleSchemaForPOST,
+	GasVehicleSchemaForPOST,
+	VehicleToBePostedSchema,
+} from "./POSTVehicleTypes";
 
 /**This will be either an ElectricVehicle type or GasVehicle type
  * depending on the "type" field ("type": "gas" or "type":  "electric").
@@ -48,48 +53,25 @@ export type Vehicles = Vehicle[];
  */
 export type Vehicle_For_db_POST = z.infer<typeof VehicleToBePostedSchema>;
 
-/**IMPORTANT:
- *
- * This doesn't match what you expect?
- *
- * You have to manually update the zod Schema with any new changes to your db schema.
- *
- * This schema is manually generated. This is the grandfather prototype of all Vehicles. Further types will be inferred from this.
- *
- * INFO:
- *
- * This is the grandaddy schema that Vehicles are inferred from.
- *
- * This is broken down further in to GasVehicleSchema and ElectricVehicleSchema, which are then combined in to VehicleSchema.
- *
- * Then, the Vehicle type is a union of those two types.
- *
- * IMPORTANT: Don't use this type for anything outside this file; VehicleSchema (and the type Vehicle which is inferred from it) is best.
- *
- * Note: I left maxes on these to avoid ridiculously high number spam
- *
- * IMPORTANT: Extending this schema? Make sure to slap .refine(data =>{ return refineZodVehicleValidation(data)}) on the end of your new schema
- * This is because Zod can't handle unions or sub-types like .extend, .omit etc. with .refine
- *
+/** This is a SUB OBJECT of BaseVehicleSchema
+ * This is NOT a vehicle, it just has some basic data
  */
+const VehicleDataSchema = z
+	.object({
+		vehicleID: z.number().readonly(),
+		vehicleName: z.string().min(1).max(30),
+		year: z.number().min(1875).max(2100).nullable(),
+		make: z.string().min(1).max(30).nullable(),
+		model: z.string().min(1).max(30).nullable(),
+		trim: z.string().min(1).max(30).nullable(),
+		highwayMPG: z.number().max(5000).nonnegative().nullable(),
+	})
+	.describe("test blah");
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
-const VehicleDataSchema = z.object({
-	vehicleID: z.number().readonly(),
-	vehicleName: z.string().min(1).max(30),
-	year: z.number().min(1875).max(2100).nullable(),
-	make: z.string().min(1).max(30).nullable(),
-	model: z.string().min(1).max(30).nullable(),
-	trim: z.string().min(1).max(30).nullable(),
-	highwayMPG: z.number().max(5000).nonnegative().nullable(),
-});
-
-/** This is a SUB OBJECT of BaseVehicleSchema
- * This is NOT a vehicle, it just has some basic data
- */
-const GasVehicleDataSchema = z.object({
+export const GasVehicleDataSchema = z.object({
 	vehicleID: z.number().readonly(),
 	gasCostPerGallon: z.number().max(1000).nonnegative().nullable(),
 	milesPerGallonHighway: z.number().max(1000).nonnegative().nullable(),
@@ -99,7 +81,7 @@ const GasVehicleDataSchema = z.object({
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
-const ElectricVehicleDataSchema = z.object({
+export const ElectricVehicleDataSchema = z.object({
 	vehicleID: z.number().readonly(),
 	costPerCharge: z.number().nonnegative().max(1000).nullable(),
 	milesPerCharge: z.number().max(10_000).nullable(),
@@ -178,13 +160,37 @@ const VariableCostsSchema = z.object({
 	monthlyCostDeductions: z.number().max(500_000).nonnegative().nullable(),
 });
 
+/**IMPORTANT:
+ *
+ * This doesn't match what you expect?
+ *
+ * You have to manually update the zod Schema with any new changes to your db schema.
+ *
+ * This schema is manually generated. This is the grandfather prototype of all Vehicles. Further types will be inferred from this.
+ *
+ * INFO:
+ *
+ * This is the grandaddy schema that Vehicles are inferred from.
+ *
+ * This is broken down further in to GasVehicleSchema and ElectricVehicleSchema, which are then combined in to VehicleSchema.
+ *
+ * Then, the Vehicle type is a union of those two types.
+ *
+ * IMPORTANT: Don't use this type for anything outside this file; VehicleSchema (and the type Vehicle which is inferred from it) is best.
+ *
+ * Note: I left maxes on these to avoid ridiculously high number spam
+ *
+ * IMPORTANT: Extending this schema? Make sure to slap .refine(data =>{ return refineZodVehicleValidation(data)}) on the end of your new schema
+ * This is because Zod can't handle unions or sub-types like .extend, .omit etc. with .refine
+ *
+ */
 export const BaseVehicleSchema = z.object({
 	id: z.number().readonly(),
 	userid: z.number().readonly(),
 	vehiclesOrder: z.number().positive(),
 	type: z.enum(["gas", "electric"]),
 
-	vehicleData: VehicleDataSchema,
+	vehicleData: VehicleDataSchema.describe("test blah 2"),
 
 	gasVehicleData: GasVehicleDataSchema,
 
@@ -201,14 +207,14 @@ export const BaseVehicleSchema = z.object({
 	variableCosts: VariableCostsSchema,
 });
 
-const GasVehicleSchema = BaseVehicleSchema.extend({
+export const GasVehicleSchema = BaseVehicleSchema.extend({
 	type: z.literal("gas"),
 	electricVehicleData: z
 		.null()
 		.describe("electricVehicleData must be null because this is a gas vehicle"),
 });
 
-const ElectricVehicleSchema = BaseVehicleSchema.extend({
+export const ElectricVehicleSchema = BaseVehicleSchema.extend({
 	type: z.literal("electric"),
 	gasVehicleData: z
 		.null()
@@ -243,7 +249,7 @@ const VehicleSchema = z.union([GasVehicleSchema, ElectricVehicleSchema]);
  * @returns boolean
  */
 // @ts-expect-error vehicleData is untyped because the type Vehicle hasn't been created yet
-const refineZodVehicleValidation = (vehicleData) => {
+export const refineZodVehicleValidation = (vehicleData) => {
 	let isVehicleValid = true;
 	let error = "";
 
@@ -335,83 +341,4 @@ const bob: Vehicle = {
 	},
 };
 
-// This is for VehicleToBePostedSchema
-// // See notes above VehicleToBePostedSchema about why I had  to do this
-const GasVehicleSchemaForPOST = GasVehicleSchema.omit({
-	id: true,
-}).extend({
-	vehicleData: GasVehicleSchema.shape.vehicleData.omit({ vehicleID: true }),
-	gasVehicleData: GasVehicleSchema.shape.gasVehicleData.omit({
-		vehicleID: true,
-	}),
-	fixedCosts: GasVehicleSchema.shape.fixedCosts.omit({ vehicleID: true }),
-	yearlyMaintenanceCosts: GasVehicleSchema.shape.yearlyMaintenanceCosts.omit({
-		vehicleID: true,
-	}),
-	variableCosts: GasVehicleSchema.shape.variableCosts.omit({ vehicleID: true }),
-	// Need innerType here because it has a describe and refine block
-	// Don't ask me why, that's what Google says
-	// Also have to add .refine again because .refine doesn't get passed down to extended schemas
-	// Which is really stupid and I'm definitely going to forget this when I extend this again
-	purchaseAndSales: GasVehicleSchema.shape.purchaseAndSales
-		.innerType()
-		.omit({
-			vehicleID: true,
-		})
-		.refine((data) => {
-			return data.milesBoughtAt <= data.willSellCarAtMiles;
-		})
-		.describe("milesBoughtAt must be less than or equal to willSellCarAtMiles"),
-
-	usage: GasVehicleSchema.shape.usage.omit({ vehicleID: true }),
-});
-
-// This is for VehicleToBePostedSchema
-// See notes above VehicleToBePostedSchema about why I had  to do this
-const ElectricVehicleSchemaForPOST = ElectricVehicleSchema.omit({
-	id: true,
-}).extend({
-	vehicleData: ElectricVehicleSchema.shape.vehicleData.omit({
-		vehicleID: true,
-	}),
-
-	electricVehicleData: ElectricVehicleSchema.shape.electricVehicleData.omit({
-		vehicleID: true,
-	}),
-	fixedCosts: ElectricVehicleSchema.shape.fixedCosts.omit({ vehicleID: true }),
-	yearlyMaintenanceCosts:
-		ElectricVehicleSchema.shape.yearlyMaintenanceCosts.omit({
-			vehicleID: true,
-		}),
-	variableCosts: ElectricVehicleSchema.shape.variableCosts.omit({
-		vehicleID: true,
-	}),
-	// Need innerType here because it has a describe and refine block
-	// Don't ask me why, that's what Google says
-	purchaseAndSales: ElectricVehicleSchema.shape.purchaseAndSales
-		.innerType()
-		.omit({
-			vehicleID: true,
-		}),
-	usage: ElectricVehicleSchema.shape.usage.omit({ vehicleID: true }),
-});
-
-// Vehicle without any ids except userid, because it hasn't been sent to db yet
-// This is for POST requests
-// I wasn't sure how to make it only exclude vehicleIDs, this looks clunky but does the job
-// Vehicle schema for POST requests
-// NOTE: Since VehicleSchema is a union type, I can't just do VehicleSchema.omit
-// So I have to do this sort of clunky solution, which is to make a union of the two types without ids
-// TODO: Try to find a better way than this
-export const VehicleToBePostedSchema = z
-	.union([GasVehicleSchemaForPOST, ElectricVehicleSchemaForPOST])
-	.refine(
-		(data) => {
-			const validation = refineZodVehicleValidation(data);
-			return validation.isVehicleValid;
-		},
-		(data) => ({
-			message: refineZodVehicleValidation(data).error,
-		})
-	);
 // refineZodVehicleValidation returns {isVehicleValid: boolean, error: string}; rewrite this .refine to get that and .describe the text of the error
