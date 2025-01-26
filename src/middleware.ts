@@ -6,6 +6,10 @@ import { NextResponse, type NextRequest } from "next/server";
 import { VehicleToBePostedSchema } from "./app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { VehicleSchemaForPATCH } from "./app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 
+// TODO: User stuff, including:
+// Validate User
+// Validate that Vehicles etc match logged in user
+
 export async function middleware(request: NextRequest) {
 	console.log("starting middleware");
 	console.log("request in middleware:", request);
