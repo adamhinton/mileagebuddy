@@ -15,6 +15,15 @@ export async function middleware(request: NextRequest) {
 
 		try {
 			const body = await clonedRequest.json();
+			const isSafe = VehicleToBePostedSchema.safeParse(body);
+
+			if (!isSafe.success) {
+				// send back error message(s)
+				return NextResponse.json(
+					{ error: "Invalid POST vehicle input", details: isSafe.error.errors },
+					{ status: 400 }
+				);
+			}
 			// Your validation logic here
 		} catch (error) {
 			console.error("Error parsing JSON:", error);

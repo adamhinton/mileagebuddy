@@ -188,7 +188,7 @@ export default function Page() {
 						},
 						fixedCosts: {
 							yearlyInsuranceCost: 1000.0,
-							yearlyRegistrationCost: 100.0,
+							// yearlyRegistrationCost: 100.0,
 							yearlyTaxes: 100.0,
 							monthlyLoanPayment: 300.0,
 							monthlyWarrantyCost: 30.0,
@@ -233,7 +233,7 @@ export default function Page() {
 					// checkZodClient(mockVehicle);
 					const res = await fetch("api/vehicles", {
 						method: "POST",
-						body: JSON.stringify(vehicleWithNullGasVehicleData),
+						body: JSON.stringify(completeMockVehicle),
 					});
 					const data = await res.json();
 					console.log("data from POST vehicles:", data);
