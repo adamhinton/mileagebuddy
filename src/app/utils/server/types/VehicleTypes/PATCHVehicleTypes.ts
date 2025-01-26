@@ -26,6 +26,8 @@ export const GasVehicleSchemaForPATCH = GasVehicleSchema.extend({
 	type: z.enum(["gas"]).optional(),
 	vehicleData: VehicleDataSchema.optional(),
 	gasVehicleData: GasVehicleDataSchema.optional(),
+	// This will always be null anyway
+	electricVehicleData: ElectricVehicleDataSchema.optional(),
 	purchaseAndSales: PurchaseAndSalesSchema.optional(),
 	usage: UsageSchema.optional(),
 	fixedCosts: FixedCostsSchema.optional(),
@@ -39,6 +41,8 @@ export const ElectricVehicleSchemaForPATCH = ElectricVehicleSchema.extend({
 	vehiclesOrder: z.number().optional(),
 	type: z.enum(["electric"]).optional(),
 	vehicleData: VehicleDataSchema.optional(),
+	// This will always be null anyway
+	gasVehicleData: GasVehicleDataSchema.optional(),
 	electricVehicleData: ElectricVehicleDataSchema.optional(),
 	purchaseAndSales: PurchaseAndSalesSchema.innerType().optional(),
 	usage: UsageSchema.optional(),

@@ -8,6 +8,7 @@ import {
 	Vehicles,
 } from "./utils/server/types/VehicleTypes/GetVehicleTypes";
 import { Vehicle_For_db_POST } from "./utils/server/types/VehicleTypes/POSTVehicleTypes";
+import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVehicleTypes";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
@@ -123,8 +124,9 @@ export default function Page() {
 			{/* PATCH api/vehicles with dummy Vehicle */}
 			<button
 				onClick={async () => {
-					const partialMockVehicle: Partial<Vehicle> = {
+					const partialMockVehicle: Vehicle_For_db_PATCH = {
 						type: "gas",
+						id: 1,
 						userid: 1,
 						vehiclesOrder: 20,
 						vehicleData: {
@@ -188,7 +190,7 @@ export default function Page() {
 						},
 						fixedCosts: {
 							yearlyInsuranceCost: 1000.0,
-							// yearlyRegistrationCost: 100.0,
+							yearlyRegistrationCost: 100.0,
 							yearlyTaxes: 100.0,
 							monthlyLoanPayment: 300.0,
 							monthlyWarrantyCost: 30.0,
