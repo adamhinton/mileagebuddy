@@ -79,6 +79,7 @@ export default function Page() {
 	const [users, setUsers] = useState<User[]>([]);
 
 	useEffect(() => {
+		console.log("Start useEffect");
 		// const safeParsed = VehicleToBePostedSchema.safeParse(mockVehicle);
 		// console.log("safeParsed:", safeParsed);
 
@@ -109,6 +110,8 @@ export default function Page() {
 		fetchUserByID("1");
 
 		fetchData();
+
+		console.log("End useEffect");
 	}, []);
 
 	console.log("users:", users);
