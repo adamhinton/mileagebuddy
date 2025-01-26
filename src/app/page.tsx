@@ -12,6 +12,7 @@ import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVeh
 import {
 	getSingleVehicleByID,
 	getVehiclesByUserID,
+	insertVehicle,
 } from "./utils/server/client/DBInteractions/VehiclesDBInteractions";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
@@ -160,7 +161,7 @@ export default function Page() {
 					console.log("blah blah blah");
 
 					const completeMockVehicle = {
-						type: "gas",
+						type: "gas" as const,
 						userid: 1,
 						vehiclesOrder: 1,
 						vehicleData: {
@@ -237,11 +238,7 @@ export default function Page() {
 					};
 
 					// checkZodClient(mockVehicle);
-					const res = await fetch("api/vehicles", {
-						method: "POST",
-						body: JSON.stringify(completeMockVehicle),
-					});
-					const data = await res.json();
+					const data = await insertVehicle(completeMockVehicle);
 					console.log("data from POST vehicles:", data);
 				}}
 			>
