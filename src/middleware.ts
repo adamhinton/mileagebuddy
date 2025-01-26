@@ -11,10 +11,6 @@ import { VehicleSchemaForPATCH } from "./app/utils/server/types/VehicleTypes/PAT
 // Validate that Vehicles etc match logged in user
 
 export async function middleware(request: NextRequest) {
-	console.log("starting middleware");
-	console.log("request in middleware:", request);
-	console.log("request.url in middleware:", request.url);
-	// Only try to parse JSON for POST requests to /api/vehicles
 	if (
 		request.method === "POST" &&
 		request.nextUrl.pathname === "/api/vehicles"
@@ -26,13 +22,11 @@ export async function middleware(request: NextRequest) {
 			const isSafe = VehicleToBePostedSchema.safeParse(body);
 
 			if (!isSafe.success) {
-				// send back error message(s)
 				return NextResponse.json(
 					{ error: "Invalid POST vehicle input", details: isSafe.error.errors },
 					{ status: 400 }
 				);
 			}
-			// Your validation logic here
 		} catch (error) {
 			console.error("Error parsing JSON:", error);
 			return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
