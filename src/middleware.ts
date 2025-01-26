@@ -5,30 +5,22 @@ import { VehicleToBePostedSchema } from "./app/utils/server/types/VehicleTypes/P
 export async function middleware(request: NextRequest) {
 	console.log("starting middleware");
 	console.log("request in middleware:", request);
-	// try {
-	// 	const body = await request.json();
-	// } catch (error) {
-	// 	// Handle the error appropriately
-	// 	console.error("Error parsing JSON:", error);
-	// 	return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
-	// }
+	console.log("request.url in middleware:", request.url);
+	// Only try to parse JSON for POST requests to /api/vehicles
+	if (
+		request.method === "POST" &&
+		request.nextUrl.pathname === "/api/vehicles"
+	) {
+		const clonedRequest = request.clone();
 
-	// if (
-	// 	request.method === "POST" &&
-	// 	request.nextUrl.pathname === "/api/vehicles"
-	// ) {
-	// 	const isVehicleValid = VehicleToBePostedSchema.safeParse(body);
-	// 	if (isVehicleValid.error) {
-	// 		console.log("error in POST error block:", isVehicleValid.error);
-	// 		return new Response(JSON.stringify(isVehicleValid.error), {
-	// 			status: 400,
-	// 			headers: {
-	// 				"Content-Type": "application/json",
-	// 			},
-	// 		});
-	// 	}
-	// }
-
+		try {
+			const body = await clonedRequest.json();
+			// Your validation logic here
+		} catch (error) {
+			console.error("Error parsing JSON:", error);
+			return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+		}
+	}
 	// update user's auth session
 	return await updateSession(request);
 }

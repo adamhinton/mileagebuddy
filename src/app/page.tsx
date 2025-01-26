@@ -83,16 +83,16 @@ export default function Page() {
 		// const safeParsed = VehicleToBePostedSchema.safeParse(mockVehicle);
 		// console.log("safeParsed:", safeParsed);
 
-		const fetchData = async () => {
-			try {
-				const res = await fetch("/api/user?id=3");
-				const data = await res.json();
-				const fetchedUsers: User[] = data;
-				setUsers(fetchedUsers);
-			} catch (error) {
-				return error;
-			}
-		};
+		// const fetchData = async () => {
+		// 	try {
+		// 		const res = await fetch("/api/user?id=3");
+		// 		const data = await res.json();
+		// 		const fetchedUsers: User[] = data;
+		// 		setUsers(fetchedUsers);
+		// 	} catch (error) {
+		// 		return error;
+		// 	}
+		// };
 
 		// This is a dummy fxn for testing, for now
 		const fetchUserByID = async (id: string) => {
@@ -109,7 +109,7 @@ export default function Page() {
 
 		fetchUserByID("1");
 
-		fetchData();
+		// fetchData();
 
 		console.log("End useEffect");
 	}, []);
