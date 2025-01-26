@@ -9,7 +9,10 @@ import {
 } from "./utils/server/types/VehicleTypes/GetVehicleTypes";
 import { Vehicle_For_db_POST } from "./utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVehicleTypes";
-import { getVehiclesByUserID } from "./utils/server/client/DBInteractions/VehiclesDBInteractions";
+import {
+	getSingleVehicleByID,
+	getVehiclesByUserID,
+} from "./utils/server/client/DBInteractions/VehiclesDBInteractions";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
@@ -309,6 +312,15 @@ export default function Page() {
 				}}
 			>
 				Update User
+			</button>
+
+			<button
+				onClick={async () => {
+					const data = await getSingleVehicleByID(1, 1);
+					console.log("data from GET 1 vehicle:", data);
+				}}
+			>
+				GET 1 vehicle
 			</button>
 
 			{/* GET test button using new API */}
