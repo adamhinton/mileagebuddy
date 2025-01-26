@@ -9,6 +9,7 @@ import {
 } from "./utils/server/types/VehicleTypes/GetVehicleTypes";
 import { Vehicle_For_db_POST } from "./utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVehicleTypes";
+import { getVehiclesByUserID } from "./utils/server/client/DBInteractions/VehiclesDBInteractions";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
@@ -258,11 +259,14 @@ export default function Page() {
 
 			<button
 				onClick={async () => {
-					const res = await fetch("api/vehicles?userid=1", {
-						method: "GET",
-					});
-					const data: Vehicles = await res.json();
-					console.log("data from GET vehicles:", data);
+					// const res = await fetch("api/vehicles?userid=1", {
+					// 	method: "GET",
+					// });
+					// const data: Vehicles = await res.json();
+					// console.log("data from GET vehicles:", data);
+
+					const data = await getVehiclesByUserID("1");
+					console.log("data from getVehiclesByUserID:", data);
 				}}
 			>
 				Get Vehicles
