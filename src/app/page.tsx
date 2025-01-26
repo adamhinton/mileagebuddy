@@ -10,9 +10,9 @@ import {
 import { Vehicle_For_db_POST } from "./utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import {
-	getSingleVehicleByID,
-	getVehiclesByUserID,
-	insertVehicle,
+	getSingleVehicleByIDClient,
+	getVehiclesByUserIDClient,
+	insertVehicleClient,
 } from "./utils/server/client/DBInteractions/VehiclesDBInteractions";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
@@ -238,7 +238,7 @@ export default function Page() {
 					};
 
 					// checkZodClient(mockVehicle);
-					const data = await insertVehicle(completeMockVehicle);
+					const data = await insertVehicleClient(completeMockVehicle);
 					console.log("data from POST vehicles:", data);
 				}}
 			>
@@ -265,7 +265,7 @@ export default function Page() {
 					// const data: Vehicles = await res.json();
 					// console.log("data from GET vehicles:", data);
 
-					const data = await getVehiclesByUserID("1");
+					const data = await getVehiclesByUserIDClient("1");
 					console.log("data from getVehiclesByUserID:", data);
 				}}
 			>
@@ -313,7 +313,7 @@ export default function Page() {
 
 			<button
 				onClick={async () => {
-					const data = await getSingleVehicleByID(1, 1);
+					const data = await getSingleVehicleByIDClient(1, 1);
 					console.log("data from GET 1 vehicle:", data);
 				}}
 			>

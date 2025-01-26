@@ -15,7 +15,7 @@ import {
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
-export const getVehiclesByUserID = async (
+export const getVehiclesByUserIDClient = async (
 	userID: string
 ): Promise<Vehicles> => {
 	try {
@@ -33,7 +33,7 @@ export const getVehiclesByUserID = async (
 };
 
 // Returns an array with one vehicle, or empty array if none found
-export const getSingleVehicleByID = async (
+export const getSingleVehicleByIDClient = async (
 	vehicleID: number,
 	userID: number
 ): Promise<[Vehicle?]> => {
@@ -53,7 +53,7 @@ export const getSingleVehicleByID = async (
 	}
 };
 
-export const insertVehicle = async (
+export const insertVehicleClient = async (
 	vehicle: Vehicle_For_db_POST
 ): Promise<Vehicle> => {
 	const isSafe = VehicleToBePostedSchema.safeParse(vehicle);
