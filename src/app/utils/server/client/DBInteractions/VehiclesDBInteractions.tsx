@@ -3,13 +3,12 @@
 // README:
 // This is the DB interactions meant to be called from the client
 // You call this from your CLIENT components and it hits the API endpoints for you
-// Validation: We run Zod validation on both client and server
+// This code runs on the server so as not to expose our endpoints to the client
+// TODO: Implement validation on client before sending to server
 
 import { Vehicle, Vehicles } from "../../types/VehicleTypes/GetVehicleTypes";
-import {
-	Vehicle_For_db_POST,
-	VehicleToBePostedSchema,
-} from "../../types/VehicleTypes/POSTVehicleTypes";
+import { Vehicle_For_db_PATCH } from "../../types/VehicleTypes/PATCHVehicleTypes";
+import { Vehicle_For_db_POST } from "../../types/VehicleTypes/POSTVehicleTypes";
 
 // TODO: Validate Vehicles on frontend
 
@@ -97,6 +96,33 @@ export const deleteVehicleByIDClient = async (
 		return data;
 	} catch (error) {
 		console.error("Error deleting vehicle by ID:", error);
+		throw error;
+	}
+};
+
+/**
+ * Takes in partial Vehicle with only the objects that need changed
+ *
+ * Returns full updated Vehicle
+ *
+ * See api/vehicles/route.ts PATCH for associated endpoint
+ */
+export const updateVehicleInDBClient = async (
+	vehicle: Vehicle_For_db_PATCH
+): Promise<Vehicle> => {
+	try {
+		const res = await fetch(`${baseUrl}/api/vehicles?vehicleid=${vehicle.id}`, {
+			method: "PATCH",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(vehicle),
+		});
+		const data: Vehicle = await res.json();
+
+		return data;
+	} catch (error) {
+		console.error("Error updating vehicle:", error);
 		throw error;
 	}
 };

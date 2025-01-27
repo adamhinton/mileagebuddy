@@ -3,10 +3,7 @@
 import { User } from "@/app/zod/schemas/UserSchema";
 import { useEffect, useState } from "react";
 import { Tables } from "../../database.types";
-import {
-	Vehicle,
-	Vehicles,
-} from "./utils/server/types/VehicleTypes/GetVehicleTypes";
+import {} from "./utils/server/types/VehicleTypes/GetVehicleTypes";
 import { Vehicle_For_db_POST } from "./utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import {
@@ -14,6 +11,7 @@ import {
 	getSingleVehicleByIDClient,
 	getVehiclesByUserIDClient,
 	insertVehicleClient,
+	updateVehicleInDBClient,
 } from "./utils/server/client/DBInteractions/VehiclesDBInteractions";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
@@ -132,7 +130,7 @@ export default function Page() {
 				onClick={async () => {
 					const partialMockVehicle: Vehicle_For_db_PATCH = {
 						type: "gas",
-						id: 1,
+						id: 3,
 						userid: 1,
 						vehiclesOrder: 20,
 						vehicleData: {
@@ -146,11 +144,8 @@ export default function Page() {
 						},
 					};
 
-					const res = await fetch("api/vehicles?vehicleid=1", {
-						method: "PATCH",
-						body: JSON.stringify(partialMockVehicle),
-					});
-					const data = await res.json();
+					const data = await updateVehicleInDBClient(partialMockVehicle);
+
 					console.log("data from PATCH vehicles:", data);
 				}}
 			>
