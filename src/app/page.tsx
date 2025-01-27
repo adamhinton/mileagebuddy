@@ -1,5 +1,12 @@
 "use client";
 
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+	process.env.NEXT_PUBLIC_SUPABASE_URL!,
+	process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
 import { useEffect } from "react";
 import { Tables } from "../../database.types";
 import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVehicleTypes";
@@ -80,8 +87,17 @@ import {
 export default function Page() {
 	// const [user] = useState<User>({} as unknown as User);
 
+	const signInUser = async () => {
+		await supabase.auth.signInWithOAuth({
+			provider: "google",
+		});
+	};
+
+	// TODO IMPORTANT: Better user signin flow, this is just for testing
 	useEffect(() => {
 		console.log("Start useEffect");
+
+		signInUser();
 		// const safeParsed = VehicleToBePostedSchema.safeParse(mockVehicle);
 		// console.log("safeParsed:", safeParsed);
 
