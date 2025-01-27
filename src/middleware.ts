@@ -1,6 +1,8 @@
 // README:
 // I created a cloned request for each if block because it was causing errors if I didn't; something about how `await request.json()` can only be used once on a request, and it was somehow being used multiple times.
 
+// TODO: Validate DELETEd and especially GETted vehicles; if they don't pass Zod schemas, don't throw error but do alert me, likely means db changes were made without updating schemas. Probably only do this in dev
+
 import { updateSession } from "@/app/utils/server/supabaseUtilsCustom/supabaseMiddleware";
 import { NextResponse, type NextRequest } from "next/server";
 import { VehicleToBePostedSchema } from "./app/utils/server/types/VehicleTypes/POSTVehicleTypes";
