@@ -1,10 +1,7 @@
 "use client";
 
-import { User } from "@/app/zod/schemas/UserSchema";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Tables } from "../../database.types";
-import {} from "./utils/server/types/VehicleTypes/GetVehicleTypes";
-import { Vehicle_For_db_POST } from "./utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import {
 	deleteVehicleByIDClient,
@@ -19,69 +16,69 @@ import {
 // TODO: Add this to app
 //supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd/settings/api?showConnect=true
 
-const mockVehicle: Vehicle_For_db_POST = {
-	type: "gas",
-	userid: 1,
-	vehiclesOrder: 1,
-	vehicleData: {
-		vehicleName: "Tesla Model 3",
-		year: 2020,
-		make: "Tesla",
-		model: "Model 3",
-		trim: "Base",
-		highwayMPG: 35.5,
-	},
-	gasVehicleData: {
-		gasCostPerGallon: 3.5,
-		milesPerGallonHighway: 35.5,
-		milesPerGallonCity: 35.5,
-	},
-	purchaseAndSales: {
-		yearPurchased: 2020,
-		purchasePrice: 22000.0,
-		downPaymentAmount: 2000.0,
-		willSellCarAfterYears: 5,
-		milesBoughtAt: 70000,
-		willSellCarAtMiles: 80000,
-		willSellCarAtPrice: 12000.0,
-	},
-	usage: {
-		averageDailyMiles: 100,
-		weeksPerYear: 52,
-		percentHighway: 0.5,
-		extraDistanceMiles: 0,
-		extraDistancePercentHighway: 4,
-	},
-	fixedCosts: {
-		yearlyInsuranceCost: 1000.0,
-		yearlyRegistrationCost: 100.0,
-		yearlyTaxes: 100.0,
-		monthlyLoanPayment: 300.0,
-		monthlyWarrantyCost: 30.0,
-		inspectionCost: 100.0,
-		otherYearlyCosts: 300.0,
-		yearlyParkingCost: 100.0,
-	},
-	yearlyMaintenanceCosts: {
-		oilChanges: 100.0,
-		tires: 200.0,
-		batteries: 300.0,
-		brakes: 100.0,
-		other: 100.0,
-		depreciation: 800.0,
-	},
-	variableCosts: {
-		monthlyParkingCosts: 100.0,
-		monthlyTolls: 50.0,
-		monthlyCarWashCost: 20.0,
-		monthlyMiscellaneousCosts: 50.0,
-		monthlyCostDeductions: 80.0,
-	},
-	electricVehicleData: null,
-};
+// const mockVehicle: Vehicle_For_db_POST = {
+// 	type: "gas",
+// 	userid: 1,
+// 	vehiclesOrder: 1,
+// 	vehicleData: {
+// 		vehicleName: "Tesla Model 3",
+// 		year: 2020,
+// 		make: "Tesla",
+// 		model: "Model 3",
+// 		trim: "Base",
+// 		highwayMPG: 35.5,
+// 	},
+// 	gasVehicleData: {
+// 		gasCostPerGallon: 3.5,
+// 		milesPerGallonHighway: 35.5,
+// 		milesPerGallonCity: 35.5,
+// 	},
+// 	purchaseAndSales: {
+// 		yearPurchased: 2020,
+// 		purchasePrice: 22000.0,
+// 		downPaymentAmount: 2000.0,
+// 		willSellCarAfterYears: 5,
+// 		milesBoughtAt: 70000,
+// 		willSellCarAtMiles: 80000,
+// 		willSellCarAtPrice: 12000.0,
+// 	},
+// 	usage: {
+// 		averageDailyMiles: 100,
+// 		weeksPerYear: 52,
+// 		percentHighway: 0.5,
+// 		extraDistanceMiles: 0,
+// 		extraDistancePercentHighway: 4,
+// 	},
+// 	fixedCosts: {
+// 		yearlyInsuranceCost: 1000.0,
+// 		yearlyRegistrationCost: 100.0,
+// 		yearlyTaxes: 100.0,
+// 		monthlyLoanPayment: 300.0,
+// 		monthlyWarrantyCost: 30.0,
+// 		inspectionCost: 100.0,
+// 		otherYearlyCosts: 300.0,
+// 		yearlyParkingCost: 100.0,
+// 	},
+// 	yearlyMaintenanceCosts: {
+// 		oilChanges: 100.0,
+// 		tires: 200.0,
+// 		batteries: 300.0,
+// 		brakes: 100.0,
+// 		other: 100.0,
+// 		depreciation: 800.0,
+// 	},
+// 	variableCosts: {
+// 		monthlyParkingCosts: 100.0,
+// 		monthlyTolls: 50.0,
+// 		monthlyCarWashCost: 20.0,
+// 		monthlyMiscellaneousCosts: 50.0,
+// 		monthlyCostDeductions: 80.0,
+// 	},
+// 	electricVehicleData: null,
+// };
 
 export default function Page() {
-	const [users, setUsers] = useState<User[]>([]);
+	// const [user] = useState<User>({} as unknown as User);
 
 	useEffect(() => {
 		console.log("Start useEffect");
@@ -118,8 +115,6 @@ export default function Page() {
 
 		console.log("End useEffect");
 	}, []);
-
-	console.log("users:", users);
 
 	return (
 		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center dark: bg-bl">
@@ -217,21 +212,21 @@ export default function Page() {
 						electricVehicleData: null,
 					};
 
-					const vehicleWithNullGasVehicleData = {
-						userid: 1,
-						type: "gas",
-						vehiclesOrder: 1,
-						vehicleData: { ...completeMockVehicle.vehicleData },
-						electricVehicleData: null,
-						gasVehicleData: null,
-						purchaseAndSales: { ...completeMockVehicle.purchaseAndSales },
-						usage: { ...completeMockVehicle.usage },
-						yearlyMaintenanceCosts: {
-							...completeMockVehicle.yearlyMaintenanceCosts,
-						},
-						variableCosts: { ...completeMockVehicle.variableCosts },
-						fixedCosts: { ...completeMockVehicle.fixedCosts },
-					};
+					// const vehicleWithNullGasVehicleData = {
+					// 	userid: 1,
+					// 	type: "gas",
+					// 	vehiclesOrder: 1,
+					// 	vehicleData: { ...completeMockVehicle.vehicleData },
+					// 	electricVehicleData: null,
+					// 	gasVehicleData: null,
+					// 	purchaseAndSales: { ...completeMockVehicle.purchaseAndSales },
+					// 	usage: { ...completeMockVehicle.usage },
+					// 	yearlyMaintenanceCosts: {
+					// 		...completeMockVehicle.yearlyMaintenanceCosts,
+					// 	},
+					// 	variableCosts: { ...completeMockVehicle.variableCosts },
+					// 	fixedCosts: { ...completeMockVehicle.fixedCosts },
+					// };
 
 					// checkZodClient(mockVehicle);
 					const data = await insertVehicleClient(completeMockVehicle);
@@ -415,7 +410,7 @@ export default function Page() {
 
 			<section className="mt-8 w-full max-w-md">
 				<h2 className="text-xl font-semibold">Fetched User Data</h2>
-				<pre>{JSON.stringify(users, null, 2)}</pre>
+				{/* <pre>{JSON.stringify(user)}</pre> */}
 			</section>
 		</div>
 	);
