@@ -4,7 +4,10 @@
 // Can have multiple vehicles
 
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Vehicles, Vehicle } from "@/utils/server/types/GetVehicleTypes";
+import {
+	Vehicles,
+	Vehicle,
+} from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 
 const mockVehicles: Vehicles = [
 	{
@@ -54,6 +57,7 @@ const mockVehicles: Vehicles = [
 			monthlyWarrantyCost: 30.0,
 			inspectionCost: 100.0,
 			otherYearlyCosts: 300.0,
+			yearlyParkingCost: 100.0,
 		},
 		yearlyMaintenanceCosts: {
 			vehicleID: 1,
