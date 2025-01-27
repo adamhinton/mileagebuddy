@@ -87,8 +87,8 @@ import {
 export default function Page() {
 	// const [user] = useState<User>({} as unknown as User);
 
-	const signInUser = async () => {
-		await supabase.auth.signInWithOAuth({
+	const signInUser = () => {
+		supabase.auth.signInWithOAuth({
 			provider: "google",
 		});
 	};
