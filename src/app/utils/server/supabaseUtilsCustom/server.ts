@@ -6,7 +6,7 @@
 
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
-import { Database } from "../../../../database.types";
+import { Database } from "../../../../../database.types";
 
 /**
  * THIS ONLY WORKS IN SERVER COMPONENTS
@@ -19,6 +19,7 @@ import { Database } from "../../../../database.types";
  */
 export async function createClientSSROnly() {
 	const cookieStore = await cookies();
+	cookieStore.getAll();
 	const isDev = process.env.NODE_ENV === "development";
 
 	return createServerClient<Database>(

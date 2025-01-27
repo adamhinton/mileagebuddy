@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
-import { createClientSSROnly } from "../../../utils/server/supabaseUtilsCustom/server";
-import VehiclesDBUtils from "@/utils/server/queries/vehiclesDBUtils";
-import { Vehicle } from "@/utils/server/types/GetVehicleTypes";
+import VehiclesDBUtils from "@/app/utils/server/queries/vehiclesDBUtils";
+import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
+import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
+import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 
 const {
 	addNewVehicleToDB,
@@ -73,15 +74,16 @@ export async function GET(request: Request) {
 // TODO: Vehicle validation middleware
 /** I wrote a DB function for this since it was complicated with all these different tables
  * See insert_vehicle_function.sql
- * NOTE: This only needs a Partial<Vehicle>, and only updates the fields/tables included on the passed-in Vehicle.
- * So, you only need to pass in items that need updated.
+ *
+ * NOTE: Middleware has validated this Vehicle before it gets here
  */
 export async function POST(
 	request: Request
 ): Promise<NextResponse<Vehicle | { error: string }>> {
 	const supabase = await createClientSSROnly();
 
-	const body: Vehicle = await request.json();
+	// Body has already been validated against VehicleToBePostedSchema in the middleware
+	const body: Vehicle_For_db_POST = await request.json();
 
 	const response = await addNewVehicleToDB(body, supabase);
 

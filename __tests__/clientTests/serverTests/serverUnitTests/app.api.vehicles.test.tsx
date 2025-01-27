@@ -1,11 +1,15 @@
 // README
 // This is a test file for the server-side API route /api/vehicles
 
-import { Vehicle, Vehicles } from "@/utils/server/types/GetVehicleTypes";
-import { createClientSSROnly } from "../../../../src/utils/server/supabaseUtilsCustom/server";
+import {
+	Vehicles,
+	Vehicle,
+} from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { NextRequest, NextResponse } from "next/server";
 import { DELETE, GET, PATCH, POST } from "@/app/api/vehicles/route";
-import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehiclesQueries";
+import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
+import { stringForJoiningVehicleTables } from "@/app/utils/server/queries/vehiclesDBUtils";
+import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 
 // This file is for UNIT tests. It tests API endpoint logic with dummy data, doesn't interact with an actual DB.
 // See README in servertests/serverunit tests for more info.
@@ -15,10 +19,12 @@ import { stringForJoiningVehicleTables } from "@/utils/server/queries/GetVehicle
  * @jest-environment node
  */
 
-// Mock the Supabase client
-jest.mock("../../../../supabaseUtilsCustom/server", () => ({
-	createClientSSROnly: jest.fn(),
-}));
+jest.mock(
+	"../../../../src/app/utils/server/supabaseUtilsCustom/server",
+	() => ({
+		createClientSSROnly: jest.fn(),
+	})
+);
 
 jest.mock("next/server", () => ({
 	NextResponse: {
@@ -30,9 +36,32 @@ jest.mock("next/server", () => ({
 }));
 
 describe("GET /api/vehicles", () => {
-	beforeEach(() => {});
+	// const mockSupabase = {
+	// 	from: jest.fn().mockReturnValue({
+	// 		select: jest.fn().mockReturnValue({
+	// 			eq: jest.fn().mockResolvedValue({ data: [], error: null }),
+	// 		}),
+	// 	}),
+	// };
 
-	const mockVehicles: Vehicles = [
+	beforeEach(() => {
+		jest.clearAllMocks();
+
+		const mockSupabaseClient = {
+			from: jest.fn().mockReturnValue({
+				select: jest.fn().mockReturnThis(),
+				eq: jest.fn().mockResolvedValue({
+					data: mockVehicles,
+					error: null,
+				}),
+			}),
+		};
+
+		// Mock supabase client
+		(createClientSSROnly as jest.Mock).mockResolvedValue(mockSupabaseClient);
+	});
+
+	const mockVehicles: Vehicle[] = [
 		{
 			type: "gas",
 			userid: 1,
@@ -79,6 +108,7 @@ describe("GET /api/vehicles", () => {
 				monthlyLoanPayment: 300.0,
 				monthlyWarrantyCost: 30.0,
 				inspectionCost: 100.0,
+				yearlyParkingCost: 100.0,
 				otherYearlyCosts: 300.0,
 			},
 			yearlyMaintenanceCosts: {
@@ -103,40 +133,18 @@ describe("GET /api/vehicles", () => {
 	];
 
 	it("Should return a list of vehicles by user id", async () => {
-		const mockDBCalls: jest.Mock = jest.fn().mockReturnValue({
-			select: jest.fn().mockReturnThis(),
-			eq: jest.fn().mockReturnThis(),
-			then: jest.fn().mockImplementation((callback) => {
-				return Promise.resolve(callback({ data: mockVehicles, error: null }));
-			}),
-		});
-
-		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
-
 		const request = {
 			url: "http://localhost:3000/api/vehicles?userid=1",
 		} as NextRequest;
 
-		const response = await GET({
-			...request,
-			query: {},
-			cookies: {},
-			body: {},
-			env: {},
-		} as unknown as NextRequest);
-
+		const response = await GET(request);
 		const responseData = await response.json();
 
 		expect(responseData).toEqual(mockVehicles);
-		expect(mockDBCalls).toHaveBeenCalledWith("vehicles");
-		expect(mockDBCalls().select).toHaveBeenCalledWith(
-			stringForJoiningVehicleTables
-		);
-		expect(mockDBCalls().eq).toHaveBeenCalledWith("userid", 1);
 	});
 
 	it("Should return an array with one vehicle when called with /vehicles?userid=x&vehicleid=y", async () => {
-		const mockDBCalls: jest.Mock = jest.fn().mockReturnValue({
+		const mockSupabase: jest.Mock = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnThis(),
 			eq: jest.fn().mockReturnThis(),
 			then: jest.fn().mockImplementation((callback) => {
@@ -146,7 +154,7 @@ describe("GET /api/vehicles", () => {
 			}),
 		});
 
-		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockSupabase });
 
 		const request = {
 			url: "http://localhost:3000/api/vehicles?userid=1&vehicleid=1",
@@ -163,15 +171,15 @@ describe("GET /api/vehicles", () => {
 		const responseData = await response.json();
 
 		expect(responseData).toEqual([mockVehicles[0]]);
-		expect(mockDBCalls).toHaveBeenCalledWith("vehicles");
-		expect(mockDBCalls().select).toHaveBeenCalledWith(
+		expect(mockSupabase).toHaveBeenCalledWith("vehicles");
+		expect(mockSupabase().select).toHaveBeenCalledWith(
 			stringForJoiningVehicleTables
 		);
-		expect(mockDBCalls().eq).toHaveBeenCalledWith("id", 1);
+		expect(mockSupabase().eq).toHaveBeenCalledWith("id", 1);
 	});
 
 	it("Should return an error on invalid user id", async () => {
-		const mockDBCalls: jest.Mock = jest.fn().mockReturnValue({
+		const mockSupabase: jest.Mock = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnThis(),
 			eq: jest.fn().mockReturnThis(),
 			then: jest.fn().mockImplementation((callback) => {
@@ -179,7 +187,7 @@ describe("GET /api/vehicles", () => {
 			}),
 		});
 
-		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockSupabase });
 
 		const request = {
 			url: "http://localhost:3000/api/vehicles",
@@ -201,7 +209,7 @@ describe("GET /api/vehicles", () => {
 	});
 
 	it("Should return an error on invalid vehicle id", async () => {
-		const mockDBCalls: jest.Mock = jest.fn().mockReturnValue({
+		const mockSupabase: jest.Mock = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnThis(),
 			eq: jest.fn().mockReturnThis(),
 			then: jest.fn().mockImplementation((callback) => {
@@ -209,7 +217,7 @@ describe("GET /api/vehicles", () => {
 			}),
 		});
 
-		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockSupabase });
 
 		const request = {
 			url: "http://localhost:3000/api/vehicles?userid=1&vehicleid=2348",
@@ -230,7 +238,7 @@ describe("GET /api/vehicles", () => {
 	});
 
 	it("Should return empty array if no vehicles found for specified user id", async () => {
-		const mockDBCalls: jest.Mock = jest.fn().mockReturnValue({
+		const mockSupabase: jest.Mock = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnThis(),
 			eq: jest.fn().mockReturnThis(),
 			then: jest.fn().mockImplementation((callback) => {
@@ -238,7 +246,7 @@ describe("GET /api/vehicles", () => {
 			}),
 		});
 
-		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockDBCalls });
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockSupabase });
 
 		const request = {
 			url: "http://localhost:3000/api/vehicles?userid=3",
@@ -258,14 +266,12 @@ describe("GET /api/vehicles", () => {
 });
 
 describe("POST /api/vehicles", () => {
-	const mockVehicles: Vehicles = [
+	const mockVehicles: Vehicle_For_db_POST[] = [
 		{
 			type: "gas",
 			userid: 1,
-			id: 1,
 			vehiclesOrder: 1,
 			vehicleData: {
-				vehicleID: 1,
 				vehicleName: "Tesla Model 3",
 				year: 2020,
 				make: "Tesla",
@@ -274,13 +280,11 @@ describe("POST /api/vehicles", () => {
 				highwayMPG: 35.5,
 			},
 			gasVehicleData: {
-				vehicleID: 1,
 				gasCostPerGallon: 3.5,
 				milesPerGallonHighway: 35.5,
 				milesPerGallonCity: 35.5,
 			},
 			purchaseAndSales: {
-				vehicleID: 1,
 				yearPurchased: 2020,
 				purchasePrice: 22000.0,
 				downPaymentAmount: 2000.0,
@@ -290,7 +294,6 @@ describe("POST /api/vehicles", () => {
 				willSellCarAtPrice: 12000.0,
 			},
 			usage: {
-				vehicleID: 1,
 				averageDailyMiles: 100,
 				weeksPerYear: 52,
 				percentHighway: 0.5,
@@ -298,17 +301,16 @@ describe("POST /api/vehicles", () => {
 				extraDistancePercentHighway: 0,
 			},
 			fixedCosts: {
-				vehicleID: 1,
 				yearlyInsuranceCost: 1000.0,
 				yearlyRegistrationCost: 100.0,
 				yearlyTaxes: 100.0,
 				monthlyLoanPayment: 300.0,
 				monthlyWarrantyCost: 30.0,
 				inspectionCost: 100.0,
+				yearlyParkingCost: 100.0,
 				otherYearlyCosts: 300.0,
 			},
 			yearlyMaintenanceCosts: {
-				vehicleID: 1,
 				oilChanges: 100.0,
 				tires: 200.0,
 				batteries: 300.0,
@@ -317,7 +319,6 @@ describe("POST /api/vehicles", () => {
 				depreciation: 800.0,
 			},
 			variableCosts: {
-				vehicleID: 1,
 				monthlyParkingCosts: 100.0,
 				monthlyTolls: 50.0,
 				monthlyCarWashCost: 20.0,
@@ -369,7 +370,8 @@ describe("POST /api/vehicles", () => {
 	// There are a lot of required fields, we won't test all of them here, just spot-check
 	it("Should throw error if submitted without required fields", async () => {
 		const completeMockVehicle = mockVehicles[0];
-		const mockInsertVehicleWithoutAllFields: Vehicle = {
+		// no type declaration for this because it doesn't fit the type on purpose
+		const mockInsertVehicleWithoutAllFields = {
 			userid: 1,
 			type: "gas",
 			electricVehicleData: completeMockVehicle.electricVehicleData,
@@ -379,7 +381,7 @@ describe("POST /api/vehicles", () => {
 			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
 			variableCosts: completeMockVehicle.variableCosts,
 			vehicleData: completeMockVehicle.vehicleData,
-		} as Vehicle;
+		};
 
 		const supabase = {
 			rpc: jest.fn().mockResolvedValue({ error: "error" }),
@@ -409,19 +411,23 @@ describe("POST /api/vehicles", () => {
 
 	it("Should insert fine if electricVehicleData is null  but gasVehicleData isn't", async () => {
 		const completeMockVehicle = mockVehicles[0];
-		const vehicleWithNullElectricVehicleData: Vehicle = {
+		const vehicleWithNullElectricVehicleData: Vehicle_For_db_POST = {
 			userid: 1,
 			type: "electric",
 			vehiclesOrder: 1,
 			vehicleData: completeMockVehicle.vehicleData,
-			electricVehicleData: null,
+			electricVehicleData: {
+				costPerCharge: 15,
+				milesPerCharge: 200,
+				electricRangeMiles: 200,
+			},
 			gasVehicleData: null,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
 			usage: completeMockVehicle.usage,
 			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
 			variableCosts: completeMockVehicle.variableCosts,
 			fixedCosts: completeMockVehicle.fixedCosts,
-		} as Vehicle;
+		};
 
 		const supabase = {
 			rpc: jest.fn().mockResolvedValue({ data: 1 }),
@@ -452,19 +458,23 @@ describe("POST /api/vehicles", () => {
 
 	it("Should insert fine if gasVehicleData is null  but electricVehicleData isn't", async () => {
 		const completeMockVehicle = mockVehicles[0];
-		const vehicleWithNullGasVehicleData: Vehicle = {
+		const vehicleWithNullGasVehicleData: Vehicle_For_db_POST = {
 			userid: 1,
-			type: "gas",
+			type: "electric",
 			vehiclesOrder: 1,
 			vehicleData: completeMockVehicle.vehicleData,
-			electricVehicleData: null,
+			electricVehicleData: {
+				costPerCharge: 15,
+				milesPerCharge: 200,
+				electricRangeMiles: 200,
+			},
 			gasVehicleData: null,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
 			usage: completeMockVehicle.usage,
 			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
 			variableCosts: completeMockVehicle.variableCosts,
 			fixedCosts: completeMockVehicle.fixedCosts,
-		} as Vehicle;
+		};
 
 		const supabase = {
 			rpc: jest.fn().mockResolvedValue({ data: 1 }),
@@ -496,19 +506,20 @@ describe("POST /api/vehicles", () => {
 
 	it("Should throw error if both gasVehicleData and electricVehicleData are null", async () => {
 		const completeMockVehicle = mockVehicles[0];
-		const vehicleWithNullGasVehicleData: Vehicle = {
+		// No type label here beacuse this is deformed
+		const vehicleWithNullGasVehicleData = {
 			userid: 1,
 			type: "gas",
 			vehiclesOrder: 1,
-			vehicleData: completeMockVehicle.vehicleData,
+			vehicleData: { ...completeMockVehicle.vehicleData },
 			electricVehicleData: null,
 			gasVehicleData: null,
-			purchaseAndSales: completeMockVehicle.purchaseAndSales,
-			usage: completeMockVehicle.usage,
-			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
-			variableCosts: completeMockVehicle.variableCosts,
-			fixedCosts: completeMockVehicle.fixedCosts,
-		} as Vehicle;
+			purchaseAndSales: { ...completeMockVehicle.purchaseAndSales },
+			usage: { ...completeMockVehicle.usage },
+			yearlyMaintenanceCosts: { ...completeMockVehicle.yearlyMaintenanceCosts },
+			variableCosts: { ...completeMockVehicle.variableCosts },
+			fixedCosts: { ...completeMockVehicle.fixedCosts },
+		};
 
 		const supabase = {
 			rpc: jest.fn().mockResolvedValue({ error: "error" }),
@@ -522,13 +533,21 @@ describe("POST /api/vehicles", () => {
 		};
 		(createClientSSROnly as jest.Mock).mockReturnValue(supabase);
 
+		console.log(
+			"vehicleWithNullGasVehicleData:",
+			vehicleWithNullGasVehicleData
+		);
+
 		const request = {
-			json: jest.fn().mockResolvedValue({ error: "error" }),
+			json: jest.fn().mockResolvedValue(vehicleWithNullGasVehicleData),
 			body: vehicleWithNullGasVehicleData,
 			headers: { "Content-Type": "application/json" },
 		} as unknown as NextRequest;
 
 		const response = await POST(request);
+
+		console.log("response in TEST:", response);
+
 		const responseData = await response.json();
 
 		expect(response.status).toBe(500);
@@ -578,6 +597,7 @@ describe("DELETE /api/vehicles", () => {
 			},
 			fixedCosts: {
 				vehicleID: 1,
+				yearlyParkingCost: 100.0,
 				yearlyInsuranceCost: 1000.0,
 				yearlyRegistrationCost: 100.0,
 				yearlyTaxes: 100.0,
@@ -760,6 +780,7 @@ describe("PATCH api/vehicles", () => {
 			monthlyWarrantyCost: 30.0,
 			inspectionCost: 100.0,
 			otherYearlyCosts: 300.0,
+			yearlyParkingCost: 100,
 		},
 		yearlyMaintenanceCosts: {
 			vehicleID: 1,

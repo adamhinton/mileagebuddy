@@ -1,16 +1,26 @@
 "use client";
 
-import { User } from "@/zod/schemas/UserSchema";
+import { User } from "@/app/zod/schemas/UserSchema";
 import { useEffect, useState } from "react";
 import { Tables } from "../../database.types";
-import { Vehicle, Vehicles } from "@/utils/server/types/GetVehicleTypes";
+import {
+	Vehicle,
+	Vehicles,
+} from "./utils/server/types/VehicleTypes/GetVehicleTypes";
+import { Vehicle_For_db_POST } from "./utils/server/types/VehicleTypes/POSTVehicleTypes";
+import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVehicleTypes";
+import {
+	getSingleVehicleByIDClient,
+	getVehiclesByUserIDClient,
+	insertVehicleClient,
+} from "./utils/server/client/DBInteractions/VehiclesDBInteractions";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
 // TODO: Add this to app
 //supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd/settings/api?showConnect=true
 
-const mockVehicle = {
+const mockVehicle: Vehicle_For_db_POST = {
 	type: "gas",
 	userid: 1,
 	vehiclesOrder: 1,
@@ -32,7 +42,7 @@ const mockVehicle = {
 		purchasePrice: 22000.0,
 		downPaymentAmount: 2000.0,
 		willSellCarAfterYears: 5,
-		milesBoughtAt: 10000,
+		milesBoughtAt: 70000,
 		willSellCarAtMiles: 80000,
 		willSellCarAtPrice: 12000.0,
 	},
@@ -41,7 +51,7 @@ const mockVehicle = {
 		weeksPerYear: 52,
 		percentHighway: 0.5,
 		extraDistanceMiles: 0,
-		extraDistancePercentHighway: 0,
+		extraDistancePercentHighway: 4,
 	},
 	fixedCosts: {
 		yearlyInsuranceCost: 1000.0,
@@ -51,6 +61,7 @@ const mockVehicle = {
 		monthlyWarrantyCost: 30.0,
 		inspectionCost: 100.0,
 		otherYearlyCosts: 300.0,
+		yearlyParkingCost: 100.0,
 	},
 	yearlyMaintenanceCosts: {
 		oilChanges: 100.0,
@@ -74,16 +85,20 @@ export default function Page() {
 	const [users, setUsers] = useState<User[]>([]);
 
 	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const res = await fetch("/api/user?id=3");
-				const data = await res.json();
-				const fetchedUsers: User[] = data;
-				setUsers(fetchedUsers);
-			} catch (error) {
-				console.error("Error fetching users in page.tsx:", error);
-			}
-		};
+		console.log("Start useEffect");
+		// const safeParsed = VehicleToBePostedSchema.safeParse(mockVehicle);
+		// console.log("safeParsed:", safeParsed);
+
+		// const fetchData = async () => {
+		// 	try {
+		// 		const res = await fetch("/api/user?id=3");
+		// 		const data = await res.json();
+		// 		const fetchedUsers: User[] = data;
+		// 		setUsers(fetchedUsers);
+		// 	} catch (error) {
+		// 		return error;
+		// 	}
+		// };
 
 		// This is a dummy fxn for testing, for now
 		const fetchUserByID = async (id: string) => {
@@ -92,14 +107,17 @@ export default function Page() {
 				const data = await res.json();
 				const fetchedUser: Tables<"users"> = data;
 				console.log("fetchedUser:", fetchedUser);
+				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			} catch (error) {
-				console.error("Error fetching single user in page.tsx:", error);
+				// console.error("Error fetching single user in page.tsx:", error);
 			}
 		};
 
 		fetchUserByID("1");
 
-		fetchData();
+		// fetchData();
+
+		console.log("End useEffect");
 	}, []);
 
 	console.log("users:", users);
@@ -111,8 +129,9 @@ export default function Page() {
 			{/* PATCH api/vehicles with dummy Vehicle */}
 			<button
 				onClick={async () => {
-					const partialMockVehicle: Partial<Vehicle> = {
+					const partialMockVehicle: Vehicle_For_db_PATCH = {
 						type: "gas",
+						id: 1,
 						userid: 1,
 						vehiclesOrder: 20,
 						vehicleData: {
@@ -125,6 +144,7 @@ export default function Page() {
 							highwayMPG: 343.5,
 						},
 					};
+
 					const res = await fetch("api/vehicles?vehicleid=1", {
 						method: "PATCH",
 						body: JSON.stringify(partialMockVehicle),
@@ -138,11 +158,87 @@ export default function Page() {
 
 			<button
 				onClick={async () => {
-					const res = await fetch("api/vehicles", {
-						method: "POST",
-						body: JSON.stringify(mockVehicle),
-					});
-					const data = await res.json();
+					console.log("blah blah blah");
+
+					const completeMockVehicle = {
+						type: "gas" as const,
+						userid: 1,
+						vehiclesOrder: 1,
+						vehicleData: {
+							vehicleName: "Tesla Model 3",
+							year: 2020,
+							make: "Tesla",
+							model: "Model 3",
+							trim: "Base",
+							highwayMPG: 35.5,
+						},
+						gasVehicleData: {
+							gasCostPerGallon: 3.5,
+							milesPerGallonHighway: 35.5,
+							milesPerGallonCity: 35.5,
+						},
+						purchaseAndSales: {
+							yearPurchased: 2020,
+							purchasePrice: 22000.0,
+							downPaymentAmount: 2000.0,
+							willSellCarAfterYears: 5,
+							milesBoughtAt: 10000,
+							willSellCarAtMiles: 80000,
+							willSellCarAtPrice: 12000.0,
+						},
+						usage: {
+							averageDailyMiles: 100,
+							weeksPerYear: 52,
+							percentHighway: 0.5,
+							extraDistanceMiles: 0,
+							extraDistancePercentHighway: 0,
+						},
+						fixedCosts: {
+							yearlyInsuranceCost: 1000.0,
+							yearlyRegistrationCost: 100.0,
+							yearlyTaxes: 100.0,
+							monthlyLoanPayment: 300.0,
+							monthlyWarrantyCost: 30.0,
+							inspectionCost: 100.0,
+							yearlyParkingCost: 100.0,
+							otherYearlyCosts: 300.0,
+						},
+						yearlyMaintenanceCosts: {
+							oilChanges: 100.0,
+							tires: 200.0,
+							batteries: 300.0,
+							brakes: 100.0,
+							other: 100.0,
+							depreciation: 800.0,
+						},
+						variableCosts: {
+							monthlyParkingCosts: 100.0,
+							monthlyTolls: 50.0,
+							monthlyCarWashCost: 20.0,
+							monthlyMiscellaneousCosts: 50.0,
+							monthlyCostDeductions: 80.0,
+						},
+						electricVehicleData: null,
+					};
+
+					const vehicleWithNullGasVehicleData = {
+						userid: 1,
+						type: "gas",
+						vehiclesOrder: 1,
+						vehicleData: { ...completeMockVehicle.vehicleData },
+						electricVehicleData: null,
+						gasVehicleData: null,
+						purchaseAndSales: { ...completeMockVehicle.purchaseAndSales },
+						usage: { ...completeMockVehicle.usage },
+						yearlyMaintenanceCosts: {
+							...completeMockVehicle.yearlyMaintenanceCosts,
+						},
+						variableCosts: { ...completeMockVehicle.variableCosts },
+						fixedCosts: { ...completeMockVehicle.fixedCosts },
+					};
+
+					// checkZodClient(mockVehicle);
+					const data = await insertVehicleClient(completeMockVehicle);
 					console.log("data from POST vehicles:", data);
 				}}
 			>
@@ -163,11 +259,14 @@ export default function Page() {
 
 			<button
 				onClick={async () => {
-					const res = await fetch("api/vehicles?userid=1", {
-						method: "GET",
-					});
-					const data: Vehicles = await res.json();
-					console.log("data from GET vehicles:", data);
+					// const res = await fetch("api/vehicles?userid=1", {
+					// 	method: "GET",
+					// });
+					// const data: Vehicles = await res.json();
+					// console.log("data from GET vehicles:", data);
+
+					const data = await getVehiclesByUserIDClient("1");
+					console.log("data from getVehiclesByUserID:", data);
 				}}
 			>
 				Get Vehicles
@@ -210,6 +309,15 @@ export default function Page() {
 				}}
 			>
 				Update User
+			</button>
+
+			<button
+				onClick={async () => {
+					const data = await getSingleVehicleByIDClient(1, 1);
+					console.log("data from GET 1 vehicle:", data);
+				}}
+			>
+				GET 1 vehicle
 			</button>
 
 			{/* GET test button using new API */}

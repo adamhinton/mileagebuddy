@@ -3,13 +3,54 @@
 // As opposed to GetVehiclesQueries.ts in the same folder, which contains the strings of the db queries for GET
 
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Vehicle, Vehicles } from "../types/GetVehicleTypes";
+import { Vehicle, Vehicles } from "../types/VehicleTypes/GetVehicleTypes";
 import {
 	getSingleVehicleByIdQuery,
 	getVehiclesByUserIdQuery,
-	stringForJoiningVehicleTables,
 } from "./GetVehiclesQueries";
 import { NextResponse } from "next/server";
+import { Vehicle_For_db_POST } from "../types/VehicleTypes/POSTVehicleTypes";
+
+/**The string we use in our select statement to get vehicles
+ * It's longso we're saving it here to stay DRY
+ * It just collects vehicle info from multiple tables in to one join
+ */
+export const stringForJoiningVehicleTables = `
+		userid, type, id, "vehiclesOrder",
+
+		"vehicleData"(
+			"vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
+		),
+
+		"gasVehicleData"(
+			"vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
+		),
+
+		"electricVehicleData"(
+			"vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles"
+		),
+
+		"purchaseAndSales"(
+			"vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", "willSellCarAtPrice"
+		),
+
+		usage(
+			"vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", "extraDistanceMiles", "extraDistancePercentHighway"
+		),
+
+		"fixedCosts"(
+			"vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts"
+		),
+
+		"yearlyMaintenanceCosts"(
+			"vehicleID", "oilChanges", tires, batteries, brakes, other, depreciation
+		),
+
+		"variableCosts"(
+			"vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions"
+		)
+
+		`;
 
 /**For situations where db call will return an array but we specifically expect one (or 0) Vehicle */
 type ArrayWithOneOrZeroVehicles = [Vehicle?];
@@ -32,10 +73,10 @@ async function getSingleVehicleById(
 	const { data, error } = await vehicleInfoQuery;
 
 	if (error) {
-		throw new Error("Error fetching vehicle data in TEST: " + error.message);
+		throw new Error("Error fetching vehicle data: " + error.message);
 	}
 
-	const vehicles: Vehicles = data;
+	const vehicles: Vehicles = data as unknown as Vehicles;
 
 	// vehicle ids are unique so this should never happen
 	if (vehicles.length > 1) {
@@ -47,7 +88,7 @@ async function getSingleVehicleById(
 	// This returns an empty array if no vehicle exists by that id
 	// Otherwise, returns a single vehicle
 	if (!vehicles[0]) return [];
-	return [vehicles[0]];
+	return [vehicles[0] as unknown as Vehicle];
 }
 
 /** Get all vehicles belonging to a user */
@@ -65,7 +106,7 @@ async function getVehiclesByUser(
 		throw new Error("Error fetching vehicle data in TEST: " + error.message);
 	}
 
-	return data;
+	return data as unknown as Vehicles;
 }
 
 const checkIfVehicleExistsInDB = async (
@@ -98,7 +139,7 @@ const deleteDBVehicleByID = async (
 			// This causes the delete statement to return the deleted vehicle, including data from sub tables
 			.select(stringForJoiningVehicleTables);
 
-		// This should never happen, but TS needed to know data wouldn't be null
+		// This should never happen since the endpoint has already checked that the vehicle exists, but TS needed to know data wouldn't be null
 		if (data === null || data.length === 0) {
 			return NextResponse.json(
 				{ error: `Vehicle with id ${vehicleID} not found` },
@@ -127,7 +168,7 @@ const deleteDBVehicleByID = async (
  * Returns the vehicle if successful, and an error if unsuccessful
  */
 const addNewVehicleToDB = async (
-	body: Vehicle,
+	body: Vehicle_For_db_POST,
 	supabase: SupabaseClient
 ): Promise<NextResponse<Vehicle | { error: string }>> => {
 	// Should only include the fields that need to be updated
@@ -146,6 +187,9 @@ const addNewVehicleToDB = async (
 	} = body;
 
 	try {
+		// const isSafe = VehicleToBePostedSchema.safeParse(body);
+		// console.log("isSafe in addNewVehicleToDB:", isSafe);
+
 		// Wrote db function insert_vehicle_function.sql for this
 		// The db function should do auto-validation to make sure fields exist and are correct, but --- TODO: More thorough new Vehicle validation
 		const { data, error } = await supabase.rpc("insert_vehicle", {
