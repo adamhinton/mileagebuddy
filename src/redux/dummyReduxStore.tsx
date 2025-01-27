@@ -1,5 +1,7 @@
 // README
 // Fake redux store Provider that follows setup of my real store. Complete with fake user and vehicle data, one user and five vehicles.
+// This is for my Jest tests of components that need to be wrapped in a redux Provider.
+
 import React, { ReactNode } from "react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
