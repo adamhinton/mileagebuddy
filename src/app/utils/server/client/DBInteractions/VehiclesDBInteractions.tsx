@@ -15,6 +15,7 @@ import {
 
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
+/** See api/vehicles/route.ts GET for the associated endpoint */
 export const getVehiclesByUserIDClient = async (
 	userID: string
 ): Promise<Vehicles> => {
@@ -32,7 +33,10 @@ export const getVehiclesByUserIDClient = async (
 	}
 };
 
-// Returns an array with one vehicle, or empty array if none found
+/**Returns an array with one vehicle, or empty array if none found
+ *
+ *  * See api/vehicles/route.ts GET for the associated endpoint
+ */
 export const getSingleVehicleByIDClient = async (
 	vehicleID: number,
 	userID: number
@@ -53,14 +57,11 @@ export const getSingleVehicleByIDClient = async (
 	}
 };
 
+/** See api/vehicles/route.ts POST for associated endpoint */
 export const insertVehicleClient = async (
+	// Don't need to know userid because Vehicle_For_db_POST has user ID
 	vehicle: Vehicle_For_db_POST
 ): Promise<Vehicle> => {
-	const isSafe = VehicleToBePostedSchema.safeParse(vehicle);
-	if (isSafe.error) {
-		throw isSafe.error;
-	}
-
 	try {
 		const res = await fetch(`${baseUrl}/api/vehicles`, {
 			method: "POST",
@@ -74,6 +75,28 @@ export const insertVehicleClient = async (
 		return data;
 	} catch (error) {
 		console.error("Error inserting vehicle:", error);
+		throw error;
+	}
+};
+
+/** Returns deleted vehicle's data
+ *
+ * Also deletes all sub-objects (fixedCoss, yearlyMaintenanceCosts etc) which are tables in the db, due to ON DELETE CASCADE
+ *
+ * See api/vehicles/route.ts DELETE for associated endpoint
+ */
+export const deleteVehicleByIDClient = async (
+	vehicleID: number
+): Promise<Vehicle> => {
+	try {
+		const res = await fetch(`${baseUrl}/api/vehicles?vehicleid=${vehicleID}`, {
+			method: "DELETE",
+		});
+		const data: Vehicle = await res.json();
+
+		return data;
+	} catch (error) {
+		console.error("Error deleting vehicle by ID:", error);
 		throw error;
 	}
 };

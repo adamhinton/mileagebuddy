@@ -10,6 +10,7 @@ import {
 import { Vehicle_For_db_POST } from "./utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import {
+	deleteVehicleByIDClient,
 	getSingleVehicleByIDClient,
 	getVehiclesByUserIDClient,
 	insertVehicleClient,
@@ -246,11 +247,10 @@ export default function Page() {
 			</button>
 
 			<button
-				onClick={() =>
-					fetch("/api/vehicles?vehicleid=1", { method: "DELETE" })
-						.then((res) => res.json())
-						.then((data) => console.log("data from delete:", data))
-				}
+				onClick={async () => {
+					const deletedVehicleData = await deleteVehicleByIDClient(2);
+					console.log("deletedVehicleData:", deletedVehicleData);
+				}}
 			>
 				DELETE vehicle
 			</button>
