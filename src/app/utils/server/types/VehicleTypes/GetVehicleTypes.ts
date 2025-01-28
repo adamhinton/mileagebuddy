@@ -166,9 +166,9 @@ const bob: Vehicle = {
 	electricVehicleData: null,
 	gasVehicleData: {
 		vehicleID: 1,
-		gasCostPerGallon: null,
-		milesPerGallonHighway: null,
-		milesPerGallonCity: null,
+		gasCostPerGallon: 3.5,
+		milesPerGallonHighway: 35,
+		milesPerGallonCity: 25,
 	},
 	id: 1,
 	userid: 1,
