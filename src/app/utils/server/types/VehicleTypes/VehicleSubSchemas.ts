@@ -19,6 +19,8 @@ export const VehicleDataSchema = z
 	})
 	.describe("test blah");
 
+export type VehicleData = z.infer<typeof VehicleDataSchema>;
+
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
@@ -29,6 +31,8 @@ export const GasVehicleDataSchema = z.object({
 	milesPerGallonCity: z.number().max(1000).nonnegative().nullable(),
 });
 
+export type GasVehicleData = z.infer<typeof GasVehicleDataSchema>;
+
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
@@ -38,6 +42,8 @@ export const ElectricVehicleDataSchema = z.object({
 	milesPerCharge: z.number().max(10_000).nullable(),
 	electricRangeMiles: z.number().max(10_000).nonnegative().nullable(),
 });
+
+export type ElectricVehicleData = z.infer<typeof ElectricVehicleDataSchema>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
@@ -58,18 +64,23 @@ export const PurchaseAndSalesSchema = z
 	})
 	.describe("milesBoughtAt must be less than or equal to willSellCarAtMiles");
 
+export type PurchaseAndSales = z.infer<typeof PurchaseAndSalesSchema>;
+
 /**
  * This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
 export const UsageSchema = z.object({
 	vehicleID: z.number().readonly(),
+	// TODO: This is including non-commute days. It's in a SEVEN DAY WEEK, enforce that and make sure user understands it
 	averageDailyMiles: z.number().max(5_000).nonnegative(),
 	weeksPerYear: z.number().nonnegative().max(52),
 	percentHighway: z.number().nonnegative().max(100),
 	extraDistanceMiles: z.number().nonnegative().max(500_000).nullable(),
 	extraDistancePercentHighway: z.number().nonnegative().max(100).nullable(),
 });
+
+export type Usage = z.infer<typeof UsageSchema>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
@@ -86,6 +97,8 @@ export const FixedCostsSchema = z.object({
 	otherYearlyCosts: z.number().max(500_000).nonnegative().nullable(),
 });
 
+export type FixedCosts = z.infer<typeof FixedCostsSchema>;
+
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
@@ -99,6 +112,10 @@ export const YearlyMaintenanceCostsSchema = z.object({
 	depreciation: z.number().nonnegative().max(500_000).nullable(),
 });
 
+export type YearlyMaintenanceCosts = z.infer<
+	typeof YearlyMaintenanceCostsSchema
+>;
+
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
@@ -110,3 +127,5 @@ export const VariableCostsSchema = z.object({
 	monthlyMiscellaneousCosts: z.number().max(500_000).nonnegative().nullable(),
 	monthlyCostDeductions: z.number().max(500_000).nonnegative().nullable(),
 });
+
+export type VariableCosts = z.infer<typeof VariableCostsSchema>;
