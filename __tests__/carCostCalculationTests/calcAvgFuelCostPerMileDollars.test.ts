@@ -64,7 +64,7 @@ describe("calcAvgFuelCostPerMile", () => {
 		expect(result).toBe(0.109);
 	});
 
-	it.only("[4] Returns the correct value for an electric vehicle", () => {
+	it("[4] Returns the correct value for an electric vehicle", () => {
 		const result = calcAvgFuelCostPerMileDollars(
 			dummyElectricVehicle as unknown as Vehicle
 		);
