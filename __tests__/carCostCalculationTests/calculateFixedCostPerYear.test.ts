@@ -87,4 +87,24 @@ describe("calculateFixedCostPerYear", () => {
 
 		expect(result).toBe(0);
 	});
+
+	it("Returns 0 for all zero values", () => {
+		const fakeFixedCostsWithAllZeroValues: FixedCosts = {
+			...fakeFixedCosts,
+			yearlyInsuranceCost: 0,
+			yearlyRegistrationCost: 0,
+			yearlyTaxes: 0,
+			yearlyParkingCost: 0,
+			monthlyLoanPayment: 0,
+			monthlyWarrantyCost: 0,
+			inspectionCost: 0,
+			otherYearlyCosts: 0,
+		};
+
+		const result = calculateFixedCostPerYear({
+			fixedCosts: fakeFixedCostsWithAllZeroValues,
+		} as unknown as Vehicle);
+
+		expect(result).toBe(0);
+	});
 });
