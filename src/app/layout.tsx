@@ -32,6 +32,7 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
+				<script src="https://accounts.google.com/gsi/client" async></script>
 				{/* ThemeWrapper is the dark/light theme wrapper */}
 				<ThemeWrapper>
 					<StoreProvider>

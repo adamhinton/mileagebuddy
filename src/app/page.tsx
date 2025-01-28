@@ -1,5 +1,12 @@
 "use client";
 
+async function handleSignInWithGoogle(response) {
+	const { data, error } = await supabase.auth.signInWithIdToken({
+		provider: "google",
+		token: response.credential,
+	});
+}
+
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -87,17 +94,17 @@ import {
 export default function Page() {
 	// const [user] = useState<User>({} as unknown as User);
 
-	const signInUser = () => {
-		supabase.auth.signInWithOAuth({
+	async function handleSignInWithGoogle(response) {
+		const { data, error } = await supabase.auth.signInWithIdToken({
 			provider: "google",
+			token: response.credential,
 		});
-	};
+	}
 
 	// TODO IMPORTANT: Better user signin flow, this is just for testing
 	useEffect(() => {
 		console.log("Start useEffect");
 
-		signInUser();
 		// const safeParsed = VehicleToBePostedSchema.safeParse(mockVehicle);
 		// console.log("safeParsed:", safeParsed);
 
@@ -134,7 +141,23 @@ export default function Page() {
 
 	return (
 		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center dark: bg-bl">
-			{/* dummy button to POST api/vehicles with mockVehicle */}
+			<div
+				id="g_id_onload"
+				data-client_id="220043080394-n7is08dpuk1iv2kbbif6isaq9l5d1lsn.apps.googleusercontent.com"
+				data-context="signin"
+				data-callback="handleSignInWithGoogle"
+				data-auto_select="true"
+				data-itp_support="true"
+				data-use_fedcm_for_prompt="true"
+			></div>
+
+			{/* <button
+				onClick={async () => {
+					await handleSignInWithGoogle();
+				}}
+			>
+				Sign In
+			</button> */}
 
 			{/* PATCH api/vehicles with dummy Vehicle */}
 			<button
