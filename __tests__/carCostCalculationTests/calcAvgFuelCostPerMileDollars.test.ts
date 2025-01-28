@@ -71,4 +71,31 @@ describe("calcAvgFuelCostPerMile", () => {
 
 		expect(result).toBe(0.029);
 	});
+
+	// This should never happen because TS will prevent it, but doesn't hurt to check
+	it("[5] Throws an error if the vehicle type is neither gas nor electric", () => {
+		const dummyVehicle = {
+			type: "neither",
+			usage: { percentHighway: 30 } as unknown as Usage,
+			electricVehicleData: dummyElectricVehicleData,
+		};
+
+		expect(() =>
+			calcAvgFuelCostPerMileDollars(dummyVehicle as unknown as Vehicle)
+		).toThrow();
+	});
+
+	it.only("[6] Returns the correct value for a gas vehicle with 100% city driving", () => {
+		const dummyGasVehicle100City = {
+			type: "gas",
+			usage: { percentHighway: 0, percentCity: 100 } as unknown as Usage,
+			gasVehicleData: dummyGasVehicleData,
+		};
+
+		const result = calcAvgFuelCostPerMileDollars(
+			dummyGasVehicle100City as unknown as Vehicle
+		);
+
+		expect(result).toBe(0.175);
+	});
 });

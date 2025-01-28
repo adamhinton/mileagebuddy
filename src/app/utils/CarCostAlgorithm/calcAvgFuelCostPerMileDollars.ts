@@ -23,11 +23,13 @@ export const calcAvgFuelCostPerMileDollars = (vehicle: Vehicle) => {
 			milesPerGallonCity * averagePercentCity +
 			milesPerGallonHighway * averagePercentHighway;
 
+		console.log("averageMilesPerGallon:", averageMilesPerGallon);
+
 		const averagefuelCostPerMile =
 			(1 / averageMilesPerGallon) * gasCostPerGallon;
 
 		// return it rounded to three decimal places
-		return Math.round(averagefuelCostPerMile * 10000) / 1000;
+		return Math.round(averagefuelCostPerMile * 1000) / 1000;
 	}
 
 	// Vehicle type is ElectricVehicle
