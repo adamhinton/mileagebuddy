@@ -8,6 +8,7 @@ import { calculateFixedCostPerYear } from "./calculateFixedCostPerYear";
 // The primary function is exported from here
 // It takes in an object of type Vehicle and performs various calculations to estimate the true cost per mile driven
 // This is currently (1.28.25) a WIP and will develop as the project evolves.
+// I decided to pass in full Vehicle to each sub helper function because it avoids confusion and keeps uniformity, but I may decide to change that later
 
 // PLAN:
 // "use server" at the top of each file

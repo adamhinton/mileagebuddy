@@ -70,7 +70,7 @@ const completeMockVehicle = {
 };
 
 describe("Sanity check for car cost calculation tests", () => {
-	it("Reality is still real", () => {
+	it("[1] Reality is still real", () => {
 		const twoPlusTwo = 4;
 
 		expect(twoPlusTwo).toBe(4);
@@ -78,8 +78,7 @@ describe("Sanity check for car cost calculation tests", () => {
 });
 
 describe("calculateCarCostMain", () => {
-	it("Runs without errors", () => {
-		// TODO: Better fake Vehicle here, but this test is just that it doesn't cause a crash
+	it("[1] Runs without errors", () => {
 		calculateCarCostMain(completeMockVehicle);
 	});
 });

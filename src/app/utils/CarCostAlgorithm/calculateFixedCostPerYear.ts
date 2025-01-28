@@ -1,8 +1,13 @@
 import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 
 /** This adds up all the costs that don't change and are predictable
+ *
  * Includes thigns like insurance premiums, registration, taxes, etc.
+ *
  * Excludes things like gas costs, maintenance, etc
+ *
+ * I decided to pass in full Vehicle to these sub helper functions because it avoids confusion and keeps uniformity, but I may decide to change that later
+ *
  */
 export const calculateFixedCostPerYear = (vehicle: Vehicle) => {
 	let totalfixedCostPerYear = 0;
