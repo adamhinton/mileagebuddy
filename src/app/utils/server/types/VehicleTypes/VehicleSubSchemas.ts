@@ -38,9 +38,9 @@ export type GasVehicleData = z.infer<typeof GasVehicleDataSchema>;
  */
 export const ElectricVehicleDataSchema = z.object({
 	vehicleID: z.number().readonly(),
-	costPerCharge: z.number().nonnegative().max(1000).nullable(),
-	milesPerCharge: z.number().max(10_000).nullable(),
-	electricRangeMiles: z.number().max(10_000).nonnegative().nullable(),
+	costPerCharge: z.number().nonnegative().max(1000),
+	milesPerCharge: z.number().max(10_000),
+	electricRangeMiles: z.number().max(10_000).nonnegative(),
 });
 
 export type ElectricVehicleData = z.infer<typeof ElectricVehicleDataSchema>;
