@@ -27,7 +27,7 @@ describe("calculateFixedCostPerYear", () => {
 		} as unknown as Vehicle);
 	});
 
-	it("Returns the correct total fixed cost per year", () => {
+	it("[1] Returns the correct total fixed cost per year", () => {
 		const result = calculateFixedCostPerYear({
 			fixedCosts: fakeFixedCosts,
 		} as unknown as Vehicle);
@@ -35,7 +35,7 @@ describe("calculateFixedCostPerYear", () => {
 		expect(result).toBe(4590);
 	});
 
-	it("Allows zero values", () => {
+	it("[2] Allows zero values", () => {
 		const fakeFixedCostsWithZeroValues: FixedCosts = {
 			...fakeFixedCosts,
 			yearlyParkingCost: 0,
@@ -49,12 +49,12 @@ describe("calculateFixedCostPerYear", () => {
 		expect(result).toBe(1990);
 	});
 
-	it("Doesn't accept negative values", () => {
+	it("[3] Doesn't accept negative values", () => {
 		// TOOD: Implement this once schema validation happens
 		// But, low priority - there's enough validation before reaching this function that this should never occur
 	});
 
-	it("Allows null values", () => {
+	it("[4] Allows null values", () => {
 		const fakeFixedCostsWithNullValues: FixedCosts = {
 			...fakeFixedCosts,
 			yearlyInsuranceCost: null,
@@ -68,7 +68,7 @@ describe("calculateFixedCostPerYear", () => {
 		expect(result).toBe(3490);
 	});
 
-	it("Returns 0 for all null values", () => {
+	it("[5] Returns 0 for all null values", () => {
 		const fakeFixedCostsWithAllNullValues: FixedCosts = {
 			...fakeFixedCosts,
 			yearlyInsuranceCost: null,
@@ -88,7 +88,7 @@ describe("calculateFixedCostPerYear", () => {
 		expect(result).toBe(0);
 	});
 
-	it("Returns 0 for all zero values", () => {
+	it("[6] Returns 0 for all zero values", () => {
 		const fakeFixedCostsWithAllZeroValues: FixedCosts = {
 			...fakeFixedCosts,
 			yearlyInsuranceCost: 0,
