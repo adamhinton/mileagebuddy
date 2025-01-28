@@ -1,6 +1,8 @@
 "use server";
 
 import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
+import { ElectricVehicleData } from "../server/types/VehicleTypes/VehicleSubSchemas";
+import { calcAvgFuelCostPerMile } from "./calcAvgFuelCostPerMile";
 import { calculateFixedCostPerYear } from "./calculateFixedCostPerYear";
 
 // README
@@ -52,5 +54,7 @@ export const calculateCarCostMain = (vehicle: Vehicle) => {
 	const totalFixedCostPerYear = calculateFixedCostPerYear(vehicle);
 
 	const totalFixedCosts = totalFixedCostPerYear * numYearsWillOwn;
+
+	const averagefuelCostPerMile = calcAvgFuelCostPerMile(vehicle);
 };
 export { calculateFixedCostPerYear };
