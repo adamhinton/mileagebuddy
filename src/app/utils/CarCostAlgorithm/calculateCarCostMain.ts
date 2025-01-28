@@ -1,6 +1,7 @@
 "use server";
 
 import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
+import { calculateFixedCostPerYear } from "./calculateFixedCostPerYear";
 
 // README
 // This is the main file for the algorithm that calculates the true cost of owning a car
@@ -11,6 +12,7 @@ import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 // PLAN:
 // "use server" at the top of each file
 // Make CarCostResults type. With zod schema?
+// Validate passed-in Vehicle?
 // TEST EXTENSIVELY
 // Write sub-functions for each part of the calculation
 // TEST EXTENSIVELY
@@ -20,6 +22,34 @@ import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 // Really, I'll regret it if I don't have thorough unit tests.
 // TEST EXTENSIVELY
 
-export const calculateCarCostMain = (vehicle: Vehicle) => {
-	vehicle.id;
+// NOTES:
+// The miles they'll sell at is taken in to account more than how many years they say they'll keep it
+// Need to make sure user understands that daily miles per day is on a seven day week, so if they commute five days a week it needs to account for that
+
+export type CarCostCalculationResults = {
+	// Breakdown of cost per mile? In gas, maintenance etc.
+	// That's a stretch goal maybe
+	costPerMile: number;
+	costPerExtraMile: number;
+	// Not sure this is needed
+	vehicle: Vehicle;
 };
+
+export const calculateCarCostMain = (vehicle: Vehicle) => {
+	const totalUsageMilesBeforeSale =
+		vehicle.purchaseAndSales.willSellCarAtMiles -
+		vehicle.purchaseAndSales.milesBoughtAt;
+
+	const normalMilesPerYear =
+		vehicle.usage.averageDailyMiles * vehicle.usage.weeksPerYear;
+
+	// TODO: More precision?
+	const numYearsWillOwn = Math.round(
+		totalUsageMilesBeforeSale / normalMilesPerYear
+	);
+
+	const totalFixedCostPerYear = calculateFixedCostPerYear(vehicle);
+
+	const totalFixedCosts = totalFixedCostPerYear * numYearsWillOwn;
+};
+export { calculateFixedCostPerYear };
