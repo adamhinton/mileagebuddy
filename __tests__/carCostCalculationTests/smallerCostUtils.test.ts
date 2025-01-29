@@ -20,7 +20,9 @@ describe("Sanity check", () => {
 
 describe("calculatePurchasePriceMinusSalesPrice", () => {
 	/** Only including needed fields */
-	const dummyVehicle = {
+	const dummyVehicle: {
+		purchaseAndSales: PurchaseAndSales;
+	} = {
 		purchaseAndSales: {
 			purchasePrice: 10_000,
 			willSellCarAtPrice: 7_000,
@@ -42,7 +44,9 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 	});
 
 	it("Can return a negative number if car appreciates in value", () => {
-		const dummyVehicle2 = {
+		const dummyVehicle2: {
+			purchaseAndSales: PurchaseAndSales;
+		} = {
 			purchaseAndSales: {
 				purchasePrice: 7_000,
 				willSellCarAtPrice: 10_000,
@@ -56,7 +60,9 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 	});
 
 	it("Can handle down payments", () => {
-		const dummyVehicle3 = {
+		const dummyVehicle3: {
+			purchaseAndSales: PurchaseAndSales;
+		} = {
 			purchaseAndSales: {
 				purchasePrice: 10_000,
 				willSellCarAtPrice: 5_000,
@@ -71,7 +77,9 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 
 	// This should never happen due to zod
 	it("Throws error if purchase price is not a number", () => {
-		const dummyVehicle4 = {
+		const dummyVehicle4: {
+			purchaseAndSales: PurchaseAndSales;
+		} = {
 			purchaseAndSales: {
 				purchasePrice: "10_000fa",
 				willSellCarAtPrice: 7_000,
@@ -86,7 +94,9 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 
 	// This should never happen due to zod
 	it("Throws error if will sell car at price is not a number", () => {
-		const dummyVehicle5 = {
+		const dummyVehicle5: {
+			purchaseAndSales: PurchaseAndSales;
+		} = {
 			purchaseAndSales: {
 				purchasePrice: 10_000,
 				willSellCarAtPrice: "7_000fa",
@@ -101,7 +111,9 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 
 	// This should never happen due to zod
 	it("Throws error if purchase price is null", () => {
-		const dummyVehicle6 = {
+		const dummyVehicle6: {
+			purchaseAndSales: PurchaseAndSales;
+		} = {
 			purchaseAndSales: {
 				purchasePrice: null,
 				willSellCarAtPrice: 7_000,
@@ -116,7 +128,9 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 
 	// This should never happen due to zod
 	it("Throws error if will sell car at price is null", () => {
-		const dummyVehicle7 = {
+		const dummyVehicle7: {
+			purchaseAndSales: PurchaseAndSales;
+		} = {
 			purchaseAndSales: {
 				purchasePrice: 10_000,
 				willSellCarAtPrice: null,
@@ -130,7 +144,9 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 	});
 
 	it("Handles large amounts", () => {
-		const dummyVehicleHuge = {
+		const dummyVehicleHuge: {
+			purchaseAndSales: PurchaseAndSales;
+		} = {
 			// These are the max values zod permits for these fields
 			purchaseAndSales: {
 				purchasePrice: 50_000_000,
@@ -139,22 +155,27 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 			},
 		} as unknown as Vehicle;
 
-		expect(calculatePurchasePriceMinusSalesPrice(dummyVehicleHuge)).toBe(
-			48_000_000
-		);
+		expect(
+			calculatePurchasePriceMinusSalesPrice(
+				dummyVehicleHuge as unknown as Vehicle
+			)
+		).toBe(48_000_000);
 	});
 });
 
 describe("calculateVariableCostPerYear", () => {
 	/** Only including needed fields */
-	const dummyVehicle = {
+	const dummyVehicle: {
+		variableCosts: VariableCosts;
+	} = {
 		variableCosts: {
+			vehicleID: 1,
 			monthlyParkingCosts: 100,
 			monthlyTolls: 50,
 			monthlyCarWashCost: 10,
 			monthlyMiscellaneousCosts: 20,
 			monthlyCostDeductions: 30,
-		} as unknown as VariableCosts,
+		},
 	};
 
 	it("Runs without errors", () => {
@@ -170,7 +191,9 @@ describe("calculateVariableCostPerYear", () => {
 	});
 
 	it("Can handle null values", () => {
-		const dummyVehicle2 = {
+		const dummyVehicle2: {
+			variableCosts: VariableCosts;
+		} = {
 			variableCosts: {
 				monthlyParkingCosts: null,
 				monthlyTolls: null,
@@ -180,7 +203,9 @@ describe("calculateVariableCostPerYear", () => {
 			},
 		} as unknown as Vehicle;
 
-		expect(calculateVariableCostPerYear(dummyVehicle2)).toBe(0);
+		expect(
+			calculateVariableCostPerYear(dummyVehicle2 as unknown as Vehicle)
+		).toBe(0);
 	});
 
 	// Zod should prevent this
@@ -201,7 +226,9 @@ describe("calculateVariableCostPerYear", () => {
 	});
 
 	it("Handles a mix of zeroes, nulls and positive values", () => {
-		const dummyVehicle4 = {
+		const dummyVehicle4: {
+			variableCosts: VariableCosts;
+		} = {
 			variableCosts: {
 				monthlyParkingCosts: null,
 				monthlyTolls: 60,
@@ -217,7 +244,9 @@ describe("calculateVariableCostPerYear", () => {
 	});
 
 	it("Handles large amounts", () => {
-		const dummyVehicleHuge = {
+		const dummyVehicleHuge: {
+			variableCosts: VariableCosts;
+		} = {
 			// These are the max values zod permits for these fields
 			variableCosts: {
 				monthlyParkingCosts: 20_000,
@@ -228,6 +257,8 @@ describe("calculateVariableCostPerYear", () => {
 			},
 		} as unknown as Vehicle;
 
-		expect(calculateVariableCostPerYear(dummyVehicleHuge)).toBe(600_000);
+		expect(
+			calculateVariableCostPerYear(dummyVehicleHuge as unknown as Vehicle)
+		).toBe(600_000);
 	});
 });
