@@ -121,9 +121,9 @@ export type YearlyMaintenanceCosts = z.infer<
  */
 export const VariableCostsSchema = z.object({
 	vehicleID: z.number().readonly(),
-	monthlyParkingCosts: z.number().max(5_000).nonnegative().nullable(),
-	monthlyTolls: z.number().max(5_000).nonnegative().nullable(),
-	monthlyCarWashCost: z.number().max(5_000).nonnegative().nullable(),
+	monthlyParkingCosts: z.number().max(20_000).nonnegative().nullable(),
+	monthlyTolls: z.number().max(20_000).nonnegative().nullable(),
+	monthlyCarWashCost: z.number().max(10_000).nonnegative().nullable(),
 	monthlyMiscellaneousCosts: z.number().max(500_000).nonnegative().nullable(),
 	monthlyCostDeductions: z.number().max(500_000).nonnegative().nullable(),
 });
