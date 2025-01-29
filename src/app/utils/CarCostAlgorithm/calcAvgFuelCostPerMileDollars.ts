@@ -24,8 +24,6 @@ export const calcAvgFuelCostPerMileDollars = (vehicle: Vehicle) => {
 				milesPerGallonHighway * averagePercentHighwayOutOf100) /
 			100;
 
-		console.log("averageMilesPerGallon:", averageMilesPerGallon);
-
 		const averagefuelCostPerMile =
 			(1 / averageMilesPerGallon) * gasCostPerGallon;
 
