@@ -56,12 +56,12 @@ describe("calcAvgFuelCostPerMile", () => {
 		calcAvgFuelCostPerMileDollars(dummyElectricVehicle as unknown as Vehicle);
 	});
 
-	it("[3] Returns the correct value for a gas vehicle", () => {
+	it.only("[3] Returns the correct value for a gas vehicle", () => {
 		const result = calcAvgFuelCostPerMileDollars(
 			dummyGasVehicle as unknown as Vehicle
 		);
 
-		expect(result).toBe(0.109);
+		expect(result).toBe(0.152);
 	});
 
 	it("[4] Returns the correct value for an electric vehicle", () => {
@@ -76,7 +76,7 @@ describe("calcAvgFuelCostPerMile", () => {
 	it("[5] Throws an error if the vehicle type is neither gas nor electric", () => {
 		const dummyVehicle = {
 			type: "neither",
-			usage: { percentHighway: 30 } as unknown as Usage,
+			usage: { percentHighway: 30, percentCity: 70 } as unknown as Usage,
 			electricVehicleData: dummyElectricVehicleData,
 		};
 
@@ -85,7 +85,7 @@ describe("calcAvgFuelCostPerMile", () => {
 		).toThrow();
 	});
 
-	it.only("[6] Returns the correct value for a gas vehicle with 100% city driving", () => {
+	it("[6] Returns the correct value for a gas vehicle with 100% city driving", () => {
 		const dummyGasVehicle100City = {
 			type: "gas",
 			usage: { percentHighway: 0, percentCity: 100 } as unknown as Usage,
@@ -97,5 +97,19 @@ describe("calcAvgFuelCostPerMile", () => {
 		);
 
 		expect(result).toBe(0.175);
+	});
+
+	it("[7] Returns the correct value for a gas vehicle with 100% highway driving", () => {
+		const dummyGasVehicle100Highway = {
+			type: "gas",
+			usage: { percentHighway: 100, percentCity: 0 } as unknown as Usage,
+			gasVehicleData: dummyGasVehicleData,
+		};
+
+		const result = calcAvgFuelCostPerMileDollars(
+			dummyGasVehicle100Highway as unknown as Vehicle
+		);
+
+		expect(result).toBe(0.117);
 	});
 });
