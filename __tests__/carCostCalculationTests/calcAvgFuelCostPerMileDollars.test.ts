@@ -119,7 +119,7 @@ describe("calcAvgFuelCostPerMile", () => {
 		expect(result).toBe(0.117);
 	});
 
-	it.only("[8] Returns the correct value for an electric vehicle with 100% city driving", () => {
+	it("[8] Returns the correct value for an electric vehicle with 100% city driving", () => {
 		const dummyElectricVehicle100City = {
 			type: "electric",
 			usage: { percentHighway: 0, percentCity: 100 } as unknown as Usage,
@@ -128,6 +128,20 @@ describe("calcAvgFuelCostPerMile", () => {
 
 		const result = calcAvgFuelCostPerMileDollars(
 			dummyElectricVehicle100City as unknown as Vehicle
+		);
+
+		expect(result).toBe(0.029);
+	});
+
+	it("[9] Returns the correct value for an electric vehicle with 100% highway driving", () => {
+		const dummyElectricVehicle100Highway = {
+			type: "electric",
+			usage: { percentHighway: 100, percentCity: 0 } as unknown as Usage,
+			electricVehicleData: dummyElectricVehicleData,
+		};
+
+		const result = calcAvgFuelCostPerMileDollars(
+			dummyElectricVehicle100Highway as unknown as Vehicle
 		);
 
 		expect(result).toBe(0.029);
