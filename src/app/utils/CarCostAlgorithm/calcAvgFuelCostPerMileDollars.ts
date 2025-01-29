@@ -11,8 +11,8 @@ import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
  *
  */
 export const calcAvgFuelCostPerMileDollars = (vehicle: Vehicle) => {
-	const averagePercentHighway = vehicle.usage.percentHighway;
-	const averagePercentCity = 1 - averagePercentHighway;
+	const averagePercentHighwayOutOf100 = vehicle.usage.percentHighway;
+	const averagePercentCityOutOf100 = 100 - averagePercentHighwayOutOf100;
 
 	// Vehicle type is GasVehicle
 	if (vehicle.type === "gas") {
@@ -20,8 +20,9 @@ export const calcAvgFuelCostPerMileDollars = (vehicle: Vehicle) => {
 			vehicle.gasVehicleData;
 
 		const averageMilesPerGallon =
-			milesPerGallonCity * averagePercentCity +
-			milesPerGallonHighway * averagePercentHighway;
+			(milesPerGallonCity * averagePercentCityOutOf100 +
+				milesPerGallonHighway * averagePercentHighwayOutOf100) /
+			100;
 
 		console.log("averageMilesPerGallon:", averageMilesPerGallon);
 
