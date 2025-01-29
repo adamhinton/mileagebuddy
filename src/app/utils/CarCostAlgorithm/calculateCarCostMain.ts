@@ -1,7 +1,6 @@
 "use server";
 
 import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
-import { ElectricVehicleData } from "../server/types/VehicleTypes/VehicleSubSchemas";
 import { calcAvgFuelCostPerMileDollars } from "./calcAvgFuelCostPerMileDollars";
 import { calculateFixedCostPerYear } from "./calculateFixedCostPerYear";
 
