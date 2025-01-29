@@ -4,7 +4,7 @@
 // Note: I defined fake FixedCostses and passed them in to functions with  `as unkonwn as Vehicle` to keep type assertions as narrow as possible
 // I didn't include other vehicle data in the fake vehicles because it wasn't needed and would clutter my code
 
-import { calculateFixedCostPerYear } from "@/app/utils/CarCostAlgorithm/calculateCarCostMain";
+import { calculateFixedCostPerYear } from "@/app/utils/CarCostAlgorithm/calculateFixedCostPerYear";
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { FixedCosts } from "@/app/utils/server/types/VehicleTypes/VehicleSubSchemas";
 
