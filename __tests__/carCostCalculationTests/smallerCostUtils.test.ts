@@ -6,6 +6,7 @@
 // TODO: Separate each function in to its own test file?
 
 import {
+	calculateMaintenanceCostPerYear,
 	calculatePurchasePriceMinusSalesPrice,
 	calculateVariableCostPerYear,
 } from "@/app/utils/CarCostAlgorithm/smallerCostUtils";
@@ -13,6 +14,7 @@ import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import {
 	PurchaseAndSales,
 	VariableCosts,
+	YearlyMaintenanceCosts,
 } from "@/app/utils/server/types/VehicleTypes/VehicleSubSchemas";
 
 describe("Sanity check", () => {
@@ -263,5 +265,32 @@ describe("calculateVariableCostPerYear", () => {
 		expect(
 			calculateVariableCostPerYear(dummyVehicleHuge as unknown as Vehicle)
 		).toBe(600_000);
+	});
+});
+
+describe.only("calculateMaintenanceCostPerYear", () => {
+	// Only including needed fields
+	const dummyVehicle: {
+		yearlyMaintenanceCosts: YearlyMaintenanceCosts;
+	} = {
+		yearlyMaintenanceCosts: {
+			vehicleID: 1,
+			oilChanges: 100,
+			tires: 200,
+			batteries: 50,
+			brakes: 300,
+			other: 100,
+			// DEPRECATED because it's accounted for elsewhere, there's a TODO to delete this
+			depreciation: null,
+		},
+	};
+
+	it("Runs without errors", async () => {
+		expect(
+			async () =>
+				await calculateMaintenanceCostPerYear(
+					dummyVehicle as unknown as Vehicle
+				)
+		).not.toThrow();
 	});
 });
