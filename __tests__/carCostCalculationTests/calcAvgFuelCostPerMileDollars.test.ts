@@ -56,7 +56,7 @@ describe("calcAvgFuelCostPerMile", () => {
 		calcAvgFuelCostPerMileDollars(dummyElectricVehicle as unknown as Vehicle);
 	});
 
-	it.only("[3] Returns the correct value for a gas vehicle", () => {
+	it("[3] Returns the correct value for a gas vehicle", () => {
 		const result = calcAvgFuelCostPerMileDollars(
 			dummyGasVehicle as unknown as Vehicle
 		);
