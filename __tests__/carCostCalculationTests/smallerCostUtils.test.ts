@@ -293,4 +293,73 @@ describe.only("calculateMaintenanceCostPerYear", () => {
 				)
 		).not.toThrow();
 	});
+
+	it("Returns correct value", async () => {
+		expect(
+			await calculateMaintenanceCostPerYear(dummyVehicle as unknown as Vehicle)
+		).toBe(750);
+	});
+
+	it("Can handle null values", async () => {
+		const dummyVehicle2: {
+			yearlyMaintenanceCosts: YearlyMaintenanceCosts;
+		} = {
+			yearlyMaintenanceCosts: {
+				oilChanges: null,
+				tires: null,
+				batteries: null,
+				brakes: null,
+				other: null,
+				// Deprecated
+				depreciation: null,
+			},
+		} as unknown as Vehicle;
+
+		expect(
+			await calculateMaintenanceCostPerYear(dummyVehicle2 as unknown as Vehicle)
+		).toBe(0);
+	});
+
+	it("Can handle zero values", async () => {
+		const dummyVehicle3: {
+			yearlyMaintenanceCosts: YearlyMaintenanceCosts;
+		} = {
+			yearlyMaintenanceCosts: {
+				oilChanges: 0,
+				tires: 0,
+				batteries: 0,
+				brakes: 0,
+				other: 0,
+				// Deprecated
+				depreciation: null,
+			},
+		} as unknown as Vehicle;
+
+		expect(
+			await calculateMaintenanceCostPerYear(dummyVehicle3 as unknown as Vehicle)
+		).toBe(0);
+	});
+
+	it("Handles large amounts", async () => {
+		const dummyVehicleHuge: {
+			yearlyMaintenanceCosts: YearlyMaintenanceCosts;
+		} = {
+			// These are the max values zod permits for these fields
+			yearlyMaintenanceCosts: {
+				oilChanges: 1_000,
+				tires: 50_000,
+				batteries: 50_000,
+				brakes: 50_000,
+				other: 500_000,
+				// Deprecated
+				depreciation: null,
+			},
+		} as unknown as Vehicle;
+
+		expect(
+			await calculateMaintenanceCostPerYear(
+				dummyVehicleHuge as unknown as Vehicle
+			)
+		).toBe(651_000);
+	});
 });
