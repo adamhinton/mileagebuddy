@@ -13,7 +13,7 @@ import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 export const calcAvgFuelCostPerMileDollars = (vehicle: Vehicle) => {
 	const averagePercentHighwayOutOf100 = vehicle.usage.percentHighway;
 
-	// Zod should prevent this from happening, but just in case
+	// Zod should prevent this, but just in case
 	if (
 		averagePercentHighwayOutOf100 < 0 ||
 		averagePercentHighwayOutOf100 > 100
