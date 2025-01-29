@@ -3,7 +3,10 @@
 import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 import { calcAvgFuelCostPerMileDollars } from "./calcAvgFuelCostPerMileDollars";
 import { calculateFixedCostPerYear } from "./calculateFixedCostPerYear";
-import { calculateVariableCostPerYear } from "./smallerCostUtils";
+import {
+	calculateMaintenanceCostPerYear,
+	calculateVariableCostPerYear,
+} from "./smallerCostUtils";
 
 // README
 // This is the main file for the algorithm that calculates the true cost of owning a car
@@ -88,9 +91,11 @@ export const calculateCarCostMain = async (vehicle: Vehicle) => {
 	const milesDrivenPerYear =
 		vehicle.usage.averageDailyMiles * vehicle.usage.weeksPerYear;
 
-	const variableCostPerYear = calculateVariableCostPerYear(vehicle);
-};
+	// Only using await because server actions must be async
+	const variableCostPerYear = await calculateVariableCostPerYear(vehicle);
 
-const calculateMaintenanceCostPerYear = async (vehicle: Vehicle) => {
-	const {} = vehicle.maintenanceCosts;
+	const variableCostPerMile = variableCostPerYear / milesDrivenPerYear;
+	const maintenanceCostPerYear = await calculateMaintenanceCostPerYear(vehicle);
+
+	const maintenanceCostPerMile = maintenanceCostPerYear / milesDrivenPerYear;
 };
