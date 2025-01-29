@@ -2,9 +2,15 @@
 // This is (obviously) associated with smallerCostUtils.ts
 // Testing small functions that don't warrant their own test file
 
-import { calculatePurchasePriceMinusSalesPrice } from "@/app/utils/CarCostAlgorithm/smallerCostUtils";
+import {
+	calculatePurchasePriceMinusSalesPrice,
+	calculateVariableCostPerYear,
+} from "@/app/utils/CarCostAlgorithm/smallerCostUtils";
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
-import { PurchaseAndSales } from "@/app/utils/server/types/VehicleTypes/VehicleSubSchemas";
+import {
+	PurchaseAndSales,
+	VariableCosts,
+} from "@/app/utils/server/types/VehicleTypes/VehicleSubSchemas";
 
 describe("Sanity check", () => {
 	it("Reality is still real", () => {
@@ -121,5 +127,107 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 		expect(() =>
 			calculatePurchasePriceMinusSalesPrice(dummyVehicle7 as unknown as Vehicle)
 		).toThrow();
+	});
+
+	it("Handles large amounts", () => {
+		const dummyVehicleHuge = {
+			// These are the max values zod permits for these fields
+			purchaseAndSales: {
+				purchasePrice: 50_000_000,
+				willSellCarAtPrice: 53_000_000,
+				downPaymentAmount: 51_000_000,
+			},
+		} as unknown as Vehicle;
+
+		expect(calculatePurchasePriceMinusSalesPrice(dummyVehicleHuge)).toBe(
+			48_000_000
+		);
+	});
+});
+
+describe.only("calculateVariableCostPerYear", () => {
+	/** Only including needed fields */
+	const dummyVehicle = {
+		variableCosts: {
+			monthlyParkingCosts: 100,
+			monthlyTolls: 50,
+			monthlyCarWashCost: 10,
+			monthlyMiscellaneousCosts: 20,
+			monthlyCostDeductions: 30,
+		} as unknown as VariableCosts,
+	};
+
+	it("Runs without errors", () => {
+		expect(() =>
+			calculateVariableCostPerYear(dummyVehicle as unknown as Vehicle)
+		).not.toThrow();
+	});
+
+	it("Returns correct value", () => {
+		expect(
+			calculateVariableCostPerYear(dummyVehicle as unknown as Vehicle)
+		).toBe(1_800);
+	});
+
+	it("Can handle null values", () => {
+		const dummyVehicle2 = {
+			variableCosts: {
+				monthlyParkingCosts: null,
+				monthlyTolls: null,
+				monthlyCarWashCost: null,
+				monthlyMiscellaneousCosts: null,
+				monthlyCostDeductions: null,
+			},
+		} as unknown as Vehicle;
+
+		expect(calculateVariableCostPerYear(dummyVehicle2)).toBe(0);
+	});
+
+	// Zod should prevent this
+	it("Throws error if monthly cost deductions is negative", () => {
+		const dummyVehicle3 = {
+			variableCosts: {
+				monthlyParkingCosts: 100,
+				monthlyTolls: 50,
+				monthlyCarWashCost: 10,
+				monthlyMiscellaneousCosts: 20,
+				monthlyCostDeductions: -30,
+			} as unknown as VariableCosts,
+		};
+
+		expect(() =>
+			calculateVariableCostPerYear(dummyVehicle3 as unknown as Vehicle)
+		).toThrow();
+	});
+
+	it("Handles a mix of zeroes, nulls and positive values", () => {
+		const dummyVehicle4 = {
+			variableCosts: {
+				monthlyParkingCosts: null,
+				monthlyTolls: 60,
+				monthlyCarWashCost: 10,
+				monthlyMiscellaneousCosts: 0,
+				monthlyCostDeductions: 10,
+			} as unknown as VariableCosts,
+		};
+
+		expect(
+			calculateVariableCostPerYear(dummyVehicle4 as unknown as Vehicle)
+		).toBe(720);
+	});
+
+	it("Handles large amounts", () => {
+		const dummyVehicleHuge = {
+			// These are the max values zod permits for these fields
+			variableCosts: {
+				monthlyParkingCosts: 20_000,
+				monthlyTolls: 20_000,
+				monthlyCarWashCost: 10_000,
+				monthlyMiscellaneousCosts: 500_000,
+				monthlyCostDeductions: 500_000,
+			},
+		} as unknown as Vehicle;
+
+		expect(calculateVariableCostPerYear(dummyVehicleHuge)).toBe(600_000);
 	});
 });

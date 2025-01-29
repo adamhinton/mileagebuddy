@@ -3,6 +3,7 @@
 import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 import { calcAvgFuelCostPerMileDollars } from "./calcAvgFuelCostPerMileDollars";
 import { calculateFixedCostPerYear } from "./calculateFixedCostPerYear";
+import { calculateVariableCostPerYear } from "./smallerCostUtils";
 
 // README
 // This is the main file for the algorithm that calculates the true cost of owning a car
@@ -84,7 +85,6 @@ export const calculateCarCostMain = (vehicle: Vehicle) => {
 
 	const milesDrivenPerYear =
 		vehicle.usage.averageDailyMiles * vehicle.usage.weeksPerYear;
-};
-export { calculateFixedCostPerYear };
 
-export const calculateVarialbeCostPerYear = (vehicle: Vehicle) => {};
+	const variableCostPerYear = calculateVariableCostPerYear(vehicle);
+};
