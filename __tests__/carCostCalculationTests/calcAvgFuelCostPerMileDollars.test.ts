@@ -119,6 +119,7 @@ describe("calcAvgFuelCostPerMile", () => {
 		expect(result).toBe(0.117);
 	});
 
+	// Algorithm actually doesn't distinguish between fuel efficiency in city vs highway for EVs so this shouldn't matter
 	it("[8] Returns the correct value for an electric vehicle with 100% city driving", () => {
 		const dummyElectricVehicle100City = {
 			type: "electric",
@@ -133,6 +134,7 @@ describe("calcAvgFuelCostPerMile", () => {
 		expect(result).toBe(0.029);
 	});
 
+	// Algorithm actually doesn't distinguish between fuel efficiency in city vs highway for EVs so this shouldn't matter
 	it("[9] Returns the correct value for an electric vehicle with 100% highway driving", () => {
 		const dummyElectricVehicle100Highway = {
 			type: "electric",
