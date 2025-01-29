@@ -1,3 +1,5 @@
+"use server";
+
 import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 
 /** This adds up all the costs that don't change and are predictable
@@ -9,7 +11,7 @@ import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
  * I decided to pass in full Vehicle to these sub helper functions because it avoids confusion and keeps uniformity, but I may decide to change that later
  *
  */
-export const calculateFixedCostPerYear = (vehicle: Vehicle) => {
+export const calculateFixedCostPerYear = async (vehicle: Vehicle) => {
 	let totalfixedCostPerYear = 0;
 
 	const {

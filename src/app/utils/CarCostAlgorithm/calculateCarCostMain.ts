@@ -38,7 +38,8 @@ export type CarCostCalculationResults = {
 	vehicle: Vehicle;
 };
 
-export const calculateCarCostMain = (vehicle: Vehicle) => {
+// Only async because server actions must be async
+export const calculateCarCostMain = async (vehicle: Vehicle) => {
 	const totalCostPerAverageMileInDollars = 0;
 
 	// Add up total years and miles will own car

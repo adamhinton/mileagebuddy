@@ -1,3 +1,5 @@
+"use server";
+
 // README
 // This is for smaller functions that don't need their own file
 // Is tested in smallerCostUtils.test.ts
@@ -12,8 +14,13 @@ import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
  * So this basically subtracts the sales price from the purchase price
  *
  * Note: Not checking whether the sales price is higher than the purchase price because car could appreciate in value
+ *
+ * Only async because server actions must be async
+ *
  */
-export const calculatePurchasePriceMinusSalesPrice = (vehicle: Vehicle) => {
+export const calculatePurchasePriceMinusSalesPrice = async (
+	vehicle: Vehicle
+) => {
 	// NOTE: Loan payments are accounted for elsewhere
 	// So this focuses only on purchase price
 
@@ -39,8 +46,11 @@ export const calculatePurchasePriceMinusSalesPrice = (vehicle: Vehicle) => {
 	return expense;
 };
 
-/** Calculates yearly total cost of items from Vehicle.variableCosts */
-export const calculateVariableCostPerYear = (vehicle: Vehicle) => {
+/** Calculates yearly total cost of items from Vehicle.variableCosts
+ *
+ * Only async because server actions must be async
+ */
+export const calculateVariableCostPerYear = async (vehicle: Vehicle) => {
 	const {
 		monthlyParkingCosts,
 		monthlyTolls,

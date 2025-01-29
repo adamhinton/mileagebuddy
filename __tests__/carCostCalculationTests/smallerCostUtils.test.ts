@@ -1,6 +1,9 @@
 // README:
 // This is (obviously) associated with smallerCostUtils.ts
 // Testing small functions that don't warrant their own test file
+// Tests functions calculatePurchasePriceMinusSalesPrice and calculateVariableCostPerYear
+// Will add more too
+// TODO: Separate each function in to its own test file?
 
 import {
 	calculatePurchasePriceMinusSalesPrice,

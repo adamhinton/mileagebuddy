@@ -1,3 +1,5 @@
+"use server";
+
 import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 
 /**
@@ -9,8 +11,10 @@ import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
  *
  * So for instance it'll return 0.109, aka 10.9 cents per mile
  *
+ * Only async because server actions must be async
+ *
  */
-export const calcAvgFuelCostPerMileDollars = (vehicle: Vehicle) => {
+export const calcAvgFuelCostPerMileDollars = async (vehicle: Vehicle) => {
 	const averagePercentHighwayOutOf100 = vehicle.usage.percentHighway;
 
 	// Zod should prevent this, but just in case
