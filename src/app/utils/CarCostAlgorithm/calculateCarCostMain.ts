@@ -47,7 +47,7 @@ export const calculateCarCostMain = async (vehicle: Vehicle) => {
 	// Total fuel costs during that time (calcAvgFuelCostPerMileDollars)
 	// Total purchase amount (calculatePurchasePriceMinusSalesPrice)
 	// Total fixed costs for that time (calculateFixedCostPerYear)
-	// Total variable costs for that time (calculateVariableCostPerYear) (TODO)
+	// Total variable costs for that time (calculateVariableCostPerYear)
 	// Total maintenance costs for that time (calculateMaintenanceCostPerYear) (TODO)
 	// Divide it by total number of miles driven during that time
 
@@ -74,7 +74,8 @@ export const calculateCarCostMain = async (vehicle: Vehicle) => {
 	 */
 	const numYearsWillOwn = totalUsageMilesBeforeSale / normalMilesPerYear;
 
-	const totalFixedCostPerYear = calculateFixedCostPerYear(vehicle);
+	// Only using await because server actions must be async
+	const totalFixedCostPerYear = await calculateFixedCostPerYear(vehicle);
 
 	/** This will change as(if) the user adds additional extra miles
 	 *
@@ -88,4 +89,8 @@ export const calculateCarCostMain = async (vehicle: Vehicle) => {
 		vehicle.usage.averageDailyMiles * vehicle.usage.weeksPerYear;
 
 	const variableCostPerYear = calculateVariableCostPerYear(vehicle);
+};
+
+const calculateMaintenanceCostPerYear = async (vehicle: Vehicle) => {
+	const {} = vehicle.maintenanceCosts;
 };
