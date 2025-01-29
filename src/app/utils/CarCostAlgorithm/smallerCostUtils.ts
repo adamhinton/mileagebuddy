@@ -38,3 +38,35 @@ export const calculatePurchasePriceMinusSalesPrice = (vehicle: Vehicle) => {
 
 	return expense;
 };
+
+/** Calculates yearly total cost of items from Vehicle.variableCosts */
+export const calculateVariableCostPerYear = (vehicle: Vehicle) => {
+	const {
+		monthlyParkingCosts,
+		monthlyTolls,
+		monthlyCarWashCost,
+		monthlyMiscellaneousCosts,
+		/** This will be a POSITIVE number that you SUBTRACT from the total */
+		monthlyCostDeductions,
+	} = vehicle.variableCosts;
+
+	// Zod should prevent this
+	if (monthlyCostDeductions !== null && monthlyCostDeductions < 0) {
+		throw new Error(
+			"Monthly cost deductions must be a positive number, it's subtracted from the total"
+		);
+	}
+
+	const totalMonthlyVariableCosts =
+		(monthlyParkingCosts !== null ? monthlyParkingCosts : 0) +
+		(monthlyTolls !== null ? monthlyTolls : 0) +
+		(monthlyCarWashCost !== null ? monthlyCarWashCost : 0) +
+		(monthlyMiscellaneousCosts !== null ? monthlyMiscellaneousCosts : 0) -
+		// Deductions is subtracted, it's money they save (writeoffs, work reimbursements etc)
+		(monthlyCostDeductions !== null ? monthlyCostDeductions : 0);
+
+	// Yearly (obviously)
+	const totalVariableCosts = totalMonthlyVariableCosts * 12;
+
+	return totalVariableCosts;
+};
