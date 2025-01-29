@@ -12,6 +12,17 @@ import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
  */
 export const calcAvgFuelCostPerMileDollars = (vehicle: Vehicle) => {
 	const averagePercentHighwayOutOf100 = vehicle.usage.percentHighway;
+
+	// Zod should prevent this from happening, but just in case
+	if (
+		averagePercentHighwayOutOf100 < 0 ||
+		averagePercentHighwayOutOf100 > 100
+	) {
+		throw new Error(
+			"Percent highway is less than 0 or greater than 100. How did you even do that?"
+		);
+	}
+
 	const averagePercentCityOutOf100 = 100 - averagePercentHighwayOutOf100;
 
 	// Vehicle type is GasVehicle
