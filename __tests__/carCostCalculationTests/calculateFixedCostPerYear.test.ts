@@ -30,54 +30,54 @@ describe("Sanity check", () => {
 });
 
 describe("calculateFixedCostPerYear", () => {
-	it("Runs without errors", () => {
-		calculateFixedCostPerYear({
+	it("Runs without errors", async () => {
+		await calculateFixedCostPerYear({
 			fixedCosts: fakeFixedCosts,
 		} as unknown as Vehicle);
 	});
 
-	it("[1] Returns the correct total fixed cost per year", () => {
-		const result = calculateFixedCostPerYear({
+	it("[1] Returns the correct total fixed cost per year", async () => {
+		const result = await calculateFixedCostPerYear({
 			fixedCosts: fakeFixedCosts,
 		} as unknown as Vehicle);
 
 		expect(result).toBe(4590);
 	});
 
-	it("[2] Allows zero values", () => {
+	it("[2] Allows zero values", async () => {
 		const fakeFixedCostsWithZeroValues: FixedCosts = {
 			...fakeFixedCosts,
 			yearlyParkingCost: 0,
 			monthlyLoanPayment: 0,
 		};
 
-		const result = calculateFixedCostPerYear({
+		const result = await calculateFixedCostPerYear({
 			fixedCosts: fakeFixedCostsWithZeroValues,
 		} as unknown as Vehicle);
 
 		expect(result).toBe(1990);
 	});
 
-	it("[3] Doesn't accept negative values", () => {
+	it("[3] Doesn't accept negative values", async () => {
 		// TOOD: Implement this once schema validation happens
 		// But, low priority - there's enough validation before reaching this function that this should never occur
 	});
 
-	it("[4] Allows null values", () => {
+	it("[4] Allows null values", async () => {
 		const fakeFixedCostsWithNullValues: FixedCosts = {
 			...fakeFixedCosts,
 			yearlyInsuranceCost: null,
 			yearlyRegistrationCost: null,
 		};
 
-		const result = calculateFixedCostPerYear({
+		const result = await calculateFixedCostPerYear({
 			fixedCosts: fakeFixedCostsWithNullValues,
 		} as unknown as Vehicle);
 
 		expect(result).toBe(3490);
 	});
 
-	it("[5] Returns 0 for all null values", () => {
+	it("[5] Returns 0 for all null values", async () => {
 		const fakeFixedCostsWithAllNullValues: FixedCosts = {
 			...fakeFixedCosts,
 			yearlyInsuranceCost: null,
@@ -90,14 +90,14 @@ describe("calculateFixedCostPerYear", () => {
 			otherYearlyCosts: null,
 		};
 
-		const result = calculateFixedCostPerYear({
+		const result = await calculateFixedCostPerYear({
 			fixedCosts: fakeFixedCostsWithAllNullValues,
 		} as unknown as Vehicle);
 
 		expect(result).toBe(0);
 	});
 
-	it("[6] Returns 0 for all zero values", () => {
+	it("[6] Returns 0 for all zero values", async () => {
 		const fakeFixedCostsWithAllZeroValues: FixedCosts = {
 			...fakeFixedCosts,
 			yearlyInsuranceCost: 0,
@@ -110,7 +110,7 @@ describe("calculateFixedCostPerYear", () => {
 			otherYearlyCosts: 0,
 		};
 
-		const result = calculateFixedCostPerYear({
+		const result = await calculateFixedCostPerYear({
 			fixedCosts: fakeFixedCostsWithAllZeroValues,
 		} as unknown as Vehicle);
 

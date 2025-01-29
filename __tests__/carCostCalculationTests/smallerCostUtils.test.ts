@@ -35,20 +35,24 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 		} as unknown as PurchaseAndSales,
 	};
 
-	// calculatePurchasePriceMinusSalesPrice();
-	it("Runs without errors", () => {
-		expect(() =>
-			calculatePurchasePriceMinusSalesPrice(dummyVehicle as unknown as Vehicle)
+	it("Runs without errors", async () => {
+		expect(
+			async () =>
+				await calculatePurchasePriceMinusSalesPrice(
+					dummyVehicle as unknown as Vehicle
+				)
 		).not.toThrow();
 	});
 
-	it("Returns correct value", () => {
+	it("Returns correct value", async () => {
 		expect(
-			calculatePurchasePriceMinusSalesPrice(dummyVehicle as unknown as Vehicle)
+			await calculatePurchasePriceMinusSalesPrice(
+				dummyVehicle as unknown as Vehicle
+			)
 		).toBe(3_000);
 	});
 
-	it("Can return a negative number if car appreciates in value", () => {
+	it("Can return a negative number if car appreciates in value", async () => {
 		const dummyVehicle2: {
 			purchaseAndSales: PurchaseAndSales;
 		} = {
@@ -60,11 +64,13 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 		};
 
 		expect(
-			calculatePurchasePriceMinusSalesPrice(dummyVehicle2 as unknown as Vehicle)
+			await calculatePurchasePriceMinusSalesPrice(
+				dummyVehicle2 as unknown as Vehicle
+			)
 		).toBe(-3_000);
 	});
 
-	it("Can handle down payments", () => {
+	it("Can handle down payments", async () => {
 		const dummyVehicle3: {
 			purchaseAndSales: PurchaseAndSales;
 		} = {
@@ -76,12 +82,14 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 		};
 
 		expect(
-			calculatePurchasePriceMinusSalesPrice(dummyVehicle3 as unknown as Vehicle)
+			await calculatePurchasePriceMinusSalesPrice(
+				dummyVehicle3 as unknown as Vehicle
+			)
 		).toBe(7_000);
 	});
 
 	// This should never happen due to zod
-	it("Throws error if purchase price is not a number", () => {
+	it("Throws error if purchase price is not a number", async () => {
 		const dummyVehicle4: {
 			purchaseAndSales: PurchaseAndSales;
 		} = {
@@ -92,13 +100,16 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 			} as unknown as PurchaseAndSales,
 		};
 
-		expect(() =>
-			calculatePurchasePriceMinusSalesPrice(dummyVehicle4 as unknown as Vehicle)
-		).toThrow();
+		expect(
+			async () =>
+				await calculatePurchasePriceMinusSalesPrice(
+					dummyVehicle4 as unknown as Vehicle
+				)
+		).rejects.toThrow();
 	});
 
 	// This should never happen due to zod
-	it("Throws error if will sell car at price is not a number", () => {
+	it("Throws error if will sell car at price is not a number", async () => {
 		const dummyVehicle5: {
 			purchaseAndSales: PurchaseAndSales;
 		} = {
@@ -109,13 +120,16 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 			} as unknown as PurchaseAndSales,
 		};
 
-		expect(() =>
-			calculatePurchasePriceMinusSalesPrice(dummyVehicle5 as unknown as Vehicle)
-		).toThrow();
+		expect(
+			async () =>
+				await calculatePurchasePriceMinusSalesPrice(
+					dummyVehicle5 as unknown as Vehicle
+				)
+		).rejects.toThrow();
 	});
 
 	// This should never happen due to zod
-	it("Throws error if purchase price is null", () => {
+	it("Throws error if purchase price is null", async () => {
 		const dummyVehicle6: {
 			purchaseAndSales: PurchaseAndSales;
 		} = {
@@ -126,9 +140,12 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 			} as unknown as PurchaseAndSales,
 		};
 
-		expect(() =>
-			calculatePurchasePriceMinusSalesPrice(dummyVehicle6 as unknown as Vehicle)
-		).toThrow();
+		expect(
+			async () =>
+				await calculatePurchasePriceMinusSalesPrice(
+					dummyVehicle6 as unknown as Vehicle
+				)
+		).rejects.toThrow();
 	});
 
 	// This should never happen due to zod
@@ -143,12 +160,15 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 			} as unknown as PurchaseAndSales,
 		};
 
-		expect(() =>
-			calculatePurchasePriceMinusSalesPrice(dummyVehicle7 as unknown as Vehicle)
-		).toThrow();
+		expect(
+			async () =>
+				await calculatePurchasePriceMinusSalesPrice(
+					dummyVehicle7 as unknown as Vehicle
+				)
+		).rejects.toThrow();
 	});
 
-	it("Handles large amounts", () => {
+	it("Handles large amounts", async () => {
 		const dummyVehicleHuge: {
 			purchaseAndSales: PurchaseAndSales;
 		} = {
@@ -161,7 +181,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 		} as unknown as Vehicle;
 
 		expect(
-			calculatePurchasePriceMinusSalesPrice(
+			await calculatePurchasePriceMinusSalesPrice(
 				dummyVehicleHuge as unknown as Vehicle
 			)
 		).toBe(48_000_000);
@@ -183,19 +203,20 @@ describe("calculateVariableCostPerYear", () => {
 		},
 	};
 
-	it("Runs without errors", () => {
-		expect(() =>
-			calculateVariableCostPerYear(dummyVehicle as unknown as Vehicle)
+	it("Runs without errors", async () => {
+		expect(
+			async () =>
+				await calculateVariableCostPerYear(dummyVehicle as unknown as Vehicle)
 		).not.toThrow();
 	});
 
-	it("Returns correct value", () => {
+	it("Returns correct value", async () => {
 		expect(
-			calculateVariableCostPerYear(dummyVehicle as unknown as Vehicle)
+			await calculateVariableCostPerYear(dummyVehicle as unknown as Vehicle)
 		).toBe(1_800);
 	});
 
-	it("Can handle null values", () => {
+	it("Can handle null values", async () => {
 		const dummyVehicle2: {
 			variableCosts: VariableCosts;
 		} = {
@@ -209,12 +230,12 @@ describe("calculateVariableCostPerYear", () => {
 		} as unknown as Vehicle;
 
 		expect(
-			calculateVariableCostPerYear(dummyVehicle2 as unknown as Vehicle)
+			await calculateVariableCostPerYear(dummyVehicle2 as unknown as Vehicle)
 		).toBe(0);
 	});
 
 	// Zod should prevent this
-	it("Throws error if monthly cost deductions is negative", () => {
+	it("Throws error if monthly cost deductions is negative", async () => {
 		const dummyVehicle3 = {
 			variableCosts: {
 				monthlyParkingCosts: 100,
@@ -225,12 +246,13 @@ describe("calculateVariableCostPerYear", () => {
 			} as unknown as VariableCosts,
 		};
 
-		expect(() =>
-			calculateVariableCostPerYear(dummyVehicle3 as unknown as Vehicle)
-		).toThrow();
+		expect(
+			async () =>
+				await calculateVariableCostPerYear(dummyVehicle3 as unknown as Vehicle)
+		).rejects.toThrow();
 	});
 
-	it("Handles a mix of zeroes, nulls and positive values", () => {
+	it("Handles a mix of zeroes, nulls and positive values", async () => {
 		const dummyVehicle4: {
 			variableCosts: VariableCosts;
 		} = {
@@ -244,11 +266,11 @@ describe("calculateVariableCostPerYear", () => {
 		};
 
 		expect(
-			calculateVariableCostPerYear(dummyVehicle4 as unknown as Vehicle)
+			await calculateVariableCostPerYear(dummyVehicle4 as unknown as Vehicle)
 		).toBe(720);
 	});
 
-	it("Handles large amounts", () => {
+	it("Handles large amounts", async () => {
 		const dummyVehicleHuge: {
 			variableCosts: VariableCosts;
 		} = {
@@ -263,12 +285,12 @@ describe("calculateVariableCostPerYear", () => {
 		} as unknown as Vehicle;
 
 		expect(
-			calculateVariableCostPerYear(dummyVehicleHuge as unknown as Vehicle)
+			await calculateVariableCostPerYear(dummyVehicleHuge as unknown as Vehicle)
 		).toBe(600_000);
 	});
 });
 
-describe.only("calculateMaintenanceCostPerYear", () => {
+describe("calculateMaintenanceCostPerYear", () => {
 	// Only including needed fields
 	const dummyVehicle: {
 		yearlyMaintenanceCosts: YearlyMaintenanceCosts;

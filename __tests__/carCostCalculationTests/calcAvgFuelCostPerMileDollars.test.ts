@@ -48,30 +48,32 @@ const dummyElectricVehicle = {
 };
 
 describe("Sanity check", () => {
-	it("[1] Reality is still real. If this fails you have bigger problems than this test", () => {
+	it("[1] Reality is still real. If this fails you have bigger problems than this test", async () => {
 		expect(1).toBe(1);
 	});
 });
 
 describe("calcAvgFuelCostPerMile", () => {
-	it("[1] Runs without errors with a gas vehicle", () => {
-		calcAvgFuelCostPerMileDollars(dummyGasVehicle as unknown as Vehicle);
+	it("[1] Runs without errors with a gas vehicle", async () => {
+		await calcAvgFuelCostPerMileDollars(dummyGasVehicle as unknown as Vehicle);
 	});
 
-	it("[2] Runs without errors with an electric vehicle", () => {
-		calcAvgFuelCostPerMileDollars(dummyElectricVehicle as unknown as Vehicle);
+	it("[2] Runs without errors with an electric vehicle", async () => {
+		await calcAvgFuelCostPerMileDollars(
+			dummyElectricVehicle as unknown as Vehicle
+		);
 	});
 
-	it("[3] Returns the correct value for a gas vehicle", () => {
-		const result = calcAvgFuelCostPerMileDollars(
+	it("[3] Returns the correct value for a gas vehicle", async () => {
+		const result = await calcAvgFuelCostPerMileDollars(
 			dummyGasVehicle as unknown as Vehicle
 		);
 
 		expect(result).toBe(0.152);
 	});
 
-	it("[4] Returns the correct value for an electric vehicle", () => {
-		const result = calcAvgFuelCostPerMileDollars(
+	it("[4] Returns the correct value for an electric vehicle", async () => {
+		const result = await calcAvgFuelCostPerMileDollars(
 			dummyElectricVehicle as unknown as Vehicle
 		);
 
@@ -79,40 +81,40 @@ describe("calcAvgFuelCostPerMile", () => {
 	});
 
 	// This should never happen because TS will prevent it, but doesn't hurt to check
-	it("[5] Throws an error if the vehicle type is neither gas nor electric", () => {
+	it("[5] Throws an error if the vehicle type is neither gas nor electric", async () => {
 		const dummyVehicle = {
 			type: "neither",
 			usage: { percentHighway: 30, percentCity: 70 } as unknown as Usage,
 			electricVehicleData: dummyElectricVehicleData,
 		};
 
-		expect(() =>
-			calcAvgFuelCostPerMileDollars(dummyVehicle as unknown as Vehicle)
-		).toThrow();
+		await expect(async () => {
+			await calcAvgFuelCostPerMileDollars(dummyVehicle as unknown as Vehicle);
+		}).rejects.toThrow();
 	});
 
-	it("[6] Returns the correct value for a gas vehicle with 100% city driving", () => {
+	it("[6] Returns the correct value for a gas vehicle with 100% city driving", async () => {
 		const dummyGasVehicle100City = {
 			type: "gas",
 			usage: { percentHighway: 0, percentCity: 100 } as unknown as Usage,
 			gasVehicleData: dummyGasVehicleData,
 		};
 
-		const result = calcAvgFuelCostPerMileDollars(
+		const result = await calcAvgFuelCostPerMileDollars(
 			dummyGasVehicle100City as unknown as Vehicle
 		);
 
 		expect(result).toBe(0.175);
 	});
 
-	it("[7] Returns the correct value for a gas vehicle with 100% highway driving", () => {
+	it("[7] Returns the correct value for a gas vehicle with 100% highway driving", async () => {
 		const dummyGasVehicle100Highway = {
 			type: "gas",
 			usage: { percentHighway: 100, percentCity: 0 } as unknown as Usage,
 			gasVehicleData: dummyGasVehicleData,
 		};
 
-		const result = calcAvgFuelCostPerMileDollars(
+		const result = await calcAvgFuelCostPerMileDollars(
 			dummyGasVehicle100Highway as unknown as Vehicle
 		);
 
@@ -120,14 +122,14 @@ describe("calcAvgFuelCostPerMile", () => {
 	});
 
 	// Algorithm actually doesn't distinguish between fuel efficiency in city vs highway for EVs so this shouldn't matter
-	it("[8] Returns the correct value for an electric vehicle with 100% city driving", () => {
+	it("[8] Returns the correct value for an electric vehicle with 100% city driving", async () => {
 		const dummyElectricVehicle100City = {
 			type: "electric",
 			usage: { percentHighway: 0, percentCity: 100 } as unknown as Usage,
 			electricVehicleData: dummyElectricVehicleData,
 		};
 
-		const result = calcAvgFuelCostPerMileDollars(
+		const result = await calcAvgFuelCostPerMileDollars(
 			dummyElectricVehicle100City as unknown as Vehicle
 		);
 
@@ -135,14 +137,14 @@ describe("calcAvgFuelCostPerMile", () => {
 	});
 
 	// Algorithm actually doesn't distinguish between fuel efficiency in city vs highway for EVs so this shouldn't matter
-	it("[9] Returns the correct value for an electric vehicle with 100% highway driving", () => {
+	it("[9] Returns the correct value for an electric vehicle with 100% highway driving", async () => {
 		const dummyElectricVehicle100Highway = {
 			type: "electric",
 			usage: { percentHighway: 100, percentCity: 0 } as unknown as Usage,
 			electricVehicleData: dummyElectricVehicleData,
 		};
 
-		const result = calcAvgFuelCostPerMileDollars(
+		const result = await calcAvgFuelCostPerMileDollars(
 			dummyElectricVehicle100Highway as unknown as Vehicle
 		);
 
@@ -150,14 +152,14 @@ describe("calcAvgFuelCostPerMile", () => {
 	});
 
 	// This should never happen because zod will prevent it, but doesn't hurt to check
-	it("[10] Throws or handles invalid usage (e.g. < 0 or > 100)", () => {
+	it("[10] Throws or handles invalid usage (e.g. < 0 or > 100)", async () => {
 		const invalidUsageVehicle = {
 			type: "gas",
 			usage: { percentHighway: 120, percentCity: -20 } as unknown as Usage,
 			gasVehicleData: dummyGasVehicleData,
 		};
-		expect(() =>
+		await expect(
 			calcAvgFuelCostPerMileDollars(invalidUsageVehicle as Vehicle)
-		).toThrow();
+		).rejects.toThrow();
 	});
 });
