@@ -340,6 +340,26 @@ describe.only("calculateMaintenanceCostPerYear", () => {
 		).toBe(0);
 	});
 
+	it("Handles a mix of zero, null and positive values", async () => {
+		const dummyVehicle4: {
+			yearlyMaintenanceCosts: YearlyMaintenanceCosts;
+		} = {
+			yearlyMaintenanceCosts: {
+				oilChanges: 0,
+				tires: null,
+				batteries: 50,
+				brakes: 0,
+				other: 100,
+				// Deprecated
+				depreciation: null,
+			},
+		} as unknown as Vehicle;
+
+		expect(
+			await calculateMaintenanceCostPerYear(dummyVehicle4 as unknown as Vehicle)
+		).toBe(150);
+	});
+
 	it("Handles large amounts", async () => {
 		const dummyVehicleHuge: {
 			yearlyMaintenanceCosts: YearlyMaintenanceCosts;
