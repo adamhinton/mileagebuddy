@@ -46,13 +46,22 @@ export const calculateCarCostMain = (vehicle: Vehicle) => {
 	const normalMilesPerYear =
 		vehicle.usage.averageDailyMiles * vehicle.usage.weeksPerYear;
 
-	// TODO: More precision?
-	const numYearsWillOwn = Math.round(
-		totalUsageMilesBeforeSale / normalMilesPerYear
-	);
+	/** The number of years user will own the car before selling it
+	 *
+	 * Not rounded at all. TODO: Round this?
+	 *
+	 * If they, say, own it for a fraction of a year at the end that will only minorly affect the cost per mile, since most significant costs are monthly
+	 *
+	 * So it may add or subtract an inspection cost or something but that's not worth extra complexity for $50 yearly
+	 */
+	const numYearsWillOwn = totalUsageMilesBeforeSale / normalMilesPerYear;
 
 	const totalFixedCostPerYear = calculateFixedCostPerYear(vehicle);
 
+	/** This will change as(if) the user adds additional extra miles
+	 *
+	 * In that sense the additional extra miles save them money on this specific factor, bc they reduce the time the user will own the car before selling it at xx miles
+	 */
 	const totalFixedCosts = totalFixedCostPerYear * numYearsWillOwn;
 
 	const averagefuelCostPerMile = calcAvgFuelCostPerMileDollars(vehicle);
