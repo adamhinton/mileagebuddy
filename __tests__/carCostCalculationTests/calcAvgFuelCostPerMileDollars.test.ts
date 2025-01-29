@@ -47,6 +47,12 @@ const dummyElectricVehicle = {
 	electricVehicleData: dummyElectricVehicleData,
 };
 
+describe("Sanity check", () => {
+	it("[1] Reality is still real. If this fails you have bigger problems than this test", () => {
+		expect(1).toBe(1);
+	});
+});
+
 describe("calcAvgFuelCostPerMile", () => {
 	it("[1] Runs without errors with a gas vehicle", () => {
 		calcAvgFuelCostPerMileDollars(dummyGasVehicle as unknown as Vehicle);
@@ -111,5 +117,19 @@ describe("calcAvgFuelCostPerMile", () => {
 		);
 
 		expect(result).toBe(0.117);
+	});
+
+	it.only("[8] Returns the correct value for an electric vehicle with 100% city driving", () => {
+		const dummyElectricVehicle100City = {
+			type: "electric",
+			usage: { percentHighway: 0, percentCity: 100 } as unknown as Usage,
+			electricVehicleData: dummyElectricVehicleData,
+		};
+
+		const result = calcAvgFuelCostPerMileDollars(
+			dummyElectricVehicle100City as unknown as Vehicle
+		);
+
+		expect(result).toBe(0.029);
 	});
 });
