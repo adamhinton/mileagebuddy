@@ -39,6 +39,14 @@ export type CarCostCalculationResults = {
 };
 
 export const calculateCarCostMain = (vehicle: Vehicle) => {
+	const totalCostPerAverageMileInDollars = 0;
+	// NOTE all costs are in dollars (never cents)
+	// Will add to this:
+	// Fuel cost per mile
+	// Fixed cost per mile
+	// Maintenance cost per mile
+	// Depreciation cost per mile
+
 	const totalUsageMilesBeforeSale =
 		vehicle.purchaseAndSales.willSellCarAtMiles -
 		vehicle.purchaseAndSales.milesBoughtAt;
@@ -65,5 +73,8 @@ export const calculateCarCostMain = (vehicle: Vehicle) => {
 	const totalFixedCosts = totalFixedCostPerYear * numYearsWillOwn;
 
 	const averagefuelCostPerMile = calcAvgFuelCostPerMileDollars(vehicle);
+
+	const milesDrivenPerYear =
+		vehicle.usage.averageDailyMiles * vehicle.usage.weeksPerYear;
 };
 export { calculateFixedCostPerYear };

@@ -20,6 +20,15 @@ const fakeFixedCosts: FixedCosts = {
 	otherYearlyCosts: 100,
 };
 
+describe("Sanity check", () => {
+	// If this fails, turn off the computer and go hug your family before spacetime inevitably rips itself apart under the strain
+	it("[1] Reality is still real", () => {
+		const twoPlusTwo = 4;
+
+		expect(twoPlusTwo).toBe(4);
+	});
+});
+
 describe("calculateFixedCostPerYear", () => {
 	it("Runs without errors", () => {
 		calculateFixedCostPerYear({
