@@ -39,12 +39,21 @@ export type CarCostCalculationResults = {
 
 export const calculateCarCostMain = (vehicle: Vehicle) => {
 	const totalCostPerAverageMileInDollars = 0;
-	// NOTE all costs are in dollars (never cents)
-	// Will add to this:
-	// Fuel cost per mile
-	// Fixed cost per mile
-	// Maintenance cost per mile
-	// Depreciation cost per mile
+
+	// Add up total years and miles will own car
+	// Add:
+	// Total fuel costs during that time (calcAvgFuelCostPerMileDollars)
+	// Total purchase amount (calculatePurchasePriceMinusSalesPrice)
+	// Total fixed costs for that time (calculateFixedCostPerYear)
+	// Total variable costs for that time (calculateVariableCostPerYear) (TODO)
+	// Total maintenance costs for that time (calculateMaintenanceCostPerYear) (TODO)
+	// Divide it by total number of miles driven during that time
+
+	// TODO: Calculate any additional miles:
+	// Recalculate total years and miles will own car; maybe don't do this if it's a small number like <100 or something
+	// Subtract any costs for lessened period of owning car (lower loan amounts, lower parking etc)
+	// Add increased variable costs; scale up maintenance one to one, add fuel costs
+	// Just assume variableCosts scale up 1:1 with miles driven
 
 	const totalUsageMilesBeforeSale =
 		vehicle.purchaseAndSales.willSellCarAtMiles -
@@ -77,3 +86,5 @@ export const calculateCarCostMain = (vehicle: Vehicle) => {
 		vehicle.usage.averageDailyMiles * vehicle.usage.weeksPerYear;
 };
 export { calculateFixedCostPerYear };
+
+export const calculateVarialbeCostPerYear = (vehicle: Vehicle) => {};
