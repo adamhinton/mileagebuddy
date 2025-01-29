@@ -145,7 +145,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 	});
 });
 
-describe.only("calculateVariableCostPerYear", () => {
+describe("calculateVariableCostPerYear", () => {
 	/** Only including needed fields */
 	const dummyVehicle = {
 		variableCosts: {
