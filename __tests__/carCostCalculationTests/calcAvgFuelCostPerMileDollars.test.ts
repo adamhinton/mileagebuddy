@@ -148,4 +148,16 @@ describe("calcAvgFuelCostPerMile", () => {
 
 		expect(result).toBe(0.029);
 	});
+
+	// This should never happen because zod will prevent it, but doesn't hurt to check
+	it("[10] Throws or handles invalid usage (e.g. < 0 or > 100)", () => {
+		const invalidUsageVehicle = {
+			type: "gas",
+			usage: { percentHighway: 120, percentCity: -20 } as unknown as Usage,
+			gasVehicleData: dummyGasVehicleData,
+		};
+		expect(() =>
+			calcAvgFuelCostPerMileDollars(invalidUsageVehicle as Vehicle)
+		).toThrow();
+	});
 });
