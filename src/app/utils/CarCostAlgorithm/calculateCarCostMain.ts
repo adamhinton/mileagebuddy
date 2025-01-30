@@ -4,6 +4,7 @@ import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 import { calcAvgFuelCostPerMileDollars } from "./calcAvgFuelCostPerMileDollars";
 import { calculateFixedCostPerYear } from "./calculateFixedCostPerYear";
 import {
+	calculateCostPerAddtlMileDollars,
 	calculateMaintenanceCostPerYear,
 	calculatePurchasePriceMinusSalesPrice,
 	calculateVariableCostPerYear,
@@ -115,6 +116,18 @@ export const calculateCarCostMain = async (vehicle: Vehicle) => {
 		maintenanceCostPerMile;
 
 	totalCostPerAverageMileInDollars += total;
+
+	/** The cost of every additional mile that the user drives beyond the typical average they've already inputted
+	 *
+	 * See definition of calculateCostPerAddtlMileDollars for more info
+	 */
+	const costPerAddtlMileDollars = await calculateCostPerAddtlMileDollars(
+		averagefuelCostPerMileDollars,
+		maintenanceCostPerMile,
+		netLossProfitPerMile
+	);
+
+	console.log("costPerAddtlMile:", costPerAddtlMileDollars);
 
 	console.log(
 		"totalCostPerAverageMileInDollars:",

@@ -103,3 +103,29 @@ export const calculateMaintenanceCostPerYear = async (vehicle: Vehicle) => {
 
 	return totalMaintenanceCostsYearly;
 };
+
+/** Only async because server actions must be async
+ *
+ * This is the cost of every additional mile that the user drives beyond the typical average they've already inputted
+ *
+ * So, any extra mile driven beyond the normal costs this amount
+ *
+ * This number will be less because it doesn't include variableCosts or fixedCosts - it doesn't cost you any more in insurance or taxes or registration to drive the extra miles
+ *
+ * Also assumes no extra variableCosts such as parking etc.
+ *
+ * It assumes the maintenanceCosts scale linearly which may not be true but it's too complicated to do anything else
+ */
+export const calculateCostPerAddtlMileDollars = async (
+	averagefuelCostPerMileDollars: number,
+	maintenanceCostPerMile: number,
+	netLossProfitPerMile: number
+) => {
+	const total =
+		averagefuelCostPerMileDollars +
+		maintenanceCostPerMile +
+		netLossProfitPerMile;
+
+	// round total to three decimal points
+	return Math.round(total * 1000) / 1000;
+};
