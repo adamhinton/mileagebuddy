@@ -23,7 +23,8 @@ export const calculateFixedCostPerYear = async (vehicle: Vehicle) => {
 		yearlyInsuranceCost,
 		yearlyRegistrationCost,
 		yearlyTaxes,
-		yearlyParkingCost,
+		// Deprecated, there's a todo item to delete this since it's duplicated elsewhere
+		// yearlyParkingCost,
 		monthlyLoanPayment,
 		monthlyWarrantyCost,
 		inspectionCost,
@@ -33,7 +34,8 @@ export const calculateFixedCostPerYear = async (vehicle: Vehicle) => {
 	totalfixedCostPerYear += yearlyInsuranceCost ?? 0;
 	totalfixedCostPerYear += yearlyRegistrationCost ?? 0;
 	totalfixedCostPerYear += yearlyTaxes ?? 0;
-	totalfixedCostPerYear += yearlyParkingCost ?? 0;
+	// yearlyParkingCost is deprecated
+	// totalfixedCostPerYear += yearlyParkingCost ?? 0;
 	totalfixedCostPerYear += monthlyLoanPayment ? 12 * monthlyLoanPayment : 0;
 	totalfixedCostPerYear += monthlyWarrantyCost ? 12 * monthlyWarrantyCost : 0;
 	totalfixedCostPerYear += inspectionCost ?? 0;
