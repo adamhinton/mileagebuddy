@@ -1,5 +1,13 @@
 "use server";
 
+// README
+// This helper function calculates the average fuel cost per mile for a vehicle
+// This is informed by Vehicle.usage, aka the Usage type/schema
+// Takes in to account the average percent of city and highway driving
+// Returns the cost per mile in dollars, rounded to three decimal places
+// This is one of the factors added up to calculate the true cost per mile of driving a vehicle.
+// See calculateCarCostMain.ts to see how this is used in the overall calculation
+
 import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 
 /**

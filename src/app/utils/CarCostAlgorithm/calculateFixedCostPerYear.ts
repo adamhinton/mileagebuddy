@@ -1,5 +1,10 @@
 "use server";
 
+// README
+// This helper function calculates the yearly amount that the user spends on fixed/unchanging costs, like taxes, registration etc
+// Comes from Vehicle.fixedCosts, aka the FixedCosts type/schema
+// This is one of the items added together in calculateCarCostMain.ts to calculate the true cost per mile of driving a vehicle
+
 import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 
 /** This adds up all the costs that don't change and are predictable

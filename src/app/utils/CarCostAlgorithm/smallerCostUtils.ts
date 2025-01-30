@@ -3,6 +3,7 @@
 // README
 // This is for smaller functions that don't need their own file
 // Is tested in smallerCostUtils.test.ts
+// These are used in calculateCarCostMain.ts
 
 import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 
@@ -16,6 +17,8 @@ import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
  * Note: Not checking whether the sales price is higher than the purchase price because car could appreciate in value
  *
  * Only async because server actions must be async
+ *
+ * This is one of the items added together in claculateCarCostMain.ts to calculate the true cost per mile of driving a vehicle
  *
  */
 export const calculatePurchasePriceMinusSalesPrice = async (
@@ -47,6 +50,8 @@ export const calculatePurchasePriceMinusSalesPrice = async (
 };
 
 /** Calculates yearly total cost of items from Vehicle.variableCosts
+ *
+ * This is one of the items added together in claculateCarCostMain.ts to calculate the true cost per mile of driving a vehicle
  *
  * Only async because server actions must be async
  */
