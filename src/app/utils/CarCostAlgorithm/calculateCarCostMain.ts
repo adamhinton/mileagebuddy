@@ -47,7 +47,7 @@ export const calculateCarCostMain = async (vehicle: Vehicle) => {
 	let totalCostPerAverageMileInDollars = 0;
 
 	const normalMilesPerYear =
-		vehicle.usage.averageDailyMiles * vehicle.usage.weeksPerYear;
+		vehicle.usage.averageDailyMiles * 7 * vehicle.usage.weeksPerYear;
 
 	const totalUsageMilesBeforeSale =
 		vehicle.purchaseAndSales.willSellCarAtMiles -
