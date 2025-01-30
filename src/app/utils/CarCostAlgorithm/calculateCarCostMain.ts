@@ -5,6 +5,7 @@ import { calcAvgFuelCostPerMileDollars } from "./calcAvgFuelCostPerMileDollars";
 import { calculateFixedCostPerYear } from "./calculateFixedCostPerYear";
 import {
 	calculateMaintenanceCostPerYear,
+	calculatePurchasePriceMinusSalesPrice,
 	calculateVariableCostPerYear,
 } from "./smallerCostUtils";
 
@@ -43,29 +44,16 @@ export type CarCostCalculationResults = {
 
 // Only async because server actions must be async
 export const calculateCarCostMain = async (vehicle: Vehicle) => {
-	const totalCostPerAverageMileInDollars = 0;
+	let totalCostPerAverageMileInDollars = 0;
 
-	// Add up total years and miles will own car
-	// Add:
-	// Total fuel costs during that time (calcAvgFuelCostPerMileDollars)
-	// Total purchase amount (calculatePurchasePriceMinusSalesPrice)
-	// Total fixed costs for that time (calculateFixedCostPerYear)
-	// Total variable costs for that time (calculateVariableCostPerYear)
-	// Total maintenance costs for that time (calculateMaintenanceCostPerYear) (TODO)
-	// Divide it by total number of miles driven during that time
-
-	// TODO: Calculate any additional miles:
-	// Recalculate total years and miles will own car; maybe don't do this if it's a small number like <100 or something
-	// Subtract any costs for lessened period of owning car (lower loan amounts, lower parking etc)
-	// Add increased variable costs; scale up maintenance one to one, add fuel costs
-	// Just assume variableCosts scale up 1:1 with miles driven
+	const normalMilesPerYear =
+		vehicle.usage.averageDailyMiles * vehicle.usage.weeksPerYear;
 
 	const totalUsageMilesBeforeSale =
 		vehicle.purchaseAndSales.willSellCarAtMiles -
 		vehicle.purchaseAndSales.milesBoughtAt;
 
-	const normalMilesPerYear =
-		vehicle.usage.averageDailyMiles * vehicle.usage.weeksPerYear;
+	console.log("totalUsageMilesBeforeSale:", totalUsageMilesBeforeSale);
 
 	/** The number of years user will own the car before selling it
 	 *
@@ -77,25 +65,65 @@ export const calculateCarCostMain = async (vehicle: Vehicle) => {
 	 */
 	const numYearsWillOwn = totalUsageMilesBeforeSale / normalMilesPerYear;
 
-	// Only using await because server actions must be async
-	const totalFixedCostPerYear = await calculateFixedCostPerYear(vehicle);
+	console.log("numYearsWillOwn:", numYearsWillOwn);
 
-	/** This will change as(if) the user adds additional extra miles
+	// Add up total years and miles will own car
+	// Add:
+	// Fuel costs per mile during that time (calcAvgFuelCostPerMileDollars)
+	// Total purchase amount (calculatePurchasePriceMinusSalesPrice)
+	// Total fixed costs for that time (calculateFixedCostPerYear)
+	// Total variable costs for that time (calculateVariableCostPerYear)
+	// Total maintenance costs for that time (calculateMaintenanceCostPerYear)
+	// Divide it by total number of miles driven during that time
+
+	const averagefuelCostPerMileDollars =
+		await calcAvgFuelCostPerMileDollars(vehicle);
+
+	console.log("averagefuelCostPerMileDollars:", averagefuelCostPerMileDollars);
+
+	/** This is, basically, purchase price minus sales price
 	 *
-	 * In that sense the additional extra miles save them money on this specific factor, bc they reduce the time the user will own the car before selling it at xx miles
+	 * Monthly loan payments are accounted for elsewhere
 	 */
-	const totalFixedCosts = totalFixedCostPerYear * numYearsWillOwn;
+	const netLossOnPurchaseAndSale =
+		await calculatePurchasePriceMinusSalesPrice(vehicle);
+	const netLossProfitPerMile =
+		netLossOnPurchaseAndSale / totalUsageMilesBeforeSale;
 
-	const averagefuelCostPerMile = calcAvgFuelCostPerMileDollars(vehicle);
+	console.log("netLossProfitPerMile:", netLossProfitPerMile);
 
-	const milesDrivenPerYear =
-		vehicle.usage.averageDailyMiles * vehicle.usage.weeksPerYear;
+	const fixedCostsPerMile =
+		(await calculateFixedCostPerYear(vehicle)) / normalMilesPerYear;
 
-	// Only using await because server actions must be async
-	const variableCostPerYear = await calculateVariableCostPerYear(vehicle);
+	console.log("fixedCostsPerMile:", fixedCostsPerMile);
 
-	const variableCostPerMile = variableCostPerYear / milesDrivenPerYear;
-	const maintenanceCostPerYear = await calculateMaintenanceCostPerYear(vehicle);
+	const variableCostsPerMile =
+		(await calculateVariableCostPerYear(vehicle)) / normalMilesPerYear;
 
-	const maintenanceCostPerMile = maintenanceCostPerYear / milesDrivenPerYear;
+	console.log("variableCostsPerMile:", variableCostsPerMile);
+
+	const maintenanceCostPerMile =
+		(await calculateMaintenanceCostPerYear(vehicle)) / normalMilesPerYear;
+
+	console.log("maintenanceCostPerMile:", maintenanceCostPerMile);
+
+	const total =
+		averagefuelCostPerMileDollars +
+		netLossProfitPerMile +
+		fixedCostsPerMile +
+		variableCostsPerMile +
+		maintenanceCostPerMile;
+
+	totalCostPerAverageMileInDollars += total;
+
+	console.log(
+		"totalCostPerAverageMileInDollars:",
+		totalCostPerAverageMileInDollars
+	);
+
+	// TODO: Calculate any additional miles:
+	// Recalculate total years and miles will own car; maybe don't do this if it's a small number like <100 or something
+	// Subtract any costs for lessened period of owning car (lower loan amounts, lower parking etc)
+	// Add increased variable costs; scale up maintenance one to one, add fuel costs
+	// Just assume variableCosts scale up 1:1 with miles driven
 };
