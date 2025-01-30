@@ -6,6 +6,7 @@
 // TODO: Separate each function in to its own test file?
 
 import {
+	calculateCostPerAddtlMileDollars,
 	calculateMaintenanceCostPerYear,
 	calculatePurchasePriceMinusSalesPrice,
 	calculateVariableCostPerYear,
@@ -403,5 +404,51 @@ describe("calculateMaintenanceCostPerYear", () => {
 				dummyVehicleHuge as unknown as Vehicle
 			)
 		).toBe(651_000);
+	});
+});
+
+describe("calculateCostPerAddtlMileDollars", () => {
+	const averagefuelCostPerMileDollars = 0.1;
+	const maintenanceCostPerMile = 0.2;
+	const netLossProfitPerMile = 0.3;
+
+	it("Runs without errors", async () => {
+		expect(
+			async () =>
+				await calculateCostPerAddtlMileDollars(
+					averagefuelCostPerMileDollars,
+					maintenanceCostPerMile,
+					netLossProfitPerMile
+				)
+		).not.toThrow();
+	});
+
+	it("Returns correct value", async () => {
+		expect(
+			await calculateCostPerAddtlMileDollars(
+				averagefuelCostPerMileDollars,
+				maintenanceCostPerMile,
+				netLossProfitPerMile
+			)
+		).toBe(0.6);
+	});
+
+	// This shouldn't actually happen
+	it("Handles large amounts", async () => {
+		const averagefuelCostPerMileDollarsHuge = 10_000;
+		const maintenanceCostPerMileHuge = 20_000;
+		const netLossProfitPerMileHuge = 30_000;
+
+		expect(
+			await calculateCostPerAddtlMileDollars(
+				averagefuelCostPerMileDollarsHuge,
+				maintenanceCostPerMileHuge,
+				netLossProfitPerMileHuge
+			)
+		).toBe(60_000);
+	});
+
+	it("Handles zero values", async () => {
+		expect(await calculateCostPerAddtlMileDollars(0, 0, 0)).toBe(0);
 	});
 });
