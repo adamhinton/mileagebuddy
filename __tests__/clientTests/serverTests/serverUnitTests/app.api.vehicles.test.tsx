@@ -727,12 +727,6 @@ describe("DELETE /api/vehicles", () => {
 	});
 });
 
-// PATCH testing plan:
-// Mock isVehicleExistsInDB
-// Body should be Partial<Vehicle>
-// Mock supabase.rpc(update_vehicle), return empty array or error
-// Mock getSingleVehicleById to include the updated data
-// IMPORTANT: Most of that is happy path stuff, adjust accordingly for other paths
 describe("PATCH api/vehicles", () => {
 	beforeEach(() => {});
 
