@@ -13,7 +13,7 @@ const fakeFixedCosts: FixedCosts = {
 	yearlyInsuranceCost: 1000,
 	yearlyRegistrationCost: 100,
 	yearlyTaxes: 500,
-	yearlyParkingCost: 200,
+	yearlyParkingCost: null,
 	monthlyLoanPayment: 200,
 	monthlyWarrantyCost: 20,
 	inspectionCost: 50,
@@ -41,7 +41,7 @@ describe("calculateFixedCostPerYear", () => {
 			fixedCosts: fakeFixedCosts,
 		} as unknown as Vehicle);
 
-		expect(result).toBe(4590);
+		expect(result).toBe(4390);
 	});
 
 	it("[2] Allows zero values", async () => {
@@ -74,7 +74,7 @@ describe("calculateFixedCostPerYear", () => {
 			fixedCosts: fakeFixedCostsWithNullValues,
 		} as unknown as Vehicle);
 
-		expect(result).toBe(3490);
+		expect(result).toBe(3290);
 	});
 
 	it("[5] Returns 0 for all null values", async () => {
