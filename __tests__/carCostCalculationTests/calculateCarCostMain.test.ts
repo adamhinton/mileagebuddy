@@ -1,3 +1,9 @@
+// README
+// This is (obviously) associated with calculateCarCostMain.ts
+// It's a family of functions that work together to return one result, so the bulk of the testing for this is done elsewhere - see CarCostCalculationTests folder
+// Those tests check weird edge cases, big numbers, small numbers, null values etc
+// So extensive testing here would be redundant. This file just makes sure it runs without errors and returns expected results.
+
 import { calculateCarCostMain } from "@/app/utils/CarCostAlgorithm/calculateCarCostMain";
 
 const completeMockVehicle = {
@@ -81,5 +87,13 @@ describe("Sanity check for car cost calculation tests", () => {
 describe("calculateCarCostMain", () => {
 	it("[1] Runs without errors", () => {
 		calculateCarCostMain(completeMockVehicle);
+	});
+
+	it("[2] Returns correct value", async () => {
+		const result = await calculateCarCostMain(completeMockVehicle);
+
+		expect(result.costPerMile).toBe(0.491);
+
+		expect(result.costPerExtraMile).toBeCloseTo(0.292);
 	});
 });

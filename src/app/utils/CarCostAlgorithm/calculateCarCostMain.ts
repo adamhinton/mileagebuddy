@@ -98,6 +98,8 @@ export const calculateCarCostMain = async (
 		maintenanceCostPerMile;
 
 	totalCostPerAverageMileInDollars += total;
+	totalCostPerAverageMileInDollars =
+		Math.round(totalCostPerAverageMileInDollars * 1000) / 1000;
 
 	/** The cost of every additional mile that the user drives beyond the typical average they've already inputted
 	 *
