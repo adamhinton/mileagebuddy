@@ -40,6 +40,7 @@ export type CarCostCalculationResults = {
 };
 
 // Only async because server actions must be async
+// TODO: Move some of this logic to helper function? Just to keep main function pretty and readable
 export const calculateCarCostMain = async (
 	vehicle: Vehicle
 ): Promise<CarCostCalculationResults> => {
