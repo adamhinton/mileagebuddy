@@ -6,7 +6,10 @@
 // These are used in calculateCarCostMain.ts
 
 import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
-import { PurchaseAndSales } from "../server/types/VehicleTypes/VehicleSubSchemas";
+import {
+	PurchaseAndSales,
+	VariableCosts,
+} from "../server/types/VehicleTypes/VehicleSubSchemas";
 
 /**
  * NOTE: Loan payments are accounted for elsewhere
@@ -56,7 +59,9 @@ export const calculatePurchasePriceMinusSalesPrice = async (
  *
  * Only async because server actions must be async
  */
-export const calculateVariableCostPerYear = async (vehicle: Vehicle) => {
+export const calculateVariableCostPerYear = async (
+	variableCosts: VariableCosts
+) => {
 	const {
 		monthlyParkingCosts,
 		monthlyTolls,
@@ -64,7 +69,7 @@ export const calculateVariableCostPerYear = async (vehicle: Vehicle) => {
 		monthlyMiscellaneousCosts,
 		/** This will be a POSITIVE number that you SUBTRACT from the total */
 		monthlyCostDeductions,
-	} = vehicle.variableCosts;
+	} = variableCosts;
 
 	// Zod should prevent this
 	if (monthlyCostDeductions !== null && monthlyCostDeductions < 0) {
