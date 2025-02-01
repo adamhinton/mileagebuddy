@@ -5,10 +5,10 @@
 // Is tested in smallerCostUtils.test.ts
 // These are used in calculateCarCostMain.ts
 
-import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 import {
 	PurchaseAndSales,
 	VariableCosts,
+	YearlyMaintenanceCosts,
 } from "../server/types/VehicleTypes/VehicleSubSchemas";
 
 /**
@@ -93,11 +93,13 @@ export const calculateVariableCostPerYear = async (
 };
 
 /**Only async because server actions must be async */
-export const calculateMaintenanceCostPerYear = async (vehicle: Vehicle) => {
+export const calculateMaintenanceCostPerYear = async (
+	yearlyMaintenanceCosts: YearlyMaintenanceCosts
+) => {
 	// yearlyMaintenanceCosts.depreciation is deprecated because that's accounted for by the difference between sales price and purchase price in vehicle.purchaseAndSales
 	// There's a TODO item to delete `depreciation` from the schema
 	const { oilChanges, tires, batteries, brakes, other } =
-		vehicle.yearlyMaintenanceCosts;
+		yearlyMaintenanceCosts;
 
 	// Add these up accounting for null values
 	const totalMaintenanceCostsYearly =

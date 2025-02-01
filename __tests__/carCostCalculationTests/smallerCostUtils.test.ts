@@ -11,7 +11,6 @@ import {
 	calculatePurchasePriceMinusSalesPrice,
 	calculateVariableCostPerYear,
 } from "@/app/utils/CarCostAlgorithm/smallerCostUtils";
-import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import {
 	PurchaseAndSales,
 	VariableCosts,
@@ -252,112 +251,96 @@ describe("calculateVariableCostPerYear", () => {
 
 describe("calculateMaintenanceCostPerYear", () => {
 	// Only including needed fields
-	const dummyData: {
-		yearlyMaintenanceCosts: YearlyMaintenanceCosts;
-	} = {
-		yearlyMaintenanceCosts: {
-			vehicleID: 1,
-			oilChanges: 100,
-			tires: 200,
-			batteries: 50,
-			brakes: 300,
-			other: 100,
-			// DEPRECATED because it's accounted for elsewhere, there's a TODO to delete this
-			depreciation: null,
-		},
+	const dummyYearlyMaintenanceCosts: YearlyMaintenanceCosts = {
+		vehicleID: 1,
+		oilChanges: 100,
+		tires: 200,
+		batteries: 50,
+		brakes: 300,
+		other: 100,
+		// DEPRECATED because it's accounted for elsewhere, there's a TODO to delete this
+		depreciation: null,
 	};
 
 	it("Runs without errors", async () => {
 		expect(
 			async () =>
-				await calculateMaintenanceCostPerYear(dummyData as unknown as Vehicle)
+				await calculateMaintenanceCostPerYear(dummyYearlyMaintenanceCosts)
 		).not.toThrow();
 	});
 
 	it("Returns correct value", async () => {
 		expect(
-			await calculateMaintenanceCostPerYear(dummyData as unknown as Vehicle)
+			await calculateMaintenanceCostPerYear(dummyYearlyMaintenanceCosts)
 		).toBe(750);
 	});
 
 	it("Can handle null values", async () => {
-		const dummyData2: {
-			yearlyMaintenanceCosts: YearlyMaintenanceCosts;
-		} = {
-			yearlyMaintenanceCosts: {
-				oilChanges: null,
-				tires: null,
-				batteries: null,
-				brakes: null,
-				other: null,
-				// Deprecated
-				depreciation: null,
-			},
-		} as unknown as Vehicle;
+		const dummyYearlyMaintenanceCosts2: YearlyMaintenanceCosts = {
+			vehicleID: 1,
+			oilChanges: null,
+			tires: null,
+			batteries: null,
+			brakes: null,
+			other: null,
+			// Deprecated
+			depreciation: null,
+		};
 
 		expect(
-			await calculateMaintenanceCostPerYear(dummyData2 as unknown as Vehicle)
+			await calculateMaintenanceCostPerYear(dummyYearlyMaintenanceCosts2)
 		).toBe(0);
 	});
 
 	it("Can handle zero values", async () => {
-		const dummyData3: {
-			yearlyMaintenanceCosts: YearlyMaintenanceCosts;
-		} = {
-			yearlyMaintenanceCosts: {
-				oilChanges: 0,
-				tires: 0,
-				batteries: 0,
-				brakes: 0,
-				other: 0,
-				// Deprecated
-				depreciation: null,
-			},
-		} as unknown as Vehicle;
+		const dummyYearlyMaintenanceCosts3: YearlyMaintenanceCosts = {
+			vehicleID: 1,
+			oilChanges: 0,
+			tires: 0,
+			batteries: 0,
+			brakes: 0,
+			other: 0,
+			// Deprecated
+			depreciation: null,
+		};
 
 		expect(
-			await calculateMaintenanceCostPerYear(dummyData3 as unknown as Vehicle)
+			await calculateMaintenanceCostPerYear(dummyYearlyMaintenanceCosts3)
 		).toBe(0);
 	});
 
 	it("Handles a mix of zero, null and positive values", async () => {
-		const dummyData4: {
-			yearlyMaintenanceCosts: YearlyMaintenanceCosts;
-		} = {
-			yearlyMaintenanceCosts: {
-				oilChanges: 0,
-				tires: null,
-				batteries: 50,
-				brakes: 0,
-				other: 100,
-				// Deprecated
-				depreciation: null,
-			},
-		} as unknown as Vehicle;
+		const dummyYearlyMaintenanceCosts4: YearlyMaintenanceCosts = {
+			vehicleID: 1,
+			oilChanges: 0,
+			tires: null,
+			batteries: 50,
+			brakes: 0,
+			other: 100,
+			// Deprecated
+			depreciation: null,
+		};
 
 		expect(
-			await calculateMaintenanceCostPerYear(dummyData4 as unknown as Vehicle)
+			await calculateMaintenanceCostPerYear(dummyYearlyMaintenanceCosts4)
 		).toBe(150);
 	});
 
 	it("Handles large amounts", async () => {
-		const dummyDataHuge: {
-			yearlyMaintenanceCosts: YearlyMaintenanceCosts;
-		} = {
+		const dummyYearlyMaintenanceCostsHuge: YearlyMaintenanceCosts = {
+			vehicleID: 1,
 			// These are the max values zod permits for these fields
-			yearlyMaintenanceCosts: {
-				oilChanges: 1_000,
-				tires: 50_000,
-				batteries: 50_000,
-				brakes: 50_000,
-				other: 500_000,
-				// Deprecated
-				depreciation: null,
-			},
-		} as unknown as Vehicle;
+			oilChanges: 1_000,
+			tires: 50_000,
+			batteries: 50_000,
+			brakes: 50_000,
+			other: 500_000,
+			// Deprecated
+			depreciation: null,
+		};
 
 		expect(
-			await calculateMaintenanceCostPerYear(dummyDataHuge as unknown as Vehicle)
+			await calculateMaintenanceCostPerYear(dummyYearlyMaintenanceCostsHuge)
 		).toBe(651_000);
 	});
 });

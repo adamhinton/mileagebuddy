@@ -105,7 +105,8 @@ export const calculateCarCostMain = async (vehicle: Vehicle) => {
 	console.log("variableCostsPerMile:", variableCostsPerMile);
 
 	const maintenanceCostPerMile =
-		(await calculateMaintenanceCostPerYear(vehicle)) / normalMilesPerYear;
+		(await calculateMaintenanceCostPerYear(vehicle.yearlyMaintenanceCosts)) /
+		normalMilesPerYear;
 
 	console.log("maintenanceCostPerMile:", maintenanceCostPerMile);
 
