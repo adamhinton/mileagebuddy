@@ -14,6 +14,8 @@ import {
 /**
  * NOTE: Loan payments are accounted for elsewhere
  *
+ * Takes in Vehicle.purchaseAndSales instead of full Vehicle
+ *
  * Can return a negative number if car appreciates in value
  *
  * So this basically subtracts the sales price from the purchase price
@@ -55,6 +57,8 @@ export const calculatePurchasePriceMinusSalesPrice = async (
 
 /** Calculates yearly total cost of items from Vehicle.variableCosts
  *
+ * Takes in Vehicle.variableCosts instead of full Vehicle
+ *
  * This is one of the items added together in claculateCarCostMain.ts to calculate the true cost per mile of driving a vehicle
  *
  * Only async because server actions must be async
@@ -92,7 +96,10 @@ export const calculateVariableCostPerYear = async (
 	return totalVariableCosts;
 };
 
-/**Only async because server actions must be async */
+/**Only async because server actions must be async
+ *
+ * takes in Vehicle.yearlyMaintenanceCosts instead of full Vehicle
+ */
 export const calculateMaintenanceCostPerYear = async (
 	yearlyMaintenanceCosts: YearlyMaintenanceCosts
 ) => {
