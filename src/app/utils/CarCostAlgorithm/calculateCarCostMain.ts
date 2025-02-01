@@ -15,6 +15,9 @@ import {
 // The primary function is exported from here
 // It takes in an object of type Vehicle and performs various calculations to estimate the true cost per mile driven
 // This is currently (1.28.25) a WIP and will develop as the project evolves.
+// In the returned object, costPerMile is the total cost per mile for the amount of yearly miles the user reports driving
+// Whereas costPerExtraMile is the cost per mile for any extra miles driven beyond the yearly amount they report
+// costPerExtraMile factors in 		averagefuelCostPerMileDollars, maintenanceCostPerMile and netLossProfitPerMile, but not fixedCostsPerMile or variableCostsPerMile
 
 // NOTES:
 // The miles they'll sell at is taken in to account more than how many years they say they'll keep it
