@@ -26,7 +26,7 @@ import {
 export type CarCostCalculationResults = {
 	// Breakdown of cost per mile? In gas, maintenance etc.
 	// That's a stretch goal maybe (TODO)
-	costPerMile: number;
+	costPerAverageDailyMile: number;
 	costPerExtraMile: number;
 	// Not sure this is needed
 	vehicle: Vehicle;
@@ -43,8 +43,6 @@ export type CarCostCalculationResults = {
 export const calculateCarCostMain = async (
 	vehicle: Vehicle
 ): Promise<CarCostCalculationResults> => {
-	let totalCostPerAverageMileInDollars = 0;
-
 	const normalMilesPerYear =
 		vehicle.usage.averageDailyMiles * 7 * vehicle.usage.weeksPerYear;
 
@@ -83,6 +81,8 @@ export const calculateCarCostMain = async (
 		variableCostsPerMile +
 		maintenanceCostPerMile;
 
+	let totalCostPerAverageMileInDollars = 0;
+
 	totalCostPerAverageMileInDollars += total;
 	// Round to three decimal places
 	totalCostPerAverageMileInDollars =
@@ -100,7 +100,7 @@ export const calculateCarCostMain = async (
 
 	const results: CarCostCalculationResults = {
 		/**Total cost per mile for the normal use reported by user */
-		costPerMile: totalCostPerAverageMileInDollars,
+		costPerAverageDailyMile: totalCostPerAverageMileInDollars,
 		/** Cost of any extra miles beyond typical reported use */
 		costPerExtraMile: costPerAddtlMileDollars,
 		/** THese factors are added together to make costPerMile */

@@ -92,7 +92,7 @@ describe("calculateCarCostMain", () => {
 	it("[2] Returns correct value", async () => {
 		const result = await calculateCarCostMain(completeMockVehicle);
 
-		expect(result.costPerMile).toBe(0.491);
+		expect(result.costPerAverageDailyMile).toBe(0.491);
 
 		expect(result.costPerExtraMile).toBeCloseTo(0.292);
 	});
@@ -107,6 +107,6 @@ describe("calculateCarCostMain", () => {
 			result.costPerMileBreakdown.averagefuelCostPerMileDollars +
 			result.costPerMileBreakdown.netLossProfitPerMile;
 
-		expect(result.costPerMile).toBeCloseTo(sumOfCostBreakdown);
+		expect(result.costPerAverageDailyMile).toBeCloseTo(sumOfCostBreakdown);
 	});
 });
