@@ -16,26 +16,13 @@ import {
 // It takes in an object of type Vehicle and performs various calculations to estimate the true cost per mile driven
 // This is currently (1.28.25) a WIP and will develop as the project evolves.
 
-// PLAN:
-// "use server" at the top of each file
-// Make CarCostResults type. With zod schema?
-// Validate passed-in Vehicle?
-// TEST EXTENSIVELY
-// Write sub-functions for each part of the calculation
-// TEST EXTENSIVELY
-// Write tests for each sub-function
-// TEST EXTENSIVELY
-// Did I mention TEST EXTENSIVELY?
-// Really, I'll regret it if I don't have thorough unit tests.
-// TEST EXTENSIVELY
-
 // NOTES:
 // The miles they'll sell at is taken in to account more than how many years they say they'll keep it
 // Need to make sure user understands that daily miles per day is on a seven day week, so if they commute five days a week it needs to account for that
 
 export type CarCostCalculationResults = {
 	// Breakdown of cost per mile? In gas, maintenance etc.
-	// That's a stretch goal maybe
+	// That's a stretch goal maybe (TODO)
 	costPerMile: number;
 	costPerExtraMile: number;
 	// Not sure this is needed
@@ -68,15 +55,6 @@ export const calculateCarCostMain = async (
 	const numYearsWillOwn = totalUsageMilesBeforeSale / normalMilesPerYear;
 
 	console.log("numYearsWillOwn:", numYearsWillOwn);
-
-	// Add up total years and miles will own car
-	// Add:
-	// Fuel costs per mile during that time (calcAvgFuelCostPerMileDollars)
-	// Total purchase amount (calculatePurchasePriceMinusSalesPrice)
-	// Total fixed costs for that time (calculateFixedCostPerYear)
-	// Total variable costs for that time (calculateVariableCostPerYear)
-	// Total maintenance costs for that time (calculateMaintenanceCostPerYear)
-	// Divide it by total number of miles driven during that time
 
 	const averagefuelCostPerMileDollars =
 		await calcAvgFuelCostPerMileDollars(vehicle);
@@ -145,10 +123,4 @@ export const calculateCarCostMain = async (
 	};
 
 	return results;
-
-	// TODO: Calculate any additional miles:
-	// Recalculate total years and miles will own car; maybe don't do this if it's a small number like <100 or something
-	// Subtract any costs for lessened period of owning car (lower loan amounts, lower parking etc)
-	// Add increased variable costs; scale up maintenance one to one, add fuel costs
-	// Just assume variableCosts scale up 1:1 with miles driven
 };
