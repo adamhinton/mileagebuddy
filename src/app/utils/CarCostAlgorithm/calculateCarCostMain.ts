@@ -27,6 +27,13 @@ export type CarCostCalculationResults = {
 	costPerExtraMile: number;
 	// Not sure this is needed
 	vehicle: Vehicle;
+	costPerMileBreakdown: {
+		averagefuelCostPerMileDollars: number;
+		netLossProfitPerMile: number;
+		fixedCostsPerMile: number;
+		variableCostsPerMile: number;
+		maintenanceCostPerMile: number;
+	};
 };
 
 // Only async because server actions must be async
@@ -121,6 +128,13 @@ export const calculateCarCostMain = async (
 	const results: CarCostCalculationResults = {
 		costPerMile: totalCostPerAverageMileInDollars,
 		costPerExtraMile: costPerAddtlMileDollars,
+		costPerMileBreakdown: {
+			averagefuelCostPerMileDollars,
+			netLossProfitPerMile,
+			fixedCostsPerMile,
+			variableCostsPerMile,
+			maintenanceCostPerMile,
+		},
 		vehicle,
 	};
 
