@@ -43,7 +43,9 @@ export type CarCostCalculationResults = {
 };
 
 // Only async because server actions must be async
-export const calculateCarCostMain = async (vehicle: Vehicle) => {
+export const calculateCarCostMain = async (
+	vehicle: Vehicle
+): Promise<CarCostCalculationResults> => {
 	let totalCostPerAverageMileInDollars = 0;
 
 	const normalMilesPerYear =
@@ -135,6 +137,14 @@ export const calculateCarCostMain = async (vehicle: Vehicle) => {
 		"totalCostPerAverageMileInDollars:",
 		totalCostPerAverageMileInDollars
 	);
+
+	const results: CarCostCalculationResults = {
+		costPerMile: totalCostPerAverageMileInDollars,
+		costPerExtraMile: costPerAddtlMileDollars,
+		vehicle,
+	};
+
+	return results;
 
 	// TODO: Calculate any additional miles:
 	// Recalculate total years and miles will own car; maybe don't do this if it's a small number like <100 or something
