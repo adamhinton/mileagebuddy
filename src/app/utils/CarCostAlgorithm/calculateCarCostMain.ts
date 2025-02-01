@@ -49,24 +49,8 @@ export const calculateCarCostMain = async (
 		vehicle.purchaseAndSales.willSellCarAtMiles -
 		vehicle.purchaseAndSales.milesBoughtAt;
 
-	console.log("totalUsageMilesBeforeSale:", totalUsageMilesBeforeSale);
-
-	/** The number of years user will own the car before selling it
-	 *
-	 * Not rounded at all. TODO: Round this?
-	 *
-	 * If they, say, own it for a fraction of a year at the end that will only minorly affect the cost per mile, since most significant costs are monthly
-	 *
-	 * So it may add or subtract an inspection cost or something but that's not worth extra complexity for $50 yearly
-	 */
-	const numYearsWillOwn = totalUsageMilesBeforeSale / normalMilesPerYear;
-
-	console.log("numYearsWillOwn:", numYearsWillOwn);
-
 	const averagefuelCostPerMileDollars =
 		await calcAvgFuelCostPerMileDollars(vehicle);
-
-	console.log("averagefuelCostPerMileDollars:", averagefuelCostPerMileDollars);
 
 	/** This is, basically, purchase price minus sales price
 	 *
@@ -78,24 +62,16 @@ export const calculateCarCostMain = async (
 	const netLossProfitPerMile =
 		netLossOnPurchaseAndSale / totalUsageMilesBeforeSale;
 
-	console.log("netLossProfitPerMile:", netLossProfitPerMile);
-
 	const fixedCostsPerMile =
 		(await calculateFixedCostPerYear(vehicle)) / normalMilesPerYear;
-
-	console.log("fixedCostsPerMile:", fixedCostsPerMile);
 
 	const variableCostsPerMile =
 		(await calculateVariableCostPerYear(vehicle.variableCosts)) /
 		normalMilesPerYear;
 
-	console.log("variableCostsPerMile:", variableCostsPerMile);
-
 	const maintenanceCostPerMile =
 		(await calculateMaintenanceCostPerYear(vehicle.yearlyMaintenanceCosts)) /
 		normalMilesPerYear;
-
-	console.log("maintenanceCostPerMile:", maintenanceCostPerMile);
 
 	const total =
 		averagefuelCostPerMileDollars +
@@ -105,6 +81,7 @@ export const calculateCarCostMain = async (
 		maintenanceCostPerMile;
 
 	totalCostPerAverageMileInDollars += total;
+	// Round to three decimal places
 	totalCostPerAverageMileInDollars =
 		Math.round(totalCostPerAverageMileInDollars * 1000) / 1000;
 
@@ -118,16 +95,12 @@ export const calculateCarCostMain = async (
 		netLossProfitPerMile
 	);
 
-	console.log("costPerAddtlMile:", costPerAddtlMileDollars);
-
-	console.log(
-		"totalCostPerAverageMileInDollars:",
-		totalCostPerAverageMileInDollars
-	);
-
 	const results: CarCostCalculationResults = {
+		/**Total cost per mile for the normal use reported by user */
 		costPerMile: totalCostPerAverageMileInDollars,
+		/** Cost of any extra miles beyond typical reported use */
 		costPerExtraMile: costPerAddtlMileDollars,
+		/** THese factors are added together to make costPerMile */
 		costPerMileBreakdown: {
 			averagefuelCostPerMileDollars,
 			netLossProfitPerMile,
