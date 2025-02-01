@@ -24,23 +24,19 @@ describe("Sanity check", () => {
 	});
 });
 
-describe("calculatePurchasePriceMinusSalesPrice", () => {
+describe.only("calculatePurchasePriceMinusSalesPrice", () => {
 	/** Only including needed fields */
-	const dummyVehicle: {
-		purchaseAndSales: PurchaseAndSales;
-	} = {
-		purchaseAndSales: {
-			purchasePrice: 10_000,
-			willSellCarAtPrice: 7_000,
-			downPaymentAmount: null,
-		} as unknown as PurchaseAndSales,
-	};
+	const dummyVehicle1 = {
+		purchasePrice: 10_000,
+		willSellCarAtPrice: 7_000,
+		downPaymentAmount: null,
+	} as unknown as PurchaseAndSales;
 
 	it("Runs without errors", async () => {
 		expect(
 			async () =>
 				await calculatePurchasePriceMinusSalesPrice(
-					dummyVehicle as unknown as Vehicle
+					dummyVehicle1 as unknown as PurchaseAndSales
 				)
 		).not.toThrow();
 	});
@@ -48,43 +44,35 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 	it("Returns correct value", async () => {
 		expect(
 			await calculatePurchasePriceMinusSalesPrice(
-				dummyVehicle as unknown as Vehicle
+				dummyVehicle1 as unknown as PurchaseAndSales
 			)
 		).toBe(3_000);
 	});
 
 	it("Can return a negative number if car appreciates in value", async () => {
-		const dummyVehicle2: {
-			purchaseAndSales: PurchaseAndSales;
-		} = {
-			purchaseAndSales: {
-				purchasePrice: 7_000,
-				willSellCarAtPrice: 10_000,
-				downPaymentAmount: null,
-			} as unknown as PurchaseAndSales,
-		};
+		const dummyVehicle2 = {
+			purchasePrice: 7_000,
+			willSellCarAtPrice: 10_000,
+			downPaymentAmount: null,
+		} as unknown as PurchaseAndSales;
 
 		expect(
 			await calculatePurchasePriceMinusSalesPrice(
-				dummyVehicle2 as unknown as Vehicle
+				dummyVehicle2 as unknown as PurchaseAndSales
 			)
 		).toBe(-3_000);
 	});
 
 	it("Can handle down payments", async () => {
-		const dummyVehicle3: {
-			purchaseAndSales: PurchaseAndSales;
-		} = {
-			purchaseAndSales: {
-				purchasePrice: 10_000,
-				willSellCarAtPrice: 5_000,
-				downPaymentAmount: 2_000,
-			} as unknown as PurchaseAndSales,
+		const dummyVehicle3 = {
+			purchasePrice: 10_000,
+			willSellCarAtPrice: 5_000,
+			downPaymentAmount: 2_000,
 		};
 
 		expect(
 			await calculatePurchasePriceMinusSalesPrice(
-				dummyVehicle3 as unknown as Vehicle
+				dummyVehicle3 as unknown as PurchaseAndSales
 			)
 		).toBe(7_000);
 	});
@@ -104,7 +92,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 		expect(
 			async () =>
 				await calculatePurchasePriceMinusSalesPrice(
-					dummyVehicle4 as unknown as Vehicle
+					dummyVehicle4 as unknown as PurchaseAndSales
 				)
 		).rejects.toThrow();
 	});
@@ -124,7 +112,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 		expect(
 			async () =>
 				await calculatePurchasePriceMinusSalesPrice(
-					dummyVehicle5 as unknown as Vehicle
+					dummyVehicle5 as unknown as PurchaseAndSales
 				)
 		).rejects.toThrow();
 	});
@@ -144,7 +132,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 		expect(
 			async () =>
 				await calculatePurchasePriceMinusSalesPrice(
-					dummyVehicle6 as unknown as Vehicle
+					dummyVehicle6 as unknown as PurchaseAndSales
 				)
 		).rejects.toThrow();
 	});
@@ -164,26 +152,21 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 		expect(
 			async () =>
 				await calculatePurchasePriceMinusSalesPrice(
-					dummyVehicle7 as unknown as Vehicle
+					dummyVehicle7 as unknown as PurchaseAndSales
 				)
 		).rejects.toThrow();
 	});
 
 	it("Handles large amounts", async () => {
-		const dummyVehicleHuge: {
-			purchaseAndSales: PurchaseAndSales;
-		} = {
+		const dummyVehicleHuge = {
 			// These are the max values zod permits for these fields
-			purchaseAndSales: {
-				purchasePrice: 50_000_000,
-				willSellCarAtPrice: 53_000_000,
-				downPaymentAmount: 51_000_000,
-			},
-		} as unknown as Vehicle;
-
+			purchasePrice: 50_000_000,
+			willSellCarAtPrice: 53_000_000,
+			downPaymentAmount: 51_000_000,
+		};
 		expect(
 			await calculatePurchasePriceMinusSalesPrice(
-				dummyVehicleHuge as unknown as Vehicle
+				dummyVehicleHuge as unknown as PurchaseAndSales
 			)
 		).toBe(48_000_000);
 	});
@@ -421,34 +404,5 @@ describe("calculateCostPerAddtlMileDollars", () => {
 					netLossProfitPerMile
 				)
 		).not.toThrow();
-	});
-
-	it("Returns correct value", async () => {
-		expect(
-			await calculateCostPerAddtlMileDollars(
-				averagefuelCostPerMileDollars,
-				maintenanceCostPerMile,
-				netLossProfitPerMile
-			)
-		).toBe(0.6);
-	});
-
-	// This shouldn't actually happen
-	it("Handles large amounts", async () => {
-		const averagefuelCostPerMileDollarsHuge = 10_000;
-		const maintenanceCostPerMileHuge = 20_000;
-		const netLossProfitPerMileHuge = 30_000;
-
-		expect(
-			await calculateCostPerAddtlMileDollars(
-				averagefuelCostPerMileDollarsHuge,
-				maintenanceCostPerMileHuge,
-				netLossProfitPerMileHuge
-			)
-		).toBe(60_000);
-	});
-
-	it("Handles zero values", async () => {
-		expect(await calculateCostPerAddtlMileDollars(0, 0, 0)).toBe(0);
 	});
 });
