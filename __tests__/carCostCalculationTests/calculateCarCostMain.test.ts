@@ -96,4 +96,17 @@ describe("calculateCarCostMain", () => {
 
 		expect(result.costPerExtraMile).toBeCloseTo(0.292);
 	});
+
+	it("[3] Sub values add up to total", async () => {
+		const result = await calculateCarCostMain(completeMockVehicle);
+
+		const sumOfCostBreakdown =
+			result.costPerMileBreakdown.fixedCostsPerMile +
+			result.costPerMileBreakdown.variableCostsPerMile +
+			result.costPerMileBreakdown.maintenanceCostPerMile +
+			result.costPerMileBreakdown.averagefuelCostPerMileDollars +
+			result.costPerMileBreakdown.netLossProfitPerMile;
+
+		expect(result.costPerMile).toBeCloseTo(sumOfCostBreakdown);
+	});
 });
