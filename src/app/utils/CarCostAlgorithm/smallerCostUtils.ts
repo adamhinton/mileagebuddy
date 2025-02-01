@@ -6,6 +6,7 @@
 // These are used in calculateCarCostMain.ts
 
 import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
+import { PurchaseAndSales } from "../server/types/VehicleTypes/VehicleSubSchemas";
 
 /**
  * NOTE: Loan payments are accounted for elsewhere
@@ -22,13 +23,13 @@ import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
  *
  */
 export const calculatePurchasePriceMinusSalesPrice = async (
-	vehicle: Vehicle
+	purchaseAndSales: PurchaseAndSales
 ) => {
 	// NOTE: Loan payments are accounted for elsewhere
 	// So this focuses only on purchase price
 
 	const { purchasePrice, downPaymentAmount, willSellCarAtPrice } =
-		vehicle.purchaseAndSales;
+		purchaseAndSales;
 
 	// This should never happen due to zod
 	if (
