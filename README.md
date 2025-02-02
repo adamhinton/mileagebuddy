@@ -64,6 +64,46 @@ FRONTEND FEATURES PLANNED:
 FRONTEND STRETCH:
 +Car cost estimator - if considering buying a car, what will it ACTUALLY cost you?
 
+<!-- Wrote this with nice formatting 2.1.25. Need to reformat the rest of this file too. -->
+
+# Car Cost Calculation Utility Overview
+
+This utility is designed to provide a comprehensive estimate of the true cost per mile of driving a vehicle. It combines multiple cost categories (both fixed and variable) to give users a ballpark figure that reflects the real-world expenses of car ownership.
+
+- **Purpose & Intention:**
+
+  - Calculate the actual cost per mile driven, factoring in both predictable (fixed) and changing (variable) expenditures.
+  - Offer an estimate for the cost of extra miles driven beyond the normal usage.
+  - Help users understand the underlying expense components when planning for vehicle ownership.
+
+- **Key Aspects:**
+
+  - **Depreciation:**
+    Essentially, this function subtracts the purchase price from the (estimated) eventual sales price to calculate the depreciation per mile.
+  - **Fuel Cost:**  
+    The utility calculates the average fuel (or electricity for electric vehicles) cost per mile based on driving habits and vehicle data using [`calcAvgFuelCostPerMileDollars`](src/app/utils/CarCostAlgorithm/calcAvgFuelCostPerMileDollars.ts).
+  - **Fixed Costs:**  
+    It aggregates costs that remain constant over time (e.g., insurance, registration, taxes, and loan payments) via [`calculateFixedCostPerYear`](src/app/utils/CarCostAlgorithm/calculateFixedCostPerYear.ts).
+  - **Variable Costs & Maintenance:**  
+    The costs that change or accumulate over time (like tolls, parking, and maintenance) are computed using helper functions in [`smallerCostUtils.ts`](src/app/utils/CarCostAlgorithm/smallerCostUtils.ts).
+
+- **Overall Calculation:**
+
+  - The main function, [`calculateCarCostMain`](src/app/utils/CarCostAlgorithm/calculateCarCostMain.ts), ties everything together:
+    - It determines the yearly mileage based on user input.
+    - It factors in depreciation (difference between purchase price and anticipated resale).
+    - It calculates both the total cost per mile and the cost for any extra miles driven.
+  - The final product includes the cost per average mile of daily use (costPerMile), as well as a costPerAddtlMile that estimates the cost of any miles driven beyond the user's typical use.
+    -CostPerAddtlMile only takes in to account maintenance cost, depreciation and fuel. It assumes that fixed costs such as insurance and variable costs such as tolls, parking etc aren't affected.
+
+- **Intended Use & User Benefit:**
+  - **Planning & Comparison:**  
+    Users can compare the cost-effectiveness of driving versus other modes of transportation.
+  - **Data-Driven Insights:**  
+    By dissecting vehicle expenses into clearly defined categories, users gain insights into where most of their money is going.
+  - **Long-Term Estimation:**  
+    The tool estimates cost over the lifespan of a vehicle, considering both habitual and additional driving needs.
+
 BACKEND:
 +DB: Supabase
 https://supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd/settings/api

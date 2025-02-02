@@ -108,7 +108,8 @@ describe("GET /api/vehicles", () => {
 				monthlyLoanPayment: 300.0,
 				monthlyWarrantyCost: 30.0,
 				inspectionCost: 100.0,
-				yearlyParkingCost: 100.0,
+				// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
+				yearlyParkingCost: null,
 				otherYearlyCosts: 300.0,
 			},
 			yearlyMaintenanceCosts: {
@@ -307,7 +308,8 @@ describe("POST /api/vehicles", () => {
 				monthlyLoanPayment: 300.0,
 				monthlyWarrantyCost: 30.0,
 				inspectionCost: 100.0,
-				yearlyParkingCost: 100.0,
+				// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
+				yearlyParkingCost: null,
 				otherYearlyCosts: 300.0,
 			},
 			yearlyMaintenanceCosts: {
@@ -597,7 +599,8 @@ describe("DELETE /api/vehicles", () => {
 			},
 			fixedCosts: {
 				vehicleID: 1,
-				yearlyParkingCost: 100.0,
+				// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
+				yearlyParkingCost: null,
 				yearlyInsuranceCost: 1000.0,
 				yearlyRegistrationCost: 100.0,
 				yearlyTaxes: 100.0,
@@ -724,12 +727,6 @@ describe("DELETE /api/vehicles", () => {
 	});
 });
 
-// PATCH testing plan:
-// Mock isVehicleExistsInDB
-// Body should be Partial<Vehicle>
-// Mock supabase.rpc(update_vehicle), return empty array or error
-// Mock getSingleVehicleById to include the updated data
-// IMPORTANT: Most of that is happy path stuff, adjust accordingly for other paths
 describe("PATCH api/vehicles", () => {
 	beforeEach(() => {});
 
@@ -780,7 +777,8 @@ describe("PATCH api/vehicles", () => {
 			monthlyWarrantyCost: 30.0,
 			inspectionCost: 100.0,
 			otherYearlyCosts: 300.0,
-			yearlyParkingCost: 100,
+			// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
+			yearlyParkingCost: null,
 		},
 		yearlyMaintenanceCosts: {
 			vehicleID: 1,

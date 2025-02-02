@@ -10,6 +10,7 @@ import {
 	insertVehicleClient,
 	updateVehicleInDBClient,
 } from "./utils/server/client/DBInteractions/VehiclesDBInteractions";
+import { calculateCarCostMain } from "./utils/CarCostAlgorithm/calculateCarCostMain";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
@@ -145,6 +146,84 @@ export default function Page() {
 				}}
 			>
 				PATCH vehicle
+			</button>
+
+			<button
+				onClick={() => {
+					const completeMockVehicle = {
+						type: "gas" as const,
+						userid: 1,
+						id: 1,
+						vehiclesOrder: 1,
+						vehicleData: {
+							vehicleID: 1,
+							vehicleName: "Tesla Model 3",
+							year: 2020,
+							make: "Tesla",
+							model: "Model 3",
+							trim: "Base",
+							highwayMPG: 35.5,
+						},
+						gasVehicleData: {
+							vehicleID: 1,
+							gasCostPerGallon: 3.5,
+							milesPerGallonHighway: 35.5,
+							milesPerGallonCity: 27.5,
+						},
+						purchaseAndSales: {
+							vehicleID: 1,
+							yearPurchased: 2020,
+							purchasePrice: 22_000.0,
+							downPaymentAmount: 0,
+							willSellCarAfterYears: 5,
+							milesBoughtAt: 10_000,
+							willSellCarAtMiles: 50_000,
+							willSellCarAtPrice: 14_500.0,
+						},
+						usage: {
+							vehicleID: 1,
+							averageDailyMiles: 25,
+							weeksPerYear: 52,
+							percentHighway: 40,
+							extraDistanceMiles: 0,
+							extraDistancePercentHighway: 0,
+						},
+						fixedCosts: {
+							vehicleID: 1,
+							yearlyInsuranceCost: 1_200.0,
+							yearlyRegistrationCost: 50.0,
+							yearlyTaxes: 100.0,
+							monthlyLoanPayment: 0.0,
+							monthlyWarrantyCost: 15.0,
+							inspectionCost: 100.0,
+							// TODO: delete yearlyParkigCost, it's duplicated in fixedCosts
+							yearlyParkingCost: 0.0,
+							otherYearlyCosts: 100.0,
+						},
+						yearlyMaintenanceCosts: {
+							vehicleID: 1,
+							oilChanges: 100.0,
+							tires: 200.0,
+							batteries: 30.0,
+							brakes: 100.0,
+							other: 100.0,
+							// Deprecated, there's a todo item to delete this
+							depreciation: 800.0,
+						},
+						variableCosts: {
+							vehicleID: 1,
+							monthlyParkingCosts: 30.0,
+							monthlyTolls: 20.0,
+							monthlyCarWashCost: 20.0,
+							monthlyMiscellaneousCosts: 10.0,
+							monthlyCostDeductions: 20.0,
+						},
+						electricVehicleData: null,
+					};
+					calculateCarCostMain(completeMockVehicle);
+				}}
+			>
+				Calculate car cost main
 			</button>
 
 			<button
