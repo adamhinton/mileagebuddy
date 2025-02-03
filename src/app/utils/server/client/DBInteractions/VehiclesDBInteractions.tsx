@@ -1,4 +1,4 @@
-"use server";
+"use client";
 
 // README:
 // This is the DB interactions meant to be called from the client
