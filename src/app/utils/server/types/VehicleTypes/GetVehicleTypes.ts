@@ -205,7 +205,8 @@ const bob: Vehicle = {
 		yearlyInsuranceCost: null,
 		yearlyRegistrationCost: null,
 		yearlyTaxes: null,
-		yearlyParkingCost: null,
+		// Deprecated, there's a TODO to delete this
+		yearlyParkingCost: undefined,
 		monthlyLoanPayment: null,
 		monthlyWarrantyCost: null,
 		inspectionCost: null,
