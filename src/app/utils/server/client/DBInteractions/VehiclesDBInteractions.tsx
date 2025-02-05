@@ -123,6 +123,17 @@ export const insertVehicleClient = async (
 		});
 		const newVehicle: Vehicle = await res.json();
 
+		// validate new vehicle received from db
+		const isNewVehicle = VehicleSchema.safeParse(newVehicle);
+
+		if (!isNewVehicle.success) {
+			console.error(
+				"New vehicle from POST failed validation.",
+				isNewVehicle.error.errors
+			);
+			throw new Error("Vehicle failed validation");
+		}
+
 		return newVehicle;
 	} catch (error) {
 		console.error("Error inserting vehicle:", error);
@@ -182,6 +193,16 @@ export const updateVehicleInDBClient = async (
 			body: JSON.stringify(vehicle),
 		});
 		const fullNewVehicle: Vehicle = await res.json();
+
+		// validate new vehicle received from db
+		const isNewVehicle = VehicleSchema.safeParse(fullNewVehicle);
+		if (!isNewVehicle.success) {
+			console.error(
+				"New vehicle from PATCH failed validation.",
+				isNewVehicle.error.errors
+			);
+			throw new Error("Vehicle failed validation");
+		}
 
 		return fullNewVehicle;
 	} catch (error) {
