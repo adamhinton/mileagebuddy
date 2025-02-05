@@ -11,7 +11,10 @@ import {
 	Vehicles,
 	VehicleSchema,
 } from "../../types/VehicleTypes/GetVehicleTypes";
-import { Vehicle_For_db_PATCH } from "../../types/VehicleTypes/PATCHVehicleTypes";
+import {
+	Vehicle_For_db_PATCH,
+	VehicleSchemaForPATCH,
+} from "../../types/VehicleTypes/PATCHVehicleTypes";
 import {
 	Vehicle_For_db_POST,
 	VehicleToBePostedSchema,
@@ -118,9 +121,9 @@ export const insertVehicleClient = async (
 			},
 			body: JSON.stringify(vehicle),
 		});
-		const data: Vehicle = await res.json();
+		const newVehicle: Vehicle = await res.json();
 
-		return data;
+		return newVehicle;
 	} catch (error) {
 		console.error("Error inserting vehicle:", error);
 		throw error;
@@ -140,9 +143,9 @@ export const deleteVehicleByIDClient = async (
 		const res = await fetch(`${baseUrl}/api/vehicles?vehicleid=${vehicleID}`, {
 			method: "DELETE",
 		});
-		const data: Vehicle = await res.json();
+		const deletedVehicle: Vehicle = await res.json();
 
-		return data;
+		return deletedVehicle;
 	} catch (error) {
 		console.error("Error deleting vehicle by ID:", error);
 		throw error;
@@ -159,6 +162,17 @@ export const deleteVehicleByIDClient = async (
 export const updateVehicleInDBClient = async (
 	vehicle: Vehicle_For_db_PATCH
 ): Promise<Vehicle> => {
+	// Validate vehicle (obviously)
+	// TODO: This PATCH client vehicle validation may be redundant because the form hook in the UI will already do this
+	const isVehicle = VehicleSchemaForPATCH.safeParse(vehicle);
+	if (!isVehicle.success) {
+		console.error(
+			"Vehicle for PATCH failed validation. ",
+			isVehicle.error.errors
+		);
+		throw new Error("Vehicle failed validation");
+	}
+
 	try {
 		const res = await fetch(`${baseUrl}/api/vehicles?vehicleid=${vehicle.id}`, {
 			method: "PATCH",
@@ -167,9 +181,9 @@ export const updateVehicleInDBClient = async (
 			},
 			body: JSON.stringify(vehicle),
 		});
-		const data: Vehicle = await res.json();
+		const fullNewVehicle: Vehicle = await res.json();
 
-		return data;
+		return fullNewVehicle;
 	} catch (error) {
 		console.error("Error updating vehicle:", error);
 		throw error;
