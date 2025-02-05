@@ -6,7 +6,11 @@
 // This code runs on the client; does not expose any sensitive information
 // TODO: Implement validation on client before sending to server
 
-import { Vehicle, Vehicles } from "../../types/VehicleTypes/GetVehicleTypes";
+import {
+	Vehicle,
+	Vehicles,
+	VehicleSchema,
+} from "../../types/VehicleTypes/GetVehicleTypes";
 import { Vehicle_For_db_PATCH } from "../../types/VehicleTypes/PATCHVehicleTypes";
 import { Vehicle_For_db_POST } from "../../types/VehicleTypes/POSTVehicleTypes";
 
@@ -28,6 +32,18 @@ export const getVehiclesByUserIDClient = async (
 			headers: { accept: "application/json" },
 		});
 		const data: Vehicles = await res.json();
+
+		data.forEach((vehicle) => {
+			const isVehicle = VehicleSchema.safeParse(vehicle);
+			// Only erroring in dev bc it's not the user's problem if the data is a little off.
+			if (!isVehicle.success && process.env.NODE_ENV === "development") {
+				console.error(
+					"Vehicle from GET failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
+					isVehicle.error.errors
+				);
+				throw new Error("Vehicle failed validation");
+			}
+		});
 
 		return data;
 	} catch (error) {
