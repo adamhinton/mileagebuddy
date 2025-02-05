@@ -17,16 +17,10 @@ const baseUrl = new URL(
 		? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
 		: "http://localhost:3000"
 ).href;
-console.log("baseUrl:", baseUrl);
-
-const API_BASE_URL = process.env.API_BASE_URL;
-
-console.log("API_BASE_URL:", API_BASE_URL);
 
 /** See api/vehicles/route.ts GET for the associated endpoint */
 export const getVehiclesByUserIDClient = async (
 	userID: string
-	// baseUrl: string
 ): Promise<Vehicles> => {
 	try {
 		console.log("blah blah blah");
@@ -52,7 +46,6 @@ export const getVehiclesByUserIDClient = async (
 export const getSingleVehicleByIDClient = async (
 	vehicleID: number,
 	userID: number
-	// baseUrl: string
 ): Promise<[Vehicle?]> => {
 	try {
 		const res = await fetch(
@@ -74,7 +67,6 @@ export const getSingleVehicleByIDClient = async (
 export const insertVehicleClient = async (
 	// Don't need to know userid because Vehicle_For_db_POST has user ID
 	vehicle: Vehicle_For_db_POST
-	// baseUrl: string
 ): Promise<Vehicle> => {
 	try {
 		const res = await fetch(`${baseUrl}/api/vehicles`, {
@@ -101,7 +93,6 @@ export const insertVehicleClient = async (
  */
 export const deleteVehicleByIDClient = async (
 	vehicleID: number
-	// baseUrl: string
 ): Promise<Vehicle> => {
 	try {
 		const res = await fetch(`${baseUrl}/api/vehicles?vehicleid=${vehicleID}`, {
@@ -125,7 +116,6 @@ export const deleteVehicleByIDClient = async (
  */
 export const updateVehicleInDBClient = async (
 	vehicle: Vehicle_For_db_PATCH
-	// baseUrl: string
 ): Promise<Vehicle> => {
 	try {
 		const res = await fetch(`${baseUrl}/api/vehicles?vehicleid=${vehicle.id}`, {
