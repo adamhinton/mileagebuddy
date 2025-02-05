@@ -23,14 +23,11 @@ export const getVehiclesByUserIDClient = async (
 	userID: string
 ): Promise<Vehicles> => {
 	try {
-		console.log("blah blah blah");
 		const res = await fetch(`${baseUrl}api/vehicles?userid=${userID}`, {
 			method: "GET",
 			headers: { accept: "application/json" },
 		});
-		console.log("res:", res);
 		const data: Vehicles = await res.json();
-		console.log("data:", data);
 
 		return data;
 	} catch (error) {
