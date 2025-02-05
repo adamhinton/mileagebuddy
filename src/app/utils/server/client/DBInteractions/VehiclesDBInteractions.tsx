@@ -31,9 +31,9 @@ export const getVehiclesByUserIDClient = async (
 			method: "GET",
 			headers: { accept: "application/json" },
 		});
-		const data: Vehicles = await res.json();
+		const vehicles: Vehicles = await res.json();
 
-		data.forEach((vehicle) => {
+		vehicles.forEach((vehicle) => {
 			const isVehicle = VehicleSchema.safeParse(vehicle);
 			// Only erroring in dev bc it's not the user's problem if the data is a little off.
 			if (!isVehicle.success && process.env.NODE_ENV === "development") {
@@ -45,7 +45,7 @@ export const getVehiclesByUserIDClient = async (
 			}
 		});
 
-		return data;
+		return vehicles;
 	} catch (error) {
 		console.error("Error fetching vehicles by user ID:", error);
 		throw error;
@@ -67,9 +67,22 @@ export const getSingleVehicleByIDClient = async (
 				method: "GET",
 			}
 		);
-		const data: [Vehicle?] = await res.json();
+		const arrayWithOneOr0Vehicle: [Vehicle?] = await res.json();
 
-		return data;
+		// If there's a vehicle, validate it
+		if (arrayWithOneOr0Vehicle[0]) {
+			const isVehicle = VehicleSchema.safeParse(arrayWithOneOr0Vehicle[0]);
+			// Only erroring in dev bc it's not the user's problem if the data is a little off.
+			if (!isVehicle.success && process.env.NODE_ENV === "development") {
+				console.error(
+					"Vehicle from GET failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
+					isVehicle.error.errors
+				);
+				throw new Error("Vehicle failed validation");
+			}
+		}
+
+		return arrayWithOneOr0Vehicle;
 	} catch (error) {
 		console.error("Error fetching single vehicle by ID:", error);
 		throw error;
