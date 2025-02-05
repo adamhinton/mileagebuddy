@@ -3,9 +3,8 @@
 // README:
 // This is the DB interactions meant to be called from the client
 // You call this from your CLIENT components and it hits the API endpoints for you
-// This code runs on the server so as not to expose our endpoints to the client
+// This code runs on the client; does not expose any sensitive information
 // TODO: Implement validation on client before sending to server
-// I pass in the site's url (AKA process.env.VERCEL_URL) because I had trouble getting this URL on the server; TODO: Figure out how to get site URL on the server
 
 import { Vehicle, Vehicles } from "../../types/VehicleTypes/GetVehicleTypes";
 import { Vehicle_For_db_PATCH } from "../../types/VehicleTypes/PATCHVehicleTypes";
