@@ -1,7 +1,7 @@
 "use client";
 
 // README:
-// This is the DB interactions meant to be called from the client
+// This is the Vehicle DB interactions meant to be called from the client
 // You call this from your CLIENT components and it hits the API endpoints for you
 // This code runs on the client; does not expose any sensitive information
 // Validation: Vehicles are validated here on the client, and also validated on the server before being sent to the db
