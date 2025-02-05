@@ -20,8 +20,6 @@ import {
 	VehicleToBePostedSchema,
 } from "../../types/VehicleTypes/POSTVehicleTypes";
 
-// TODO: Validate Vehicles on frontend
-
 const baseUrl = new URL(
 	process.env.NEXT_PUBLIC_VERCEL_URL
 		? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
@@ -97,7 +95,10 @@ export const getSingleVehicleByIDClient = async (
 	}
 };
 
-/** See api/vehicles/route.ts POST for associated endpoint */
+/** See api/vehicles/route.ts POST for associated endpoint
+ *
+ * Validates vehicle before sending to DB, and validates vehicle received from DB
+ */
 export const insertVehicleClient = async (
 	// Don't need to know userid because Vehicle_For_db_POST has user ID
 	vehicle: Vehicle_For_db_POST
@@ -169,6 +170,8 @@ export const deleteVehicleByIDClient = async (
  * Returns full updated Vehicle
  *
  * See api/vehicles/route.ts PATCH for associated endpoint
+ *
+ * Validates vehicle before sending to DB, and validates vehicle received from DB
  */
 export const updateVehicleInDBClient = async (
 	vehicle: Vehicle_For_db_PATCH
