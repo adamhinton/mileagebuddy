@@ -4,7 +4,7 @@
 // This is the DB interactions meant to be called from the client
 // You call this from your CLIENT components and it hits the API endpoints for you
 // This code runs on the client; does not expose any sensitive information
-// TODO: Implement validation on client before sending to server
+// Validation: Vehicles are validated here on the client, and also validated on the server before being sent to the db
 
 import {
 	Vehicle,
@@ -12,7 +12,10 @@ import {
 	VehicleSchema,
 } from "../../types/VehicleTypes/GetVehicleTypes";
 import { Vehicle_For_db_PATCH } from "../../types/VehicleTypes/PATCHVehicleTypes";
-import { Vehicle_For_db_POST } from "../../types/VehicleTypes/POSTVehicleTypes";
+import {
+	Vehicle_For_db_POST,
+	VehicleToBePostedSchema,
+} from "../../types/VehicleTypes/POSTVehicleTypes";
 
 // TODO: Validate Vehicles on frontend
 
@@ -33,6 +36,7 @@ export const getVehiclesByUserIDClient = async (
 		});
 		const vehicles: Vehicles = await res.json();
 
+		// Validating GET receipts to notify me in dev if something is wrong
 		vehicles.forEach((vehicle) => {
 			const isVehicle = VehicleSchema.safeParse(vehicle);
 			// Only erroring in dev bc it's not the user's problem if the data is a little off.
@@ -70,6 +74,7 @@ export const getSingleVehicleByIDClient = async (
 		const arrayWithOneOr0Vehicle: [Vehicle?] = await res.json();
 
 		// If there's a vehicle, validate it
+		// Validating GET receipts to notify me in dev if something is wrong
 		if (arrayWithOneOr0Vehicle[0]) {
 			const isVehicle = VehicleSchema.safeParse(arrayWithOneOr0Vehicle[0]);
 			// Only erroring in dev bc it's not the user's problem if the data is a little off.
@@ -94,6 +99,17 @@ export const insertVehicleClient = async (
 	// Don't need to know userid because Vehicle_For_db_POST has user ID
 	vehicle: Vehicle_For_db_POST
 ): Promise<Vehicle> => {
+	// Validate vehicle (obviously)
+	// TODO: This POST vehicle validation may be redundant because the form hook in the UI will already do this
+	const isVehicle = VehicleToBePostedSchema.safeParse(vehicle);
+	if (!isVehicle.success) {
+		console.error(
+			"Vehicle for POST failed validation. ",
+			isVehicle.error.errors
+		);
+		throw new Error("Vehicle failed validation");
+	}
+
 	try {
 		const res = await fetch(`${baseUrl}/api/vehicles`, {
 			method: "POST",
