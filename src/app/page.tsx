@@ -79,6 +79,11 @@ import { calculateCarCostMain } from "./utils/CarCostAlgorithm/calculateCarCostM
 // };
 
 export default function Page() {
+	console.log(
+		"process.env.NEXT_PUBLIC_VERCEL_URL :",
+		process.env.NEXT_PUBLIC_VERCEL_URL
+	);
+
 	// const [user] = useState<User>({} as unknown as User);
 
 	useEffect(() => {
@@ -149,7 +154,7 @@ export default function Page() {
 			</button>
 
 			<button
-				onClick={() => {
+				onClick={async () => {
 					const completeMockVehicle = {
 						type: "gas" as const,
 						userid: 1,
@@ -220,7 +225,8 @@ export default function Page() {
 						},
 						electricVehicleData: null,
 					};
-					calculateCarCostMain(completeMockVehicle);
+					const calculation = await calculateCarCostMain(completeMockVehicle);
+					console.log("calculation:", calculation);
 				}}
 			>
 				Calculate car cost main
@@ -340,6 +346,7 @@ export default function Page() {
 			>
 				Get Vehicles
 			</button>
+			{/* TODO: User dbinteractions file */}
 			<button
 				onClick={async () => {
 					const res = await fetch("/api/user?id=1", {

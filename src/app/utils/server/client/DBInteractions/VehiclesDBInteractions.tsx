@@ -1,9 +1,9 @@
-"use server";
+"use client";
 
 // README:
 // This is the DB interactions meant to be called from the client
 // You call this from your CLIENT components and it hits the API endpoints for you
-// This code runs on the server so as not to expose our endpoints to the client
+// This code runs on the client; does not expose any sensitive information
 // TODO: Implement validation on client before sending to server
 
 import { Vehicle, Vehicles } from "../../types/VehicleTypes/GetVehicleTypes";
@@ -12,16 +12,20 @@ import { Vehicle_For_db_POST } from "../../types/VehicleTypes/POSTVehicleTypes";
 
 // TODO: Validate Vehicles on frontend
 
-const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+const baseUrl = new URL(
+	process.env.NEXT_PUBLIC_VERCEL_URL
+		? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+		: "http://localhost:3000"
+).href;
 
 /** See api/vehicles/route.ts GET for the associated endpoint */
 export const getVehiclesByUserIDClient = async (
 	userID: string
 ): Promise<Vehicles> => {
 	try {
-		console.log("blah blah blah");
-		const res = await fetch(`${baseUrl}/api/vehicles?userid=${userID}`, {
+		const res = await fetch(`${baseUrl}api/vehicles?userid=${userID}`, {
 			method: "GET",
+			headers: { accept: "application/json" },
 		});
 		const data: Vehicles = await res.json();
 
