@@ -60,7 +60,7 @@ export const calcPurchasePriceMinusSalesPrice = async (
  *
  * Takes in Vehicle.variableCosts instead of full Vehicle
  *
- * This is one of the items added together in claculateCarCostMain.ts to calculate the true cost per mile of driving a vehicle
+ * This is one of the items added together in calculateCarCostMain.ts to calculate the true cost per mile of driving a vehicle
  *
  * Only async because server actions must be async
  */
