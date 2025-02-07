@@ -15,7 +15,7 @@ import {
 	PurchaseAndSales,
 	VariableCosts,
 	YearlyMaintenanceCosts,
-} from "@/app/utils/server/types/VehicleTypes/VehicleSubSchemas";
+} from "@/app/zod/schemas/VehicleSubSchemas";
 
 describe("Sanity check", () => {
 	it("Reality is still real", () => {

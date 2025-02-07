@@ -17,7 +17,7 @@ import {
 	VariableCostsSchema,
 	VehicleDataSchema,
 	YearlyMaintenanceCostsSchema,
-} from "./VehicleSubSchemas";
+} from "../../../../zod/schemas/VehicleSubSchemas";
 
 // Really dumb that I have to do this twice then make a union of this and ElectricVehicleSchemaForPATCH
 export const GasVehicleSchemaForPATCH = GasVehicleSchema.extend({

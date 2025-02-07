@@ -35,7 +35,7 @@ import {
 	VariableCostsSchema,
 	VehicleDataSchema,
 	YearlyMaintenanceCostsSchema,
-} from "./VehicleSubSchemas";
+} from "../../../../zod/schemas/VehicleSubSchemas";
 
 /**This will be either an ElectricVehicle type or GasVehicle type
  * depending on the "type" field ("type": "gas" or "type":  "electric").

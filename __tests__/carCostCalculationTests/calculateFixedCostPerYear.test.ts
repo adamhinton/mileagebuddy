@@ -6,7 +6,7 @@
 
 import { calculateFixedCostPerYear } from "@/app/utils/CarCostAlgorithm/calculateFixedCostPerYear";
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
-import { FixedCosts } from "@/app/utils/server/types/VehicleTypes/VehicleSubSchemas";
+import { FixedCosts } from "@/app/zod/schemas/VehicleSubSchemas";
 
 const fakeFixedCosts: FixedCosts = {
 	vehicleID: 1,
