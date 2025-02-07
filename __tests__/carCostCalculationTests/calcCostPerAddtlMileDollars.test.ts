@@ -1,5 +1,11 @@
 import { calcCostPerAddtlMileDollars } from "@/app/utils/CarCostAlgorithm/smallerCostUtils";
 
+describe("Sanity check", () => {
+	it("Reality is still real", () => {
+		expect(true).toBe(true);
+	});
+});
+
 describe("calculateCostPerAddtlMileDollars", () => {
 	const averagefuelCostPerMileDollars = 0.1;
 	const maintenanceCostPerMile = 0.2;
