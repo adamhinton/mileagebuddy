@@ -230,5 +230,3 @@ const bob: Vehicle = {
 		monthlyCostDeductions: null,
 	},
 };
-
-// refineZodVehicleValidation returns {isVehicleValid: boolean, error: string}; rewrite this .refine to get that and .describe the text of the error
