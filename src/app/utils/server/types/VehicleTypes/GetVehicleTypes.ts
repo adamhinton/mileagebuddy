@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 // TODO: Clean up this file
 
 // NOTE: To get the type of sub-objects within Vehicles, do this:
@@ -36,13 +34,8 @@ import {
 	VehicleDataSchema,
 	YearlyMaintenanceCostsSchema,
 } from "../../../../zod/schemas/VehicleSubSchemas";
-import { QueryData } from "@supabase/supabase-js";
-import {
-	getSingleVehicleByIdQuery,
-	getVehiclesByUserIdQuery,
-} from "../../queries/GetVehiclesQueries";
-import { getVehiclesByUserIDClient } from "../../client/DBInteractions/VehiclesDBInteractions";
 
+// TODO: Make this only one field deep; right now the type definitions say every field in every object is readonly which isn't very reader-friendly
 /**Used to make all the sub-objects in a Vehicle readonly
  *
  * Just Readonly<Vehicle> would leave the sub-objects still mutable
@@ -169,13 +162,13 @@ export const refineZodVehicleValidation = (vehicleData) => {
 	return { isVehicleValid, error };
 };
 
-/**Always has "type": "gas" and electricVehicleData: null */
-type GasVehicle = z.infer<typeof GasVehicleSchema>;
-/**Always has "type": "electric" and gasVehicleData: null */
-type ElectricVehicle = z.infer<typeof ElectricVehicleSchema>;
+// /**Always has "type": "gas" and electricVehicleData: null */
+// type GasVehicle = z.infer<typeof GasVehicleSchema>;
+// /**Always has "type": "electric" and gasVehicleData: null */
+// type ElectricVehicle = z.infer<typeof ElectricVehicleSchema>;
 
-// For testing, delete later
-const bob: Vehicle = {
+// For testing and verification, TODO delete later
+export const bob: Vehicle = {
 	type: "gas",
 	electricVehicleData: null,
 	gasVehicleData: {
