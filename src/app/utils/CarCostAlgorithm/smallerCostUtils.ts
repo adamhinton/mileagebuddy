@@ -126,7 +126,7 @@ export const calcMaintenanceCostPerYear = async (
  *
  * Also assumes no extra variableCosts such as parking etc.
  *
- * It assumes the maintenanceCosts scale linearly which may not be true but it's too complicated to do anything else
+ * It assumes the maintenanceCosts scale linearly which may not be perfectly accurate, but it's close enough that the complications of doing otherwise aren't necessary
  */
 export const calcCostPerAddtlMileDollars = async (
 	averagefuelCostPerMileDollars: number,
