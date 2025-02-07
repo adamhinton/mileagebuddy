@@ -101,7 +101,7 @@ export const calculateVariableCostPerYear = async (
  *
  * takes in Vehicle.yearlyMaintenanceCosts instead of full Vehicle
  */
-export const calculateMaintenanceCostPerYear = async (
+export const calcMaintenanceCostPerYear = async (
 	yearlyMaintenanceCosts: YearlyMaintenanceCosts
 ) => {
 	const { oilChanges, tires, batteries, brakes, other } =

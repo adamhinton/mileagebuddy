@@ -6,7 +6,7 @@
 // TODO: Separate each function in to its own test file?
 
 import {
-	calculateMaintenanceCostPerYear,
+	calcMaintenanceCostPerYear,
 	calculatePurchasePriceMinusSalesPrice,
 	calculateVariableCostPerYear,
 } from "@/app/utils/CarCostAlgorithm/smallerCostUtils";
@@ -248,7 +248,7 @@ describe("calculateVariableCostPerYear", () => {
 	});
 });
 
-describe("calculateMaintenanceCostPerYear", () => {
+describe("calcMaintenanceCostPerYear", () => {
 	// Only including needed fields
 	const dummyYearlyMaintenanceCosts: YearlyMaintenanceCosts = {
 		vehicleID: 1,
@@ -261,15 +261,14 @@ describe("calculateMaintenanceCostPerYear", () => {
 
 	it("Runs without errors", async () => {
 		expect(
-			async () =>
-				await calculateMaintenanceCostPerYear(dummyYearlyMaintenanceCosts)
+			async () => await calcMaintenanceCostPerYear(dummyYearlyMaintenanceCosts)
 		).not.toThrow();
 	});
 
 	it("Returns correct value", async () => {
-		expect(
-			await calculateMaintenanceCostPerYear(dummyYearlyMaintenanceCosts)
-		).toBe(750);
+		expect(await calcMaintenanceCostPerYear(dummyYearlyMaintenanceCosts)).toBe(
+			750
+		);
 	});
 
 	it("Can handle null values", async () => {
@@ -282,9 +281,9 @@ describe("calculateMaintenanceCostPerYear", () => {
 			other: null,
 		};
 
-		expect(
-			await calculateMaintenanceCostPerYear(dummyYearlyMaintenanceCosts2)
-		).toBe(0);
+		expect(await calcMaintenanceCostPerYear(dummyYearlyMaintenanceCosts2)).toBe(
+			0
+		);
 	});
 
 	it("Can handle zero values", async () => {
@@ -297,9 +296,9 @@ describe("calculateMaintenanceCostPerYear", () => {
 			other: 0,
 		};
 
-		expect(
-			await calculateMaintenanceCostPerYear(dummyYearlyMaintenanceCosts3)
-		).toBe(0);
+		expect(await calcMaintenanceCostPerYear(dummyYearlyMaintenanceCosts3)).toBe(
+			0
+		);
 	});
 
 	it("Handles a mix of zero, null and positive values", async () => {
@@ -312,9 +311,9 @@ describe("calculateMaintenanceCostPerYear", () => {
 			other: 100,
 		};
 
-		expect(
-			await calculateMaintenanceCostPerYear(dummyYearlyMaintenanceCosts4)
-		).toBe(150);
+		expect(await calcMaintenanceCostPerYear(dummyYearlyMaintenanceCosts4)).toBe(
+			150
+		);
 	});
 
 	it("Handles large amounts", async () => {
@@ -329,7 +328,7 @@ describe("calculateMaintenanceCostPerYear", () => {
 		};
 
 		expect(
-			await calculateMaintenanceCostPerYear(dummyYearlyMaintenanceCostsHuge)
+			await calcMaintenanceCostPerYear(dummyYearlyMaintenanceCostsHuge)
 		).toBe(651_000);
 	});
 });

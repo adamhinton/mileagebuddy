@@ -4,8 +4,8 @@ import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 import { calcAvgFuelCostPerMileDollars } from "./calcAvgFuelCostPerMileDollars";
 import { calculateFixedCostPerYear } from "./calculateFixedCostPerYear";
 import {
-	calculateCostPerAddtlMileDollars,
-	calculateMaintenanceCostPerYear,
+	calcCostPerAddtlMileDollars,
+	calcMaintenanceCostPerYear,
 	calculatePurchasePriceMinusSalesPrice,
 	calculateVariableCostPerYear,
 } from "./smallerCostUtils";
@@ -72,7 +72,7 @@ export const calculateCarCostMain = async (
 		normalMilesPerYear;
 
 	const maintenanceCostPerMile =
-		(await calculateMaintenanceCostPerYear(vehicle.yearlyMaintenanceCosts)) /
+		(await calcMaintenanceCostPerYear(vehicle.yearlyMaintenanceCosts)) /
 		normalMilesPerYear;
 
 	const total =
@@ -93,7 +93,7 @@ export const calculateCarCostMain = async (
 	 *
 	 * See definition of calculateCostPerAddtlMileDollars for more info
 	 */
-	const costPerAddtlMileDollars = await calculateCostPerAddtlMileDollars(
+	const costPerAddtlMileDollars = await calcCostPerAddtlMileDollars(
 		averagefuelCostPerMileDollars,
 		maintenanceCostPerMile,
 		netLossProfitPerMile
