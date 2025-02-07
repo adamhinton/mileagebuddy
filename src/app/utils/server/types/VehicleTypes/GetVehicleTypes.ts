@@ -1,8 +1,5 @@
 // TODO: Clean up this file
 
-// NOTE: To get the type of sub-objects within Vehicles, do this:
-// const fixedCosts: Vehicle["fixedCosts"] = ...
-
 // README:
 // Here we define types for Vehicle (obviously)
 // IMPORTANT: VehicleSchema is the daddy type that all these other types are based on. VehicleSchema is MANUALLLY WRITTEN by me, which means that any time you change your db schema, you have to update this type manually.
@@ -21,7 +18,7 @@
 // Here are the types to use in different situations
 // Vehicle you're GETTING from the DB: Vehicle
 // Vehicle you're POSTING to the DB: Vehicle_For_db_POST
-// Vehicle you're PATCHING to the DB: TODO, will write this soon
+// Vehicle you're PATCHING to the DB: Vehicle_For_db_PATCH
 
 import z from "zod";
 import {
