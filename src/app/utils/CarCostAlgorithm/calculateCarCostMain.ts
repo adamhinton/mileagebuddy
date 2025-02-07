@@ -7,7 +7,7 @@ import {
 	calcCostPerAddtlMileDollars,
 	calcMaintenanceCostPerYear,
 	calcPurchasePriceMinusSalesPrice,
-	calculateVariableCostPerYear,
+	calcVariableCostPerYear,
 } from "./smallerCostUtils";
 
 // README
@@ -68,8 +68,7 @@ export const calculateCarCostMain = async (
 		(await calculateFixedCostPerYear(vehicle)) / normalMilesPerYear;
 
 	const variableCostsPerMile =
-		(await calculateVariableCostPerYear(vehicle.variableCosts)) /
-		normalMilesPerYear;
+		(await calcVariableCostPerYear(vehicle.variableCosts)) / normalMilesPerYear;
 
 	const maintenanceCostPerMile =
 		(await calcMaintenanceCostPerYear(vehicle.yearlyMaintenanceCosts)) /

@@ -64,9 +64,7 @@ export const calcPurchasePriceMinusSalesPrice = async (
  *
  * Only async because server actions must be async
  */
-export const calculateVariableCostPerYear = async (
-	variableCosts: VariableCosts
-) => {
+export const calcVariableCostPerYear = async (variableCosts: VariableCosts) => {
 	const {
 		monthlyParkingCosts,
 		monthlyTolls,

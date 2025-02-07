@@ -1,13 +1,13 @@
 // README:
 // This is (obviously) associated with smallerCostUtils.ts
 // Testing small functions that don't warrant their own test file
-// Tests functions calcPurchasePriceMinusSalesPrice and calculateVariableCostPerYear
+// Tests functions calcPurchasePriceMinusSalesPrice and calcVariableCostPerYear
 // Will add more too
 // TODO: Separate each function in to its own test file?
 
 import {
 	calcPurchasePriceMinusSalesPrice,
-	calculateVariableCostPerYear,
+	calcVariableCostPerYear,
 } from "@/app/utils/CarCostAlgorithm/smallerCostUtils";
 import {
 	PurchaseAndSales,
@@ -168,7 +168,7 @@ describe("calcPurchasePriceMinusSalesPrice", () => {
 	});
 });
 
-describe("calculateVariableCostPerYear", () => {
+describe("calcVariableCostPerYear", () => {
 	/** Only including needed fields */
 	const dummyData: VariableCosts = {
 		vehicleID: 1,
@@ -180,13 +180,11 @@ describe("calculateVariableCostPerYear", () => {
 	};
 
 	it("Runs without errors", async () => {
-		expect(
-			async () => await calculateVariableCostPerYear(dummyData)
-		).not.toThrow();
+		expect(async () => await calcVariableCostPerYear(dummyData)).not.toThrow();
 	});
 
 	it("Returns correct value", async () => {
-		expect(await calculateVariableCostPerYear(dummyData)).toBe(1_800);
+		expect(await calcVariableCostPerYear(dummyData)).toBe(1_800);
 	});
 
 	it("Can handle null values", async () => {
@@ -199,7 +197,7 @@ describe("calculateVariableCostPerYear", () => {
 			monthlyCostDeductions: null,
 		};
 
-		expect(await calculateVariableCostPerYear(dummyData2)).toBe(0);
+		expect(await calcVariableCostPerYear(dummyData2)).toBe(0);
 	});
 
 	// Zod should prevent this
@@ -214,7 +212,7 @@ describe("calculateVariableCostPerYear", () => {
 		};
 
 		expect(
-			async () => await calculateVariableCostPerYear(dummyData3)
+			async () => await calcVariableCostPerYear(dummyData3)
 		).rejects.toThrow();
 	});
 
@@ -228,7 +226,7 @@ describe("calculateVariableCostPerYear", () => {
 			monthlyCostDeductions: 10,
 		};
 
-		expect(await calculateVariableCostPerYear(dummyData4)).toBe(720);
+		expect(await calcVariableCostPerYear(dummyData4)).toBe(720);
 	});
 
 	it("Handles large amounts", async () => {
@@ -242,6 +240,6 @@ describe("calculateVariableCostPerYear", () => {
 			monthlyCostDeductions: 500_000,
 		};
 
-		expect(await calculateVariableCostPerYear(dummyDataHuge)).toBe(600_000);
+		expect(await calcVariableCostPerYear(dummyDataHuge)).toBe(600_000);
 	});
 });
