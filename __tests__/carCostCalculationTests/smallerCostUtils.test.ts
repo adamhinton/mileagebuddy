@@ -1,12 +1,12 @@
 // README:
 // This is (obviously) associated with smallerCostUtils.ts
 // Testing small functions that don't warrant their own test file
-// Tests functions calculatePurchasePriceMinusSalesPrice and calculateVariableCostPerYear
+// Tests functions calcPurchasePriceMinusSalesPrice and calculateVariableCostPerYear
 // Will add more too
 // TODO: Separate each function in to its own test file?
 
 import {
-	calculatePurchasePriceMinusSalesPrice,
+	calcPurchasePriceMinusSalesPrice,
 	calculateVariableCostPerYear,
 } from "@/app/utils/CarCostAlgorithm/smallerCostUtils";
 import {
@@ -20,7 +20,7 @@ describe("Sanity check", () => {
 	});
 });
 
-describe("calculatePurchasePriceMinusSalesPrice", () => {
+describe("calcPurchasePriceMinusSalesPrice", () => {
 	/** Only including needed fields */
 	const dummyData1 = {
 		purchasePrice: 10_000,
@@ -31,7 +31,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 	it("Runs without errors", async () => {
 		expect(
 			async () =>
-				await calculatePurchasePriceMinusSalesPrice(
+				await calcPurchasePriceMinusSalesPrice(
 					dummyData1 as unknown as PurchaseAndSales
 				)
 		).not.toThrow();
@@ -39,7 +39,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 
 	it("Returns correct value", async () => {
 		expect(
-			await calculatePurchasePriceMinusSalesPrice(
+			await calcPurchasePriceMinusSalesPrice(
 				dummyData1 as unknown as PurchaseAndSales
 			)
 		).toBe(3_000);
@@ -53,7 +53,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 		} as unknown as PurchaseAndSales;
 
 		expect(
-			await calculatePurchasePriceMinusSalesPrice(
+			await calcPurchasePriceMinusSalesPrice(
 				dummyData2 as unknown as PurchaseAndSales
 			)
 		).toBe(-3_000);
@@ -67,7 +67,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 		};
 
 		expect(
-			await calculatePurchasePriceMinusSalesPrice(
+			await calcPurchasePriceMinusSalesPrice(
 				dummyData3 as unknown as PurchaseAndSales
 			)
 		).toBe(7_000);
@@ -87,7 +87,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 
 		expect(
 			async () =>
-				await calculatePurchasePriceMinusSalesPrice(
+				await calcPurchasePriceMinusSalesPrice(
 					dummyData4 as unknown as PurchaseAndSales
 				)
 		).rejects.toThrow();
@@ -107,7 +107,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 
 		expect(
 			async () =>
-				await calculatePurchasePriceMinusSalesPrice(
+				await calcPurchasePriceMinusSalesPrice(
 					dummyData5 as unknown as PurchaseAndSales
 				)
 		).rejects.toThrow();
@@ -127,7 +127,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 
 		expect(
 			async () =>
-				await calculatePurchasePriceMinusSalesPrice(
+				await calcPurchasePriceMinusSalesPrice(
 					dummyData6 as unknown as PurchaseAndSales
 				)
 		).rejects.toThrow();
@@ -147,7 +147,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 
 		expect(
 			async () =>
-				await calculatePurchasePriceMinusSalesPrice(
+				await calcPurchasePriceMinusSalesPrice(
 					dummyData7 as unknown as PurchaseAndSales
 				)
 		).rejects.toThrow();
@@ -161,7 +161,7 @@ describe("calculatePurchasePriceMinusSalesPrice", () => {
 			downPaymentAmount: 51_000_000,
 		};
 		expect(
-			await calculatePurchasePriceMinusSalesPrice(
+			await calcPurchasePriceMinusSalesPrice(
 				dummyDataHuge as unknown as PurchaseAndSales
 			)
 		).toBe(48_000_000);

@@ -6,7 +6,7 @@ import { calculateFixedCostPerYear } from "./calculateFixedCostPerYear";
 import {
 	calcCostPerAddtlMileDollars,
 	calcMaintenanceCostPerYear,
-	calculatePurchasePriceMinusSalesPrice,
+	calcPurchasePriceMinusSalesPrice,
 	calculateVariableCostPerYear,
 } from "./smallerCostUtils";
 
@@ -58,7 +58,7 @@ export const calculateCarCostMain = async (
 	 *
 	 * Monthly loan payments are accounted for elsewhere
 	 */
-	const netLossOnPurchaseAndSale = await calculatePurchasePriceMinusSalesPrice(
+	const netLossOnPurchaseAndSale = await calcPurchasePriceMinusSalesPrice(
 		vehicle.purchaseAndSales
 	);
 	const netLossProfitPerMile =

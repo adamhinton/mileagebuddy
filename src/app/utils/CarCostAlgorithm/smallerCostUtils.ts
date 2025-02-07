@@ -28,7 +28,7 @@ import {
  * This is one of the items added together in claculateCarCostMain.ts to calculate the true cost per mile of driving a vehicle
  *
  */
-export const calculatePurchasePriceMinusSalesPrice = async (
+export const calcPurchasePriceMinusSalesPrice = async (
 	purchaseAndSales: PurchaseAndSales
 ) => {
 	// NOTE: Loan payments are accounted for elsewhere
