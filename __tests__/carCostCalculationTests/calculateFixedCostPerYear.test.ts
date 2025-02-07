@@ -13,7 +13,6 @@ const fakeFixedCosts: FixedCosts = {
 	yearlyInsuranceCost: 1000,
 	yearlyRegistrationCost: 100,
 	yearlyTaxes: 500,
-	yearlyParkingCost: null,
 	monthlyLoanPayment: 200,
 	monthlyWarrantyCost: 20,
 	inspectionCost: 50,
@@ -47,7 +46,6 @@ describe("calculateFixedCostPerYear", () => {
 	it("[2] Allows zero values", async () => {
 		const fakeFixedCostsWithZeroValues: FixedCosts = {
 			...fakeFixedCosts,
-			yearlyParkingCost: 0,
 			monthlyLoanPayment: 0,
 		};
 
@@ -83,7 +81,6 @@ describe("calculateFixedCostPerYear", () => {
 			yearlyInsuranceCost: null,
 			yearlyRegistrationCost: null,
 			yearlyTaxes: null,
-			yearlyParkingCost: null,
 			monthlyLoanPayment: null,
 			monthlyWarrantyCost: null,
 			inspectionCost: null,
@@ -103,7 +100,6 @@ describe("calculateFixedCostPerYear", () => {
 			yearlyInsuranceCost: 0,
 			yearlyRegistrationCost: 0,
 			yearlyTaxes: 0,
-			yearlyParkingCost: 0,
 			monthlyLoanPayment: 0,
 			monthlyWarrantyCost: 0,
 			inspectionCost: 0,

@@ -91,8 +91,6 @@ export const FixedCostsSchema = z.object({
 	yearlyInsuranceCost: z.number().nonnegative().max(500_000).nullable(),
 	yearlyRegistrationCost: z.number().nonnegative().max(50_000).nullable(),
 	yearlyTaxes: z.number().nonnegative().max(50_000_000).nullable(),
-	// TODO: delete yearlyParkigCost, it's duplicated in fixedCosts
-	yearlyParkingCost: z.number().nonnegative().max(50_000).nullish(),
 	monthlyLoanPayment: z.number().max(50_000).nonnegative().nullable(),
 	monthlyWarrantyCost: z.number().max(50_000).nonnegative().nullable(),
 	inspectionCost: z.number().max(5_000).nonnegative().nullable(),

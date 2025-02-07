@@ -58,7 +58,6 @@ import { calculateCarCostMain } from "./utils/CarCostAlgorithm/calculateCarCostM
 // 		monthlyWarrantyCost: 30.0,
 // 		inspectionCost: 100.0,
 // 		otherYearlyCosts: 300.0,
-// 		yearlyParkingCost: 100.0,
 // 	},
 // 	yearlyMaintenanceCosts: {
 // 		oilChanges: 100.0,
@@ -201,8 +200,6 @@ export default function Page() {
 							monthlyLoanPayment: 0.0,
 							monthlyWarrantyCost: 15.0,
 							inspectionCost: 100.0,
-							// TODO: delete yearlyParkigCost, it's duplicated in fixedCosts
-							yearlyParkingCost: 0.0,
 							otherYearlyCosts: 100.0,
 						},
 						yearlyMaintenanceCosts: {
@@ -276,7 +273,6 @@ export default function Page() {
 							monthlyLoanPayment: 300.0,
 							monthlyWarrantyCost: 30.0,
 							inspectionCost: 100.0,
-							yearlyParkingCost: 100.0,
 							otherYearlyCosts: 300.0,
 						},
 						yearlyMaintenanceCosts: {

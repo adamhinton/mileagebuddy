@@ -87,7 +87,6 @@ export type Database = {
           updatedAt: string | null
           vehicleID: number
           yearlyInsuranceCost: number | null
-          yearlyParkingCost: number | null
           yearlyRegistrationCost: number | null
           yearlyTaxes: number | null
         }
@@ -102,7 +101,6 @@ export type Database = {
           updatedAt?: string | null
           vehicleID: number
           yearlyInsuranceCost?: number | null
-          yearlyParkingCost?: number | null
           yearlyRegistrationCost?: number | null
           yearlyTaxes?: number | null
         }
@@ -117,7 +115,6 @@ export type Database = {
           updatedAt?: string | null
           vehicleID?: number
           yearlyInsuranceCost?: number | null
-          yearlyParkingCost?: number | null
           yearlyRegistrationCost?: number | null
           yearlyTaxes?: number | null
         }

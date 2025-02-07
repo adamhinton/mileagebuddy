@@ -103,7 +103,6 @@ CREATE TABLE "fixedCosts" (
     "yearlyInsuranceCost" DECIMAL(10, 2),
     "yearlyRegistrationCost" DECIMAL(10, 2),
     "yearlyTaxes" INTEGER,
-    "yearlyParkingCost" DECIMAL(10, 2),
     "monthlyLoanPayment" INTEGER,
     "monthlyWarrantyCost" INTEGER,
     "inspectionCost" INTEGER,

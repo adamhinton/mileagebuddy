@@ -57,8 +57,6 @@ const mockVehicles: Vehicles = [
 			monthlyWarrantyCost: 30.0,
 			inspectionCost: 100.0,
 			otherYearlyCosts: 300.0,
-			// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
-			yearlyParkingCost: null,
 		},
 		yearlyMaintenanceCosts: {
 			vehicleID: 1,

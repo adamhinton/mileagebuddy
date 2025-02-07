@@ -66,10 +66,10 @@ BEGIN
                 (_usage->>'extraDistancePercentHighway')::DECIMAL);
 
         INSERT INTO "fixedCosts" ("vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", 
-                                  "yearlyParkingCost", "monthlyLoanPayment", "monthlyWarrantyCost", 
+                                "monthlyLoanPayment", "monthlyWarrantyCost", 
                                   "inspectionCost", "otherYearlyCosts")
         VALUES (new_vehicle_id, (_fixedCosts->>'yearlyInsuranceCost')::DECIMAL, (_fixedCosts->>'yearlyRegistrationCost')::DECIMAL, 
-                (_fixedCosts->>'yearlyTaxes')::INT, (_fixedCosts->>'yearlyParkingCost')::DECIMAL, 
+                (_fixedCosts->>'yearlyTaxes')::INT, 
                 (_fixedCosts->>'monthlyLoanPayment')::INT, (_fixedCosts->>'monthlyWarrantyCost')::INT,
                 (_fixedCosts->>'inspectionCost')::INT, (_fixedCosts->>'otherYearlyCosts')::INT);
 
