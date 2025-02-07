@@ -79,7 +79,7 @@ export const BaseVehicleSchema = z.object({
 	vehiclesOrder: z.number().positive(),
 	type: z.enum(["gas", "electric"]),
 
-	vehicleData: VehicleDataSchema.describe("test blah 2"),
+	vehicleData: VehicleDataSchema,
 
 	gasVehicleData: GasVehicleDataSchema,
 
