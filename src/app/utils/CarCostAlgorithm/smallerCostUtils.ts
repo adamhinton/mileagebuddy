@@ -104,8 +104,6 @@ export const calculateVariableCostPerYear = async (
 export const calculateMaintenanceCostPerYear = async (
 	yearlyMaintenanceCosts: YearlyMaintenanceCosts
 ) => {
-	// yearlyMaintenanceCosts.depreciation is deprecated because that's accounted for by the difference between sales price and purchase price in vehicle.purchaseAndSales
-	// There's a TODO item to delete `depreciation` from the schema
 	const { oilChanges, tires, batteries, brakes, other } =
 		yearlyMaintenanceCosts;
 

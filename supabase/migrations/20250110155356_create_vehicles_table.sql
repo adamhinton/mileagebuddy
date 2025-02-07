@@ -121,7 +121,6 @@ CREATE TABLE "yearlyMaintenanceCosts" (
     batteries DECIMAL(10, 2),
     brakes DECIMAL(10, 2),
     other DECIMAL(10, 2),
-    depreciation DECIMAL(10, 2),
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,

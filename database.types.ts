@@ -428,7 +428,6 @@ export type Database = {
           brakes: number | null
           createdAt: string | null
           deletedAt: string | null
-          depreciation: number | null
           id: number
           oilChanges: number | null
           other: number | null
@@ -441,7 +440,6 @@ export type Database = {
           brakes?: number | null
           createdAt?: string | null
           deletedAt?: string | null
-          depreciation?: number | null
           id?: number
           oilChanges?: number | null
           other?: number | null
@@ -454,7 +452,6 @@ export type Database = {
           brakes?: number | null
           createdAt?: string | null
           deletedAt?: string | null
-          depreciation?: number | null
           id?: number
           oilChanges?: number | null
           other?: number | null

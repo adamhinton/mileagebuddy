@@ -109,8 +109,6 @@ export const YearlyMaintenanceCostsSchema = z.object({
 	batteries: z.number().nonnegative().max(50_000).nullable(),
 	brakes: z.number().nonnegative().max(50_000).nullable(),
 	other: z.number().nonnegative().max(500_000).nullable(),
-	// TODO: Delete depreciation because it's accounted for in the difference between purchase price and eventual sales price in vehicle.purchaseAndSales
-	depreciation: z.number().nonnegative().max(500_000).nullable(),
 });
 
 export type YearlyMaintenanceCosts = z.infer<

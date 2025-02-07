@@ -217,7 +217,6 @@ const bob: Vehicle = {
 		batteries: null,
 		brakes: null,
 		other: null,
-		depreciation: null,
 	},
 	variableCosts: {
 		vehicleID: 1,

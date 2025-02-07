@@ -89,7 +89,6 @@ export const VehicleSchema = z.object({
 			batteries: z.number().nonnegative(),
 			brakes: z.number().nonnegative(),
 			other: z.number().nonnegative(),
-			depreciation: z.number().nonnegative(),
 		})
 		// everything in yearlyMaintenanceCosts is optional
 		.partial(),

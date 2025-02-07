@@ -66,14 +66,14 @@ VALUES
 ('5', 1500.00, 190.00, 275.00, 425.00, 65.00, 140.00, 650.00, NOW(), NOW()),
 ('6', 1550.00, 210.00, 320.00, 475.00, 80.00, 160.00, 750.00, NOW(), NOW());
 
-INSERT INTO "yearlyMaintenanceCosts"("vehicleID", "oilChanges", tires, batteries, brakes, other, depreciation, "createdAt", "updatedAt")
+INSERT INTO "yearlyMaintenanceCosts"("vehicleID", "oilChanges", tires, batteries, brakes, other, "createdAt", "updatedAt")
 VALUES
-('1', 75.00, 250.00, 50.00, 150.00, 200.00, 2000.00, NOW(), NOW()),
-('2', 80.00, 280.00, 60.00, 180.00, 220.00, 2200.00, NOW(), NOW()),
-('3', 85.00, 300.00, 70.00, 200.00, 240.00, 2400.00, NOW(), NOW()),
-('4', 90.00, 320.00, 80.00, 220.00, 260.00, 2600.00, NOW(), NOW()),
-('5', 95.00, 340.00, 90.00, 240.00, 280.00, 2800.00, NOW(), NOW()),
-('6', 100.00, 360.00, 100.00, 260.00, 300.00, 3000.00, NOW(), NOW());
+('1', 75.00, 250.00, 50.00, 150.00, 200.00, NOW(), NOW()),
+('2', 80.00, 280.00, 60.00, 180.00, 220.00, NOW(), NOW()),
+('3', 85.00, 300.00, 70.00, 200.00, 240.00, NOW(), NOW()),
+('4', 90.00, 320.00, 80.00, 220.00, 260.00, NOW(), NOW()),
+('5', 95.00, 340.00, 90.00, 240.00, 280.00, NOW(), NOW()),
+('6', 80.00, 360.00, 100.00, 260.00, 300.00, NOW(), NOW());
 
 INSERT INTO "variableCosts"("vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions", "createdAt", "updatedAt")
 VALUES

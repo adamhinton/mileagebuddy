@@ -43,7 +43,7 @@ export const stringForJoiningVehicleTables = `
 		),
 
 		"yearlyMaintenanceCosts"(
-			"vehicleID", "oilChanges", tires, batteries, brakes, other, depreciation
+			"vehicleID", "oilChanges", tires, batteries, brakes, other
 		),
 
 		"variableCosts"(

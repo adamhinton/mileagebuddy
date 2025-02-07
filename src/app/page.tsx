@@ -65,7 +65,6 @@ import { calculateCarCostMain } from "./utils/CarCostAlgorithm/calculateCarCostM
 // 		batteries: 300.0,
 // 		brakes: 100.0,
 // 		other: 100.0,
-// 		depreciation: 800.0,
 // 	},
 // 	variableCosts: {
 // 		monthlyParkingCosts: 100.0,
@@ -209,8 +208,6 @@ export default function Page() {
 							batteries: 30.0,
 							brakes: 100.0,
 							other: 100.0,
-							// Deprecated, there's a todo item to delete this
-							depreciation: 800.0,
 						},
 						variableCosts: {
 							vehicleID: 1,
@@ -281,7 +278,6 @@ export default function Page() {
 							batteries: 300.0,
 							brakes: 100.0,
 							other: 100.0,
-							depreciation: 800.0,
 						},
 						variableCosts: {
 							monthlyParkingCosts: 100.0,

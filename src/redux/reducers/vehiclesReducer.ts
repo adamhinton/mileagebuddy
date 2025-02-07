@@ -65,7 +65,6 @@ const mockVehicles: Vehicles = [
 			batteries: 300.0,
 			brakes: 100.0,
 			other: 100.0,
-			depreciation: 800.0,
 		},
 		variableCosts: {
 			vehicleID: 1,

@@ -117,7 +117,6 @@ describe("GET /api/vehicles", () => {
 				batteries: 300.0,
 				brakes: 100.0,
 				other: 100.0,
-				depreciation: 800.0,
 			},
 			variableCosts: {
 				vehicleID: 1,
@@ -314,7 +313,6 @@ describe("POST /api/vehicles", () => {
 				batteries: 300.0,
 				brakes: 100.0,
 				other: 100.0,
-				depreciation: 800.0,
 			},
 			variableCosts: {
 				monthlyParkingCosts: 100.0,
@@ -610,7 +608,6 @@ describe("DELETE /api/vehicles", () => {
 				batteries: 300.0,
 				brakes: 100.0,
 				other: 100.0,
-				depreciation: 800.0,
 			},
 			variableCosts: {
 				vehicleID: 1,
@@ -779,7 +776,6 @@ describe("PATCH api/vehicles", () => {
 			batteries: 300.0,
 			brakes: 100.0,
 			other: 100.0,
-			depreciation: 800.0,
 		},
 		variableCosts: {
 			vehicleID: 1,

@@ -258,8 +258,6 @@ describe("calculateMaintenanceCostPerYear", () => {
 		batteries: 50,
 		brakes: 300,
 		other: 100,
-		// DEPRECATED because it's accounted for elsewhere, there's a TODO to delete this
-		depreciation: null,
 	};
 
 	it("Runs without errors", async () => {
@@ -283,8 +281,6 @@ describe("calculateMaintenanceCostPerYear", () => {
 			batteries: null,
 			brakes: null,
 			other: null,
-			// Deprecated
-			depreciation: null,
 		};
 
 		expect(
@@ -300,8 +296,6 @@ describe("calculateMaintenanceCostPerYear", () => {
 			batteries: 0,
 			brakes: 0,
 			other: 0,
-			// Deprecated
-			depreciation: null,
 		};
 
 		expect(
@@ -317,8 +311,6 @@ describe("calculateMaintenanceCostPerYear", () => {
 			batteries: 50,
 			brakes: 0,
 			other: 100,
-			// Deprecated
-			depreciation: null,
 		};
 
 		expect(
@@ -335,8 +327,6 @@ describe("calculateMaintenanceCostPerYear", () => {
 			batteries: 50_000,
 			brakes: 50_000,
 			other: 500_000,
-			// Deprecated
-			depreciation: null,
 		};
 
 		expect(
