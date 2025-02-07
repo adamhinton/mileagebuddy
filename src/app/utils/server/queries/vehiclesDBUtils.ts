@@ -191,7 +191,6 @@ const addNewVehicleToDB = async (
 		// console.log("isSafe in addNewVehicleToDB:", isSafe);
 
 		// Wrote db function insert_vehicle_function.sql for this
-		// The db function should do auto-validation to make sure fields exist and are correct, but --- TODO: More thorough new Vehicle validation
 		const { data, error } = await supabase.rpc("insert_vehicle", {
 			// These parameter names had to be all lower case to play nice with SQL
 			_userid: userid,
