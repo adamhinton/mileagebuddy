@@ -1,6 +1,7 @@
 // README:
 // This is the sub-objects that go under a Vehicle
 // Each of these represents a table in the db
+// Also exports a TS type for each of these, inferred from its zod schema
 
 import z from "zod";
 
