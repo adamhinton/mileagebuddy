@@ -7,7 +7,11 @@
 // NOTE: These aren't deep Partials; if one item of a field is included they all should be. This is to keep up with validation done with one field against another, like making sure milesBoughtAt is less than willSellCarAtMiles
 
 import { z } from "zod";
-import { ElectricVehicleSchema, GasVehicleSchema } from "./GetVehicleTypes";
+import {
+	DeepReadonly,
+	ElectricVehicleSchema,
+	GasVehicleSchema,
+} from "./GetVehicleTypes";
 import {
 	ElectricVehicleDataSchema,
 	FixedCostsSchema,
@@ -63,5 +67,9 @@ export const VehicleSchemaForPATCH = z.union([
 /**
  * This is the type of a Vehicle being sent in a PATCH request
  * All sub-fields are optional; if a field isn't included, it won't be updated in the db
+ *
+ * All fields and sub-objects are readonly because I don't currently have a reason to change them; can update later if needed
  */
-export type Vehicle_For_db_PATCH = z.infer<typeof VehicleSchemaForPATCH>;
+export type Vehicle_For_db_PATCH = DeepReadonly<
+	z.infer<typeof VehicleSchemaForPATCH>
+>;

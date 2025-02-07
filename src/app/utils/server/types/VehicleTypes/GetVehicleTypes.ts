@@ -36,13 +36,27 @@ import {
 	VehicleDataSchema,
 	YearlyMaintenanceCostsSchema,
 } from "../../../../zod/schemas/VehicleSubSchemas";
+import { QueryData } from "@supabase/supabase-js";
+import {
+	getSingleVehicleByIdQuery,
+	getVehiclesByUserIdQuery,
+} from "../../queries/GetVehiclesQueries";
+import { getVehiclesByUserIDClient } from "../../client/DBInteractions/VehiclesDBInteractions";
+
+/**Used to make all the sub-objects in a Vehicle readonly
+ *
+ * Just Readonly<Vehicle> would leave the sub-objects still mutable
+ */
+export type DeepReadonly<T> = {
+	readonly [P in keyof T]: T[P] extends object ? DeepReadonly<T[P]> : T[P];
+};
 
 /**This will be either an ElectricVehicle type or GasVehicle type
  * depending on the "type" field ("type": "gas" or "type":  "electric").
  * This matches what you will receive from a GET request to the db.
  * There are other types for vehicles you haven't POSTed yet, or PATCH vehicles.
  */
-export type Vehicle = z.infer<typeof VehicleSchema>;
+export type Vehicle = DeepReadonly<z.infer<typeof VehicleSchema>>;
 
 /**This is what you get back from the db
  * It has all the ids and stuff
