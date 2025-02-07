@@ -1,24 +1,5 @@
-// README:
-// This is (obviously) associated with smallerCostUtils.ts
-// Testing small functions that don't warrant their own test file
-// Tests functions calcPurchasePriceMinusSalesPrice and calcVariableCostPerYear
-// Will add more too
-// TODO: Separate each function in to its own test file?
-
-import {
-	calcPurchasePriceMinusSalesPrice,
-	calcVariableCostPerYear,
-} from "@/app/utils/CarCostAlgorithm/smallerCostUtils";
-import {
-	PurchaseAndSales,
-	VariableCosts,
-} from "@/app/zod/schemas/VehicleSubSchemas";
-
-describe("Sanity check", () => {
-	it("Reality is still real", () => {
-		expect(true).toBe(true);
-	});
-});
+import { calcPurchasePriceMinusSalesPrice } from "@/app/utils/CarCostAlgorithm/smallerCostUtils";
+import { PurchaseAndSales } from "@/app/zod/schemas/VehicleSubSchemas";
 
 describe("calcPurchasePriceMinusSalesPrice", () => {
 	/** Only including needed fields */
