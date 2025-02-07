@@ -130,7 +130,7 @@ export const calculateMaintenanceCostPerYear = async (
  *
  * It assumes the maintenanceCosts scale linearly which may not be true but it's too complicated to do anything else
  */
-export const calculateCostPerAddtlMileDollars = async (
+export const calcCostPerAddtlMileDollars = async (
 	averagefuelCostPerMileDollars: number,
 	maintenanceCostPerMile: number,
 	netLossProfitPerMile: number

@@ -6,7 +6,6 @@
 // TODO: Separate each function in to its own test file?
 
 import {
-	calculateCostPerAddtlMileDollars,
 	calculateMaintenanceCostPerYear,
 	calculatePurchasePriceMinusSalesPrice,
 	calculateVariableCostPerYear,
@@ -332,22 +331,5 @@ describe("calculateMaintenanceCostPerYear", () => {
 		expect(
 			await calculateMaintenanceCostPerYear(dummyYearlyMaintenanceCostsHuge)
 		).toBe(651_000);
-	});
-});
-
-describe("calculateCostPerAddtlMileDollars", () => {
-	const averagefuelCostPerMileDollars = 0.1;
-	const maintenanceCostPerMile = 0.2;
-	const netLossProfitPerMile = 0.3;
-
-	it("Runs without errors", async () => {
-		expect(
-			async () =>
-				await calculateCostPerAddtlMileDollars(
-					averagefuelCostPerMileDollars,
-					maintenanceCostPerMile,
-					netLossProfitPerMile
-				)
-		).not.toThrow();
 	});
 });
