@@ -7,6 +7,7 @@ import z from "zod";
 // it does still have a userid
 
 import {
+	DeepReadonly,
 	ElectricVehicleSchema,
 	GasVehicleSchema,
 	refineZodVehicleValidation,
@@ -18,8 +19,12 @@ import {
  * So it wouldn't have been assigned an id or vehicleids yet by the db
  *
  * Use this type for POST requests!
+ *
+ * All fields and sub-objects are readonly because I don't currently have a reason to change them; can update later if needed
  */
-export type Vehicle_For_db_POST = z.infer<typeof VehicleToBePostedSchema>;
+export type Vehicle_For_db_POST = DeepReadonly<
+	z.infer<typeof VehicleToBePostedSchema>
+>;
 
 // // See notes above VehicleToBePostedSchema about why I had  to do this
 export const GasVehicleSchemaForPOST = GasVehicleSchema.omit({

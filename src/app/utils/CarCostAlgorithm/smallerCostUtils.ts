@@ -2,7 +2,6 @@
 
 // README
 // This is for smaller functions that don't need their own file
-// Is tested in smallerCostUtils.test.ts
 // These are used in calculateCarCostMain.ts
 // These are server actions so must all be async
 
@@ -10,25 +9,23 @@ import {
 	PurchaseAndSales,
 	VariableCosts,
 	YearlyMaintenanceCosts,
-} from "../server/types/VehicleTypes/VehicleSubSchemas";
+} from "../../zod/schemas/VehicleSubSchemas";
 
 /**
  * NOTE: Loan payments are accounted for elsewhere
  *
  * Takes in Vehicle.purchaseAndSales instead of full Vehicle
  *
- * Can return a negative number if car appreciates in value
+ * Can return a negative number if car appreciates in value (sale price can be higher than purchase price)
  *
  * So this basically subtracts the sales price from the purchase price
- *
- * Note: Not checking whether the sales price is higher than the purchase price because car could appreciate in value
  *
  * Only async because server actions must be async
  *
  * This is one of the items added together in claculateCarCostMain.ts to calculate the true cost per mile of driving a vehicle
  *
  */
-export const calculatePurchasePriceMinusSalesPrice = async (
+export const calcPurchasePriceMinusSalesPrice = async (
 	purchaseAndSales: PurchaseAndSales
 ) => {
 	// NOTE: Loan payments are accounted for elsewhere
@@ -60,13 +57,11 @@ export const calculatePurchasePriceMinusSalesPrice = async (
  *
  * Takes in Vehicle.variableCosts instead of full Vehicle
  *
- * This is one of the items added together in claculateCarCostMain.ts to calculate the true cost per mile of driving a vehicle
+ * This is one of the items added together in calculateCarCostMain.ts to calculate the true cost per mile of driving a vehicle
  *
  * Only async because server actions must be async
  */
-export const calculateVariableCostPerYear = async (
-	variableCosts: VariableCosts
-) => {
+export const calcVariableCostPerYear = async (variableCosts: VariableCosts) => {
 	const {
 		monthlyParkingCosts,
 		monthlyTolls,
@@ -101,11 +96,9 @@ export const calculateVariableCostPerYear = async (
  *
  * takes in Vehicle.yearlyMaintenanceCosts instead of full Vehicle
  */
-export const calculateMaintenanceCostPerYear = async (
+export const calcMaintenanceCostPerYear = async (
 	yearlyMaintenanceCosts: YearlyMaintenanceCosts
 ) => {
-	// yearlyMaintenanceCosts.depreciation is deprecated because that's accounted for by the difference between sales price and purchase price in vehicle.purchaseAndSales
-	// There's a TODO item to delete `depreciation` from the schema
 	const { oilChanges, tires, batteries, brakes, other } =
 		yearlyMaintenanceCosts;
 
@@ -130,9 +123,9 @@ export const calculateMaintenanceCostPerYear = async (
  *
  * Also assumes no extra variableCosts such as parking etc.
  *
- * It assumes the maintenanceCosts scale linearly which may not be true but it's too complicated to do anything else
+ * It assumes the maintenanceCosts scale linearly which may not be perfectly accurate, but it's close enough that the complications of doing otherwise aren't necessary
  */
-export const calculateCostPerAddtlMileDollars = async (
+export const calcCostPerAddtlMileDollars = async (
 	averagefuelCostPerMileDollars: number,
 	maintenanceCostPerMile: number,
 	netLossProfitPerMile: number

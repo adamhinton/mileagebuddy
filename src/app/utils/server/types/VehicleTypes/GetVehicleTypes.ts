@@ -1,9 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 // TODO: Clean up this file
-
-// NOTE: To get the type of sub-objects within Vehicles, do this:
-// const fixedCosts: Vehicle["fixedCosts"] = ...
 
 // README:
 // Here we define types for Vehicle (obviously)
@@ -23,7 +18,7 @@
 // Here are the types to use in different situations
 // Vehicle you're GETTING from the DB: Vehicle
 // Vehicle you're POSTING to the DB: Vehicle_For_db_POST
-// Vehicle you're PATCHING to the DB: TODO, will write this soon
+// Vehicle you're PATCHING to the DB: Vehicle_For_db_PATCH
 
 import z from "zod";
 import {
@@ -35,14 +30,23 @@ import {
 	VariableCostsSchema,
 	VehicleDataSchema,
 	YearlyMaintenanceCostsSchema,
-} from "./VehicleSubSchemas";
+} from "../../../../zod/schemas/VehicleSubSchemas";
+
+// TODO: Make this only one field deep; right now the type definitions say every field in every object is readonly which isn't very reader-friendly
+/**Used to make all the sub-objects in a Vehicle readonly
+ *
+ * Just Readonly<Vehicle> would leave the sub-objects still mutable
+ */
+export type DeepReadonly<T> = {
+	readonly [P in keyof T]: T[P] extends object ? DeepReadonly<T[P]> : T[P];
+};
 
 /**This will be either an ElectricVehicle type or GasVehicle type
  * depending on the "type" field ("type": "gas" or "type":  "electric").
  * This matches what you will receive from a GET request to the db.
  * There are other types for vehicles you haven't POSTed yet, or PATCH vehicles.
  */
-export type Vehicle = z.infer<typeof VehicleSchema>;
+export type Vehicle = DeepReadonly<z.infer<typeof VehicleSchema>>;
 
 /**This is what you get back from the db
  * It has all the ids and stuff
@@ -79,7 +83,7 @@ export const BaseVehicleSchema = z.object({
 	vehiclesOrder: z.number().positive(),
 	type: z.enum(["gas", "electric"]),
 
-	vehicleData: VehicleDataSchema.describe("test blah 2"),
+	vehicleData: VehicleDataSchema,
 
 	gasVehicleData: GasVehicleDataSchema,
 
@@ -155,13 +159,13 @@ export const refineZodVehicleValidation = (vehicleData) => {
 	return { isVehicleValid, error };
 };
 
-/**Always has "type": "gas" and electricVehicleData: null */
-type GasVehicle = z.infer<typeof GasVehicleSchema>;
-/**Always has "type": "electric" and gasVehicleData: null */
-type ElectricVehicle = z.infer<typeof ElectricVehicleSchema>;
+// /**Always has "type": "gas" and electricVehicleData: null */
+// type GasVehicle = z.infer<typeof GasVehicleSchema>;
+// /**Always has "type": "electric" and gasVehicleData: null */
+// type ElectricVehicle = z.infer<typeof ElectricVehicleSchema>;
 
-// For testing, delete later
-const bob: Vehicle = {
+// For testing and verification, TODO delete later
+export const bob: Vehicle = {
 	type: "gas",
 	electricVehicleData: null,
 	gasVehicleData: {
@@ -205,8 +209,6 @@ const bob: Vehicle = {
 		yearlyInsuranceCost: null,
 		yearlyRegistrationCost: null,
 		yearlyTaxes: null,
-		// Deprecated, there's a TODO to delete this
-		yearlyParkingCost: undefined,
 		monthlyLoanPayment: null,
 		monthlyWarrantyCost: null,
 		inspectionCost: null,
@@ -219,7 +221,6 @@ const bob: Vehicle = {
 		batteries: null,
 		brakes: null,
 		other: null,
-		depreciation: null,
 	},
 	variableCosts: {
 		vehicleID: 1,
@@ -230,5 +231,3 @@ const bob: Vehicle = {
 		monthlyCostDeductions: null,
 	},
 };
-
-// refineZodVehicleValidation returns {isVehicleValid: boolean, error: string}; rewrite this .refine to get that and .describe the text of the error

@@ -58,7 +58,6 @@ import { calculateCarCostMain } from "./utils/CarCostAlgorithm/calculateCarCostM
 // 		monthlyWarrantyCost: 30.0,
 // 		inspectionCost: 100.0,
 // 		otherYearlyCosts: 300.0,
-// 		yearlyParkingCost: 100.0,
 // 	},
 // 	yearlyMaintenanceCosts: {
 // 		oilChanges: 100.0,
@@ -66,7 +65,6 @@ import { calculateCarCostMain } from "./utils/CarCostAlgorithm/calculateCarCostM
 // 		batteries: 300.0,
 // 		brakes: 100.0,
 // 		other: 100.0,
-// 		depreciation: 800.0,
 // 	},
 // 	variableCosts: {
 // 		monthlyParkingCosts: 100.0,
@@ -201,8 +199,6 @@ export default function Page() {
 							monthlyLoanPayment: 0.0,
 							monthlyWarrantyCost: 15.0,
 							inspectionCost: 100.0,
-							// TODO: delete yearlyParkigCost, it's duplicated in fixedCosts
-							yearlyParkingCost: 0.0,
 							otherYearlyCosts: 100.0,
 						},
 						yearlyMaintenanceCosts: {
@@ -212,8 +208,6 @@ export default function Page() {
 							batteries: 30.0,
 							brakes: 100.0,
 							other: 100.0,
-							// Deprecated, there's a todo item to delete this
-							depreciation: 800.0,
 						},
 						variableCosts: {
 							vehicleID: 1,
@@ -276,7 +270,6 @@ export default function Page() {
 							monthlyLoanPayment: 300.0,
 							monthlyWarrantyCost: 30.0,
 							inspectionCost: 100.0,
-							yearlyParkingCost: 100.0,
 							otherYearlyCosts: 300.0,
 						},
 						yearlyMaintenanceCosts: {
@@ -285,7 +278,6 @@ export default function Page() {
 							batteries: 300.0,
 							brakes: 100.0,
 							other: 100.0,
-							depreciation: 800.0,
 						},
 						variableCosts: {
 							monthlyParkingCosts: 100.0,

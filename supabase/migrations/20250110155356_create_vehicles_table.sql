@@ -12,8 +12,6 @@
 -- As of 1.14.2025, deleting a vehicle will also delete its sub tables.
 -- Deleting a user also deletes all vehicles and all sub tables.
 
--- TODO: Total cost per year calculations
-
 CREATE TABLE vehicles (
     id SERIAL PRIMARY KEY,
     userID bigint NOT NULL,
@@ -103,7 +101,6 @@ CREATE TABLE "fixedCosts" (
     "yearlyInsuranceCost" DECIMAL(10, 2),
     "yearlyRegistrationCost" DECIMAL(10, 2),
     "yearlyTaxes" INTEGER,
-    "yearlyParkingCost" DECIMAL(10, 2),
     "monthlyLoanPayment" INTEGER,
     "monthlyWarrantyCost" INTEGER,
     "inspectionCost" INTEGER,
@@ -122,7 +119,6 @@ CREATE TABLE "yearlyMaintenanceCosts" (
     batteries DECIMAL(10, 2),
     brakes DECIMAL(10, 2),
     other DECIMAL(10, 2),
-    depreciation DECIMAL(10, 2),
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,

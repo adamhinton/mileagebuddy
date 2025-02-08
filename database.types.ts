@@ -87,7 +87,6 @@ export type Database = {
           updatedAt: string | null
           vehicleID: number
           yearlyInsuranceCost: number | null
-          yearlyParkingCost: number | null
           yearlyRegistrationCost: number | null
           yearlyTaxes: number | null
         }
@@ -102,7 +101,6 @@ export type Database = {
           updatedAt?: string | null
           vehicleID: number
           yearlyInsuranceCost?: number | null
-          yearlyParkingCost?: number | null
           yearlyRegistrationCost?: number | null
           yearlyTaxes?: number | null
         }
@@ -117,7 +115,6 @@ export type Database = {
           updatedAt?: string | null
           vehicleID?: number
           yearlyInsuranceCost?: number | null
-          yearlyParkingCost?: number | null
           yearlyRegistrationCost?: number | null
           yearlyTaxes?: number | null
         }
@@ -431,7 +428,6 @@ export type Database = {
           brakes: number | null
           createdAt: string | null
           deletedAt: string | null
-          depreciation: number | null
           id: number
           oilChanges: number | null
           other: number | null
@@ -444,7 +440,6 @@ export type Database = {
           brakes?: number | null
           createdAt?: string | null
           deletedAt?: string | null
-          depreciation?: number | null
           id?: number
           oilChanges?: number | null
           other?: number | null
@@ -457,7 +452,6 @@ export type Database = {
           brakes?: number | null
           createdAt?: string | null
           deletedAt?: string | null
-          depreciation?: number | null
           id?: number
           oilChanges?: number | null
           other?: number | null

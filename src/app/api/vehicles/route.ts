@@ -25,7 +25,6 @@ export async function GET(request: Request) {
 		const userID = url.searchParams.get("userid");
 		const vehicleID = url.searchParams.get("vehicleid");
 
-		// Ensure that the user ID is provided
 		if (!userID) {
 			return NextResponse.json(
 				{
@@ -57,7 +56,6 @@ export async function GET(request: Request) {
 
 			return NextResponse.json(arrayWithSingleVehicle, { status: 200 });
 		} else {
-			// Fetch all vehicles for the given user
 			const vehicles = await getVehiclesByUser(supabase, Number(userID));
 			return NextResponse.json(vehicles, { status: 200 });
 		}
@@ -71,7 +69,6 @@ export async function GET(request: Request) {
 	}
 }
 
-// TODO: Vehicle validation middleware
 /** I wrote a DB function for this since it was complicated with all these different tables
  * See insert_vehicle_function.sql
  *
@@ -126,7 +123,6 @@ export async function DELETE(
 	return response;
 }
 
-// TODO: Vehicle validation
 /**
  * This takes in a Partial<Vehicle>
  * So you don't have to include all data, obviously

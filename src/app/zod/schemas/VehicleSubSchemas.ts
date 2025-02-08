@@ -1,6 +1,8 @@
 // README:
 // This is the sub-objects that go under a Vehicle
 // Each of these represents a table in the db
+// Also exports a TS type for each of these, inferred from its zod schema
+// All inferred types are currently Readonly because there's no reason to edit them; will change that if needed
 
 import z from "zod";
 
@@ -19,7 +21,7 @@ export const VehicleDataSchema = z
 	})
 	.describe("test blah");
 
-export type VehicleData = z.infer<typeof VehicleDataSchema>;
+export type VehicleData = Readonly<z.infer<typeof VehicleDataSchema>>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
@@ -31,7 +33,7 @@ export const GasVehicleDataSchema = z.object({
 	milesPerGallonCity: z.number().max(1000).nonnegative(),
 });
 
-export type GasVehicleData = z.infer<typeof GasVehicleDataSchema>;
+export type GasVehicleData = Readonly<z.infer<typeof GasVehicleDataSchema>>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
@@ -43,7 +45,9 @@ export const ElectricVehicleDataSchema = z.object({
 	electricRangeMiles: z.number().max(10_000).nonnegative(),
 });
 
-export type ElectricVehicleData = z.infer<typeof ElectricVehicleDataSchema>;
+export type ElectricVehicleData = Readonly<
+	z.infer<typeof ElectricVehicleDataSchema>
+>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
@@ -64,7 +68,7 @@ export const PurchaseAndSalesSchema = z
 	})
 	.describe("milesBoughtAt must be less than or equal to willSellCarAtMiles");
 
-export type PurchaseAndSales = z.infer<typeof PurchaseAndSalesSchema>;
+export type PurchaseAndSales = Readonly<z.infer<typeof PurchaseAndSalesSchema>>;
 
 /**
  * This is a SUB OBJECT of BaseVehicleSchema
@@ -80,7 +84,7 @@ export const UsageSchema = z.object({
 	extraDistancePercentHighway: z.number().nonnegative().max(100).nullable(),
 });
 
-export type Usage = z.infer<typeof UsageSchema>;
+export type Usage = Readonly<z.infer<typeof UsageSchema>>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
@@ -90,15 +94,13 @@ export const FixedCostsSchema = z.object({
 	yearlyInsuranceCost: z.number().nonnegative().max(500_000).nullable(),
 	yearlyRegistrationCost: z.number().nonnegative().max(50_000).nullable(),
 	yearlyTaxes: z.number().nonnegative().max(50_000_000).nullable(),
-	// TODO: delete yearlyParkigCost, it's duplicated in fixedCosts
-	yearlyParkingCost: z.number().nonnegative().max(50_000).nullish(),
 	monthlyLoanPayment: z.number().max(50_000).nonnegative().nullable(),
 	monthlyWarrantyCost: z.number().max(50_000).nonnegative().nullable(),
 	inspectionCost: z.number().max(5_000).nonnegative().nullable(),
 	otherYearlyCosts: z.number().max(500_000).nonnegative().nullable(),
 });
 
-export type FixedCosts = z.infer<typeof FixedCostsSchema>;
+export type FixedCosts = Readonly<z.infer<typeof FixedCostsSchema>>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
@@ -110,12 +112,10 @@ export const YearlyMaintenanceCostsSchema = z.object({
 	batteries: z.number().nonnegative().max(50_000).nullable(),
 	brakes: z.number().nonnegative().max(50_000).nullable(),
 	other: z.number().nonnegative().max(500_000).nullable(),
-	// TODO: Delete depreciation because it's accounted for in the difference between purchase price and eventual sales price in vehicle.purchaseAndSales
-	depreciation: z.number().nonnegative().max(500_000).nullable(),
 });
 
-export type YearlyMaintenanceCosts = z.infer<
-	typeof YearlyMaintenanceCostsSchema
+export type YearlyMaintenanceCosts = Readonly<
+	z.infer<typeof YearlyMaintenanceCostsSchema>
 >;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
@@ -130,4 +130,4 @@ export const VariableCostsSchema = z.object({
 	monthlyCostDeductions: z.number().max(500_000).nonnegative().nullable(),
 });
 
-export type VariableCosts = z.infer<typeof VariableCostsSchema>;
+export type VariableCosts = Readonly<z.infer<typeof VariableCostsSchema>>;

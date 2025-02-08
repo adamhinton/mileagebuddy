@@ -167,7 +167,6 @@ export async function POST(request: NextRequest) {
 		);
 	}
 
-	// TODO: Test this more thoroughly
 	const isUserExistsInDB = await checkIfUserExistsInDB(
 		"email",
 		body.email,

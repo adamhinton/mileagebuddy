@@ -52,8 +52,6 @@ const completeMockVehicle = {
 		monthlyLoanPayment: 300.0,
 		monthlyWarrantyCost: 30.0,
 		inspectionCost: 100.0,
-		// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
-		yearlyParkingCost: null,
 		otherYearlyCosts: 300.0,
 	},
 	yearlyMaintenanceCosts: {
@@ -63,7 +61,6 @@ const completeMockVehicle = {
 		batteries: 300.0,
 		brakes: 100.0,
 		other: 100.0,
-		depreciation: 800.0,
 	},
 	variableCosts: {
 		vehicleID: 1,

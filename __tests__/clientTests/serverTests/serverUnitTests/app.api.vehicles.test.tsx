@@ -108,8 +108,6 @@ describe("GET /api/vehicles", () => {
 				monthlyLoanPayment: 300.0,
 				monthlyWarrantyCost: 30.0,
 				inspectionCost: 100.0,
-				// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
-				yearlyParkingCost: null,
 				otherYearlyCosts: 300.0,
 			},
 			yearlyMaintenanceCosts: {
@@ -119,7 +117,6 @@ describe("GET /api/vehicles", () => {
 				batteries: 300.0,
 				brakes: 100.0,
 				other: 100.0,
-				depreciation: 800.0,
 			},
 			variableCosts: {
 				vehicleID: 1,
@@ -308,8 +305,6 @@ describe("POST /api/vehicles", () => {
 				monthlyLoanPayment: 300.0,
 				monthlyWarrantyCost: 30.0,
 				inspectionCost: 100.0,
-				// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
-				yearlyParkingCost: null,
 				otherYearlyCosts: 300.0,
 			},
 			yearlyMaintenanceCosts: {
@@ -318,7 +313,6 @@ describe("POST /api/vehicles", () => {
 				batteries: 300.0,
 				brakes: 100.0,
 				other: 100.0,
-				depreciation: 800.0,
 			},
 			variableCosts: {
 				monthlyParkingCosts: 100.0,
@@ -599,8 +593,6 @@ describe("DELETE /api/vehicles", () => {
 			},
 			fixedCosts: {
 				vehicleID: 1,
-				// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
-				yearlyParkingCost: null,
 				yearlyInsuranceCost: 1000.0,
 				yearlyRegistrationCost: 100.0,
 				yearlyTaxes: 100.0,
@@ -616,7 +608,6 @@ describe("DELETE /api/vehicles", () => {
 				batteries: 300.0,
 				brakes: 100.0,
 				other: 100.0,
-				depreciation: 800.0,
 			},
 			variableCosts: {
 				vehicleID: 1,
@@ -777,8 +768,6 @@ describe("PATCH api/vehicles", () => {
 			monthlyWarrantyCost: 30.0,
 			inspectionCost: 100.0,
 			otherYearlyCosts: 300.0,
-			// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
-			yearlyParkingCost: null,
 		},
 		yearlyMaintenanceCosts: {
 			vehicleID: 1,
@@ -787,7 +776,6 @@ describe("PATCH api/vehicles", () => {
 			batteries: 300.0,
 			brakes: 100.0,
 			other: 100.0,
-			depreciation: 800.0,
 		},
 		variableCosts: {
 			vehicleID: 1,

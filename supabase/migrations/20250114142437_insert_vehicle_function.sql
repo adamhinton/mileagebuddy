@@ -66,17 +66,17 @@ BEGIN
                 (_usage->>'extraDistancePercentHighway')::DECIMAL);
 
         INSERT INTO "fixedCosts" ("vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", 
-                                  "yearlyParkingCost", "monthlyLoanPayment", "monthlyWarrantyCost", 
+                                "monthlyLoanPayment", "monthlyWarrantyCost", 
                                   "inspectionCost", "otherYearlyCosts")
         VALUES (new_vehicle_id, (_fixedCosts->>'yearlyInsuranceCost')::DECIMAL, (_fixedCosts->>'yearlyRegistrationCost')::DECIMAL, 
-                (_fixedCosts->>'yearlyTaxes')::INT, (_fixedCosts->>'yearlyParkingCost')::DECIMAL, 
+                (_fixedCosts->>'yearlyTaxes')::INT, 
                 (_fixedCosts->>'monthlyLoanPayment')::INT, (_fixedCosts->>'monthlyWarrantyCost')::INT,
                 (_fixedCosts->>'inspectionCost')::INT, (_fixedCosts->>'otherYearlyCosts')::INT);
 
-        INSERT INTO "yearlyMaintenanceCosts" ("vehicleID", "oilChanges", "tires", "batteries", "brakes", "other", "depreciation")
+        INSERT INTO "yearlyMaintenanceCosts" ("vehicleID", "oilChanges", "tires", "batteries", "brakes", "other")
         VALUES (new_vehicle_id, (_yearlyMaintenanceCosts->>'oilChanges')::DECIMAL, (_yearlyMaintenanceCosts->>'tires')::DECIMAL,
                 (_yearlyMaintenanceCosts->>'batteries')::DECIMAL, (_yearlyMaintenanceCosts->>'brakes')::DECIMAL,
-                (_yearlyMaintenanceCosts->>'other')::DECIMAL, (_yearlyMaintenanceCosts->>'depreciation')::DECIMAL);
+                (_yearlyMaintenanceCosts->>'other')::DECIMAL);
 
         INSERT INTO "variableCosts" ("vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", 
                                      "monthlyMiscellaneousCosts", "monthlyCostDeductions")
