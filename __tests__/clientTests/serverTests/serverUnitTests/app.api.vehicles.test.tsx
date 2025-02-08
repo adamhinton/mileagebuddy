@@ -19,12 +19,9 @@ import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTV
  * @jest-environment node
  */
 
-jest.mock(
-	"../../../../src/app/utils/server/supabaseUtilsCustom/server",
-	() => ({
-		createClientSSROnly: jest.fn(),
-	})
-);
+jest.mock("../../../../src/app/utils/server/supabase/server", () => ({
+	createClientSSROnly: jest.fn(),
+}));
 
 jest.mock("next/server", () => ({
 	NextResponse: {
