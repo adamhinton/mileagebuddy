@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import VehiclesDBUtils from "@/app/utils/server/queries/vehiclesDBUtils";
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
-import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
+import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 
 const {

@@ -7,7 +7,7 @@ import {
 } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { NextRequest, NextResponse } from "next/server";
 import { DELETE, GET, PATCH, POST } from "@/app/api/vehicles/route";
-import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
+import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 import { stringForJoiningVehicleTables } from "@/app/utils/server/queries/vehiclesDBUtils";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 

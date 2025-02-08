@@ -6,7 +6,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
 import { Tables } from "../../../../database.types";
-import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
+import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 
 // TODO: Get user's vehicles too
 

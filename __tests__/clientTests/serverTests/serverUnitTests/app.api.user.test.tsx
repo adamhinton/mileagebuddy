@@ -12,7 +12,7 @@
 
 import { DELETE, GET, PUT, POST } from "@/app/api/user/route";
 // import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
-import { createClientSSROnly } from "../../../../src/app/utils/server/supabaseUtilsCustom/server";
+import { createClientSSROnly } from "../../../../src/app/utils/server/supabase/server";
 import { NextRequest } from "next/server";
 
 // Mock the Supabase client
