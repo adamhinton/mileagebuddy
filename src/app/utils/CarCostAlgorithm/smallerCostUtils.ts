@@ -2,7 +2,6 @@
 
 // README
 // This is for smaller functions that don't need their own file
-// Is tested in smallerCostUtils.test.ts
 // These are used in calculateCarCostMain.ts
 // These are server actions so must all be async
 
@@ -17,11 +16,9 @@ import {
  *
  * Takes in Vehicle.purchaseAndSales instead of full Vehicle
  *
- * Can return a negative number if car appreciates in value
+ * Can return a negative number if car appreciates in value (sale price can be higher than purchase price)
  *
  * So this basically subtracts the sales price from the purchase price
- *
- * Note: Not checking whether the sales price is higher than the purchase price because car could appreciate in value
  *
  * Only async because server actions must be async
  *
