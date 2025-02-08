@@ -2,7 +2,6 @@
 
 // README
 // This is for smaller functions that don't need their own file
-// Is tested in smallerCostUtils.test.ts
 // These are used in calculateCarCostMain.ts
 // These are server actions so must all be async
 
