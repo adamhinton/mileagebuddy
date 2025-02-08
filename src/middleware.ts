@@ -1,5 +1,6 @@
 // README:
 // I created a cloned request for each if block because it was causing errors if I didn't; something about how `await request.json()` can only be used once on a request, and it was somehow being used multiple times.
+// Note that Zod validation runs both here (on the server) as well as on the client. It's lightweight enough that it's fine to run it twice, and it's a good idea to have it in both places to prevent any potential security issues.
 
 import { updateSession } from "@/app/utils/server/supabaseUtilsCustom/supabaseMiddleware";
 import { NextResponse, type NextRequest } from "next/server";

@@ -87,9 +87,9 @@ export const calcVariableCostPerYear = async (variableCosts: VariableCosts) => {
 		(monthlyCostDeductions !== null ? monthlyCostDeductions : 0);
 
 	// Yearly (obviously)
-	const totalVariableCosts = totalMonthlyVariableCosts * 12;
+	const totalYearlyVariableCosts = totalMonthlyVariableCosts * 12;
 
-	return totalVariableCosts;
+	return totalYearlyVariableCosts;
 };
 
 /**Only async because server actions must be async
