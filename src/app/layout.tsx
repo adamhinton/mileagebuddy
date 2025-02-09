@@ -39,6 +39,7 @@ export default function RootLayout({
 						{children}
 					</StoreProvider>
 				</ThemeWrapper>
+				<script src="https://accounts.google.com/gsi/client" async></script>
 			</body>
 		</html>
 	);
