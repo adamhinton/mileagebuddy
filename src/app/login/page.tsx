@@ -8,7 +8,7 @@ export default function LoginPage() {
 			*/}
 			<div
 				id="g_id_onload"
-				data-client_id="220043080394"
+				data-client_id="mileagebuddy-449116"
 				data-context="signin"
 				data-ux_mode="popup"
 				data-callback="handleSignInWithGoogle"
