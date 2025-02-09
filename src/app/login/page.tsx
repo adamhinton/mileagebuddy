@@ -8,6 +8,7 @@ export default function LoginPage() {
 			*/}
 			<div
 				id="g_id_onload"
+				// Got this client id from my GCP Mileagebuddy project page. It's the Project id, not the client id
 				data-client_id="mileagebuddy-449116"
 				data-context="signin"
 				data-ux_mode="popup"
