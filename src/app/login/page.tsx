@@ -1,4 +1,5 @@
 import { createClientCSROnly } from "../utils/server/supabase/client";
+import { createClientSSROnly } from "../utils/server/supabase/server";
 import { login, signup } from "./actions";
 
 export default function LoginPage() {
@@ -9,8 +10,9 @@ export default function LoginPage() {
 			*/}
 			<div
 				id="g_id_onload"
-				// Got this client id from my GCP Mileagebuddy project page. It's the Project id, not the client id
-				data-client_id="mileagebuddy-449116"
+				// Got this client id from my GCP Mileagebuddy project page.  It's under Google Auth Platform/Clients. https://console.cloud.google.com/auth/clients?project=mileagebuddy-449116
+				// Note that it's ok to expose the client id; it's not a secret and users will see it in their url anyway
+				data-client_id="220043080394-n7is08dpuk1iv2kbbif6isaq9l5d1lsn.apps.googleusercontent.com"
 				data-context="signin"
 				data-ux_mode="popup"
 				data-callback="handleSignInWithGoogle"
@@ -50,6 +52,8 @@ export default function LoginPage() {
  * This function isn't called in our code, Google looks for it (must be in the global scope) and calls it when appropriate.
  */
 async function handleSignInWithGoogle(response) {
+	const supabase = await createClientSSROnly();
+
 	const { data, error } = await supabase.auth.signInWithIdToken({
 		provider: "google",
 		token: response.credential,
