@@ -1,7 +1,6 @@
 "use client";
 
 import { createClientCSROnly } from "../utils/server/supabase/client";
-import { createClientSSROnly } from "../utils/server/supabase/server";
 import { login, signup } from "./actions";
 
 export default function LoginPage() {
@@ -55,10 +54,9 @@ export default function LoginPage() {
  *
  * This function isn't called in our code, Google looks for it (must be in the global scope) and calls it when appropriate.
  */
-window.handleSignInWithGoogle = async function handleSignInWithGoogle(
+globalThis.handleSignInWithGoogle = async function handleSignInWithGoogle(
 	response
 ) {
-	"use client";
 	console.log("handleSignInWithGoogle starting");
 
 	const supabase = createClientCSROnly();
