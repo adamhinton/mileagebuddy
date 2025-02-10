@@ -1,3 +1,5 @@
+"use client";
+
 import { createClientCSROnly } from "../utils/server/supabase/client";
 import { createClientSSROnly } from "../utils/server/supabase/server";
 import { login, signup } from "./actions";
@@ -32,6 +34,7 @@ export default function LoginPage() {
 				data-logo_alignment="left"
 			></div>
 
+			{/* TODO: Supabase auth docs had this formatted like so, but maybe change this to whatever form style (react-hook-form etc) we end up using */}
 			<form>
 				<label htmlFor="email">Email:</label>
 				<input id="email" name="email" type="email" required />
@@ -51,11 +54,13 @@ export default function LoginPage() {
  *
  * This function isn't called in our code, Google looks for it (must be in the global scope) and calls it when appropriate.
  */
-async function handleSignInWithGoogle(response) {
-	const supabase = await createClientSSROnly();
+window.handleSignInWithGoogle = async function handleSignInWithGoogle(
+	response
+) {
+	const supabase = await createClientCSROnly();
 
 	const { data, error } = await supabase.auth.signInWithIdToken({
 		provider: "google",
 		token: response.credential,
 	});
-}
+};
