@@ -1,3 +1,4 @@
+import { createClientCSROnly } from "../utils/server/supabase/client";
 import { login, signup } from "./actions";
 
 export default function LoginPage() {
@@ -39,4 +40,18 @@ export default function LoginPage() {
 			</form>
 		</div>
 	);
+}
+
+/**DO NOT CHANGE THIS FUNCTION NAME
+ *
+ * My GCP project for google auth is specifically configured to look for the function by this name. If you need to change it, go to the GCP project and update the function name there as well
+ * https://developers.google.com/identity/gsi/web/tools/configurator
+ *
+ * This function isn't called in our code, Google looks for it (must be in the global scope) and calls it when appropriate.
+ */
+async function handleSignInWithGoogle(response) {
+	const { data, error } = await supabase.auth.signInWithIdToken({
+		provider: "google",
+		token: response.credential,
+	});
 }
