@@ -1,10 +1,11 @@
 // README:
 // I created a cloned request for each if block because it was causing errors if I didn't; something about how `await request.json()` can only be used once on a request, and it was somehow being used multiple times.
+// Note that Zod validation runs both here (on the server) as well as on the client. It's lightweight enough that it's fine to run it twice, and it's a good idea to have it in both places to prevent any potential security issues.
 
-import { updateSession } from "@/app/utils/server/supabaseUtilsCustom/supabaseMiddleware";
 import { NextResponse, type NextRequest } from "next/server";
 import { VehicleToBePostedSchema } from "./app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { VehicleSchemaForPATCH } from "./app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
+import { updateSession } from "./app/utils/server/supabase/middleware";
 
 // TODO: User stuff, including:
 // Validate User
@@ -60,7 +61,9 @@ export async function middleware(request: NextRequest) {
 	}
 
 	// update user's auth session
-	return await updateSession(request);
+	// Note: I changed utils/supabase/middleware.ts per supabase docs. If something goes wrong here, see that file.
+	// supabase.com/docs/guides/auth/server-side/nextjs
+	https: return await updateSession(request);
 }
 
 export const config = {
