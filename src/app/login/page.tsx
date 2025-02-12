@@ -10,6 +10,7 @@ export default function LoginPage() {
 	// I copied this section from the internet
 	// Hope it doesn't fail
 	// The issue here is something to do with the google auth script not loading properly unless I do this
+	// If we didn't do this isMoutned stuff, we would get an error due to mismatch between server and client HTML
 	// I don't know why
 	// help me
 	useEffect(() => {
@@ -25,6 +26,8 @@ export default function LoginPage() {
 			document.body.removeChild(script);
 		};
 	}, []);
+
+	console.log("this should be client");
 
 	return (
 		<div>
