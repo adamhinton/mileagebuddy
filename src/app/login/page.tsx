@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { createClientCSROnly } from "../utils/server/supabase/client";
 import { login, signup } from "./actions";
-import { redirect } from "next/navigation";
 
 export default function LoginPage() {
 	const [mounted, setMounted] = useState(false);
