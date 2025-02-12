@@ -124,9 +124,19 @@ globalThis.handleSignInWithGoogle = async function handleSignInWithGoogle(
 // Button to proceed without logging in
 
 // AUTH.users table:
+// https://supabase.com/docs/guides/auth/managing-user-data
 // Add dark mode preference
 // Update vehicles table to reference auth.users with relevant id
 // Update users endpoint to reference auth.users
 
 // GOOGLE STUFF:
 // Make any google auth changes be reflected in users table
+
+// 	supabase.auth.updateUser(
+// 	{
+
+// 	}
+// )
+
+// Seeding auth.users:
+// https://www.reddit.com/r/Supabase/comments/uy8lku/how_to_seed_user_records/
