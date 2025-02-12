@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClientCSROnly } from "../utils/server/supabase/client";
 import { login, signup } from "./actions";
+import { redirect } from "next/navigation";
 
 export default function LoginPage() {
 	const [mounted, setMounted] = useState(false);
@@ -82,9 +83,15 @@ globalThis.handleSignInWithGoogle = async function handleSignInWithGoogle(
 		token: response.credential,
 	});
 
-	// OR:
 	// const myResponse = supabase.auth.signInWithOAuth({
 	// 	provider: "google",
+	// 	options: {
+	// 		redirectTo: "http://localhost:3000/", //after the google redirect, we need to redirect to this route
+	// 		queryParams: {
+	// 			access_type: "offline",
+	// 			prompt: "consent",
+	// 		},
+	// 	},
 	// });
 
 	// console.log("myResponse:", myResponse);
