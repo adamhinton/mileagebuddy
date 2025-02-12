@@ -27,8 +27,6 @@ export default function LoginPage() {
 		};
 	}, []);
 
-	console.log("this should be client");
-
 	return (
 		<div>
 			{isMounted && (
@@ -103,6 +101,7 @@ globalThis.handleSignInWithGoogle = async function handleSignInWithGoogle(
 
 	const supabase = createClientCSROnly();
 
+	// TODO: More auth flow here
 	const signedInUser = await supabase.auth.getUser();
 	console.log("signedInUser:", signedInUser);
 
@@ -117,3 +116,17 @@ globalThis.handleSignInWithGoogle = async function handleSignInWithGoogle(
 		console.log("Successfully signed in with Google:", data);
 	}
 };
+
+// AUTH PLAN:
+// On page load, check if user is logged in
+// If they are, redirect them to the dashboard
+// If not, go to login
+// Button to proceed without logging in
+
+// AUTH.users table:
+// Add dark mode preference
+// Update vehicles table to reference auth.users with relevant id
+// Update users endpoint to reference auth.users
+
+// GOOGLE STUFF:
+// Make any google auth changes be reflected in users table
