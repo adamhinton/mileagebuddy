@@ -8,6 +8,11 @@ export default function LoginPage() {
 	const [mounted, setMounted] = useState(false);
 
 	useEffect(() => {
+		// I copied this section from the internet
+		// Hope it doesn't fail
+		// The issue here is something to do with the google auth script not loading properly unless I do this
+		// I don't know why
+		// help me
 		setMounted(true);
 		// Dynamically load the Google GSI script
 		const script = document.createElement("script");
