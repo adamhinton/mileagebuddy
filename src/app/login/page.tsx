@@ -65,10 +65,18 @@ export default function LoginPage() {
 				<button formAction={signup}>Sign up</button>
 			</form>
 
+			{/* TODO: Put logout button in header or something */}
 			<button
-				onClick={() => {
+				onClick={async () => {
 					const supabase = createClientCSROnly();
-					supabase.auth.signOut();
+					await supabase.auth
+						.signOut()
+						.then(() => {
+							console.log("Logged out");
+						})
+						.catch((error) => {
+							console.error("Error logging out:", error.message);
+						});
 				}}
 			>
 				Log Out (Test)
@@ -77,6 +85,9 @@ export default function LoginPage() {
 	);
 }
 
+// Google's auth API expects this function to be in the global scope
+// It's kinda clunky but it works
+// DO NOT CHANGE THIS FUNCTION NAME, ITS NAME IS REFERENCED IN THE GOOGLE GSI SCRIPT
 // @ts-expect-error not sure what to type this
 globalThis.handleSignInWithGoogle = async function handleSignInWithGoogle(
 	// @ts-expect-error not sure what to type this
@@ -98,19 +109,6 @@ globalThis.handleSignInWithGoogle = async function handleSignInWithGoogle(
 		provider: "google",
 		token: response.credential,
 	});
-
-	// const myResponse = supabase.auth.signInWithOAuth({
-	// 	provider: "google",
-	// 	options: {
-	// 		redirectTo: "http://localhost:3000/", //after the google redirect, we need to redirect to this route
-	// 		queryParams: {
-	// 			access_type: "offline",
-	// 			prompt: "consent",
-	// 		},
-	// 	},
-	// });
-
-	// console.log("myResponse:", myResponse);
 
 	if (error) {
 		console.error("Error signing in with Google:", error.message);
