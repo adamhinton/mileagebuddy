@@ -5,10 +5,7 @@
 
 import { createBrowserClient } from "@supabase/ssr";
 
-/**
- * For use in CLIENT CODE ONLY; if you need a supabase client for server code, see createClientSSROnly()
- *
- * Supabase names this createClient() in their docs, I renamed it for clarity
+/**Supabase names this createClient() in their docs, I renamed it for clarity
  *
  * And I definitely won't regret that later when copying from their docs
  */
