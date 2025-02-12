@@ -26,8 +26,6 @@ export default function LoginPage() {
 		};
 	}, []);
 
-	console.log("this should be client");
-
 	return (
 		<div>
 			{isMounted && (
@@ -55,7 +53,7 @@ export default function LoginPage() {
 				</>
 			)}
 
-			{/* TODO: Consider using react-hook-form or your preferred form library */}
+			{/* TODO: Consider using react-hook-form or preferred form library */}
 			<form>
 				<label htmlFor="email">Email:</label>
 				<input id="email" name="email" type="email" required />
