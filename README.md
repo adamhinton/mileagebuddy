@@ -228,5 +228,5 @@ IMPORTANT: All of the below stuff about local backend is taken care of by my `np
 -Run `npx supabase db pull`
 -Run `npx supabase start`
 -Run `npx supabase migration up`
--Will need to populate NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local. I got them from here:
+-Will need to populate NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local. Also need GOOGLE_OAUTH_SECRET; this is my Client Secret from the GCP platform for MileageBuddy. Google Auth Platform > Clients > Client: [id]. It's used in config.toml
 -Again, `npm run dev:setup` takes care of everything for you after `npx supabase link`. These items are just in case you need debugging help.
