@@ -86,6 +86,7 @@ export default function LoginPage() {
 
 // Google's auth API expects this function to be in the global scope
 // DO NOT CHANGE THIS FUNCTION NAME, ITS NAME IS REFERENCED IN THE GOOGLE GSI SCRIPT
+// Google's API calls this function when the user signs in
 // @ts-expect-error - wasn't sure what to type this, Google's docs didn't specify
 globalThis.handleSignInWithGoogle = async function handleSignInWithGoogle(
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
