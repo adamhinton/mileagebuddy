@@ -1,3 +1,8 @@
+// README
+// This is the source of truth for auth in this application (obviously)
+// At this time we are only using Google Sign-In for authentication, no passwords or anything
+// User will also be able to save vehicles locally (localhost) without an account
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -81,9 +86,10 @@ export default function LoginPage() {
 
 // Google's auth API expects this function to be in the global scope
 // DO NOT CHANGE THIS FUNCTION NAME, ITS NAME IS REFERENCED IN THE GOOGLE GSI SCRIPT
-// @ts-expect-error
+// @ts-expect-error - wasn't sure what to type this, Google's docs didn't specify
 globalThis.handleSignInWithGoogle = async function handleSignInWithGoogle(
-	response
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	response: any
 ) {
 	console.log("handleSignInWithGoogle starting");
 	console.log(
