@@ -11,6 +11,7 @@ import {
 	updateVehicleInDBClient,
 } from "./utils/server/client/DBInteractions/VehiclesDBInteractions";
 import { calculateCarCostMain } from "./utils/CarCostAlgorithm/calculateCarCostMain";
+import { useAppSelector } from "@/redux/hooks";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
@@ -77,6 +78,10 @@ import { calculateCarCostMain } from "./utils/CarCostAlgorithm/calculateCarCostM
 // };
 
 export default function Page() {
+	// const loggedInUser = useAppSelector((state) => state.user.value);
+
+	// const [isLoggedIn] = useState<boolean>(loggedInUser !== undefined);
+
 	console.log(
 		"process.env.NEXT_PUBLIC_VERCEL_URL :",
 		process.env.NEXT_PUBLIC_VERCEL_URL
