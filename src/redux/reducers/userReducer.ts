@@ -13,30 +13,23 @@ const UserNullableSchema = UserSchema.extend({
 	id: z.string().nullable(),
 	email: z.string().email().nullable(),
 	isDarkMode: z.boolean().nullable(),
-});
+}).nullable();
 
 type UserNullablePreLogin = z.infer<typeof UserNullableSchema>;
 
-const initialState: UserNullablePreLogin = {
-	id: null,
-	isDarkMode: null,
-	email: null,
+const initialState: { value?: UserNullablePreLogin } = {
+	value: undefined,
 };
-
 const userSlice = createSlice({
 	name: "user",
 	initialState,
 	reducers: {
 		// TODO: Error handling here
 		setUser: (state, action: PayloadAction<User>) => {
-			state.id = action.payload.id;
-			state.isDarkMode = action.payload.isDarkMode;
-			state.email = action.payload.email;
+			state.value = action.payload;
 		},
 		clearUser: (state) => {
-			state.id = null;
-			state.isDarkMode = null;
-			state.email = null;
+			state.value = undefined;
 		},
 	},
 });
