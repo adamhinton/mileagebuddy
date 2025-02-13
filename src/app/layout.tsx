@@ -6,6 +6,8 @@ import { ThemeWrapper } from "../../providers";
 import { Header } from "@/components/Header";
 import AuthWatcher from "./components/AuthWatcher";
 
+// TODO: "You just made an account. I see you have vehicles saved locally. Do you want to import them to your account, or delete them?"
+
 const geistSans = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
