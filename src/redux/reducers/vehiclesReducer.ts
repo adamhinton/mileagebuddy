@@ -85,12 +85,14 @@ const vehiclesSlice = createSlice({
 	name: "vehicles",
 	initialState: initialState,
 	reducers: {
+		// Zod should have already validated vehicle here in the create vehicle form component
 		addVehicle: (state, action: PayloadAction<Vehicle>) => {
 			state.push(action.payload);
 		},
 		removeOneVehicle: (state, action: PayloadAction<number>) => {
 			state.splice(action.payload, 1);
 		},
+		// Zod should have already validated these vehicles when getting them from the db
 		setVehicles: (state, action: PayloadAction<Vehicle[]>) => {
 			state.length = 0;
 			state.push(...action.payload);
