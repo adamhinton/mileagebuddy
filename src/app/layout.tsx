@@ -4,6 +4,7 @@ import "./globals.css";
 import StoreProvider from "@/redux/StoreProvider";
 import { ThemeWrapper } from "../../providers";
 import { Header } from "@/components/Header";
+import AuthWatcher from "./components/AuthWatcher";
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -35,6 +36,8 @@ export default function RootLayout({
 				{/* ThemeWrapper is the dark/light theme wrapper */}
 				<ThemeWrapper>
 					<StoreProvider>
+						{/* AuthWatcher is a component that watches for auth events and updates the Redux store */}
+						<AuthWatcher />
 						<Header />
 						{children}
 					</StoreProvider>
