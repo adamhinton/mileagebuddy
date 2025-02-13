@@ -105,7 +105,9 @@ const fakeVehicles: Vehicle[] = [
 ];
 
 const preloadedState: RootState = {
-	user: fakeUser,
+	user: {
+		value: fakeUser,
+	},
 	vehicles: fakeVehicles,
 	theme: {
 		isDarkMode: false,

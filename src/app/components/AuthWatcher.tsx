@@ -30,10 +30,12 @@ const AuthWatcher = () => {
 						isDarkMode: false,
 					})
 				);
+				// TODO: Get vehicles from db; set vehicles
 			} else if (event === "SIGNED_OUT") {
 				// Handle sign out event
 				console.log("User signed out");
 				dispatch(clearUser());
+				// TODO: Clear vehicles
 			} else if (event === "TOKEN_REFRESHED") {
 				// Handle token refresh event
 				console.log("Token refreshed:", session);
