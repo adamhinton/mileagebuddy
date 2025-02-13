@@ -129,8 +129,10 @@ BACKEND ENDPOINTS:
 AUTH:
 -This app uses Supabase Auth https://supabase.com/docs/guides/auth/server-side/nextjs
 -Also using Google signin functionality.
+-Google auth is the single source of truth, there is no other login or password option.
 -Supabase auth links with the private.auth table in the db, this is automatically configured by supabase
 -As of 2.9.25, I plan to store basic user info on that auth table, such as darkmode preference. Will also adjust vehicle foreign keys to match this table instead of the original users table which I had created
+-The <AuthWatcher/> component is not a UI component, it watched for supabase auth updates (login, logout etc) and makes appropriate updates to redux state
 
 DB:
 -hosting DB on Supabase
