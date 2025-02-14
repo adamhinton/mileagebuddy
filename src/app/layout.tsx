@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import StoreProvider from "@/redux/StoreProvider";
+import ReduxStoreProvider from "@/redux/StoreProvider";
 import { ThemeWrapper } from "../../providers";
 import { Header } from "@/components/Header";
 import AuthWatcher from "./components/AuthWatcher";
@@ -37,12 +37,12 @@ export default function RootLayout({
 			>
 				{/* ThemeWrapper is the dark/light theme wrapper */}
 				<ThemeWrapper>
-					<StoreProvider>
+					<ReduxStoreProvider>
 						{/* AuthWatcher is a component that watches for auth events and updates the Redux store */}
 						<AuthWatcher />
 						<Header />
 						{children}
-					</StoreProvider>
+					</ReduxStoreProvider>
 				</ThemeWrapper>
 				<script src="https://accounts.google.com/gsi/client" async></script>
 			</body>

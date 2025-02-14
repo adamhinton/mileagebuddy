@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import { makeStore, AppStore } from "./store";
 // import { useAppSelector } from "./hooks";
 
-export default function StoreProvider({
+export default function ReduxStoreProvider({
 	children,
 }: {
 	children: React.ReactNode;
