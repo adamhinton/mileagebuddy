@@ -77,6 +77,10 @@ import { calculateCarCostMain } from "./utils/CarCostAlgorithm/calculateCarCostM
 // };
 
 export default function Page() {
+	// const loggedInUser = useAppSelector((state) => state.user.value);
+
+	// const [isLoggedIn] = useState<boolean>(loggedInUser !== undefined);
+
 	console.log(
 		"process.env.NEXT_PUBLIC_VERCEL_URL :",
 		process.env.NEXT_PUBLIC_VERCEL_URL

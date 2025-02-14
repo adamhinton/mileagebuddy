@@ -1,3 +1,7 @@
+// README:
+// These are currently deprecated since I moved towards only using google auth
+// TODO: Delete this file if no use for it emerges soon
+
 "use server";
 
 import { revalidatePath } from "next/cache";

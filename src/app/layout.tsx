@@ -1,9 +1,16 @@
+// README
+// This test gets environment variables from jest.setup.ts
+// Look there if those vars are undefined.
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import StoreProvider from "@/redux/StoreProvider";
+import ReduxStoreProvider from "@/redux/StoreProvider";
 import { ThemeWrapper } from "../../providers";
 import { Header } from "@/components/Header";
+import AuthWatcher from "./components/AuthWatcher";
+
+// TODO: "You just made an account. I see you have vehicles saved locally. Do you want to import them to your account, or delete them?"
 
 const geistSans = Geist({
 	variable: "--font-geist-sans",
@@ -34,10 +41,12 @@ export default function RootLayout({
 			>
 				{/* ThemeWrapper is the dark/light theme wrapper */}
 				<ThemeWrapper>
-					<StoreProvider>
+					<ReduxStoreProvider>
+						{/* AuthWatcher is a component that watches for auth events and updates the Redux store */}
+						<AuthWatcher />
 						<Header />
 						{children}
-					</StoreProvider>
+					</ReduxStoreProvider>
 				</ThemeWrapper>
 				<script src="https://accounts.google.com/gsi/client" async></script>
 			</body>
