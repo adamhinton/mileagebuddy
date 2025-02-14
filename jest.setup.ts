@@ -1,3 +1,6 @@
+// README
+// This is how Jest gets our environment variables.
+
 // Are these causing tests to fail?
 // You need to manually change this if the values in env.local change
 

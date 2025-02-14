@@ -1,3 +1,7 @@
+// README
+// This test gets environment variables from jest.setup.ts
+// Look there if those vars are undefined.
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
