@@ -11,6 +11,7 @@ import {
 	updateVehicleInDBClient,
 } from "./utils/server/client/DBInteractions/VehiclesDBInteractions";
 import { calculateCarCostMain } from "./utils/CarCostAlgorithm/calculateCarCostMain";
+import { createClientCSROnly } from "./utils/server/supabase/client";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
@@ -394,22 +395,32 @@ export default function Page() {
 
 			{/* GET test button using new API */}
 			<button
-				onClick={() => {
-					fetch("/api/user?id=3", {
-						method: "GET",
-					})
-						.then((res) => {
-							if (!res.ok) {
-								throw new Error(`HTTP error! Status: ${res.status}`);
-							}
-							return res.json();
-						})
-						.then((data) => {
-							console.log("Response data:", data);
-						})
-						.catch((error) => {
-							console.error("Error during GET request:", error);
-						});
+				onClick={async () => {
+					const supabase = createClientCSROnly();
+					const userFromDB = await supabase.auth.getUser();
+					const { id, email } = userFromDB.data.user;
+					const user: User = {
+						id,
+						email,
+						isDarkMode: false,
+					};
+					console.log("user:", user);
+
+					// fetch("/api/user?id=3", {
+					// 	method: "GET",
+					// })
+					// 	.then((res) => {
+					// 		if (!res.ok) {
+					// 			throw new Error(`HTTP error! Status: ${res.status}`);
+					// 		}
+					// 		return res.json();
+					// 	})
+					// 	.then((data) => {
+					// 		console.log("Response data:", data);
+					// 	})
+					// 	.catch((error) => {
+					// 		console.error("Error during GET request:", error);
+					// 	});
 				}}
 			>
 				Get User
