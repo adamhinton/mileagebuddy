@@ -12,6 +12,7 @@ import {
 } from "./utils/server/client/DBInteractions/VehiclesDBInteractions";
 import { calculateCarCostMain } from "./utils/CarCostAlgorithm/calculateCarCostMain";
 import { createClientCSROnly } from "./utils/server/supabase/client";
+import { User } from "./zod/schemas/UserSchema";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
@@ -398,10 +399,18 @@ export default function Page() {
 				onClick={async () => {
 					const supabase = createClientCSROnly();
 					const userFromDB = await supabase.auth.getUser();
-					const { id, email } = userFromDB.data.user;
+					// const { id, email } = userFromDB.data.user!;
+					if (!userFromDB.data.user) {
+						console.log("user not found");
+						return;
+					}
+					const { id } = userFromDB.data.user;
+					// Email should always exist bc they can't sign up without it
+					const email = userFromDB.data.user.email!;
 					const user: User = {
 						id,
 						email,
+						// TODO: This is just a dummy isDarkMode value, replace with real value
 						isDarkMode: false,
 					};
 					console.log("user:", user);
