@@ -9,11 +9,16 @@
 
 // Users table:
 // Delete old users table
-// Hook up any relevant endpoints to new users table
+// Hook up any relevant endpoints to new users table - probably delete this endpoint actually
+// Work darkmode in to auth user data
+
+// Users table migrations:
 
 // Vehicles table TODO:
 // Hook up new user id to vehicles
 // Nothing needs done in vehicle sub-objects
+// Hook up seeds to reconfigured user ids
+//  - I think this can just be done by changing seed to auth users id instead of regular users?
 
 // Auth UI TODO:
 // Update flow:
