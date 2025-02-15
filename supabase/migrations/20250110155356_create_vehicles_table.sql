@@ -14,7 +14,7 @@
 
 CREATE TABLE vehicles (
     id SERIAL PRIMARY KEY,
-    userID bigint NOT NULL,
+    userID uuid NOT NULL,
     type VARCHAR(10) NOT NULL CHECK(type IN ('gas', 'electric')),
     -- The order a user's vehicles are listed in, for drag and drop purposes etc
     "vehiclesOrder" INT NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE vehicles (
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,
     -- TODO: This may not associate correctly with userid
-    CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE
+    CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES auth.users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE "vehicleData" (
