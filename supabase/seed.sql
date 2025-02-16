@@ -1,24 +1,91 @@
 -- NOTE. IMPORTANT: Some table names and column names are wrapped in double quotes. This is to make them case sensitive, otherwise all keys returned from the backend would be lowercase which would be extremely annoying when trying to convert them to camel case for frontend use.
 
--- TODO: Make sure this doesn't end up in prod db
-INSERT INTO auth.users (id, email
--- TODO: Put isDarkMode back in
--- , "isDarkMode"
-) VALUES
-('440934ee-c552-4bcf-9821-76b2fb589165', 'adam.d.hinton@gmail.com'),
-('b89d325e-4425-4f66-9823-3e3d6cc86781', 'bob.jones@example.com'),
-('f7d9ee2f-cd3b-4d51-9b2a-5541f8e07426', 'charlie.brown@example.com'),
-('a4b8c6d2-e5f7-4a51-9b2a-5541f8e07abc', 'david.wilson@example.com'),
-('e9d8c7b6-a5f4-4e3d-b2c1-1a0f9e8d7c6b', 'emma.davis@example.com');
+-- https://gist.github.com/khattaksd/4e8f4c89f4e928a2ecaad56d4a17ecd1
+
+INSERT INTO
+    auth.users (
+        instance_id,
+        id,
+        aud,
+        role,
+        email,
+        encrypted_password,
+        email_confirmed_at,
+        recovery_sent_at,
+        last_sign_in_at,
+        raw_app_meta_data,
+        raw_user_meta_data,
+        created_at,
+        updated_at,
+        confirmation_token,
+        email_change,
+        email_change_token_new,
+        recovery_token
+    ) (
+        select
+            '00000000-0000-0000-0000-000000000000',
+            uuid_generate_v4 (),
+            'authenticated',
+            'authenticated',
+            -- Need to use different email addresses if you want more than one user. See generate_series notes below
+            'adam.d.hinton@gmail.com',
+            crypt ('password123', gen_salt ('bf')),
+            current_timestamp,
+            current_timestamp,
+            current_timestamp,
+            '{"provider":"email","providers":["email"]}',
+            '{}',
+            current_timestamp,
+            current_timestamp,
+            '',
+            '',
+            '',
+            ''
+        FROM
+            -- If you want more than one user, increase the second parameter
+            -- So for five users, you would use generate_series(1, 5)
+            -- Need to make sure to randomize email addresses if so, or at least use different email addresses
+            generate_series(1, 1)
+    );
+
+    INSERT INTO
+    auth.identities (
+        id,
+        user_id,
+        -- New column
+        provider_id,
+        identity_data,
+        provider,
+        last_sign_in_at,
+        created_at,
+        updated_at
+    ) (
+        select
+            uuid_generate_v4 (),
+            id,
+            -- New column
+            id,
+            format('{"sub":"%s","email":"%s"}', id :: text, email) :: jsonb,
+            'email',
+            current_timestamp,
+            current_timestamp,
+            current_timestamp
+        from
+            auth.users
+
+        where
+          email LIKE '%@gmail.com'
+    );
+
 
 INSERT INTO vehicles (userID, type, "vehiclesOrder","createdAt", "updatedAt")
 VALUES
-('440934ee-c552-4bcf-9821-76b2fb589165', 'gas', 1, NOW(), NOW()),
-('440934ee-c552-4bcf-9821-76b2fb589165', 'gas', 1, NOW(), NOW()),
-('440934ee-c552-4bcf-9821-76b2fb589165', 'gas', 1, NOW(), NOW()),
-('440934ee-c552-4bcf-9821-76b2fb589165', 'electric', 1, NOW(), NOW()),
-('440934ee-c552-4bcf-9821-76b2fb589165', 'electric', 1, NOW(), NOW()),
-('440934ee-c552-4bcf-9821-76b2fb589165', 'electric', 1, NOW(), NOW());
+('26831e5c-e2f6-4ab3-9007-bdcf13a45ca3', 'gas', 1, NOW(), NOW()),
+('26831e5c-e2f6-4ab3-9007-bdcf13a45ca3', 'gas', 1, NOW(), NOW()),
+('26831e5c-e2f6-4ab3-9007-bdcf13a45ca3', 'gas', 1, NOW(), NOW()),
+('26831e5c-e2f6-4ab3-9007-bdcf13a45ca3', 'electric', 1, NOW(), NOW()),
+('26831e5c-e2f6-4ab3-9007-bdcf13a45ca3', 'electric', 1, NOW(), NOW()),
+('26831e5c-e2f6-4ab3-9007-bdcf13a45ca3', 'electric', 1, NOW(), NOW());
 
 INSERT INTO "vehicleData" ("vehicleID", "vehicleName", year, make, model, trim, "highwayMPG", "createdAt", "updatedAt")
 VALUES
