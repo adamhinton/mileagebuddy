@@ -1,8 +1,15 @@
+-- README
+-- Vehicles in this project are complicated objects. So there's a main `vehicles` table, then seven sub-tables
+-- This file seeds a single user (in auth.users), and six vehicles
+-- This can be expanded to more users and more vehicles, there just hasn't been a need yet
+
 -- NOTE. IMPORTANT: Some table names and column names are wrapped in double quotes. This is to make them case sensitive, otherwise all keys returned from the backend would be lowercase which would be extremely annoying when trying to convert them to camel case for frontend use.
 
--- https://gist.github.com/khattaksd/4e8f4c89f4e928a2ecaad56d4a17ecd1
-
--- Insert a new user and capture its id
+-- I used the file from https://gist.github.com/khattaksd/4e8f4c89f4e928a2ecaad56d4a17ecd1 as a template here, and tweaked to meet my needs
+-- This seeds a single user in to auth.users
+-- Seeding in to Supabase's auth table is complex, hence all this gibberish
+-- This seeds the user, while catching the new user's id to insert vehicles for him - that's what `with new_user AS` is doing
+-- This can be expanded to more users
 WITH new_user AS (
   INSERT INTO auth.users (
     instance_id,
@@ -28,6 +35,8 @@ WITH new_user AS (
     uuid_generate_v4(),
     'authenticated',
     'authenticated',
+    -- If you seed multiple users, need non-duplicate emails
+    -- Can write a function for randomized email strings
     'adam.d.hinton@gmail.com',
     crypt('password123', gen_salt('bf')),
     current_timestamp,
@@ -45,14 +54,19 @@ WITH new_user AS (
   RETURNING id
 )
 
--- Use the captured id to insert six vehicles:
+-- Use the captured user id from above to insert six vehicles:
 -- 3 gas vehicles (vehiclesOrder 1-3) and 3 electric vehicles (vehiclesOrder 4-6)
 INSERT INTO vehicles (userID, type, "vehiclesOrder", "createdAt", "updatedAt")
 SELECT id, type, order_val, NOW(), NOW()
 FROM new_user
 CROSS JOIN (
+    -- This makes three gas vehicles
+    -- If you want more vehicles, just increase the second parameter of generate_series
+    -- for instance, to make five gas vehicles, generate_series(1,5)
   SELECT gs AS order_val, 'gas' AS type FROM generate_series(1,3) gs
   UNION ALL
+    --   This makes three electric vehicles
+    -- See notes just above if you want to change this number
   SELECT gs + 3 AS order_val, 'electric' AS type FROM generate_series(1,3) gs
 ) t;
 
