@@ -45,22 +45,16 @@ WITH new_user AS (
   RETURNING id
 )
 
--- Insert 3 gas vehicles
+-- Use the captured id to insert six vehicles:
+-- 3 gas vehicles (vehiclesOrder 1-3) and 3 electric vehicles (vehiclesOrder 4-6)
 INSERT INTO vehicles (userID, type, "vehiclesOrder", "createdAt", "updatedAt")
-SELECT id, 'gas', 1, NOW(), NOW() FROM new_user;
-INSERT INTO vehicles (userID, type, "vehiclesOrder", "createdAt", "updatedAt")
-SELECT id, 'gas', 2, NOW(), NOW() FROM new_user;
-INSERT INTO vehicles (userID, type, "vehiclesOrder", "createdAt", "updatedAt")
-SELECT id, 'gas', 3, NOW(), NOW() FROM new_user;
-
--- Insert 3 electric vehicles
-INSERT INTO vehicles (userID, type, "vehiclesOrder", "createdAt", "updatedAt")
-SELECT id, 'electric', 4, NOW(), NOW() FROM new_user;
-INSERT INTO vehicles (userID, type, "vehiclesOrder", "createdAt", "updatedAt")
-SELECT id, 'electric', 5, NOW(), NOW() FROM new_user;
-INSERT INTO vehicles (userID, type, "vehiclesOrder", "createdAt", "updatedAt")
-SELECT id, 'electric', 6, NOW(), NOW() FROM new_user;
-
+SELECT id, type, order_val, NOW(), NOW()
+FROM new_user
+CROSS JOIN (
+  SELECT gs AS order_val, 'gas' AS type FROM generate_series(1,3) gs
+  UNION ALL
+  SELECT gs + 3 AS order_val, 'electric' AS type FROM generate_series(1,3) gs
+) t;
 
 INSERT INTO "vehicleData" ("vehicleID", "vehicleName", year, make, model, trim, "highwayMPG", "createdAt", "updatedAt")
 VALUES
