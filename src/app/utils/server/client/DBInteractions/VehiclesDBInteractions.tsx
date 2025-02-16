@@ -37,6 +37,8 @@ export const getVehiclesByUserIDClient = async (
 		});
 		const vehicles: Vehicles = await res.json();
 
+		console.log("vehicles:", vehicles);
+
 		// Validating GET receipts to notify me in dev if something is wrong
 		vehicles.forEach((vehicle) => {
 			const isVehicle = VehicleSchema.safeParse(vehicle);

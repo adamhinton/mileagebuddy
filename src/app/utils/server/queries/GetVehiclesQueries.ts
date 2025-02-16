@@ -12,7 +12,7 @@ export const getVehiclesByUserIdQuery = async (userId: string) => {
 	return supabase
 		.from("vehicles")
 		.select(stringForJoiningVehicleTables)
-		.eq("userid", Number(userId));
+		.eq("userid", userId);
 };
 
 export const getSingleVehicleByIdQuery = async (vehicleId: number) => {
