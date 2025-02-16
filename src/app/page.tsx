@@ -178,7 +178,7 @@ export default function Page() {
 
 					const completeMockVehicle = {
 						type: "gas" as const,
-						// The id doesn't actually do anything here since this is just a test vehicle, but it's required by the schema
+						// The userid doesn't actually do anything here since this is just a test vehicle, but it's required by the schema
 						userid: loggedInUser.id || "1",
 						id: 1,
 						vehiclesOrder: 1,
