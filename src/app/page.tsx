@@ -135,10 +135,15 @@ export default function Page() {
 			{/* PATCH api/vehicles with dummy Vehicle */}
 			<button
 				onClick={async () => {
+					if (!loggedInUser) {
+						console.error("No logged in user to PATCH a vehicle for");
+						return;
+					}
+
 					const partialMockVehicle: Vehicle_For_db_PATCH = {
 						type: "gas",
 						id: 3,
-						userid: loggedInUser?.id,
+						userid: loggedInUser.id,
 						vehiclesOrder: 20,
 						vehicleData: {
 							vehicleID: 1,
@@ -151,6 +156,11 @@ export default function Page() {
 						},
 					};
 
+					if (!loggedInUser) {
+						console.error("No logged in user");
+						return;
+					}
+
 					const data = await updateVehicleInDBClient(partialMockVehicle);
 
 					console.log("data from PATCH vehicles:", data);
@@ -161,9 +171,15 @@ export default function Page() {
 
 			<button
 				onClick={async () => {
+					if (!loggedInUser) {
+						console.error("No logged in user");
+						return;
+					}
+
 					const completeMockVehicle = {
 						type: "gas" as const,
-						userid: loggedInUser?.id,
+						// The id doesn't actually do anything here since this is just a test vehicle, but it's required by the schema
+						userid: loggedInUser.id || "1",
 						id: 1,
 						vehiclesOrder: 1,
 						vehicleData: {
@@ -236,7 +252,10 @@ export default function Page() {
 
 			<button
 				onClick={async () => {
-					console.log("blah blah blah");
+					if (!loggedInUser) {
+						console.error("No logged in user");
+						return;
+					}
 
 					const completeMockVehicle = {
 						type: "gas" as const,
@@ -339,6 +358,11 @@ export default function Page() {
 					// });
 					// const data: Vehicles = await res.json();
 					// console.log("data from GET vehicles:", data);
+
+					if (!loggedInUser) {
+						console.error("No logged in user to GET vehicles for");
+						return;
+					}
 
 					const data = await getVehiclesByUserIDClient(loggedInUser?.id);
 					console.log("data from getVehiclesByUserID:", data);
