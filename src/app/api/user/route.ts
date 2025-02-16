@@ -1,216 +1,222 @@
-// README
-// basic nextjs route.ts with CRUD endpoints for the users table
-// I didn't build out a utils file because this endpoint is relatively simple. But will make utils if it gets more complex
-// TODO: Probably delete public.users and just use the supabase auth.users built in table. But can still use this same endpoint
+// README:
+// Ignore everything below
+// This route is DEPRECATED, I originally wrote this as a user CRUD endpoint for the users table
+// But I've transitioned to just using supabase's built in auth.users instead
+// TODO: Delete this if no use for it becomes apparent
 
-import { NextRequest, NextResponse } from "next/server";
-import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
-import { Tables } from "../../../../database.types";
-import { createClientSSROnly } from "@/app/utils/server/supabase/server";
+// // README
+// // basic nextjs route.ts with CRUD endpoints for the users table
+// // I didn't build out a utils file because this endpoint is relatively simple. But will make utils if it gets more complex
+// // TODO: Probably delete public.users and just use the supabase auth.users built in table. But can still use this same endpoint
 
-// TODO: Get user's vehicles too
+// import { NextRequest, NextResponse } from "next/server";
+// import { PostgrestError, SupabaseClient } from "@supabase/supabase-js";
+// import { Tables } from "../../../../database.types";
+// import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 
-// import { NextApiRequest, NextApiResponse } from "next";
+// // TODO: Get user's vehicles too
 
-// TODO: User data validation. Middleware?
+// // import { NextApiRequest, NextApiResponse } from "next";
 
-// TODO: Utils such as getUserByID etc
+// // TODO: User data validation. Middleware?
 
-// Gets a user with query parameters by id or email
-// Ex GET api/users?id=2348 or GET api/users?email=bob@bob.com or GET api/users?email=bob_donaldson@gmail.com
-export async function GET(
-	request: NextRequest
-	// This return type is a fancy way to say it returns a User or an error
-): Promise<
-	NextResponse<Tables<"users">[] | null> | NextResponse<{ error: string }>
-> {
-	const url = new URL(request.url!);
-	const supabase = await createClientSSROnly();
+// // TODO: Utils such as getUserByID etc
 
-	const id = url.searchParams.get("id");
-	const email = url.searchParams.get("email");
+// // Gets a user with query parameters by id or email
+// // Ex GET api/users?id=2348 or GET api/users?email=bob@bob.com or GET api/users?email=bob_donaldson@gmail.com
+// export async function GET(
+// 	request: NextRequest
+// 	// This return type is a fancy way to say it returns a User or an error
+// ): Promise<
+// 	NextResponse<Tables<"users">[] | null> | NextResponse<{ error: string }>
+// > {
+// 	const url = new URL(request.url!);
+// 	const supabase = await createClientSSROnly();
 
-	if (!id && !email) {
-		return NextResponse.json(
-			{
-				error: "At least one query parameter (id or email) is required.",
-			},
-			{ status: 400 }
-		);
-	}
+// 	const id = url.searchParams.get("id");
+// 	const email = url.searchParams.get("email");
 
-	const GetUsersQuery = supabase.from("users").select("*");
+// 	if (!id && !email) {
+// 		return NextResponse.json(
+// 			{
+// 				error: "At least one query parameter (id or email) is required.",
+// 			},
+// 			{ status: 400 }
+// 		);
+// 	}
 
-	if (id) {
-		GetUsersQuery.eq("id", Number(id));
-	}
+// 	const GetUsersQuery = supabase.from("users").select("*");
 
-	if (email) {
-		GetUsersQuery.eq("email", email);
-	}
+// 	if (id) {
+// 		GetUsersQuery.eq("id", Number(id));
+// 	}
 
-	const {
-		data,
-		error,
-	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
-		await GetUsersQuery;
+// 	if (email) {
+// 		GetUsersQuery.eq("email", email);
+// 	}
 
-	if (error || !data || !data.length) {
-		return NextResponse.json({ error: "User not found" }, { status: 404 });
-	}
+// 	const {
+// 		data,
+// 		error,
+// 	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
+// 		await GetUsersQuery;
 
-	return NextResponse.json(data);
-}
+// 	if (error || !data || !data.length) {
+// 		return NextResponse.json({ error: "User not found" }, { status: 404 });
+// 	}
 
-// Must have an id attached as query parameter to the API endpoint call
-// for example, PUT /api/users?id=2348
-// Only takes ID
-export async function PUT(request: NextRequest) {
-	const url = new URL(request.url!);
-	const supabase = await createClientSSROnly();
+// 	return NextResponse.json(data);
+// }
 
-	const body = await request.json();
+// // Must have an id attached as query parameter to the API endpoint call
+// // for example, PUT /api/users?id=2348
+// // Only takes ID
+// export async function PUT(request: NextRequest) {
+// 	const url = new URL(request.url!);
+// 	const supabase = await createClientSSROnly();
 
-	const id = url.searchParams.get("id");
+// 	const body = await request.json();
 
-	if (!id) {
-		return NextResponse.json(
-			{
-				error: "User ID is required. Must format like so: /api/users?id=2348",
-			},
-			{ status: 400 }
-		);
-	}
+// 	const id = url.searchParams.get("id");
 
-	// TODO: This may be unnecessary
-	const isUserExistsInDB = await checkIfUserExistsInDB("id", id, supabase);
-	if (!isUserExistsInDB) {
-		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
-	}
+// 	if (!id) {
+// 		return NextResponse.json(
+// 			{
+// 				error: "User ID is required. Must format like so: /api/users?id=2348",
+// 			},
+// 			{ status: 400 }
+// 		);
+// 	}
 
-	if (!body.email && body.isDarkMode === undefined) {
-		return NextResponse.json(
-			{
-				error: "User data to update is required",
-			},
-			{ status: 400 }
-		);
-	}
-	const {
-		data,
-		error,
-	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
-		await supabase.from("users").update(body).eq("id", Number(id));
+// 	// TODO: This may be unnecessary
+// 	const isUserExistsInDB = await checkIfUserExistsInDB("id", id, supabase);
+// 	if (!isUserExistsInDB) {
+// 		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
+// 	}
 
-	if (error) {
-		return NextResponse.json({ error: error.message }, { status: 500 });
-	}
+// 	if (!body.email && body.isDarkMode === undefined) {
+// 		return NextResponse.json(
+// 			{
+// 				error: "User data to update is required",
+// 			},
+// 			{ status: 400 }
+// 		);
+// 	}
+// 	const {
+// 		data,
+// 		error,
+// 	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
+// 		await supabase.from("users").update(body).eq("id", Number(id));
 
-	return NextResponse.json(
-		{ message: "User updated successfully", data: data },
-		{ status: 200 }
-	);
-}
+// 	if (error) {
+// 		return NextResponse.json({ error: error.message }, { status: 500 });
+// 	}
 
-// Must have an id attached as query parameter to the API endpoint call
-// for example, DELETE /api/users?id=2348
-// Only takes ID
-// NOTE that this will (should) delete all associated vehicle data too (ON DELETE CASCADE)
-export async function DELETE(request: NextRequest) {
-	const url = new URL(request.url!);
-	const supabase = await createClientSSROnly();
-	const id = url.searchParams.get("id");
+// 	return NextResponse.json(
+// 		{ message: "User updated successfully", data: data },
+// 		{ status: 200 }
+// 	);
+// }
 
-	if (!id) {
-		return NextResponse.json(
-			{
-				error: "User ID is required. Must format like so: /api/users?id=2348",
-			},
-			{ status: 400 }
-		);
-	}
+// // Must have an id attached as query parameter to the API endpoint call
+// // for example, DELETE /api/users?id=2348
+// // Only takes ID
+// // NOTE that this will (should) delete all associated vehicle data too (ON DELETE CASCADE)
+// export async function DELETE(request: NextRequest) {
+// 	const url = new URL(request.url!);
+// 	const supabase = await createClientSSROnly();
+// 	const id = url.searchParams.get("id");
 
-	// TODO: This may be unnecessary
-	const isUserExistsInDB = await checkIfUserExistsInDB("id", id, supabase);
-	if (!isUserExistsInDB) {
-		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
-	}
+// 	if (!id) {
+// 		return NextResponse.json(
+// 			{
+// 				error: "User ID is required. Must format like so: /api/users?id=2348",
+// 			},
+// 			{ status: 400 }
+// 		);
+// 	}
 
-	const {
-		data,
-		error,
-	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
-		await supabase.from("users").delete().eq("id", Number(id));
+// 	// TODO: This may be unnecessary
+// 	const isUserExistsInDB = await checkIfUserExistsInDB("id", id, supabase);
+// 	if (!isUserExistsInDB) {
+// 		return NextResponse.json({ message: "User not in DB" }, { status: 404 });
+// 	}
 
-	if (error) {
-		return NextResponse.json({ error: error.message }, { status: 500 });
-	}
+// 	const {
+// 		data,
+// 		error,
+// 	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
+// 		await supabase.from("users").delete().eq("id", Number(id));
 
-	return NextResponse.json(
-		{ message: "User deleted successfully", data: data },
-		{ status: 200 }
-	);
-}
+// 	if (error) {
+// 		return NextResponse.json({ error: error.message }, { status: 500 });
+// 	}
 
-// Returns newly created User object
-export async function POST(request: NextRequest) {
-	const supabase = await createClientSSROnly();
+// 	return NextResponse.json(
+// 		{ message: "User deleted successfully", data: data },
+// 		{ status: 200 }
+// 	);
+// }
 
-	const body = await request.json();
+// // Returns newly created User object
+// export async function POST(request: NextRequest) {
+// 	const supabase = await createClientSSROnly();
 
-	if (!body.email) {
-		return NextResponse.json(
-			{
-				error: "Email required",
-			},
-			{ status: 400 }
-		);
-	}
+// 	const body = await request.json();
 
-	const isUserExistsInDB = await checkIfUserExistsInDB(
-		"email",
-		body.email,
-		supabase
-	);
+// 	if (!body.email) {
+// 		return NextResponse.json(
+// 			{
+// 				error: "Email required",
+// 			},
+// 			{ status: 400 }
+// 		);
+// 	}
 
-	if (isUserExistsInDB) {
-		return NextResponse.json(
-			{
-				error: "User already in DB",
-			},
-			{ status: 400 }
-		);
-	}
+// 	const isUserExistsInDB = await checkIfUserExistsInDB(
+// 		"email",
+// 		body.email,
+// 		supabase
+// 	);
 
-	const {
-		data,
-		error,
-	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
-		await supabase
-			.from("users")
-			.insert(body)
-			// This retrieves the newly created user's data
-			.select();
+// 	if (isUserExistsInDB) {
+// 		return NextResponse.json(
+// 			{
+// 				error: "User already in DB",
+// 			},
+// 			{ status: 400 }
+// 		);
+// 	}
 
-	if (error) {
-		return NextResponse.json({ error: error.message }, { status: 500 });
-	}
+// 	const {
+// 		data,
+// 		error,
+// 	}: { data: Tables<"users">[] | null; error: PostgrestError | null } =
+// 		await supabase
+// 			.from("users")
+// 			.insert(body)
+// 			// This retrieves the newly created user's data
+// 			.select();
 
-	return NextResponse.json(data, { status: 201 });
-}
+// 	if (error) {
+// 		return NextResponse.json({ error: error.message }, { status: 500 });
+// 	}
 
-type IDOrEmail = "id" | "email";
+// 	return NextResponse.json(data, { status: 201 });
+// }
 
-// TODO: Move to a util file
-// First param is what kind of identifier we're looking up by (email or id), second is the identifier itself (ex. "bob.bobsmith@gmail.com")
-const checkIfUserExistsInDB = async (
-	identifierType: IDOrEmail,
-	identifier: string,
-	supabase: SupabaseClient
-): Promise<boolean> => {
-	const { data } = await supabase
-		.from("users")
-		.select("*")
-		.eq(identifierType, identifier);
-	return data !== null && data.length > 0;
-};
+// type IDOrEmail = "id" | "email";
+
+// // TODO: Move to a util file
+// // First param is what kind of identifier we're looking up by (email or id), second is the identifier itself (ex. "bob.bobsmith@gmail.com")
+// const checkIfUserExistsInDB = async (
+// 	identifierType: IDOrEmail,
+// 	identifier: string,
+// 	supabase: SupabaseClient
+// ): Promise<boolean> => {
+// 	const { data } = await supabase
+// 		.from("users")
+// 		.select("*")
+// 		.eq(identifierType, identifier);
+// 	return data !== null && data.length > 0;
+// };
