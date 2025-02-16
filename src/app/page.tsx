@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect } from "react";
-import { Tables } from "../../database.types";
 import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import {
 	deleteVehicleByIDClient,
@@ -13,6 +12,7 @@ import {
 import { calculateCarCostMain } from "./utils/CarCostAlgorithm/calculateCarCostMain";
 import { createClientCSROnly } from "./utils/server/supabase/client";
 import { User } from "./zod/schemas/UserSchema";
+import { useAppSelector } from "@/redux/hooks";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
@@ -79,7 +79,7 @@ import { User } from "./zod/schemas/UserSchema";
 // };
 
 export default function Page() {
-	// const loggedInUser = useAppSelector((state) => state.user.value);
+	const loggedInUser = useAppSelector((state) => state.user.value);
 
 	// const [isLoggedIn] = useState<boolean>(loggedInUser !== undefined);
 
@@ -107,19 +107,21 @@ export default function Page() {
 		// };
 
 		// This is a dummy fxn for testing, for now
-		const fetchUserByID = async (id: string) => {
-			try {
-				const res = await fetch(`api/user?id=${id}`);
-				const data = await res.json();
-				const fetchedUser: Tables<"users"> = data;
-				console.log("fetchedUser:", fetchedUser);
-				// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			} catch (error) {
-				// console.error("Error fetching single user in page.tsx:", error);
-			}
-		};
+		// const fetchUserByID = async (id: string) => {
+		// 	try {
+		// 		const res = await fetch(`api/user?id=${id}`);
+		// 		const data = await res.json();
+		// 		const fetchedUser: Tables<"users"> = data;
+		// 		console.log("fetchedUser:", fetchedUser);
+		// 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		// 	} catch (error) {
+		// 		// console.error("Error fetching single user in page.tsx:", error);
+		// 	}
+		// };
 
-		fetchUserByID("1");
+		// if (loggedInUser) {
+		// 	fetchUserByID(loggedInUser?.id);
+		// }
 
 		// fetchData();
 
@@ -338,7 +340,7 @@ export default function Page() {
 					// const data: Vehicles = await res.json();
 					// console.log("data from GET vehicles:", data);
 
-					const data = await getVehiclesByUserIDClient("1");
+					const data = await getVehiclesByUserIDClient(loggedInUser?.id);
 					console.log("data from getVehiclesByUserID:", data);
 				}}
 			>
