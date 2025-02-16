@@ -138,7 +138,7 @@ export default function Page() {
 					const partialMockVehicle: Vehicle_For_db_PATCH = {
 						type: "gas",
 						id: 3,
-						userid: 1,
+						userid: loggedInUser?.id,
 						vehiclesOrder: 20,
 						vehicleData: {
 							vehicleID: 1,
@@ -163,7 +163,7 @@ export default function Page() {
 				onClick={async () => {
 					const completeMockVehicle = {
 						type: "gas" as const,
-						userid: 1,
+						userid: loggedInUser?.id,
 						id: 1,
 						vehiclesOrder: 1,
 						vehicleData: {
@@ -240,7 +240,7 @@ export default function Page() {
 
 					const completeMockVehicle = {
 						type: "gas" as const,
-						userid: 1,
+						userid: loggedInUser?.id,
 						vehiclesOrder: 1,
 						vehicleData: {
 							vehicleName: "Tesla Model 3",
