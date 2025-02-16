@@ -348,6 +348,7 @@ export default function Page() {
 			</button>
 			{/* TODO: User dbinteractions file */}
 			<button
+				// Deprecated. TODO transition to auth
 				onClick={async () => {
 					const res = await fetch("/api/user?id=1", {
 						method: "DELETE",
@@ -361,6 +362,7 @@ export default function Page() {
 
 			<button
 				onClick={() => {
+					// Deprecated. TODO transition to auth
 					fetch("/api/user?id=3", {
 						method: "PUT",
 						body: JSON.stringify({
@@ -416,22 +418,6 @@ export default function Page() {
 						isDarkMode: false,
 					};
 					console.log("user:", user);
-
-					// fetch("/api/user?id=3", {
-					// 	method: "GET",
-					// })
-					// 	.then((res) => {
-					// 		if (!res.ok) {
-					// 			throw new Error(`HTTP error! Status: ${res.status}`);
-					// 		}
-					// 		return res.json();
-					// 	})
-					// 	.then((data) => {
-					// 		console.log("Response data:", data);
-					// 	})
-					// 	.catch((error) => {
-					// 		console.error("Error during GET request:", error);
-					// 	});
 				}}
 			>
 				Get User
@@ -439,6 +425,7 @@ export default function Page() {
 
 			<button
 				onClick={async () => {
+					// Deprecated. TODO transition to auth
 					fetch("/api/user", {
 						method: "POST",
 						headers: {
