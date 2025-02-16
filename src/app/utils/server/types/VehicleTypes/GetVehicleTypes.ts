@@ -31,6 +31,7 @@ import {
 	VehicleDataSchema,
 	YearlyMaintenanceCostsSchema,
 } from "../../../../zod/schemas/VehicleSubSchemas";
+import { randomUUID } from "crypto";
 
 // TODO: Make this only one field deep; right now the type definitions say every field in every object is readonly which isn't very reader-friendly
 /**Used to make all the sub-objects in a Vehicle readonly
@@ -175,7 +176,7 @@ export const bob: Vehicle = {
 		milesPerGallonCity: 25,
 	},
 	id: 1,
-	userid: 1,
+	userid: randomUUID(),
 	vehiclesOrder: 1,
 	vehicleData: {
 		vehicleID: 1,
