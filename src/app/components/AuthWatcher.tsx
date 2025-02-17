@@ -13,6 +13,7 @@ import {
 	setVehicles,
 } from "@/redux/reducers/vehiclesReducer";
 import { getVehiclesByUserIDClient } from "../utils/server/client/DBInteractions/VehiclesDBInteractions";
+import { redirect } from "next/navigation";
 
 const AuthWatcher = () => {
 	const supabase = createClientCSROnly();
@@ -42,11 +43,13 @@ const AuthWatcher = () => {
 					})
 				);
 				fetchAndSetVehicles(session!.user.id);
+				redirect("/dashboard");
 			} else if (event === "SIGNED_OUT") {
 				// Handle sign out event
 				console.log("User signed out");
 				dispatch(clearUser());
 				dispatch(removeAllVehicles());
+				redirect("/login");
 			} else if (event === "TOKEN_REFRESHED") {
 				// Handle token refresh event
 				console.log("Token refreshed:", session);
