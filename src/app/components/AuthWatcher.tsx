@@ -21,6 +21,7 @@ const AuthWatcher = () => {
 	useEffect(() => {
 		const fetchAndSetVehicles = async (userId: string) => {
 			try {
+				// These vehicles are Zod-Validated by this function
 				const vehicles = await getVehiclesByUserIDClient(userId);
 				dispatch(setVehicles(vehicles));
 			} catch (error) {
