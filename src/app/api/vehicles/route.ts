@@ -23,6 +23,7 @@ export async function GET(request: Request) {
 
 	try {
 		const userID = url.searchParams.get("userid");
+		console.log("userID in route.ts GET:", userID);
 		const vehicleID = url.searchParams.get("vehicleid");
 
 		if (!userID) {
@@ -56,7 +57,7 @@ export async function GET(request: Request) {
 
 			return NextResponse.json(arrayWithSingleVehicle, { status: 200 });
 		} else {
-			const vehicles = await getVehiclesByUser(supabase, Number(userID));
+			const vehicles = await getVehiclesByUser(supabase, userID);
 			return NextResponse.json(vehicles, { status: 200 });
 		}
 	} catch (error) {

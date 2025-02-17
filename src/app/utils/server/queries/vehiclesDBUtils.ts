@@ -94,7 +94,7 @@ async function getSingleVehicleById(
 /** Get all vehicles belonging to a user */
 async function getVehiclesByUser(
 	supabase: SupabaseClient,
-	userId: number
+	userId: string
 ): Promise<Vehicles> {
 	/** This is just the data from the vehicles table
 	 * There are several db tables that contain user data. Still need to aggregate all of them
