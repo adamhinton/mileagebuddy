@@ -19,6 +19,7 @@ const AuthWatcher = () => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
+		/**Get user's vehicles from DB and set them to redux state */
 		const fetchAndSetVehicles = async (userId: string) => {
 			try {
 				// These vehicles are Zod-Validated by this function
@@ -33,11 +34,6 @@ const AuthWatcher = () => {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((event, session) => {
 			if (event === "SIGNED_IN") {
-				// Handle sign in event
-				// console.log(
-				// 	"User signed in in AuthWatcher useEffect. User:",
-				// 	session!.user
-				// );
 				dispatch(
 					setUser({
 						id: session!.user.id,
@@ -46,8 +42,6 @@ const AuthWatcher = () => {
 					})
 				);
 				fetchAndSetVehicles(session!.user.id);
-
-				// TODO: Get vehicles from db; set vehicles
 			} else if (event === "SIGNED_OUT") {
 				// Handle sign out event
 				console.log("User signed out");
