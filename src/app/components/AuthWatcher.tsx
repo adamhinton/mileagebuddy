@@ -8,22 +8,35 @@ import { useAppDispatch } from "@/redux/hooks";
 import { createClientCSROnly } from "../utils/server/supabase/client";
 import { clearUser, setUser } from "@/redux/reducers/userReducer";
 import { useEffect } from "react";
-import { removeAllVehicles } from "@/redux/reducers/vehiclesReducer";
+import {
+	removeAllVehicles,
+	setVehicles,
+} from "@/redux/reducers/vehiclesReducer";
+import { getVehiclesByUserIDClient } from "../utils/server/client/DBInteractions/VehiclesDBInteractions";
 
 const AuthWatcher = () => {
 	const supabase = createClientCSROnly();
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
+		const fetchAndSetVehicles = async (userId: string) => {
+			try {
+				const vehicles = await getVehiclesByUserIDClient(userId);
+				dispatch(setVehicles(vehicles));
+			} catch (error) {
+				console.error("Error fetching vehicles on sign in:", error);
+			}
+		};
+
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((event, session) => {
 			if (event === "SIGNED_IN") {
 				// Handle sign in event
-				console.log(
-					"User signed in in AuthWatcher useEffect. User:",
-					session!.user
-				);
+				// console.log(
+				// 	"User signed in in AuthWatcher useEffect. User:",
+				// 	session!.user
+				// );
 				dispatch(
 					setUser({
 						id: session!.user.id,
@@ -31,13 +44,14 @@ const AuthWatcher = () => {
 						isDarkMode: false,
 					})
 				);
+				fetchAndSetVehicles(session!.user.id);
+
 				// TODO: Get vehicles from db; set vehicles
 			} else if (event === "SIGNED_OUT") {
 				// Handle sign out event
 				console.log("User signed out");
 				dispatch(clearUser());
 				dispatch(removeAllVehicles());
-				// TODO: Clear vehicles
 			} else if (event === "TOKEN_REFRESHED") {
 				// Handle token refresh event
 				console.log("Token refreshed:", session);
