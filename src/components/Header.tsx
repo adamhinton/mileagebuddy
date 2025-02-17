@@ -9,6 +9,7 @@ import React from "react";
 import ThemeSwitch from "./ThemeSwitch";
 import { createClientCSROnly } from "@/app/utils/server/supabase/client";
 import { useAppSelector } from "@/redux/hooks";
+import Link from "next/link";
 
 export const Header: React.FC = () => {
 	const user = useAppSelector((state) => state.user.value);
@@ -35,6 +36,10 @@ export const Header: React.FC = () => {
 			>
 				Sign Out
 			</button>
+			<nav className="flex space-x-4">
+				<Link href="/dashboard">Dashboard</Link>
+				<Link href="/login">Login</Link>
+			</nav>
 			<ThemeSwitch />
 		</header>
 	);
