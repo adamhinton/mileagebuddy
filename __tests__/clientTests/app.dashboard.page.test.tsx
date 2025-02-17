@@ -32,5 +32,9 @@ describe("/dashboard", () => {
 		expect(screen.getByText("Toyota Camry")).toBeVisible();
 		expect(screen.getByText("Tesla Model 3")).toBeVisible();
 		expect(screen.getByText("Nissan Leaf")).toBeVisible();
+
+		// Sanity check
+		const shouldntExist = "This vehicle shouldn't exist";
+		expect(screen.queryByText(shouldntExist)).toBeNull();
 	});
 });
