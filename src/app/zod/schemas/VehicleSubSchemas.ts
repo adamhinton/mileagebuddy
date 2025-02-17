@@ -17,6 +17,7 @@ export const VehicleDataSchema = z
 		make: z.string().min(1).max(30).nullable(),
 		model: z.string().min(1).max(30).nullable(),
 		trim: z.string().min(1).max(30).nullable(),
+		// TODO: Delete highwayMPG
 		highwayMPG: z.number().max(5000).nonnegative().nullable(),
 	})
 	.describe("test blah");
@@ -42,7 +43,6 @@ export const ElectricVehicleDataSchema = z.object({
 	vehicleID: z.number().readonly(),
 	costPerCharge: z.number().nonnegative().max(1000),
 	milesPerCharge: z.number().max(10_000),
-	electricRangeMiles: z.number().max(10_000).nonnegative(),
 });
 
 export type ElectricVehicleData = Readonly<
