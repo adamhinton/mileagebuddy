@@ -7,16 +7,16 @@
 // Validation: Vehicles are validated here on the client, and also validated on the server before being sent to the db
 
 import {
-	Vehicle,
-	Vehicles,
+	type Vehicle,
+	type Vehicles,
 	VehicleSchema,
 } from "../../types/VehicleTypes/GetVehicleTypes";
 import {
-	Vehicle_For_db_PATCH,
+	type Vehicle_For_db_PATCH,
 	VehicleSchemaForPATCH,
 } from "../../types/VehicleTypes/PATCHVehicleTypes";
 import {
-	Vehicle_For_db_POST,
+	type Vehicle_For_db_POST,
 	VehicleToBePostedSchema,
 } from "../../types/VehicleTypes/POSTVehicleTypes";
 
