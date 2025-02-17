@@ -1,5 +1,5 @@
 import DashboardPage from "@/app/dashboard/page";
-import TestReduxStore from "@/redux/dummyReduxStore";
+import TestReduxStore from "../testutils/clientTestUtils/reduxtestutils/dummyReduxStore";
 import { render } from "@testing-library/react";
 
 describe("Sanity check", () => {
