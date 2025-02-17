@@ -8,6 +8,7 @@ import { useAppDispatch } from "@/redux/hooks";
 import { createClientCSROnly } from "../utils/server/supabase/client";
 import { clearUser, setUser } from "@/redux/reducers/userReducer";
 import { useEffect } from "react";
+import { removeAllVehicles } from "@/redux/reducers/vehiclesReducer";
 
 const AuthWatcher = () => {
 	const supabase = createClientCSROnly();
@@ -35,6 +36,7 @@ const AuthWatcher = () => {
 				// Handle sign out event
 				console.log("User signed out");
 				dispatch(clearUser());
+				dispatch(removeAllVehicles());
 				// TODO: Clear vehicles
 			} else if (event === "TOKEN_REFRESHED") {
 				// Handle token refresh event
