@@ -79,7 +79,7 @@ export type Vehicles = Vehicle[];
  */
 export const BaseVehicleSchema = z.object({
 	id: z.number().readonly(),
-	userid: z.number().readonly(),
+	userid: z.string().uuid().readonly(),
 	vehiclesOrder: z.number().positive(),
 	type: z.enum(["gas", "electric"]),
 
@@ -175,7 +175,8 @@ export const bob: Vehicle = {
 		milesPerGallonCity: 25,
 	},
 	id: 1,
-	userid: 1,
+	// Random UUID from google
+	userid: "be1edc54-db41-4932-a98b-c772f1817f16",
 	vehiclesOrder: 1,
 	vehicleData: {
 		vehicleID: 1,

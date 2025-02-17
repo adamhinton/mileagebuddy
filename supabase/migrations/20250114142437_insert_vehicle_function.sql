@@ -8,19 +8,18 @@
 -- This function only returns the new vehicle's id, then the POST fetches that vehicle and returns the full vehicle data
 -- That isn't totally efficient, but it does separate concerns. If this project gets a lot of traffic, it'll be easy to streamline later.
 
-
 CREATE OR REPLACE FUNCTION insert_vehicle(
-    _userID bigint,
-    _type VARCHAR(10),
-    _vehiclesOrder INT,
-    _vehicleData jsonb,
-    _gasVehicleData jsonb,  -- Optional, depending on the vehicle type
-    _electricVehicleData jsonb, -- Optional, depending on the vehicle type
-    _purchaseAndSales jsonb,
-    _usage jsonb,
-    _fixedCosts jsonb,
-    _yearlyMaintenanceCosts jsonb,
-    _variableCosts jsonb
+        _userID UUID,
+        _type VARCHAR(10),
+        _vehiclesOrder INT,
+        _vehicleData jsonb,
+        _gasVehicleData jsonb,  -- Optional, depending on the vehicle type
+        _electricVehicleData jsonb, -- Optional, depending on the vehicle type
+        _purchaseAndSales jsonb,
+        _usage jsonb,
+        _fixedCosts jsonb,
+        _yearlyMaintenanceCosts jsonb,
+        _variableCosts jsonb
 )
 RETURNS INTEGER AS $$  -- Return vehicleID
 DECLARE

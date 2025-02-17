@@ -20,11 +20,10 @@ import {
 	VehicleToBePostedSchema,
 } from "../../types/VehicleTypes/POSTVehicleTypes";
 
-const baseUrl = new URL(
-	process.env.NEXT_PUBLIC_VERCEL_URL
-		? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-		: "http://localhost:3000"
-).href;
+// This used to be based on the NEXT_PUBLIC_VERCEL_URL
+// That was a relic of the fact that this used to be a server file, so the code couldn't get the URL directly
+// This was causing problems because deployments' VERCEL_URLs were sometimes different from the domain the user was accessing (weirdly), which caused errors
+const baseUrl = "/";
 
 /** See api/vehicles/route.ts GET for the associated endpoint */
 export const getVehiclesByUserIDClient = async (
@@ -36,6 +35,8 @@ export const getVehiclesByUserIDClient = async (
 			headers: { accept: "application/json" },
 		});
 		const vehicles: Vehicles = await res.json();
+
+		console.log("vehicles:", vehicles);
 
 		// Validating GET receipts to notify me in dev if something is wrong
 		vehicles.forEach((vehicle) => {
