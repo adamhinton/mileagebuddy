@@ -3,8 +3,8 @@
 import React, { ReactNode } from "react";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import userReducer from "../../../../src/redux/reducers/userReducer";
-import vehiclesReducer from "../../../../src/redux/reducers/vehiclesReducer";
+import userReducer from "../../../redux/reducers/userReducer";
+import vehiclesReducer from "../../../redux/reducers/vehiclesReducer";
 import isDarkModeReducer from "@/redux/reducers/darkModeReducer";
 import { RootState } from "@/redux/store";
 import { User } from "@/app/zod/schemas/UserSchema";

@@ -1,5 +1,5 @@
 import DashboardPage from "@/app/dashboard/page";
-import TestReduxStore from "../testutils/clientTestUtils/reduxtestutils/dummyReduxStore";
+import TestReduxStore from "../../src/app/utils/unitTestUtils/dummyReduxStore";
 import { render, screen } from "@testing-library/react";
 
 // Not sure why I had to do this here

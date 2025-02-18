@@ -2,7 +2,7 @@ import Page from "../../src/app/page";
 
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
-import TestReduxStore from "../testutils/clientTestUtils/reduxtestutils/dummyReduxStore";
+import TestReduxStore from "../../src/app/utils/unitTestUtils/dummyReduxStore";
 
 describe("Page", () => {
 	it("renders without errors", () => {
