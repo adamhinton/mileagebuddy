@@ -40,6 +40,7 @@ export const Header: React.FC = () => {
 			<nav className="flex space-x-4">
 				<Link href="/dashboard">Dashboard</Link>
 				<Link href="/login">Login</Link>
+				<Link href="/calculator">Calculator</Link>">
 			</nav>
 			<ThemeSwitch />
 		</header>
