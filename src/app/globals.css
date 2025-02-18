@@ -10,8 +10,6 @@
 
 @tailwind utilities;
 
-@tailwind utilities;
-
 :root {
 	/* Light Mode Colors */
 	--primary: 214, 71%, 51%; /* Example: Blue */
