@@ -26,7 +26,7 @@ export const Header: React.FC = () => {
 				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
 				onClick={async () => {
 					const supabase = createClientCSROnly();
-					// Triggers redux store to update via <AuthWatcher/>
+					// Also triggers redux store to update via <AuthWatcher/>
 					const { error } = await supabase.auth.signOut();
 					if (!error) {
 						console.log("Logged out");
