@@ -4,26 +4,40 @@
 @layer components {
 	/* .btn is just a test component I made to see if this works */
 	.btn {
-		@apply bg-blue-500;
+		@apply bg-blue-500 lg:bg-red-500;
 	}
 }
 
 @tailwind utilities;
 
+@tailwind utilities;
+
 :root {
-	--background: #ffffff;
-	--foreground: #171717;
+	/* Light Mode Colors */
+	--primary: 214, 71%, 51%; /* Example: Blue */
+	--secondary: 39, 100%, 50%; /* Example: Orange */
+	--accent: 142, 76%, 36%; /* Example: Green */
+	--neutral: 0, 0%, 95%; /* Light Gray */
+	--neutral-text: 0, 0%, 20%; /* Dark Gray */
+	--background: hsl(0, 0%, 100%); /* White */
+	--foreground: hsl(0, 0%, 0%); /* Black */
 }
 
 @media (prefers-color-scheme: dark) {
 	:root {
-		--background: #0a0a0a;
-		--foreground: #ededed;
+		/* Dark Mode Colors */
+		--primary: 214, 75%, 65%;
+		--secondary: 39, 90%, 60%;
+		--accent: 142, 66%, 46%;
+		--neutral: 0, 0%, 15%; /* Dark Gray */
+		--neutral-text: 0, 0%, 90%; /* Light Gray */
+		--background: hsl(0, 0%, 10%); /* Very Dark Gray */
+		--foreground: hsl(0, 0%, 90%); /* Light Gray */
 	}
 }
 
 body {
-	color: var(--foreground);
-	background: var(--background);
+	color: hsl(var(--foreground));
+	background: hsl(var(--background));
 	font-family: Arial, Helvetica, sans-serif;
 }

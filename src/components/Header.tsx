@@ -16,14 +16,12 @@ export const Header: React.FC = () => {
 	console.log("redux user in Header:", user);
 
 	return (
-		<header className="bg-white dark:bg-slate-800 p-4 flex justify-between items-center">
-			<h1 className="text-2xl bg-white text-black dark:bg-black dark:text-white ">
-				Trip Planner
-			</h1>
+		<header className=" p-4 flex justify-between items-center">
+			<h1 className=" ">Trip Planner</h1>
 			{/* Just for testing */}
 			<h2>{user ? "Logged in" : "Not logged in "}</h2>
 			<button
-				className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4"
+				className=" py-2 px-4"
 				onClick={async () => {
 					const supabase = createClientCSROnly();
 					// Also triggers redux store to update via <AuthWatcher/>
@@ -38,7 +36,9 @@ export const Header: React.FC = () => {
 				Sign Out
 			</button>
 			<nav className="flex space-x-4">
-				<Link href="/dashboard">Dashboard</Link>
+				<Link className="btn" href="/dashboard">
+					Dashboard
+				</Link>
 				<Link href="/login">Login</Link>
 				<Link href="/calculator">Calculator</Link>
 			</nav>
