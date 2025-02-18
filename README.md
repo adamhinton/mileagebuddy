@@ -61,6 +61,17 @@ FRONTEND FEATURES PLANNED:
 -Compare to biking, flying, walking, transit
 -Have checkboxes for all the things if you may need if you don't drive, and let user fill in costs of those (biking, flying etc)
 
+PAGES:
+<Dashboard/>
+-User is directed here on login, or on page load if they're already logged in
+-Will list all a user's Vehicles
+-Has functionality to do CRUD operations on vehicles
+-Protected route, only accessible if logged in
+
+<Login/>
+-For logging in (obviously)
+-User directed here if they load the page without being logged in
+
 FRONTEND STRETCH:
 +Car cost estimator - if considering buying a car, what will it ACTUALLY cost you?
 
@@ -133,6 +144,10 @@ AUTH:
 -Supabase auth links with the private.auth table in the db, this is automatically configured by supabase
 -As of 2.9.25, I plan to store basic user info on that auth table, such as darkmode preference. Will also adjust vehicle foreign keys to match this table instead of the original users table which I had created
 -The <AuthWatcher/> component is not a UI component, it watched for supabase auth updates (login, logout etc) and makes appropriate updates to redux state
+AUTH UI FLOW SCENARIOS:
+-User loads page, has no persisted session: Directed to /login
+-User loads page, has previous session: Directed to /dashboard
+-User can use the calculator without being logged in, will save one (three? Not sure) vehicle(s) to localstorage
 
 DB:
 -hosting DB on Supabase
