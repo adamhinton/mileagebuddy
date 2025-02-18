@@ -2,7 +2,7 @@
 @tailwind components;
 
 @layer components {
-	/* A button base shape. */
+	/* .btn is just a test component I made to see if this works */
 	.btn {
 		@apply bg-blue-500;
 	}
