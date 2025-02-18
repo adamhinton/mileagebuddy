@@ -13,14 +13,14 @@ import { createClientSSROnly } from "./app/utils/server/supabase/server";
 // Validate that Vehicles etc match logged in user
 
 export async function middleware(request: NextRequest) {
-	const supabase = createClientSSROnly();
-	// User's auth session (or lack thereof)
-	const {
-		data: { session },
-	} = await (await supabase).auth.getSession();
+	const supabase = await createClientSSROnly();
+
+	const loggedInUser = await supabase.auth.getUser();
+
+	const isLoggedIn = loggedInUser.data.user?.id ? true : false;
 
 	// Check if user is not signed in and trying to access /dashboard, then redirect to /login
-	if (!session && request.nextUrl.pathname === "/dashboard") {
+	if (!isLoggedIn && request.nextUrl.pathname === "/dashboard") {
 		return NextResponse.redirect(new URL("/login", request.url));
 	}
 
