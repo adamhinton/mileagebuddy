@@ -15,9 +15,11 @@ import { createClientSSROnly } from "./app/utils/server/supabase/server";
 export async function middleware(request: NextRequest) {
 	const supabase = await createClientSSROnly();
 
-	const loggedInUser = await supabase.auth.getUser();
-
-	const isLoggedIn = loggedInUser.data.user?.id ? true : false;
+	/**Checking if the user is logged in */
+	const isLoggedIn = (await supabase.auth.getSession()).data.session
+		? true
+		: false;
+	console.log("isLoggedIn", isLoggedIn);
 
 	// Check if user is not signed in and trying to access /dashboard, then redirect to /login
 	if (!isLoggedIn && request.nextUrl.pathname === "/dashboard") {
