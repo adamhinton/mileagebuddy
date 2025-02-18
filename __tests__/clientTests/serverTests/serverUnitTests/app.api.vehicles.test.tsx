@@ -61,7 +61,7 @@ describe("GET /api/vehicles", () => {
 	const mockVehicles: Vehicle[] = [
 		{
 			type: "gas",
-			userid: 1,
+			userid: "1",
 			id: 1,
 			vehiclesOrder: 1,
 			vehicleData: {
@@ -264,7 +264,7 @@ describe("POST /api/vehicles", () => {
 	const mockVehicles: Vehicle_For_db_POST[] = [
 		{
 			type: "gas",
-			userid: 1,
+			userid: "1",
 			vehiclesOrder: 1,
 			vehicleData: {
 				vehicleName: "Tesla Model 3",
@@ -365,7 +365,7 @@ describe("POST /api/vehicles", () => {
 		const completeMockVehicle = mockVehicles[0];
 		// no type declaration for this because it doesn't fit the type on purpose
 		const mockInsertVehicleWithoutAllFields = {
-			userid: 1,
+			userid: "1",
 			type: "gas",
 			electricVehicleData: completeMockVehicle.electricVehicleData,
 			gasVehicleData: completeMockVehicle.gasVehicleData,
@@ -405,14 +405,13 @@ describe("POST /api/vehicles", () => {
 	it("Should insert fine if electricVehicleData is null  but gasVehicleData isn't", async () => {
 		const completeMockVehicle = mockVehicles[0];
 		const vehicleWithNullElectricVehicleData: Vehicle_For_db_POST = {
-			userid: 1,
+			userid: "1",
 			type: "electric",
 			vehiclesOrder: 1,
 			vehicleData: completeMockVehicle.vehicleData,
 			electricVehicleData: {
 				costPerCharge: 15,
 				milesPerCharge: 200,
-				electricRangeMiles: 200,
 			},
 			gasVehicleData: null,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
@@ -452,14 +451,13 @@ describe("POST /api/vehicles", () => {
 	it("Should insert fine if gasVehicleData is null  but electricVehicleData isn't", async () => {
 		const completeMockVehicle = mockVehicles[0];
 		const vehicleWithNullGasVehicleData: Vehicle_For_db_POST = {
-			userid: 1,
+			userid: "1",
 			type: "electric",
 			vehiclesOrder: 1,
 			vehicleData: completeMockVehicle.vehicleData,
 			electricVehicleData: {
 				costPerCharge: 15,
 				milesPerCharge: 200,
-				electricRangeMiles: 200,
 			},
 			gasVehicleData: null,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
@@ -501,7 +499,7 @@ describe("POST /api/vehicles", () => {
 		const completeMockVehicle = mockVehicles[0];
 		// No type label here beacuse this is deformed
 		const vehicleWithNullGasVehicleData = {
-			userid: 1,
+			userid: "1",
 			type: "gas",
 			vehiclesOrder: 1,
 			vehicleData: { ...completeMockVehicle.vehicleData },
@@ -552,7 +550,7 @@ describe("DELETE /api/vehicles", () => {
 	const mockVehicles: Vehicles = [
 		{
 			type: "gas",
-			userid: 1,
+			userid: "1",
 			id: 1,
 			vehiclesOrder: 1,
 			vehicleData: {
@@ -720,7 +718,7 @@ describe("PATCH api/vehicles", () => {
 
 	const mockVehicle: Vehicle = {
 		type: "gas",
-		userid: 1,
+		userid: "1",
 		id: 1,
 		vehiclesOrder: 1,
 		vehicleData: {
@@ -787,7 +785,7 @@ describe("PATCH api/vehicles", () => {
 
 	const partialMockVehicle: Partial<Vehicle> = {
 		type: "gas",
-		userid: 1,
+		userid: "1",
 		id: 1,
 		vehiclesOrder: 1,
 		vehicleData: {

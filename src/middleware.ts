@@ -6,12 +6,26 @@ import { NextResponse, type NextRequest } from "next/server";
 import { VehicleToBePostedSchema } from "./app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { VehicleSchemaForPATCH } from "./app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import { updateSession } from "./app/utils/server/supabase/middleware";
+import { createClientSSROnly } from "./app/utils/server/supabase/server";
 
 // TODO: User stuff, including:
 // Validate User
 // Validate that Vehicles etc match logged in user
 
 export async function middleware(request: NextRequest) {
+	const supabase = await createClientSSROnly();
+
+	/**Checking if the user is logged in */
+	const isLoggedIn = (await supabase.auth.getSession()).data.session
+		? true
+		: false;
+	console.log("isLoggedIn", isLoggedIn);
+
+	// Check if user is not signed in and trying to access /dashboard, then redirect to /login
+	if (!isLoggedIn && request.nextUrl.pathname === "/dashboard") {
+		return NextResponse.redirect(new URL("/login", request.url));
+	}
+
 	if (
 		request.method === "POST" &&
 		request.nextUrl.pathname === "/api/vehicles"
