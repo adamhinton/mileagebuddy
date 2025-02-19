@@ -55,12 +55,12 @@ export default function LoginPage() {
 
 	return (
 		// TODO Better styling and page and stuff here, esp when user is logged in
-		<main className="min-h-screen flex flex-col justify-center items-center bg-gray-50 dark:bg-gray-900 p-4 transition-colors duration-200">
+		<main className="min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-200">
 			{isLoggedIn && <h1>Welcome, {loggedInUser?.email}!</h1>}
 			{!isLoggedIn && (
-				<div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 w-full max-w-md mx-auto transition-colors duration-200">
+				<div className="rounded-lg shadow-lg p-8 w-full max-w-md mx-auto transition-colors duration-200">
 					<h1
-						className="text-2xl md:text-3xl font-bold mb-6 text-center text-gray-900 dark:text-white"
+						className="text-2xl md:text-3xl font-bold mb-6 text-center"
 						aria-label="Sign in with Google"
 					>
 						Sign in with Google
