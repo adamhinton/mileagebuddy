@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
 import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import {
 	deleteVehicleByIDClient,
@@ -81,55 +80,11 @@ import { useAppSelector } from "@/redux/hooks";
 export default function Page() {
 	const loggedInUser = useAppSelector((state) => state.user.value);
 
-	// const [isLoggedIn] = useState<boolean>(loggedInUser !== undefined);
-
-	console.log(
-		"process.env.NEXT_PUBLIC_VERCEL_URL :",
-		process.env.NEXT_PUBLIC_VERCEL_URL
-	);
-
-	// const [user] = useState<User>({} as unknown as User);
-
-	useEffect(() => {
-		console.log("Start useEffect");
-		// const safeParsed = VehicleToBePostedSchema.safeParse(mockVehicle);
-		// console.log("safeParsed:", safeParsed);
-
-		// const fetchData = async () => {
-		// 	try {
-		// 		const res = await fetch("/api/user?id=3");
-		// 		const data = await res.json();
-		// 		const fetchedUsers: User[] = data;
-		// 		setUsers(fetchedUsers);
-		// 	} catch (error) {
-		// 		return error;
-		// 	}
-		// };
-
-		// This is a dummy fxn for testing, for now
-		// const fetchUserByID = async (id: string) => {
-		// 	try {
-		// 		const res = await fetch(`api/user?id=${id}`);
-		// 		const data = await res.json();
-		// 		const fetchedUser: Tables<"users"> = data;
-		// 		console.log("fetchedUser:", fetchedUser);
-		// 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		// 	} catch (error) {
-		// 		// console.error("Error fetching single user in page.tsx:", error);
-		// 	}
-		// };
-
-		// if (loggedInUser) {
-		// 	fetchUserByID(loggedInUser?.id);
-		// }
-
-		// fetchData();
-
-		console.log("End useEffect");
-	}, []);
+	const usersVehicles = useAppSelector((state) => state.vehicles);
+	console.log("usersVehicles:", usersVehicles);
 
 	return (
-		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center dark: bg-bl">
+		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center dark:bg-black">
 			{/* dummy button to POST api/vehicles with mockVehicle */}
 
 			{/* PATCH api/vehicles with dummy Vehicle */}

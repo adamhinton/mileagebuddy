@@ -39,15 +39,18 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				{/* ThemeWrapper is the dark/light theme wrapper */}
-				<ThemeWrapper>
-					<ReduxStoreProvider>
-						{/* AuthWatcher is a component that watches for auth events and updates the Redux store */}
-						<AuthWatcher />
-						<Header />
-						{children}
-					</ReduxStoreProvider>
-				</ThemeWrapper>
+				<div className="bg-background-base text-neutral-text h-full">
+					{/* ThemeWrapper is the dark/light theme wrapper */}
+					<ThemeWrapper>
+						<ReduxStoreProvider>
+							{/* AuthWatcher is a component that watches for auth events and updates the Redux store */}
+							<AuthWatcher />
+							<Header />
+							{children}
+						</ReduxStoreProvider>
+					</ThemeWrapper>
+				</div>
+
 				<script src="https://accounts.google.com/gsi/client" async></script>
 			</body>
 		</html>
