@@ -37,17 +37,20 @@ export default function RootLayout({
 		// The mismatch between the server and client side rendered content for dark mode is resolved by our ThemeWrapper, not to worry
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background-base text-neutral-text`}
+				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				{/* ThemeWrapper is the dark/light theme wrapper */}
-				<ThemeWrapper>
-					<ReduxStoreProvider>
-						{/* AuthWatcher is a component that watches for auth events and updates the Redux store */}
-						<AuthWatcher />
-						<Header />
-						{children}
-					</ReduxStoreProvider>
-				</ThemeWrapper>
+				<div className="bg-background-base text-neutral-text">
+					{/* ThemeWrapper is the dark/light theme wrapper */}
+					<ThemeWrapper>
+						<ReduxStoreProvider>
+							{/* AuthWatcher is a component that watches for auth events and updates the Redux store */}
+							<AuthWatcher />
+							<Header />
+							{children}
+						</ReduxStoreProvider>
+					</ThemeWrapper>
+				</div>
+
 				<script src="https://accounts.google.com/gsi/client" async></script>
 			</body>
 		</html>
