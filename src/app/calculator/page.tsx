@@ -45,6 +45,28 @@
 
 // Will start by writing the form for just one or two sections, thene expand from there
 
+const smallGasVehicleSchemaForTesting = GasVehicleSchemaForPOST.pick({
+	vehiclesOrder: true,
+	type: true,
+	// gasVehicleData: true,
+	vehicleData: true,
+});
+
+type SmallGasVehicleForTesting = z.infer<
+	typeof smallGasVehicleSchemaForTesting
+>;
+
+const smallElectricVehicleSchemaForTesting = ElectricVehicleSchemaForPOST.pick({
+	vehiclesOrder: true,
+	type: true,
+	// electricVehicleData: true,
+	vehicleData: true,
+});
+
+type SmallElectricVehicleForTesting = z.infer<
+	typeof smallElectricVehicleSchemaForTesting
+>;
+
 const CalculatorPage = () => {
 	return (
 		// 100% vh
