@@ -39,7 +39,7 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<div className="bg-background-base text-neutral-text">
+				<div className="bg-background-base text-neutral-text h-full">
 					{/* ThemeWrapper is the dark/light theme wrapper */}
 					<ThemeWrapper>
 						<ReduxStoreProvider>
