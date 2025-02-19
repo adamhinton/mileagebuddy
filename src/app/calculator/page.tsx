@@ -1,9 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // README
 // This is the meat and potatoes of the whole MileageBuddy project.
 // This is the Calculator that calculates the cost per mile of a vehicle based on daily use.
 // Also calculates the cost of any additional miles driven.
 // This will be used to create (or edit) an object of type Vehicle, whose cost will be calculated with the function from calculateCarCostMain.
 // Form validation will be done by Zod.
+
+import { z } from "zod";
+import {
+	GasVehicleSchemaForPOST,
+	ElectricVehicleSchemaForPOST,
+} from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
+import { PurchaseAndSalesSchema } from "../zod/schemas/VehicleSubSchemas";
 
 // Styling:
 // Efficient, accessible, clean, responsive. Use color schemes we already have. Update globals.css with new form styling if needed.
@@ -28,10 +36,11 @@
 // Work out how to update form state for gas vs electric
 // Make sure units are very clear (dollars, gallons etc)
 
-// TYPES
+// TYPES/VALIDATION
 // Vehicle is DeepReadOnly right now, need to make mutable version for this which will be easy
 // Use VehicleToBePostedSchema from zod and the ts type Vehicle_For_DB_POST here. That will be the object which guides the zod validaton. It omits things like vehicleID etc.
 // Use Vehicle_For_DB_PATCH and VehicleSchemaForPATCH when editing a vehicle using this form
+// Note: VehicleToBePostedSchema is a union of GasVehicleSchemaForPOST and ElectricVehicleSchemaForPOST. Will have to do validation on one or the other based on user input, you can't do zod validation on a union type. but that shouldn't be too hard.
 
 // INCREMENTAL CODING:
 // Start with a very basic form
@@ -39,6 +48,13 @@
 // Get that up and running, then gradually add more
 // Early on we want to make sure we can account for the difference between gas vehicles and EVs. There are already schemas for this - GasVehicleSchemaForPOST, ElectricVehicleSchemaForPOST -- but we need to make sure we have the form logic worked out for that.
 // User will select "electric" or "gas" at the start of the form. The only difference between the two is whether there's a section for the sub-object gasVehicleData or ElectricVehicleData, shouldn't be too hard
+
+// COMPONENTS:
+// We'll make reusable tailwind components because a lot of these are going to be same-y
+// Reusable number component
+// I don't believe anything will ever be more than six digits long
+// Reusable short form text input
+// I don't believe there will ever be any long text inputs
 
 // STRETCH:
 // Real time calculations? Maybe broken down by section.
@@ -72,8 +88,26 @@ const CalculatorPage = () => {
 		// 100% vh
 		<section className="h-screen">
 			<h1>Calculator Page</h1>
+
+			<form>
+				<MyInput />
+			</form>
 		</section>
 	);
 };
 
 export default CalculatorPage;
+
+const MyInput = () => {
+	return (
+		<input
+			className="border border-gray-300 rounded-md p-2 max-w-20"
+			type="number"
+			max={
+				PurchaseAndSalesSchema._def.schema.shape.milesBoughtAt.maxValue
+					? PurchaseAndSalesSchema._def.schema.shape.milesBoughtAt.maxValue
+					: undefined
+			}
+		/>
+	);
+};
