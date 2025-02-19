@@ -11,14 +11,14 @@ const DashboardPage = () => {
 	const usersVehicles = useAppSelector((state) => state.vehicles);
 
 	return (
-		<div>
-			<h1>Dashboard</h1>
+		<section className="p-4">
+			<h1 className=" text-center w-full h-8">Dashboard</h1>
 			<ol>
 				{usersVehicles.map((vehicle) => {
 					return <li key={vehicle.id}>{vehicle.vehicleData.vehicleName}</li>;
 				})}
 			</ol>
-		</div>
+		</section>
 	);
 };
 

@@ -84,7 +84,7 @@ export default function Page() {
 	console.log("usersVehicles:", usersVehicles);
 
 	return (
-		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center dark: bg-bl">
+		<div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center dark:bg-black">
 			{/* dummy button to POST api/vehicles with mockVehicle */}
 
 			{/* PATCH api/vehicles with dummy Vehicle */}
