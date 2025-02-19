@@ -35,10 +35,11 @@
 	--neutral: 0, 0%, 98%;
 	--neutral-text: 0, 0%, 20%;
 
-	/* Background color: Very soft blue */
-	--background: 210, 20%, 99%;
-	--background-component: 210, 10%, 97%;
-	--foreground: 0, 0%, 0%;
+	--background-base: 210, 30%, 98%; /* Softest blue-gray */
+	--background-elevated: 200, 25%, 96%; /* Slightly deeper for cards */
+	--background-header: 220, 20%, 94%; /* Distinct but subtle for headers */
+	--background-sidebar: 200, 15%, 93%; /* Slightly different for sidebars */
+	--background-highlight: 190, 30%, 97%; /* Subtle highlight areas */
 }
 
 .dark {
@@ -64,10 +65,12 @@
 	--neutral: 0, 0%, 15%;
 	--neutral-text: 0, 0%, 95%;
 
-	/* Background color: Very dark blue */
-	--background: 210, 10%, 12%;
-	--background-component: 210, 10%, 15%;
-	--foreground: 0, 0%, 90%;
+	/* Background System - Dark Mode */
+	--background-base: 220, 20%, 13%; /* Deep blue-gray */
+	--background-elevated: 215, 25%, 15%; /* Slightly lighter for cards */
+	--background-header: 220, 20%, 17%; /* Distinct header areas */
+	--background-sidebar: 215, 15%, 16%; /* Subtle sidebar difference */
+	--background-highlight: 210, 30%, 18%; /* Subtle highlight areas */
 }
 
 body {

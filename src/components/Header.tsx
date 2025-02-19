@@ -16,7 +16,7 @@ export const Header: React.FC = () => {
 	console.log("redux user in Header:", user);
 
 	return (
-		<header className=" p-4 flex justify-between items-center">
+		<header className="bg-background-header p-4 flex justify-between items-center">
 			<h1 className=" ">Trip Planner</h1>
 			{/* Just for testing */}
 			<h2>{user ? "Logged in" : "Not logged in "}</h2>
@@ -36,7 +36,10 @@ export const Header: React.FC = () => {
 				Sign Out
 			</button>
 			<nav className="flex space-x-4">
-				<Link className="btn" href="/dashboard">
+				<Link
+					className="bg-background-elevated hover:bg-background-highlight"
+					href="/dashboard"
+				>
 					Dashboard
 				</Link>
 				<Link href="/login">Login</Link>

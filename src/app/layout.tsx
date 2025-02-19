@@ -37,7 +37,7 @@ export default function RootLayout({
 		// The mismatch between the server and client side rendered content for dark mode is resolved by our ThemeWrapper, not to worry
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background-base`}
 			>
 				{/* ThemeWrapper is the dark/light theme wrapper */}
 				<ThemeWrapper>

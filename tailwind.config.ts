@@ -37,10 +37,18 @@ export default {
 				"neutral-text": {
 					DEFAULT: "hsl(var(--neutral-text))",
 				},
-				/* Background color: Very soft blue */
+				/* Background System */
 				background: {
-					DEFAULT: "hsl(var(--background))",
-					component: "hsl(var(--background-component))", // Different background for components
+					// Main app background
+					base: "hsl(var(--background-base))",
+					// Elevated components like cards
+					elevated: "hsl(var(--background-elevated))",
+					// Header, navigation areas
+					header: "hsl(var(--background-header))",
+					// Sidebar, secondary navigation
+					sidebar: "hsl(var(--background-sidebar))",
+					// Highlighted sections, focus areas
+					highlight: "hsl(var(--background-highlight))",
 				},
 				foreground: {
 					DEFAULT: "hsl(var(--foreground))",
