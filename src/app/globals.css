@@ -1,3 +1,4 @@
+/* globals.css */
 @tailwind base;
 @tailwind components;
 
@@ -10,28 +11,63 @@
 
 @tailwind utilities;
 
-/* Light Mode */
+/* Light Mode (default) */
 :root {
-	--primary: 214, 71%, 51%; /* blue */
-	--secondary: 39, 100%, 50%; /* orange */
-	--accent: 142, 76%, 36%; /* green */
-	--neutral: 0, 0%, 95%; /* Light gray background */
-	--neutral-text: 0, 0%, 20%; /* Dark text */
-	--background: hsl(0, 0%, 100%); /* White */
-	--foreground: hsl(0, 0%, 0%); /* Black */
+	/* Primary color: Soft blue */
+	--primary: 220, 70%, 60%;
+	--primary-50: 220, 70%, 95%;
+	--primary-100: 220, 70%, 90%;
+	--primary-200: 220, 70%, 80%;
+
+	/* Secondary color: Soft orange */
+	--secondary: 40, 80%, 55%;
+	--secondary-50: 40, 80%, 95%;
+	--secondary-100: 40, 80%, 90%;
+	--secondary-200: 40, 80%, 80%;
+
+	/* Accent color: Soft green */
+	--accent: 150, 60%, 50%;
+	--accent-50: 150, 60%, 95%;
+	--accent-100: 150, 60%, 90%;
+	--accent-200: 150, 60%, 80%;
+
+	/* Neutral color: Light gray background */
+	--neutral: 0, 0%, 98%;
+	--neutral-text: 0, 0%, 20%;
+
+	/* Background color: Very soft blue */
+	--background: 210, 20%, 99%;
+	--background-component: 210, 10%, 97%;
+	--foreground: 0, 0%, 0%;
 }
 
-/* Dark Mode */
-@media (prefers-color-scheme: dark) {
-	:root {
-		--primary: 214, 75%, 65%; /* Softer blue */
-		--secondary: 39, 90%, 60%; /* Softer orange */
-		--accent: 142, 66%, 46%; /* Softer green */
-		--neutral: 0, 0%, 15%; /* Dark gray background */
-		--neutral-text: 0, 0%, 90%; /* Light text */
-		--background: hsl(0, 0%, 10%); /* Very dark gray */
-		--foreground: hsl(0, 0%, 90%); /* Light gray */
-	}
+.dark {
+	/* Primary color: Soft blue */
+	--primary: 220, 40%, 70%;
+	--primary-50: 220, 40%, 15%;
+	--primary-100: 220, 40%, 20%;
+	--primary-200: 220, 40%, 30%;
+
+	/* Secondary color: Soft orange */
+	--secondary: 40, 50%, 65%;
+	--secondary-50: 40, 50%, 15%;
+	--secondary-100: 40, 50%, 20%;
+	--secondary-200: 40, 50%, 30%;
+
+	/* Accent color: Soft green */
+	--accent: 150, 30%, 60%;
+	--accent-50: 150, 30%, 15%;
+	--accent-100: 150, 30%, 20%;
+	--accent-200: 150, 30%, 30%;
+
+	/* Neutral color: Dark gray background */
+	--neutral: 0, 0%, 15%;
+	--neutral-text: 0, 0%, 95%;
+
+	/* Background color: Very dark blue */
+	--background: 210, 10%, 12%;
+	--background-component: 210, 10%, 15%;
+	--foreground: 0, 0%, 90%;
 }
 
 body {
