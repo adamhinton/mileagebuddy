@@ -33,6 +33,13 @@
 // Use VehicleToBePostedSchema from zod and the ts type Vehicle_For_DB_POST here. That will be the object which guides the zod validaton. It omits things like vehicleID etc.
 // Use Vehicle_For_DB_PATCH and VehicleSchemaForPATCH when editing a vehicle using this form
 
+// INCREMENTAL CODING:
+// Start with a very basic form
+// Make a VehiclToBePostedSchema extension that just has one sub-object, maybe yearlyFixedCosts
+// Get that up and running, then gradually add more
+// Early on we want to make sure we can account for the difference between gas vehicles and EVs. There are already schemas for this - GasVehicleSchemaForPOST, ElectricVehicleSchemaForPOST -- but we need to make sure we have the form logic worked out for that.
+// User will select "electric" or "gas" at the start of the form. The only difference between the two is whether there's a section for the sub-object gasVehicleData or ElectricVehicleData, shouldn't be too hard
+
 // STRETCH:
 // Real time calculations? Maybe broken down by section.
 
