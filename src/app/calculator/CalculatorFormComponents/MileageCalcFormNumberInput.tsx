@@ -3,10 +3,12 @@
 // Most of the inputs in that form will be numbers, and all of those numbers (so far) are compatible with this component
 // So I hope this thing works because I'll be using it a lot.
 // TODO write tests for this once it's finalized
+// This has a <label> too, but MileageCalcFormNumInputAndLabel was an annoyingly long name
 
 import { UseFormRegister, UseFormSetValue } from "react-hook-form";
 import { VehicleForTesting } from "../page";
 import { z } from "zod";
+import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 
 /**
  * Number input for small values (<5 digits)
@@ -51,7 +53,7 @@ const MileageCalcFormNumInput = ({
 				{isRequired && <span className="text-red-500 ml-1">*</span>}
 			</label>
 			<input
-				className="mileage-calc-form-number-input"
+				className={`${tailWindClassNames.MILEAGE_CALC_FORM_NUMBER_INPUT}`}
 				type="number"
 				{...register("vehiclesOrder", { valueAsNumber: true })}
 				max={maxValue}
