@@ -117,6 +117,8 @@ export default CalculatorPage;
  * Number input for small values (<5 digits)
  *
  * @param schema This is an item from the Vehicle schema that the function uses to determine factors like min and max value. For instance BaseVehicleSchema.shape.vehiclesOrder
+ *
+ * TODO write tests for num input once you've finished coding it
  */
 const MileageCalcFormNumInput = ({
 	id,
@@ -147,7 +149,10 @@ const MileageCalcFormNumInput = ({
 
 	return (
 		<div>
-			<label htmlFor={id} className="text-sm font-medium text-neutral-text">
+			<label
+				htmlFor={id}
+				className="text-sm font-medium text-neutral-text mr-1"
+			>
 				{label}
 				{isRequired && <span className="text-red-500 ml-1">*</span>}
 			</label>
