@@ -30,6 +30,9 @@ FRONTEND:
 STYLING:
 -Tailwind CSS
 -Using dynamic string literals for any styling logic
+-Custom components, color gradients, and other styling sources of truth are found in globals.css
+-This is sent to the javascript through tailwind.config.ts
+-I also made tailwindClassNames.ts as a single source-of-truth for the custom component class names. That way I only have to change them in one place if any updates are needed.
 
 STATE MANAGEMENT
 -Redux for global state management
