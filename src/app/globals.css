@@ -31,7 +31,7 @@
 		@apply bg-blue-500 lg:bg-red-500;
 	}
 
-	/* Small number input (<5 digits) in Forms */
+	/* Small number input (<5 digits) in Forms. See MileageCalcFormNumberInput.tsx*/
 	.mileage-calc-form-number-input {
 		@apply w-20 px-2 py-1 h-8
     text-neutral-text
