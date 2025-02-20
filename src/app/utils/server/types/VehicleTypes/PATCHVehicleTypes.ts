@@ -4,7 +4,7 @@
 // Most fields are optional here. So only the sub-objects (gasVehicleData, fixedCosts etc) that you actually include will be updated in the db.
 // Because of Zod limitations I can't extend a union type, so I have to make two definitions for Gas and Electric vehicles then make a union of them
 // I'm going to regret this when it comes time for refactoring
-// NOTE: These aren't deep Partials; if one item of a field is included they all should be. This is to keep up with validation done with one field against another, like making sure milesBoughtAt is less than willSellCarAtMiles
+// NOTE: These aren't deep Partials; if one item of a field is included they all should be. This is to keep up with validation done with one field against another, like making sure purchaseAndSales.milesBoughtAt is less than purchaseAndSales.willSellCarAtMiles
 
 import { z } from "zod";
 import {
