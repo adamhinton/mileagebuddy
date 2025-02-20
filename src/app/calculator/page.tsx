@@ -17,6 +17,7 @@ import { PurchaseAndSalesSchema } from "../zod/schemas/VehicleSubSchemas";
 import mySubmitLogic from "./formActions";
 import { FieldErrors, useForm, UseFormRegister } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { get } from "http";
 
 // Styling:
 // Efficient, accessible, clean, responsive. Use color schemes we already have. Update globals.css with new form styling if needed.
@@ -108,29 +109,50 @@ const CalculatorPage = () => {
 
 export default CalculatorPage;
 
-const MyInput = ({
+/**
+ * Number input for small values (<5 digits)
+ *
+ * @param schema This is an item from the Vehicle schema that the function uses to determine factors like min and max value
+ */
+const MileageCalcFormNumInput = ({
+	label,
 	register,
-	errors,
+	error,
+	// The current value of the input in formValues
+	// Useful when you want to edit a Vehicle so this value will already be pre-set
+	formValue,
+	schema,
 }: {
+	label: string;
 	register: UseFormRegister<VehicleForTesting>;
-	errors: FieldErrors<{
-		vehiclesOrder: number;
-	}>;
+	error: string | undefined;
+	formValue: number;
+	schema: z.ZodNumber;
 }) => {
+	const maxValue = schema.maxValue || undefined;
+
+	// if isRequiredToBePositive, min is 0. otherwise it's schema.minValue. Otherwise it's undefined
+	/**boolean */
+	const isRequiredToBePositive = schema.nonnegative();
+	const minValue = isRequiredToBePositive ? 0 : schema.minValue || undefined;
+
+	const isRequired = schema.isOptional();
+
+	console.log("error in number input component:", error);
+
 	return (
 		<div>
 			<label htmlFor="vehiclesOrder">Vehicles Order</label>
 			<input
-				className="border border-gray-300 rounded-md p-2 max-w-20"
+				className="mileage-calc-form-number-input"
 				type="number"
 				{...register("vehiclesOrder", { valueAsNumber: true })}
-				max={
-					GasVehicleSchemaForPOST.shape.vehiclesOrder.maxValue
-						? GasVehicleSchemaForPOST.shape.vehiclesOrder.maxValue
-						: undefined
-				}
+				value={formValue}
+				max={maxValue}
+				min={minValue}
+				required={isRequired}
 			/>
-			<p className="error">{errors.vehiclesOrder?.message}</p>
+			{error && <p className="text-xs text-red-500 mt-1">{error}</p>}{" "}
 		</div>
 	);
 };
@@ -155,11 +177,17 @@ const CalculateMileageForm = () => {
 	} = form;
 	const formValues = getValues();
 	console.log("formValues inside form before submit:", formValues);
-	console.log("errors inside form before submit::", errors);
+	console.log("errors inside form before submit:", errors);
 
 	return (
 		<form onSubmit={handleSubmit(mySubmitLogic)}>
-			<MyInput register={register} errors={errors} />
+			<MileageCalcFormNumInput
+				label="Vehicles Order"
+				register={register}
+				error={errors.vehiclesOrder?.message || undefined}
+				formValue={formValues.vehiclesOrder}
+				schema={GasVehicleSchemaForPOST.shape.vehiclesOrder}
+			/>
 			<button className="submit" disabled={isSubmitting}>
 				{isSubmitting ? "Loading" : "Submit"}
 			</button>
