@@ -126,7 +126,6 @@ const MileageCalcFormNumInput = ({
 	setValue,
 	// The current value of the input in formValues
 	// Useful when you want to edit a Vehicle so this value will already be pre-set
-	formValue,
 	subSchema,
 }: {
 	id: string;
