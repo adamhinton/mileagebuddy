@@ -113,7 +113,9 @@ const MyInput = ({
 	errors,
 }: {
 	register: UseFormRegister<VehicleForTesting>;
-	errors: FieldErrors;
+	errors: FieldErrors<{
+		vehiclesOrder: number;
+	}>;
 }) => {
 	return (
 		<div>
@@ -123,8 +125,8 @@ const MyInput = ({
 				type="number"
 				{...register("vehiclesOrder", { valueAsNumber: true })}
 				max={
-					PurchaseAndSalesSchema._def.schema.shape.milesBoughtAt.maxValue
-						? PurchaseAndSalesSchema._def.schema.shape.milesBoughtAt.maxValue
+					GasVehicleSchemaForPOST.shape.vehiclesOrder.maxValue
+						? GasVehicleSchemaForPOST.shape.vehiclesOrder.maxValue
 						: undefined
 				}
 			/>
