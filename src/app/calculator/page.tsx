@@ -112,7 +112,7 @@ export default CalculatorPage;
 /**
  * Number input for small values (<5 digits)
  *
- * @param schema This is an item from the Vehicle schema that the function uses to determine factors like min and max value
+ * @param schema This is an item from the Vehicle schema that the function uses to determine factors like min and max value. For instance BaseVehicleSchema.shape.vehiclesOrder
  */
 const MileageCalcFormNumInput = ({
 	label,
@@ -121,22 +121,22 @@ const MileageCalcFormNumInput = ({
 	// The current value of the input in formValues
 	// Useful when you want to edit a Vehicle so this value will already be pre-set
 	formValue,
-	schema,
+	subSchema,
 }: {
 	label: string;
 	register: UseFormRegister<VehicleForTesting>;
 	error: string | undefined;
 	formValue: number;
-	schema: z.ZodNumber;
+	subSchema: z.ZodNumber;
 }) => {
-	const maxValue = schema.maxValue || undefined;
+	const maxValue = subSchema.maxValue || undefined;
 
 	// if isRequiredToBePositive, min is 0. otherwise it's schema.minValue. Otherwise it's undefined
 	/**boolean */
-	const isRequiredToBePositive = schema.nonnegative();
-	const minValue = isRequiredToBePositive ? 0 : schema.minValue || undefined;
+	const isRequiredToBePositive = subSchema.nonnegative();
+	const minValue = isRequiredToBePositive ? 0 : subSchema.minValue || undefined;
 
-	const isRequired = schema.isOptional();
+	const isRequired = subSchema.isOptional();
 
 	console.log("error in number input component:", error);
 
@@ -186,7 +186,7 @@ const CalculateMileageForm = () => {
 				register={register}
 				error={errors.vehiclesOrder?.message || undefined}
 				formValue={formValues.vehiclesOrder}
-				schema={GasVehicleSchemaForPOST.shape.vehiclesOrder}
+				subSchema={GasVehicleSchemaForPOST.shape.vehiclesOrder}
 			/>
 			<button className="submit" disabled={isSubmitting}>
 				{isSubmitting ? "Loading" : "Submit"}
