@@ -14,6 +14,9 @@ import {
 	ElectricVehicleSchemaForPOST,
 } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { PurchaseAndSalesSchema } from "../zod/schemas/VehicleSubSchemas";
+import mySubmitLogic from "./formActions";
+import { FieldErrors, useForm, UseFormRegister } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 // Styling:
 // Efficient, accessible, clean, responsive. Use color schemes we already have. Update globals.css with new form styling if needed.
@@ -65,9 +68,9 @@ import { PurchaseAndSalesSchema } from "../zod/schemas/VehicleSubSchemas";
 
 const smallGasVehicleSchemaForTesting = GasVehicleSchemaForPOST.pick({
 	vehiclesOrder: true,
-	type: true,
-	// gasVehicleData: true,
-	vehicleData: true,
+	// type: true,
+	// // gasVehicleData: true,
+	// vehicleData: true,
 });
 
 type SmallGasVehicleForTesting = z.infer<
@@ -76,14 +79,21 @@ type SmallGasVehicleForTesting = z.infer<
 
 const smallElectricVehicleSchemaForTesting = ElectricVehicleSchemaForPOST.pick({
 	vehiclesOrder: true,
-	type: true,
-	// electricVehicleData: true,
-	vehicleData: true,
+	// type: true,
+	// // electricVehicleData: true,
+	// vehicleData: true,
 });
 
 type SmallElectricVehicleForTesting = z.infer<
 	typeof smallElectricVehicleSchemaForTesting
 >;
+
+const VehicleForTestingSchema = z.union([
+	smallGasVehicleSchemaForTesting,
+	smallElectricVehicleSchemaForTesting,
+]);
+
+export type VehicleForTesting = z.infer<typeof VehicleForTestingSchema>;
 
 const CalculatorPage = () => {
 	return (
@@ -91,27 +101,66 @@ const CalculatorPage = () => {
 		<section className="h-screen">
 			<h1>Calculator Page</h1>
 
-			<form>
-				<MyInput />
-			</form>
+			<CalculateMileageForm />
 		</section>
 	);
 };
 
 export default CalculatorPage;
 
-const MyInput = () => {
+const MyInput = ({
+	register,
+	errors,
+}: {
+	register: UseFormRegister<VehicleForTesting>;
+	errors: FieldErrors;
+}) => {
 	return (
-		<input
-			className="border border-gray-300 rounded-md p-2 max-w-20"
-			type="number"
-			max={
-				PurchaseAndSalesSchema._def.schema.shape.milesBoughtAt.maxValue
-					? PurchaseAndSalesSchema._def.schema.shape.milesBoughtAt.maxValue
-					: undefined
-			}
-		/>
+		<div>
+			<label htmlFor="vehiclesOrder"></label>
+			<input
+				className="border border-gray-300 rounded-md p-2 max-w-20"
+				type="number"
+				{...register("vehiclesOrder", { valueAsNumber: true })}
+				max={
+					PurchaseAndSalesSchema._def.schema.shape.milesBoughtAt.maxValue
+						? PurchaseAndSalesSchema._def.schema.shape.milesBoughtAt.maxValue
+						: undefined
+				}
+			/>
+			<p className="error">{errors.vehiclesOrder?.message}</p>
+		</div>
 	);
 };
 
-const CalculateMileageForm = () => {};
+const CalculateMileageForm = () => {
+	const form = useForm<VehicleForTesting>({
+		// This is how it knows to validate with zod
+		resolver: zodResolver(VehicleForTestingSchema),
+		// Can put default values here if needed: defaultValues: {...}
+	});
+
+	const {
+		register,
+		/**
+		 * built in RHF function that automatically performs zod validation,
+		 * then passes the form data to whatever you pass as a callback in <form onSubmit={mySubmitFunction(callback)}>
+		 */
+		handleSubmit,
+		setValue,
+		getValues,
+		formState: { errors, isSubmitting },
+	} = form;
+	const formValues = getValues();
+	console.log("formValues inside form before submit:", formValues);
+	console.log("errors inside form before submit::", errors);
+
+	return (
+		<form onSubmit={handleSubmit(mySubmitLogic)}>
+			<MyInput register={register} errors={errors} />
+			<button className="submit" disabled={isSubmitting}>
+				{isSubmitting ? "Loading" : "Submit"}
+			</button>
+		</form>
+	);
+};
