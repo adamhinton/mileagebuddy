@@ -103,7 +103,6 @@ export type VehicleForTesting = z.infer<typeof VehicleForTestingSchema>;
 
 const CalculatorPage = () => {
 	return (
-		// 100% vh
 		<section className="h-screen">
 			<h1>Calculator Page</h1>
 
