@@ -1,3 +1,5 @@
+"use client";
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // README
 // This is the meat and potatoes of the whole MileageBuddy project.
@@ -111,3 +113,5 @@ const MyInput = () => {
 		/>
 	);
 };
+
+const CalculateMileageForm = () => {};
