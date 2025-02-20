@@ -119,7 +119,7 @@ const MyInput = ({
 }) => {
 	return (
 		<div>
-			<label htmlFor="vehiclesOrder"></label>
+			<label htmlFor="vehiclesOrder">Vehicles Order</label>
 			<input
 				className="border border-gray-300 rounded-md p-2 max-w-20"
 				type="number"
