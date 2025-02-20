@@ -147,7 +147,7 @@ const MileageCalcFormNumInput = ({
 				className="mileage-calc-form-number-input"
 				type="number"
 				{...register("vehiclesOrder", { valueAsNumber: true })}
-				value={formValue}
+				value={formValue ?? null}
 				max={maxValue}
 				min={minValue}
 				required={isRequired}
