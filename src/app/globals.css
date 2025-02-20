@@ -30,6 +30,23 @@
 	.btn {
 		@apply bg-blue-500 lg:bg-red-500;
 	}
+
+	/* Small number input (<5 digits) in Forms */
+	.mileage-calc-form-number-input {
+		@apply w-20 px-2 py-1 h-8
+    text-neutral-text
+    bg-background-elevated 
+    border border-primary-100
+    rounded-md
+    transition-colors
+    focus:outline-none 
+    focus:border-primary 
+    focus:ring-1 
+    focus:ring-primary
+    dark:border-primary-200
+    disabled:opacity-50
+    disabled:cursor-not-allowed;
+	}
 }
 
 @tailwind utilities;
