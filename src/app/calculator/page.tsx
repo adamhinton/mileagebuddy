@@ -13,16 +13,9 @@ import {
 	GasVehicleSchemaForPOST,
 	ElectricVehicleSchemaForPOST,
 } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
-import { PurchaseAndSalesSchema } from "../zod/schemas/VehicleSubSchemas";
 import mySubmitLogic from "./formActions";
-import {
-	FieldErrors,
-	useForm,
-	UseFormRegister,
-	UseFormSetValue,
-} from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { get } from "http";
 import MileageCalcFormNumInput from "./CalculatorFormComponents/MileageCalcFormNumberInput";
 
 // Styling:
