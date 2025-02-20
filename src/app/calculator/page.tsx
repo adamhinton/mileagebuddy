@@ -115,6 +115,7 @@ export default CalculatorPage;
  * @param schema This is an item from the Vehicle schema that the function uses to determine factors like min and max value. For instance BaseVehicleSchema.shape.vehiclesOrder
  */
 const MileageCalcFormNumInput = ({
+	id,
 	label,
 	register,
 	error,
@@ -123,6 +124,7 @@ const MileageCalcFormNumInput = ({
 	formValue,
 	subSchema,
 }: {
+	id: string;
 	label: string;
 	register: UseFormRegister<VehicleForTesting>;
 	error: string | undefined;
@@ -138,11 +140,12 @@ const MileageCalcFormNumInput = ({
 
 	const isRequired = subSchema.isOptional();
 
-	console.log("error in number input component:", error);
-
 	return (
 		<div>
-			<label htmlFor="vehiclesOrder">Vehicles Order</label>
+			<label htmlFor={id} className="text-sm font-medium text-neutral-text">
+				{label}
+				{isRequired && <span className="text-red-500 ml-1">*</span>}
+			</label>
 			<input
 				className="mileage-calc-form-number-input"
 				type="number"
@@ -182,6 +185,7 @@ const CalculateMileageForm = () => {
 	return (
 		<form onSubmit={handleSubmit(mySubmitLogic)}>
 			<MileageCalcFormNumInput
+				id="vehiclesOrder"
 				label="Vehicles Order"
 				register={register}
 				error={errors.vehiclesOrder?.message || undefined}
