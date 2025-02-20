@@ -8,14 +8,19 @@
 // This will be used to create (or edit) an object of type Vehicle, whose cost will be calculated with the function from calculateCarCostMain.
 // Form validation will be done by Zod.
 
-import { z } from "zod";
+import { set, z } from "zod";
 import {
 	GasVehicleSchemaForPOST,
 	ElectricVehicleSchemaForPOST,
 } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { PurchaseAndSalesSchema } from "../zod/schemas/VehicleSubSchemas";
 import mySubmitLogic from "./formActions";
-import { FieldErrors, useForm, UseFormRegister } from "react-hook-form";
+import {
+	FieldErrors,
+	useForm,
+	UseFormRegister,
+	UseFormSetValue,
+} from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { get } from "http";
 
@@ -119,6 +124,7 @@ const MileageCalcFormNumInput = ({
 	label,
 	register,
 	error,
+	setValue,
 	// The current value of the input in formValues
 	// Useful when you want to edit a Vehicle so this value will already be pre-set
 	formValue,
@@ -128,7 +134,8 @@ const MileageCalcFormNumInput = ({
 	label: string;
 	register: UseFormRegister<VehicleForTesting>;
 	error: string | undefined;
-	formValue: number;
+	setValue: UseFormSetValue<VehicleForTesting>;
+	formValue: number | undefined;
 	subSchema: z.ZodNumber;
 }) => {
 	const maxValue = subSchema.maxValue || undefined;
@@ -150,7 +157,6 @@ const MileageCalcFormNumInput = ({
 				className="mileage-calc-form-number-input"
 				type="number"
 				{...register("vehiclesOrder", { valueAsNumber: true })}
-				value={formValue ?? null}
 				max={maxValue}
 				min={minValue}
 				required={isRequired}
@@ -191,6 +197,7 @@ const CalculateMileageForm = () => {
 				error={errors.vehiclesOrder?.message || undefined}
 				formValue={formValues.vehiclesOrder}
 				subSchema={GasVehicleSchemaForPOST.shape.vehiclesOrder}
+				setValue={setValue}
 			/>
 			<button className="submit" disabled={isSubmitting}>
 				{isSubmitting ? "Loading" : "Submit"}
