@@ -8,7 +8,6 @@
  *
  * Is this giving you errors? This class doesn't exist or styling doesn't show up? Make sure the class name corresponds with the custom component defined in globals.css
  */
-
 const tailWindClassNames = {
 	// /calculator/page.tsx and its associated components/utils
 	MILEAGE_CALC_FORM_NUMBER_INPUT: "mileage-calc-form-number-input",
