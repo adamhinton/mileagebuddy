@@ -26,7 +26,7 @@ const MileageCalcFormNumInput = ({
 	// Useful when you want to edit a Vehicle so this value will already be pre-set
 	subSchema,
 }: {
-	id: string;
+	id: Readonly<string>;
 	label: string;
 	register: UseFormRegister<VehicleForTesting>;
 	error: string | undefined;
@@ -55,7 +55,9 @@ const MileageCalcFormNumInput = ({
 			<input
 				className={`${tailWindClassNames.MILEAGE_CALC_FORM_NUMBER_INPUT}`}
 				type="number"
-				{...register("vehiclesOrder", { valueAsNumber: true })}
+				{...register("gasVehicleData.gasCostPerGallon", {
+					valueAsNumber: true,
+				})}
 				max={maxValue}
 				min={minValue}
 				required={isRequired}

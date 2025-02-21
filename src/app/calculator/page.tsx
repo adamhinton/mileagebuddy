@@ -79,20 +79,20 @@ type SmallGasVehicleForTesting = z.infer<
 	typeof smallGasVehicleSchemaForTesting
 >;
 
-const smallElectricVehicleSchemaForTesting = ElectricVehicleSchemaForPOST.pick({
-	vehiclesOrder: true,
-	// type: true,
-	electricVehicleData: true,
-	// vehicleData: true,
-});
+// const smallElectricVehicleSchemaForTesting = ElectricVehicleSchemaForPOST.pick({
+// 	vehiclesOrder: true,
+// 	// type: true,
+// 	electricVehicleData: true,
+// 	// vehicleData: true,
+// });
 
-type SmallElectricVehicleForTesting = z.infer<
-	typeof smallElectricVehicleSchemaForTesting
->;
+// type SmallElectricVehicleForTesting = z.infer<
+// 	typeof smallElectricVehicleSchemaForTesting
+// >;
 
 const VehicleForTestingSchema = z.union([
 	smallGasVehicleSchemaForTesting,
-	smallElectricVehicleSchemaForTesting,
+	smallGasVehicleSchemaForTesting,
 ]);
 
 export type VehicleForTesting = z.infer<typeof VehicleForTestingSchema>;
@@ -183,18 +183,23 @@ const CalculateMileageForm = () => {
 				setValue={setValue}
 			/> */}
 
-			{sections.map((section, index) => (
-				<FormSection
-					key={section.title}
-					title={section.title}
-					isActive={index === activeSection}
-					isCompleted={index < activeSection}
-					onComplete={() => handleSectionComplete(index)}
-				>
-					<div>Test</div>
-				</FormSection>
-			))}
-
+			<FormSection
+				title={"Gas Vehicle Data"}
+				isActive={true}
+				isCompleted={false}
+				onComplete={() => {}}
+			>
+				<MileageCalcFormNumInput
+					id="gasCostPerGallon"
+					label="Gas Cost Per Gallon $"
+					register={register}
+					error={errors.gasVehicleData?.gasCostPerGallon?.message || undefined}
+					setValue={setValue}
+					subSchema={
+						GasVehicleSchemaForPOST.shape.gasVehicleData.shape.gasCostPerGallon
+					}
+				/>
+			</FormSection>
 			<button className="submit" disabled={isSubmitting}>
 				{isSubmitting ? "Loading" : "Submit"}
 			</button>

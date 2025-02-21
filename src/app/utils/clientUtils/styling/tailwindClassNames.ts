@@ -10,6 +10,7 @@
  */
 
 const tailWindClassNames = {
+	// /calculator/page.tsx and its associated components/utils
 	MILEAGE_CALC_FORM_NUMBER_INPUT: "mileage-calc-form-number-input",
 	MILEAGE_CALC_FORM_SECTION: "mileage-calc-form-section",
 	MILEAGE_CALC_FORM_SECTION_HEADER: "mileage-calc-form-section-header",
