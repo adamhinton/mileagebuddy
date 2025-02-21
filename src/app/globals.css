@@ -47,6 +47,25 @@
     disabled:opacity-50
     disabled:cursor-not-allowed;
 	}
+
+	.mileage-calc-form-section {
+		@apply mb-6 border border-primary-100 
+           rounded-lg overflow-hidden 
+           transition-all duration-200;
+	}
+
+	.mileage-calc-form-section-header {
+		@apply w-full flex items-center justify-between 
+           p-4 bg-background-elevated 
+           hover:bg-background-highlight 
+           transition-colors;
+	}
+
+	.mileage-calc-form-section-content {
+		@apply p-4 bg-background-base 
+           grid gap-4 
+           transition-all duration-200;
+	}
 }
 
 @tailwind utilities;

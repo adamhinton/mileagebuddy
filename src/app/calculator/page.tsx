@@ -17,6 +17,8 @@ import mySubmitLogic from "./formActions";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import MileageCalcFormNumInput from "./CalculatorFormComponents/MileageCalcFormNumberInput";
+import { useState } from "react";
+import FormSection from "./CalculatorFormComponents/FormSection";
 
 // Styling:
 // Efficient, accessible, clean, responsive. Use color schemes we already have. Update globals.css with new form styling if needed.
@@ -69,7 +71,7 @@ import MileageCalcFormNumInput from "./CalculatorFormComponents/MileageCalcFormN
 const smallGasVehicleSchemaForTesting = GasVehicleSchemaForPOST.pick({
 	vehiclesOrder: true,
 	// type: true,
-	// // gasVehicleData: true,
+	gasVehicleData: true,
 	// vehicleData: true,
 });
 
@@ -80,7 +82,7 @@ type SmallGasVehicleForTesting = z.infer<
 const smallElectricVehicleSchemaForTesting = ElectricVehicleSchemaForPOST.pick({
 	vehiclesOrder: true,
 	// type: true,
-	// // electricVehicleData: true,
+	electricVehicleData: true,
 	// vehicleData: true,
 });
 
@@ -108,11 +110,38 @@ const CalculatorPage = () => {
 export default CalculatorPage;
 
 const CalculateMileageForm = () => {
+	const [activeSection, setActiveSection] = useState(0);
+	// Checkmark that user de-selects if they don't want to be auto-advanced to next section
+	const [autoAdvance, setAutoAdvance] = useState(true);
+
 	const form = useForm<VehicleForTesting>({
 		// This is how it knows to validate with zod
 		resolver: zodResolver(VehicleForTestingSchema),
 		// Can put default values here if needed: defaultValues: {...}
 	});
+
+	// Dummy sections for testing, TODO update this with real vehicle sub-objects
+	const sections = [
+		{
+			title: "Vehicle Type",
+			fields: ["type"], // Radio for gas/electric
+		},
+		{
+			title: "Basic Vehicle Information",
+			fields: ["vehicleName", "year", "make", "model"],
+		},
+		{
+			title: "Purchase & Sales Information",
+			fields: ["purchasePrice", "yearPurchased", "downPaymentAmount"],
+		},
+		// ... more sections
+	];
+
+	const handleSectionComplete = (sectionIndex: number) => {
+		if (autoAdvance && sectionIndex < sections.length - 1) {
+			setActiveSection(sectionIndex + 1);
+		}
+	};
 
 	const {
 		register,
@@ -131,7 +160,20 @@ const CalculateMileageForm = () => {
 
 	return (
 		<form onSubmit={handleSubmit(mySubmitLogic)}>
-			<MileageCalcFormNumInput
+			<div className="mb-4 flex items-center">
+				<input
+					type="checkbox"
+					id="autoAdvance"
+					checked={autoAdvance}
+					onChange={(e) => setAutoAdvance(e.target.checked)}
+					className="mr-2"
+				/>
+				<label htmlFor="autoAdvance">
+					Automatically advance to next section
+				</label>
+			</div>
+
+			{/* <MileageCalcFormNumInput
 				id="vehiclesOrder"
 				label="Vehicles Order"
 				register={register}
@@ -139,7 +181,20 @@ const CalculateMileageForm = () => {
 				formValue={formValues.vehiclesOrder}
 				subSchema={GasVehicleSchemaForPOST.shape.vehiclesOrder}
 				setValue={setValue}
-			/>
+			/> */}
+
+			{sections.map((section, index) => (
+				<FormSection
+					key={section.title}
+					title={section.title}
+					isActive={index === activeSection}
+					isCompleted={index < activeSection}
+					onComplete={() => handleSectionComplete(index)}
+				>
+					<div>Test</div>
+				</FormSection>
+			))}
+
 			<button className="submit" disabled={isSubmitting}>
 				{isSubmitting ? "Loading" : "Submit"}
 			</button>

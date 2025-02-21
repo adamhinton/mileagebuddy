@@ -5,6 +5,7 @@
 // You list this as an open tag and put the relevant inputs inside it. Mostly MileageCalcNumberInputs
 // TODO unit tests once this is fully fleshed out
 
+import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import { ReactNode, useState } from "react";
 
 type FormSectionProps = {
@@ -25,13 +26,15 @@ const FormSection = ({
 	const [isExpanded, setIsExpanded] = useState(isActive);
 
 	return (
-		<section className="mb-6 border border-primary-100 rounded-lg overflow-hidden">
+		<section className={`${tailWindClassNames.MILEAGE_CALC_FORM_SECTION}`}>
 			<button
 				type="button"
 				onClick={() => setIsExpanded(!isExpanded)}
 				className="w-full flex items-center justify-between p-4 bg-background-elevated"
 			>
-				<div className="flex items-center">
+				<div
+					className={`${tailWindClassNames.MILEAGE_CALC_FORM_SECTION_HEADER}`}
+				>
 					<h3 className="text-lg font-medium text-neutral-text">{title}</h3>
 					{isCompleted && <span className="ml-2 text-accent">✓</span>}
 				</div>
@@ -39,7 +42,13 @@ const FormSection = ({
 				{isExpanded ? <span>Up</span> : <span>Down</span>}
 			</button>
 
-			{isExpanded && <div className="p-4 bg-background-base">{children}</div>}
+			{isExpanded && (
+				<div
+					className={`${tailWindClassNames.MILEAGE_CALC_FORM_SECTION_CONTENT}`}
+				>
+					{children}
+				</div>
+			)}
 		</section>
 	);
 };
