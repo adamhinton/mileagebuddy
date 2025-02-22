@@ -31,7 +31,7 @@ const MileageCalcFormNumInput = ({
 	register: UseFormRegister<VehicleForTesting>;
 	error: string | undefined;
 	setValue: UseFormSetValue<VehicleForTesting>;
-	formValue: number | undefined;
+	// formValue: number | undefined;
 	subSchema: z.ZodNumber;
 }) => {
 	const maxValue = subSchema.maxValue || undefined;
