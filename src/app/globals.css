@@ -62,12 +62,9 @@
 
 	.mileage-calc-form-section-header {
 		@apply w-full flex items-center justify-between 
-  p-4 bg-background-elevated 
+  p-1 bg-background-elevated 
   hover:bg-background-highlight 
   transition-colors;
-
-		@apply sm:p-6;
-		@apply md:p-8;
 	}
 
 	.mileage-calc-form-section-content {
