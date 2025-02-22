@@ -99,8 +99,8 @@ export type VehicleForTesting = z.infer<typeof VehicleForTestingSchema>;
 
 const CalculatorPage = () => {
 	return (
-		<section className="h-screen">
-			<h1>Calculator Page</h1>
+		<section className="h-screen p-4 sm:p-6 md:p-8">
+			<h1 className="text-2xl sm:text-3xl md:text-4xl">Calculator Page</h1>
 
 			<CalculateMileageForm />
 		</section>
@@ -177,7 +177,7 @@ const CalculateMileageForm = () => {
 				id="vehiclesOrder"
 				label="Vehicles Order"
 				register={register}
-				error={errors.vehiclesOrder?.message || undefined}
+				error={errors.vehiclesOrder?.message || undefined} 	
 				formValue={formValues.vehiclesOrder}
 				subSchema={GasVehicleSchemaForPOST.shape.vehiclesOrder}
 				setValue={setValue}

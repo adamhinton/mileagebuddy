@@ -33,38 +33,50 @@
 
 	/* Small number input (<5 digits) in Forms. See MileageCalcFormNumberInput.tsx*/
 	.mileage-calc-form-number-input {
-		@apply w-20 px-2 py-1 h-8
-    text-neutral-text
-    bg-background-elevated 
-    border border-primary-100
-    rounded-md
-    transition-colors
-    focus:outline-none 
-    focus:border-primary 
-    focus:ring-1 
-    focus:ring-primary
-    dark:border-primary-200
-    disabled:opacity-50
-    disabled:cursor-not-allowed;
+		@apply w-16 px-1 py-1 h-6
+  text-neutral-text
+  bg-background-elevated 
+  border border-primary-100
+  rounded-md
+  transition-colors
+  focus:outline-none 
+  focus:border-primary 
+  focus:ring-1 
+  focus:ring-primary
+  dark:border-primary-200
+  disabled:opacity-50
+  disabled:cursor-not-allowed;
+
+		@apply sm:w-20 sm:h-6 sm:px-2 sm:py-3;
+		@apply md:w-24 md:h-8 md:p-4;
 	}
 
 	.mileage-calc-form-section {
 		@apply mb-6 border border-primary-100 
-           rounded-lg overflow-hidden 
-           transition-all duration-200;
+  rounded-lg overflow-hidden 
+  transition-all duration-200;
+
+		@apply sm:mb-8;
+		@apply md:mb-10;
 	}
 
 	.mileage-calc-form-section-header {
 		@apply w-full flex items-center justify-between 
-           p-4 bg-background-elevated 
-           hover:bg-background-highlight 
-           transition-colors;
+  p-4 bg-background-elevated 
+  hover:bg-background-highlight 
+  transition-colors;
+
+		@apply sm:p-6;
+		@apply md:p-8;
 	}
 
 	.mileage-calc-form-section-content {
 		@apply p-4 bg-background-base 
-           grid gap-4 
-           transition-all duration-200;
+  grid gap-4 
+  transition-all duration-200;
+
+		@apply sm:p-6 sm:gap-6;
+		@apply md:p-8 md:gap-8;
 	}
 }
 
