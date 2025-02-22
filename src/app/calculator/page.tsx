@@ -192,7 +192,7 @@ const CalculateMileageForm = () => {
 				<MileageCalcFormNumInput
 					id="gasCostPerGallon"
 					label="Gas Cost Per Gallon $"
-					register={register}
+					registerFn={register}
 					error={errors.gasVehicleData?.gasCostPerGallon?.message || undefined}
 					setValue={setValue}
 					subSchema={

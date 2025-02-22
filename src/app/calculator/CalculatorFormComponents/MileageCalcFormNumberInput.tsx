@@ -20,7 +20,9 @@ import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNam
 const MileageCalcFormNumInput = ({
 	id,
 	label,
-	register,
+	registerFn,
+	/**The actual key in the schema object. For instance "gasVehicleData.gasCostPerGallon" */
+	registerString,
 	error,
 	// The current value of the input in formValues
 	// Useful when you want to edit a Vehicle so this value will already be pre-set
@@ -28,7 +30,8 @@ const MileageCalcFormNumInput = ({
 }: {
 	id: Readonly<string>;
 	label: string;
-	register: UseFormRegister<VehicleForTesting>;
+	registerFn: UseFormRegister<VehicleForTesting>;
+	registerString: string;
 	error: string | undefined;
 	setValue: UseFormSetValue<VehicleForTesting>;
 	// formValue: number | undefined;
@@ -55,7 +58,7 @@ const MileageCalcFormNumInput = ({
 			<input
 				className={`${tailWindClassNames.MILEAGE_CALC_FORM_NUMBER_INPUT}`}
 				type="number"
-				{...register("gasVehicleData.gasCostPerGallon", {
+				{...registerFn(registerString, {
 					valueAsNumber: true,
 				})}
 				max={maxValue}
