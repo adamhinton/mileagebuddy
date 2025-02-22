@@ -50,7 +50,6 @@ const MileageCalcFormNumInput = ({
 	const maxValue = subSchema.maxValue || undefined;
 
 	// if isRequiredToBePositive, min is 0. otherwise it's schema.minValue. Otherwise it's undefined
-	/**boolean */
 	const isRequiredToBePositive = subSchema.nonnegative();
 	const minValue = isRequiredToBePositive ? 0 : subSchema.minValue || undefined;
 
