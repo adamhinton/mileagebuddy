@@ -19,6 +19,7 @@ type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
 	id: string;
 	label: string;
 	registerFn: UseFormRegister<TFieldValues>;
+	// What you pass in to register(). For instance "gasVehicleData.gasCostPerGallon"
 	path: Path<TFieldValues>;
 	error?: string;
 	setValue: UseFormSetValue<TFieldValues>;
@@ -30,14 +31,18 @@ type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
  *
  * @param schema This is an item from the Vehicle schema that the function uses to determine factors like min and max value. For instance BaseVehicleSchema.shape.vehiclesOrder
  *
+ *  @param path What you pass in to register(). For instance "gasVehicleData.gasCostPerGallon"
+ *
+ * @param error Auto-generated error message from react-hook-form by way of Zod schema validation
+ *
+ * @param subSchema The Zod schema for the number input. For instance GasVehicleSchemaForPOST.shape.gasCostPerGallon
+ *
  * TODO write tests for num input once you've finished coding it
  */
 const MileageCalcFormNumInput = ({
 	id,
 	label,
 	registerFn,
-	/**The actual key in the schema object. For instance "gasVehicleData.gasCostPerGallon" */
-	// registerString,
 	error,
 	path,
 	subSchema,
