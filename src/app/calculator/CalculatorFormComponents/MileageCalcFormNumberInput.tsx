@@ -5,10 +5,25 @@
 // TODO write tests for this once it's finalized
 // This has a <label> too, but MileageCalcFormNumInputAndLabel was an annoyingly long name
 
-import { UseFormRegister, UseFormSetValue } from "react-hook-form";
+import {
+	FieldValues,
+	Path,
+	UseFormRegister,
+	UseFormSetValue,
+} from "react-hook-form";
 import { VehicleForTesting } from "../page";
 import { z } from "zod";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
+
+type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
+	id: string;
+	label: string;
+	registerFn: UseFormRegister<TFieldValues>;
+	path: Path<TFieldValues>;
+	error?: string;
+	setValue: UseFormSetValue<TFieldValues>;
+	subSchema: z.ZodNumber;
+};
 
 /**
  * Number input for small values (<5 digits)
@@ -22,21 +37,11 @@ const MileageCalcFormNumInput = ({
 	label,
 	registerFn,
 	/**The actual key in the schema object. For instance "gasVehicleData.gasCostPerGallon" */
-	registerString,
+	// registerString,
 	error,
-	// The current value of the input in formValues
-	// Useful when you want to edit a Vehicle so this value will already be pre-set
+	path,
 	subSchema,
-}: {
-	id: Readonly<string>;
-	label: string;
-	registerFn: UseFormRegister<VehicleForTesting>;
-	registerString: string;
-	error: string | undefined;
-	setValue: UseFormSetValue<VehicleForTesting>;
-	// formValue: number | undefined;
-	subSchema: z.ZodNumber;
-}) => {
+}: MileageCalcFormNumInputProps<VehicleForTesting>) => {
 	const maxValue = subSchema.maxValue || undefined;
 
 	// if isRequiredToBePositive, min is 0. otherwise it's schema.minValue. Otherwise it's undefined
@@ -58,7 +63,7 @@ const MileageCalcFormNumInput = ({
 			<input
 				className={`${tailWindClassNames.MILEAGE_CALC_FORM_NUMBER_INPUT}`}
 				type="number"
-				{...registerFn(registerString, {
+				{...registerFn(path, {
 					valueAsNumber: true,
 				})}
 				max={maxValue}
