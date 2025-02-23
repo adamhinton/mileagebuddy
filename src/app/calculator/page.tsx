@@ -229,7 +229,7 @@ const CalculateMileageForm = () => {
 					}
 				/>
 				<MileageCalcFormNumInput
-					id="fixedCosts."
+					id="inspectionCost"
 					registerFn={register}
 					path="fixedCosts.inspectionCost"
 					error={errors.fixedCosts?.inspectionCost?.message || undefined}

@@ -77,9 +77,10 @@ const MileageCalcFormNumInput = ({
 				min={minValue}
 				required={isRequired}
 				defaultValue={0}
-				// Inputs can be as precise as three decimal places (for gas cost purposes) but not more
-				// Most inputs don't need this much precision, but it doesn't hurt anything if they are to three decimal places so I won't stop the user
-				step="0.001"
+				// Inputs can be as precise as two decimal places for gas cost purposes, but not more
+				// All other inputs are incremented by the dollar
+				// TODO: See if any other inputs need to be incremented by less than a dollar; user can't currently input cents
+				step={id === "gasCostPerGallon" ? "0.01" : "1"}
 			/>
 			{error && <p className="text-xs text-red-500 mt-1">{error}</p>}{" "}
 		</div>
