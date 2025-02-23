@@ -4,6 +4,7 @@
 // So I hope this thing works because I'll be using it a lot.
 // TODO write tests for this once it's finalized
 // This has a <label> too, but MileageCalcFormNumInputAndLabel was an annoyingly long name
+// Confused about the subschema being passed in? See the jsdoc for subSchema param
 
 import {
 	FieldValues,
@@ -35,7 +36,7 @@ type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
  *
  * @param error Auto-generated error message from react-hook-form by way of Zod schema validation
  *
- * @param subSchema The Zod schema for the number input. For instance GasVehicleSchemaForPOST.shape.gasCostPerGallon
+ * @param subSchema The Zod schema for the number input. For instance BaseVehicleSchema.shape.fixedCosts.shape.inspectionCost. Note that it's extended from BaseVehicleSchema because things like VehicleSchemaForPOST are union types, and you can't access the shape of a union type
  *
  * TODO write tests for num input once you've finished coding it
  */
@@ -73,6 +74,7 @@ const MileageCalcFormNumInput = ({
 				max={maxValue}
 				min={minValue}
 				required={isRequired}
+				defaultValue={0}
 			/>
 			{error && <p className="text-xs text-red-500 mt-1">{error}</p>}{" "}
 		</div>
