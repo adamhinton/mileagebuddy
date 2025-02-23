@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // README
 // This is one section of the vehicle creation/edit form
 // It deals with creation of the VehicleData sub-object

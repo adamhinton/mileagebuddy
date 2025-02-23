@@ -6,23 +6,16 @@
 // This has a <label> too, but MileageCalcFormNumInputAndLabel was an annoyingly long name
 // Confused about the subschema being passed in? See the jsdoc for subSchema param
 
-import {
-	FieldValues,
-	Path,
-	UseFormRegister,
-	UseFormSetValue,
-} from "react-hook-form";
+import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { VehicleForTesting } from "../page";
 import { z } from "zod";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 
 type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
-	id: string;
 	registerFn: UseFormRegister<TFieldValues>;
 	// What you pass in to register(). For instance "gasVehicleData.gasCostPerGallon"
 	path: Path<VehicleForTesting>;
 	error?: string;
-	setValue: UseFormSetValue<TFieldValues>;
 	subSchema: z.ZodNumber;
 };
 
@@ -40,13 +33,15 @@ type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
  * TODO write tests for num input once you've finished coding it
  */
 const MileageCalcFormNumInput = ({
-	id,
 	registerFn,
 	error,
 	path,
 	subSchema,
 }: MileageCalcFormNumInputProps<VehicleForTesting>) => {
 	const maxValue = subSchema.maxValue || undefined;
+
+	// Can use input's register path as the id as well
+	const id = path;
 
 	// if isRequiredToBePositive, min is 0. otherwise it's schema.minValue. Otherwise it's undefined
 	const isRequiredToBePositive = subSchema.nonnegative();

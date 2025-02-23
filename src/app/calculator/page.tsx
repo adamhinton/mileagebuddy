@@ -219,21 +219,17 @@ const CalculateMileageForm = () => {
 				onComplete={() => {}}
 			>
 				<MileageCalcFormNumInput
-					id="gasCostPerGallon"
 					registerFn={register}
 					path="gasVehicleData.gasCostPerGallon"
 					error={errors.gasVehicleData?.gasCostPerGallon?.message || undefined}
-					setValue={setValue}
 					subSchema={
 						GasVehicleSchemaForPOST.shape.gasVehicleData.shape.gasCostPerGallon
 					}
 				/>
 				<MileageCalcFormNumInput
-					id="inspectionCost"
 					registerFn={register}
 					path="fixedCosts.inspectionCost"
 					error={errors.fixedCosts?.inspectionCost?.message || undefined}
-					setValue={setValue}
 					subSchema={BaseVehicleSchema.shape.fixedCosts.shape.inspectionCost}
 				/>
 			</FormSection>
