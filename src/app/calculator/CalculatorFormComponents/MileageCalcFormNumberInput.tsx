@@ -42,7 +42,7 @@ type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
  */
 const MileageCalcFormNumInput = ({
 	id,
-	label,
+	// label,
 	registerFn,
 	error,
 	path,
@@ -53,6 +53,10 @@ const MileageCalcFormNumInput = ({
 	// if isRequiredToBePositive, min is 0. otherwise it's schema.minValue. Otherwise it's undefined
 	const isRequiredToBePositive = subSchema.nonnegative();
 	const minValue = isRequiredToBePositive ? 0 : subSchema.minValue || undefined;
+
+	/**All of these should have a describe(), hopefully I didn't miss any */
+	// TODO When component is complete, write tests that none of these say ZodNumber, because that's the default if description is missing
+	const label = subSchema.description;
 
 	const isRequired = subSchema.isOptional();
 
@@ -75,6 +79,7 @@ const MileageCalcFormNumInput = ({
 				min={minValue}
 				required={isRequired}
 				defaultValue={0}
+				step="0.001"
 			/>
 			{error && <p className="text-xs text-red-500 mt-1">{error}</p>}{" "}
 		</div>
