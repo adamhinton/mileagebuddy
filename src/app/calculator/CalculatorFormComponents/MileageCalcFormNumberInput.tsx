@@ -54,6 +54,9 @@ const MileageCalcFormNumInput = ({
 
 	const isRequired = subSchema.isOptional();
 
+	// Inputs can be as precise as two decimal places for gas cost or EV cost per charge purposes, but not more
+	// All other inputs are incremented by the dollar
+	// TODO: See if any other inputs need to be incremented by less than a dollar; user can't currently input cents
 	const step =
 		path === "gasVehicleData.gasCostPerGallon" ||
 		"electricVehicleData.costPerCharge"
@@ -70,6 +73,7 @@ const MileageCalcFormNumInput = ({
 				{isRequired && <span className="text-red-500 ml-1">*</span>}
 			</label>
 			<input
+				id={id}
 				className={`${tailWindClassNames.MILEAGE_CALC_FORM_NUMBER_INPUT}`}
 				type="number"
 				{...registerFn(path, {
@@ -80,10 +84,6 @@ const MileageCalcFormNumInput = ({
 				required={isRequired}
 				// Not totally sure undefined is the right choice
 				defaultValue={undefined}
-				// Inputs can be as precise as two decimal places for gas cost or EV cost per charge purposes, but not more
-				// All other inputs are incremented by the dollar
-				// TODO: See if any other inputs need to be incremented by less than a dollar; user can't currently input cents
-				//
 				step={step}
 			/>
 			{error && <p className="text-xs text-red-500 mt-1">{error}</p>}{" "}
