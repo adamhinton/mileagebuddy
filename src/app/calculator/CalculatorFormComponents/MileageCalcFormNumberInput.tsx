@@ -47,9 +47,10 @@ const MileageCalcFormNumInput = ({
 	const isRequiredToBePositive = subSchema.nonnegative();
 	const minValue = isRequiredToBePositive ? 0 : subSchema.minValue || undefined;
 
-	/**All of these should have a describe(), hopefully I didn't miss any */
-	// TODO When component is complete, write tests that none of these say ZodNumber, because that's the default if description is missing
-	const label = subSchema.description;
+	// I wrote all sub-schemas with a description
+	// If there's no description, this uses the key name as a backup
+	// It would look a little funny to the user (like "gasCostPerGallon" instead of "Gas Cost Per Gallon") but it would be human-readable at least
+	const label = subSchema.description || path.split(".").pop();
 
 	const isRequired = subSchema.isOptional();
 
