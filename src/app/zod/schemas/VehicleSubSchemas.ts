@@ -70,17 +70,20 @@ export const PurchaseAndSalesSchema = z
 		vehicleID: z.number().readonly(),
 		yearPurchased: z
 			.number()
+			.int()
 			.positive()
 			.max(2100)
 			.nullable()
 			.describe("Year purchased"),
 		purchasePrice: z
 			.number()
+			.int()
 			.max(50_000_000)
 			.positive()
 			.describe("Purchase price $"),
 		downPaymentAmount: z
 			.number()
+			.int()
 			.max(50_000_000)
 			.nonnegative()
 			.nullable()
@@ -92,16 +95,19 @@ export const PurchaseAndSalesSchema = z
 			.describe("How many years you'll have the car"),
 		milesBoughtAt: z
 			.number()
+			.int()
 			.max(2_000_000)
 			.positive()
 			.describe("Odometer miles at purchase"),
 		willSellCarAtMiles: z
 			.number()
+			.int()
 			.max(2_000_000)
 			.positive()
 			.describe("How many miles will it have when you sell it?"),
 		willSellCarAtPrice: z
 			.number()
+			.int()
 			.max(50_000_000)
 			.positive()
 			.describe("Price you'll sell it for $"),
@@ -127,6 +133,7 @@ export const UsageSchema = z.object({
 		.describe("Average daily miles (7 day week)"),
 	weeksPerYear: z
 		.number()
+		.int()
 		.nonnegative()
 		.max(52)
 		.describe("Weeks driven per year"),
