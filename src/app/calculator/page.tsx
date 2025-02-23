@@ -8,11 +8,10 @@
 // This will be used to create (or edit) an object of type Vehicle, whose cost will be calculated with the function from calculateCarCostMain.
 // Form validation will be done by Zod.
 
-import { set, z } from "zod";
+import { z } from "zod";
 import {
 	GasVehicleSchemaForPOST,
 	ElectricVehicleSchemaForPOST,
-	VehicleToBePostedSchema,
 } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
 import mySubmitLogic from "./formActions";
 import { useForm } from "react-hook-form";
@@ -239,7 +238,7 @@ const CalculateMileageForm = () => {
 					setValue={setValue}
 					subSchema={
 						// Gotta figure out how to use the main schema here
-						VehicleForTestingSchema.shape.fixedCosts.shape.inspectionCost
+						BaseVehicleSchema.shape.fixedCosts.shape.inspectionCost
 					}
 				/>
 			</FormSection>
