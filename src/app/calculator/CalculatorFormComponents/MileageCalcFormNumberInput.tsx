@@ -22,8 +22,6 @@ type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
 /**
  * Number input for small values (<5 digits)
  *
- * @param schema This is an item from the Vehicle schema that the function uses to determine factors like min and max value. For instance BaseVehicleSchema.shape.vehiclesOrder
- *
  *  @param path What you pass in to register(). For instance "gasVehicleData.gasCostPerGallon"
  *
  * @param error Auto-generated error message from react-hook-form by way of Zod schema validation
