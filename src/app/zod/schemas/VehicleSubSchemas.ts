@@ -91,13 +91,13 @@ export type Usage = Readonly<z.infer<typeof UsageSchema>>;
  */
 export const FixedCostsSchema = z.object({
 	vehicleID: z.number().readonly(),
-	yearlyInsuranceCost: z.number().nonnegative().max(500_000).nullable(),
-	yearlyRegistrationCost: z.number().nonnegative().max(50_000).nullable(),
-	yearlyTaxes: z.number().nonnegative().max(50_000_000).nullable(),
-	monthlyLoanPayment: z.number().max(50_000).nonnegative().nullable(),
-	monthlyWarrantyCost: z.number().max(50_000).nonnegative().nullable(),
-	inspectionCost: z.number().max(5_000).nonnegative().nullable(),
-	otherYearlyCosts: z.number().max(500_000).nonnegative().nullable(),
+	yearlyInsuranceCost: z.number().nonnegative().max(500_000),
+	yearlyRegistrationCost: z.number().nonnegative().max(50_000),
+	yearlyTaxes: z.number().nonnegative().max(50_000_000),
+	monthlyLoanPayment: z.number().max(50_000).nonnegative(),
+	monthlyWarrantyCost: z.number().max(50_000).nonnegative(),
+	inspectionCost: z.number().max(5_000).nonnegative(),
+	otherYearlyCosts: z.number().max(500_000).nonnegative(),
 });
 
 export type FixedCosts = Readonly<z.infer<typeof FixedCostsSchema>>;
