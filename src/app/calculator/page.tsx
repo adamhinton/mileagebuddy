@@ -12,6 +12,7 @@ import { set, z } from "zod";
 import {
 	GasVehicleSchemaForPOST,
 	ElectricVehicleSchemaForPOST,
+	VehicleToBePostedSchema,
 } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
 import mySubmitLogic from "./formActions";
 import { useForm } from "react-hook-form";
@@ -19,6 +20,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import MileageCalcFormNumInput from "./CalculatorFormComponents/MileageCalcFormNumberInput";
 import { useState } from "react";
 import FormSection from "./CalculatorFormComponents/FormSection";
+import { BaseVehicleSchema } from "../utils/server/types/VehicleTypes/GetVehicleTypes";
+
+// TODO: Require "type" field before loading the rest of the form
 
 // Styling:
 // Efficient, accessible, clean, responsive. Use color schemes we already have. Update globals.css with new form styling if needed.
@@ -69,9 +73,12 @@ import FormSection from "./CalculatorFormComponents/FormSection";
 // Will start by writing the form for just one or two sections, thene expand from there
 
 const smallGasVehicleSchemaForTesting = GasVehicleSchemaForPOST.pick({
+	type: true,
 	vehiclesOrder: true,
 	// type: true,
 	gasVehicleData: true,
+	fixedCosts: true,
+
 	// vehicleData: true,
 });
 
@@ -79,20 +86,22 @@ type SmallGasVehicleForTesting = z.infer<
 	typeof smallGasVehicleSchemaForTesting
 >;
 
-// const smallElectricVehicleSchemaForTesting = ElectricVehicleSchemaForPOST.pick({
-// 	vehiclesOrder: true,
-// 	// type: true,
-// 	electricVehicleData: true,
-// 	// vehicleData: true,
-// });
+const smallElectricVehicleSchemaForTesting = ElectricVehicleSchemaForPOST.pick({
+	type: true,
+	vehiclesOrder: true,
+	// type: true,
+	electricVehicleData: true,
+	fixedCosts: true,
+	// vehicleData: true,
+});
 
 // type SmallElectricVehicleForTesting = z.infer<
 // 	typeof smallElectricVehicleSchemaForTesting
 // >;
 
-const VehicleForTestingSchema = z.union([
+const VehicleForTestingSchema = z.discriminatedUnion("type", [
 	smallGasVehicleSchemaForTesting,
-	smallGasVehicleSchemaForTesting,
+	smallElectricVehicleSchemaForTesting,
 ]);
 
 export type VehicleForTesting = z.infer<typeof VehicleForTestingSchema>;
@@ -173,6 +182,27 @@ const CalculateMileageForm = () => {
 				</label>
 			</div>
 
+			<div className="ml-4">
+				<label className="mr-4">
+					<input
+						type="radio"
+						value="gas"
+						{...register("type", { required: true })}
+						className="mr-1"
+					/>
+					Gas
+				</label>
+				<label>
+					<input
+						type="radio"
+						value="electric"
+						{...register("type", { required: true })}
+						className="mr-1"
+					/>
+					Electric
+				</label>
+			</div>
+
 			{/* <MileageCalcFormNumInput
 				id="vehiclesOrder"
 				label="Vehicles Order"
@@ -198,6 +228,18 @@ const CalculateMileageForm = () => {
 					setValue={setValue}
 					subSchema={
 						GasVehicleSchemaForPOST.shape.gasVehicleData.shape.gasCostPerGallon
+					}
+				/>
+				<MileageCalcFormNumInput
+					id="fixedCosts."
+					label="Yearly Inspection Cost"
+					registerFn={register}
+					path="fixedCosts.inspectionCost"
+					error={errors.fixedCosts?.inspectionCost?.message || undefined}
+					setValue={setValue}
+					subSchema={
+						// Gotta figure out how to use the main schema here
+						VehicleForTestingSchema.shape.fixedCosts.shape.inspectionCost
 					}
 				/>
 			</FormSection>
