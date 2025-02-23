@@ -6,6 +6,8 @@
 // This has a <label> too, but MileageCalcFormNumInputAndLabel was an annoyingly long name
 // Confused about the subschema being passed in? See the jsdoc for subSchema param
 
+// TODO: Fix num input leading zeroes
+
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { VehicleForTesting } from "../page";
 import { z } from "zod";
@@ -52,6 +54,12 @@ const MileageCalcFormNumInput = ({
 
 	const isRequired = subSchema.isOptional();
 
+	const step =
+		path === "gasVehicleData.gasCostPerGallon" ||
+		"electricVehicleData.costPerCharge"
+			? "0.01"
+			: "1";
+
 	return (
 		<div>
 			<label
@@ -70,17 +78,13 @@ const MileageCalcFormNumInput = ({
 				max={maxValue}
 				min={minValue}
 				required={isRequired}
-				defaultValue={0}
+				// Not totally sure undefined is the right choice
+				defaultValue={undefined}
 				// Inputs can be as precise as two decimal places for gas cost or EV cost per charge purposes, but not more
 				// All other inputs are incremented by the dollar
 				// TODO: See if any other inputs need to be incremented by less than a dollar; user can't currently input cents
 				//
-				step={
-					path === "gasVehicleData.gasCostPerGallon" ||
-					"electricVehicleData.costPerCharge"
-						? "0.01"
-						: "1"
-				}
+				step={step}
 			/>
 			{error && <p className="text-xs text-red-500 mt-1">{error}</p>}{" "}
 		</div>
