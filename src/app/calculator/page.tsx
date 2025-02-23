@@ -234,10 +234,7 @@ const CalculateMileageForm = () => {
 					path="fixedCosts.inspectionCost"
 					error={errors.fixedCosts?.inspectionCost?.message || undefined}
 					setValue={setValue}
-					subSchema={
-						// Gotta figure out how to use the main schema here
-						BaseVehicleSchema.shape.fixedCosts.shape.inspectionCost
-					}
+					subSchema={BaseVehicleSchema.shape.fixedCosts.shape.inspectionCost}
 				/>
 			</FormSection>
 			<button className="submit" disabled={isSubmitting}>
