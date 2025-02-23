@@ -56,7 +56,6 @@ const MileageCalcFormNumInput = ({
 
 	// Inputs can be as precise as two decimal places for gas cost or EV cost per charge purposes, but not more
 	// All other inputs are incremented by the dollar
-	// TODO: See if any other inputs need to be incremented by less than a dollar; user can't currently input cents
 	const step =
 		path === "gasVehicleData.gasCostPerGallon" ||
 		"electricVehicleData.costPerCharge"
