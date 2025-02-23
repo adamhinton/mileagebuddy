@@ -205,31 +205,18 @@ export const YearlyMaintenanceCostsSchema = z.object({
 		.number()
 		.nonnegative()
 		.max(1_000)
-		.nullable()
 		.describe("Yearly oil changes cost $"),
-	tires: z
-		.number()
-		.nonnegative()
-		.max(50_000)
-		.nullable()
-		.describe("Yearly tires cost $"),
+	tires: z.number().nonnegative().max(50_000).describe("Yearly tires cost $"),
 	batteries: z
 		.number()
 		.nonnegative()
 		.max(50_000)
-		.nullable()
 		.describe("Yearly batteries cost $"),
-	brakes: z
-		.number()
-		.nonnegative()
-		.max(50_000)
-		.nullable()
-		.describe("Yearly brakes cost $"),
+	brakes: z.number().nonnegative().max(50_000).describe("Yearly brakes cost $"),
 	other: z
 		.number()
 		.nonnegative()
 		.max(500_000)
-		.nullable()
 		.describe("Other maintenance costs $"),
 });
 
@@ -246,31 +233,26 @@ export const VariableCostsSchema = z.object({
 		.number()
 		.max(20_000)
 		.nonnegative()
-		.nullable()
 		.describe("Monthly parking costs $"),
 	monthlyTolls: z
 		.number()
 		.max(20_000)
 		.nonnegative()
-		.nullable()
 		.describe("Monthly tolls $"),
 	monthlyCarWashCost: z
 		.number()
 		.max(10_000)
 		.nonnegative()
-		.nullable()
 		.describe("Monthly car wash cost $"),
 	monthlyMiscellaneousCosts: z
 		.number()
 		.max(500_000)
 		.nonnegative()
-		.nullable()
 		.describe("Monthly miscellaneous costs $"),
 	monthlyCostDeductions: z
 		.number()
 		.max(500_000)
 		.nonnegative()
-		.nullable()
 		.describe("Monthly cost savings: Rebates, tax deductions etc"),
 });
 
