@@ -20,7 +20,7 @@ type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
 	id: string;
 	registerFn: UseFormRegister<TFieldValues>;
 	// What you pass in to register(). For instance "gasVehicleData.gasCostPerGallon"
-	path: Path<TFieldValues>;
+	path: Path<VehicleForTesting>;
 	error?: string;
 	setValue: UseFormSetValue<TFieldValues>;
 	subSchema: z.ZodNumber;
@@ -81,7 +81,12 @@ const MileageCalcFormNumInput = ({
 				// All other inputs are incremented by the dollar
 				// TODO: See if any other inputs need to be incremented by less than a dollar; user can't currently input cents
 				//
-				step={id === "gasCostPerGallon" || "costPerCharge" ? "0.01" : "1"}
+				step={
+					path === "gasVehicleData.gasCostPerGallon" ||
+					"electricVehicleData.costPerCharge"
+						? "0.01"
+						: "1"
+				}
 			/>
 			{error && <p className="text-xs text-red-500 mt-1">{error}</p>}{" "}
 		</div>
