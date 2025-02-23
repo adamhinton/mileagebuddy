@@ -220,7 +220,6 @@ const CalculateMileageForm = () => {
 			>
 				<MileageCalcFormNumInput
 					id="gasCostPerGallon"
-					label="Gas Cost Per Gallon $"
 					registerFn={register}
 					path="gasVehicleData.gasCostPerGallon"
 					error={errors.gasVehicleData?.gasCostPerGallon?.message || undefined}
@@ -231,7 +230,6 @@ const CalculateMileageForm = () => {
 				/>
 				<MileageCalcFormNumInput
 					id="fixedCosts."
-					label="Yearly Inspection Cost"
 					registerFn={register}
 					path="fixedCosts.inspectionCost"
 					error={errors.fixedCosts?.inspectionCost?.message || undefined}

@@ -18,7 +18,6 @@ import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNam
 
 type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
 	id: string;
-	label: string;
 	registerFn: UseFormRegister<TFieldValues>;
 	// What you pass in to register(). For instance "gasVehicleData.gasCostPerGallon"
 	path: Path<TFieldValues>;
@@ -42,7 +41,6 @@ type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
  */
 const MileageCalcFormNumInput = ({
 	id,
-	// label,
 	registerFn,
 	error,
 	path,
