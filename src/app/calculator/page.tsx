@@ -80,6 +80,7 @@ const smallGasVehicleSchemaForTesting = GasVehicleSchemaForPOST.pick({
 	gasVehicleData: true,
 	fixedCosts: true,
 	vehicleData: true,
+	purchaseAndSales: true,
 
 	// vehicleData: true,
 });

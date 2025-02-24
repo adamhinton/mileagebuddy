@@ -22,7 +22,56 @@ const PurchaseAndSalesSubForm = (props: Props) => {
 
 	return (
 		<FormSection title="Purchase and Sales">
-			<div>test</div>
+			<MileageCalcFormNumInput
+				registerFn={register}
+				path="purchaseAndSales.yearPurchased"
+				subSchema={BaseVehicleSchema.shape.purchaseAndSales.shape.yearPurchased}
+				error={errors.yearPurchased?.message}
+			/>
+
+			<MileageCalcFormNumInput
+				registerFn={register}
+				path="purchaseAndSales.purchasePrice"
+				subSchema={BaseVehicleSchema.shape.purchaseAndSales.purchasePrice}
+				error={errors.purchasePrice?.message}
+			/>
+
+			<MileageCalcFormNumInput
+				registerFn={register}
+				path="purchaseAndSales.downPaymentAmount"
+				subSchema={BaseVehicleSchema.shape.purchaseAndSales.downPaymentAmount}
+				error={errors.downPaymentAmount?.message}
+			/>
+
+			<MileageCalcFormNumInput
+				registerFn={register}
+				path="purchaseAndSales.willSellCarAfterYears"
+				subSchema={
+					BaseVehicleSchema.shape.purchaseAndSales.willSellCarAfterYears
+				}
+				error={errors.willSellCarAfterYears?.message}
+			/>
+
+			<MileageCalcFormNumInput
+				registerFn={register}
+				path="purchaseAndSales.milesBoughtAt"
+				subSchema={BaseVehicleSchema.shape.purchaseAndSales.milesBoughtAt}
+				error={errors.milesBoughtAt?.message}
+			/>
+
+			<MileageCalcFormNumInput
+				registerFn={register}
+				path="purchaseAndSales.willSellCarAtMiles"
+				subSchema={BaseVehicleSchema.shape.purchaseAndSales.willSellCarAtMiles}
+				error={errors.willSellCarAtMiles?.message}
+			/>
+
+			<MileageCalcFormNumInput
+				registerFn={register}
+				path="purchaseAndSales.willSellCarAtPrice"
+				subSchema={BaseVehicleSchema.shape.purchaseAndSales.willSellCarAtPrice}
+				error={errors.willSellCarAtPrice?.message}
+			/>
 		</FormSection>
 	);
 };
