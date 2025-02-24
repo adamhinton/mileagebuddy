@@ -86,12 +86,7 @@ const MileageCalcFormNumInput = ({
 				step={step}
 			/>
 			{error && (
-				<p
-					className={
-						tailWindClassNames.mileageCalcForm.mileageCalcForm
-							.FORM_ERROR_MESSAGE
-					}
-				>
+				<p className={tailWindClassNames.mileageCalcForm.FORM_ERROR_MESSAGE}>
 					{error}
 				</p>
 			)}{" "}
