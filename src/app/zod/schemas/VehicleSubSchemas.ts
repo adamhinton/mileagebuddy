@@ -73,7 +73,6 @@ export const PurchaseAndSalesSchema = z
 			.int()
 			.positive()
 			.max(2100)
-			.nullable()
 			.describe("Year purchased"),
 		purchasePrice: z
 			.number()
@@ -86,7 +85,6 @@ export const PurchaseAndSalesSchema = z
 			.int()
 			.max(50_000_000)
 			.nonnegative()
-			.nullable()
 			.describe("Down payment $"),
 		willSellCarAfterYears: z
 			.number()
