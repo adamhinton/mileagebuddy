@@ -26,21 +26,21 @@ const PurchaseAndSalesSubForm = (props: Props) => {
 				registerFn={register}
 				path="purchaseAndSales.yearPurchased"
 				subSchema={BaseVehicleSchema.shape.purchaseAndSales.shape.yearPurchased}
-				error={errors.yearPurchased?.message}
+				error={errors.purchaseAndSales?.yearPurchased?.message}
 			/>
 
 			<MileageCalcFormNumInput
 				registerFn={register}
 				path="purchaseAndSales.purchasePrice"
 				subSchema={BaseVehicleSchema.shape.purchaseAndSales.purchasePrice}
-				error={errors.purchasePrice?.message}
+				error={errors.purchaseAndSales?.purchasePrice?.message}
 			/>
 
 			<MileageCalcFormNumInput
 				registerFn={register}
 				path="purchaseAndSales.downPaymentAmount"
 				subSchema={BaseVehicleSchema.shape.purchaseAndSales.downPaymentAmount}
-				error={errors.downPaymentAmount?.message}
+				error={errors.purchaseAndSales?.downPaymentAmount?.message}
 			/>
 
 			<MileageCalcFormNumInput
@@ -49,28 +49,28 @@ const PurchaseAndSalesSubForm = (props: Props) => {
 				subSchema={
 					BaseVehicleSchema.shape.purchaseAndSales.willSellCarAfterYears
 				}
-				error={errors.willSellCarAfterYears?.message}
+				error={errors.purchaseAndSales?.willSellCarAfterYears?.message}
 			/>
 
 			<MileageCalcFormNumInput
 				registerFn={register}
 				path="purchaseAndSales.milesBoughtAt"
 				subSchema={BaseVehicleSchema.shape.purchaseAndSales.milesBoughtAt}
-				error={errors.milesBoughtAt?.message}
+				error={errors.purchaseAndSales?.milesBoughtAt?.message}
 			/>
 
 			<MileageCalcFormNumInput
 				registerFn={register}
 				path="purchaseAndSales.willSellCarAtMiles"
 				subSchema={BaseVehicleSchema.shape.purchaseAndSales.willSellCarAtMiles}
-				error={errors.willSellCarAtMiles?.message}
+				error={errors.purchaseAndSales?.willSellCarAtMiles?.message}
 			/>
 
 			<MileageCalcFormNumInput
 				registerFn={register}
 				path="purchaseAndSales.willSellCarAtPrice"
 				subSchema={BaseVehicleSchema.shape.purchaseAndSales.willSellCarAtPrice}
-				error={errors.willSellCarAtPrice?.message}
+				error={errors.purchaseAndSales?.willSellCarAtPrice?.message}
 			/>
 		</FormSection>
 	);

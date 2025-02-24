@@ -96,6 +96,7 @@ const smallElectricVehicleSchemaForTesting = ElectricVehicleSchemaForPOST.pick({
 	electricVehicleData: true,
 	fixedCosts: true,
 	vehicleData: true,
+	purchaseAndSales: true,
 });
 
 // type SmallElectricVehicleForTesting = z.infer<
