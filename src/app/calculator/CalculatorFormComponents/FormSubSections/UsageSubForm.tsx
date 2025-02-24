@@ -10,8 +10,6 @@ import { VehicleForTesting } from "../../page";
 import { BaseVehicleSchema } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
 
-// TODO pass in register
-
 type Props = {
 	register: UseFormRegister<VehicleForTesting>;
 	errors: FieldErrors<VehicleForTesting>;
