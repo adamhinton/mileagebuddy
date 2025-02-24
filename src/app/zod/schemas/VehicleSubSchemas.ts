@@ -270,7 +270,7 @@ export const VariableCostsSchema = z.object({
 		.number()
 		.max(500_000)
 		.nonnegative()
-		.describe("Monthly cost savings: Rebates, tax deductions etc"),
+		.describe("Monthly cost savings $: Rebates, tax deductions etc"),
 });
 
 export type VariableCosts = Readonly<z.infer<typeof VariableCostsSchema>>;
