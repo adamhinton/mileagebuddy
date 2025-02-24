@@ -148,18 +148,22 @@ export const UsageSchema = z.object({
 		.nonnegative()
 		.max(100)
 		.describe("% highway driving"),
+	// extraDistanceMiles isn't actually used in the calcs. TODO delete this?
 	extraDistanceMiles: z
 		.number()
 		.nonnegative()
 		.max(500_000)
 		.nullable()
+		.optional()
 		// TODO Describe this better
 		.describe("How many extra miles per year should we add on?"),
+	// TODO Delete this as well as extraDistanceMiles?
 	extraDistancePercentHighway: z
 		.number()
 		.nonnegative()
 		.max(100)
 		.nullable()
+		.optional()
 		.describe("Extra distance percent highway"),
 });
 
