@@ -58,9 +58,12 @@ const MileageCalcFormNumInput = ({
 	// All other inputs are incremented by the dollar
 	const step =
 		path === "gasVehicleData.gasCostPerGallon" ||
-		"electricVehicleData.costPerCharge"
+		path === "electricVehicleData.costPerCharge"
 			? "0.01"
 			: "1";
+
+	console.log("path:", path);
+	console.log("step:", step);
 
 	return (
 		<div>
