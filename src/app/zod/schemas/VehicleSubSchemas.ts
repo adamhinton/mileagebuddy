@@ -113,7 +113,7 @@ export const PurchaseAndSalesSchema = z
 	.refine((data) => {
 		return data.milesBoughtAt <= data.willSellCarAtMiles;
 	})
-	.describe("milesBoughtAt must be less than or equal to willSellCarAtMiles");
+	.describe("Miles bought at must be less than miles you'll sell at");
 
 export type PurchaseAndSales = Readonly<z.infer<typeof PurchaseAndSalesSchema>>;
 
