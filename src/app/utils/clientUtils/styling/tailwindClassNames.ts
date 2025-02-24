@@ -10,10 +10,17 @@
  */
 const tailWindClassNames = {
 	// /calculator/page.tsx and its associated components/utils
-	MILEAGE_CALC_FORM_NUMBER_INPUT: "mileage-calc-form-number-input",
 	MILEAGE_CALC_FORM_SECTION: "mileage-calc-form-section",
 	MILEAGE_CALC_FORM_SECTION_HEADER: "mileage-calc-form-section-header",
 	MILEAGE_CALC_FORM_SECTION_CONTENT: "mileage-calc-form-section-content",
+	// Combines two components from globals.css
+	MILEAGE_CALC_FORM_NUMBER_INPUT:
+		"mileage-calc-form-input-base mileage-calc-form-number-input",
+	// Combines two components from globals.css
+	MILEAGE_CALC_FORM_TEXT_INPUT:
+		"mileage-calc-form-input-base mileage-calc-form-text-input",
+	MILEAGE_CALC_FORM_ERROR_MESSAGE: "mileage-calc-form-error-message",
+	MILEAGE_CALC_FORM_INPUT_LABEL: "mileage-calc-form-input-label",
 };
 
 export default tailWindClassNames;

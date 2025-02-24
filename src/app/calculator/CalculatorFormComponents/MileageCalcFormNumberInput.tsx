@@ -66,7 +66,7 @@ const MileageCalcFormNumInput = ({
 		<div>
 			<label
 				htmlFor={id}
-				className="text-sm font-medium text-neutral-text mr-1"
+				className={`${tailWindClassNames.MILEAGE_CALC_FORM_INPUT_LABEL}`}
 			>
 				{label}
 				{isRequired && <span className="text-red-500 ml-1">*</span>}
@@ -85,7 +85,11 @@ const MileageCalcFormNumInput = ({
 				defaultValue={undefined}
 				step={step}
 			/>
-			{error && <p className="text-xs text-red-500 mt-1">{error}</p>}{" "}
+			{error && (
+				<p className={tailWindClassNames.MILEAGE_CALC_FORM_ERROR_MESSAGE}>
+					{error}
+				</p>
+			)}{" "}
 		</div>
 	);
 };

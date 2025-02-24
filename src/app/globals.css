@@ -31,9 +31,10 @@
 		@apply bg-blue-500 lg:bg-red-500;
 	}
 
-	/* Small number input (<5 digits) in Forms. See MileageCalcFormNumberInput.tsx*/
-	.mileage-calc-form-number-input {
-		@apply w-16 px-1 py-1 h-6
+	/* The base class for a text or num input in mileage calculator form
+	Do not use this class. It's meant to be combined with .mileage-calc-form-number-input or .mileage-calc-form-text-input */
+	.mileage-calc-form-input-base {
+		@apply px-1 py-1 h-6
   text-neutral-text
   bg-background-elevated 
   border border-primary-100
@@ -46,9 +47,24 @@
   dark:border-primary-200
   disabled:opacity-50
   disabled:cursor-not-allowed;
+	}
+
+	/* Small number input (<5 digits) in Forms. See MileageCalcFormNumberInput.tsx
+	Do not use this class on its own. It's meant to be combined with .mileage-calc-form-input-base */
+	.mileage-calc-form-number-input {
+		@apply w-16 mileage-calc-form-input-base;
 
 		@apply sm:w-20 sm:h-6 sm:px-2 sm:py-3;
 		@apply md:w-24 md:h-8 md:p-4;
+	}
+
+	/* Small text input in Forms. See MileageCalcFormTextInput.tsx
+	Do not use this class on its own. It's meant to be combined with .mileage-calc-form-input-base */
+	.mileage-calc-form-text-input {
+		@apply w-32 mileage-calc-form-input-base;
+
+		@apply sm:w-40 sm:h-6 sm:px-2 sm:py-3;
+		@apply md:w-48 md:h-8 md:p-4;
 	}
 
 	.mileage-calc-form-section {
@@ -74,6 +90,14 @@
 
 		@apply sm:p-6 sm:gap-6;
 		@apply md:p-8 md:gap-8;
+	}
+
+	.mileage-calc-form-error-message {
+		@apply text-red-500 text-sm mt-1;
+	}
+
+	.mileage-calc-form-input-label {
+		@apply text-sm font-medium text-neutral-text mr-1;
 	}
 }
 

@@ -59,7 +59,7 @@ const MileageCalcFormTextInput = ({
 			</label>
 			<input
 				id={id}
-				className={`${tailWindClassNames.MILEAGE_CALC_FORM_NUMBER_INPUT}`}
+				className={`${tailWindClassNames.MILEAGE_CALC_FORM_TEXT_INPUT}`}
 				type="text"
 				{...registerFn(path)}
 				required={isRequired}
@@ -68,7 +68,11 @@ const MileageCalcFormTextInput = ({
 				maxLength={maxLength}
 				minLength={minLength}
 			/>
-			{error && <p className="text-xs text-red-500 mt-1">{error}</p>}
+			{error && (
+				<p className={tailWindClassNames.MILEAGE_CALC_FORM_ERROR_MESSAGE}>
+					{error}
+				</p>
+			)}
 		</div>
 	);
 };
