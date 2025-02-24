@@ -15,7 +15,6 @@ import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNam
 
 type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
 	registerFn: UseFormRegister<TFieldValues>;
-	// What you pass in to register(). For instance "gasVehicleData.gasCostPerGallon"
 	path: Path<VehicleForTesting>;
 	error?: string;
 	subSchema: z.ZodNumber;
@@ -37,6 +36,7 @@ const MileageCalcFormNumInput = ({
 	error,
 	path,
 	subSchema,
+	// TODO change this type when you're out of testing and using the real vehicle type
 }: MileageCalcFormNumInputProps<VehicleForTesting>) => {
 	const maxValue = subSchema.maxValue || undefined;
 
@@ -49,7 +49,7 @@ const MileageCalcFormNumInput = ({
 
 	// I wrote all sub-schemas with a description
 	// If there's no description, this uses the key name as a backup
-	// It would look a little funny to the user (like "gasCostPerGallon" instead of "Gas Cost Per Gallon") but it would be human-readable at least
+	// The key name would look a little funny to the user (like "gasCostPerGallon" instead of "Gas Cost Per Gallon") but it would be human-readable at least
 	const label = subSchema.description || path.split(".").pop();
 
 	const isRequired = subSchema.isOptional();
