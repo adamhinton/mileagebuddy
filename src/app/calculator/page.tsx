@@ -23,6 +23,7 @@ import { BaseVehicleSchema } from "../utils/server/types/VehicleTypes/GetVehicle
 import VehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/VehicleDataSubForm";
 import PurchaseAndSalesSubForm from "./CalculatorFormComponents/FormSubSections/PurchaseAndSalesSubForm";
 import UsageSubForm from "./CalculatorFormComponents/FormSubSections/UsageSubForm";
+import FixedCostsSubForm from "./CalculatorFormComponents/FormSubSections/FixedCostsSubForm";
 
 // TODO: Require "type" field before loading the rest of the form
 
@@ -185,6 +186,27 @@ const CalculateMileageForm = () => {
 				</label>
 			</div>
 
+			<div className="ml-4">
+				<label className="mr-4">
+					<input
+						type="radio"
+						value="gas"
+						{...register("type", { required: true })}
+						className="mr-1"
+					/>
+					Gas
+				</label>
+				<label>
+					<input
+						type="radio"
+						value="electric"
+						{...register("type", { required: true })}
+						className="mr-1"
+					/>
+					Electric
+				</label>
+			</div>
+
 			<FormSection
 				title={"Gas Vehicle Data"}
 				isActive={true}
@@ -194,6 +216,7 @@ const CalculateMileageForm = () => {
 				<VehicleDataSubForm register={register} errors={errors} />
 				<PurchaseAndSalesSubForm register={register} errors={errors} />
 				<UsageSubForm register={register} errors={errors} />
+				<FixedCostsSubForm register={register} errors={errors} />
 			</FormSection>
 			<button className="submit" disabled={isSubmitting}>
 				{isSubmitting ? "Loading" : "Submit"}
