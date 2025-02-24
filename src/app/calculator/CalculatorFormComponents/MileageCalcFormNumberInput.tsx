@@ -62,9 +62,6 @@ const MileageCalcFormNumInput = ({
 			? "0.01"
 			: "1";
 
-	console.log("path:", path);
-	console.log("step:", step);
-
 	return (
 		<div>
 			<label
