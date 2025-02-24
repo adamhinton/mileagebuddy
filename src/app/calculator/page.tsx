@@ -20,6 +20,7 @@ import MileageCalcFormNumInput from "./CalculatorFormComponents/MileageCalcFormN
 import { useState } from "react";
 import FormSection from "./CalculatorFormComponents/FormSection";
 import { BaseVehicleSchema } from "../utils/server/types/VehicleTypes/GetVehicleTypes";
+import VehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/VehicleDataSubForm";
 
 // TODO: Require "type" field before loading the rest of the form
 
@@ -77,6 +78,7 @@ const smallGasVehicleSchemaForTesting = GasVehicleSchemaForPOST.pick({
 	// type: true,
 	gasVehicleData: true,
 	fixedCosts: true,
+	vehicleData: true,
 
 	// vehicleData: true,
 });
@@ -91,7 +93,7 @@ const smallElectricVehicleSchemaForTesting = ElectricVehicleSchemaForPOST.pick({
 	// type: true,
 	electricVehicleData: true,
 	fixedCosts: true,
-	// vehicleData: true,
+	vehicleData: true,
 });
 
 // type SmallElectricVehicleForTesting = z.infer<
@@ -232,6 +234,8 @@ const CalculateMileageForm = () => {
 					error={errors.fixedCosts?.inspectionCost?.message || undefined}
 					subSchema={BaseVehicleSchema.shape.fixedCosts.shape.inspectionCost}
 				/>
+
+				<VehicleDataSubForm register={register} errors={errors} />
 			</FormSection>
 			<button className="submit" disabled={isSubmitting}>
 				{isSubmitting ? "Loading" : "Submit"}

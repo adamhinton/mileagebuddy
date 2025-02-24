@@ -14,10 +14,10 @@ export const VehicleDataSchema = z
 	.object({
 		vehicleID: z.number().readonly(),
 		vehicleName: z.string().min(1).max(30).describe("Vehicle Nickname"),
-		year: z.number().min(1875).max(2100).nullable().describe("Year of Vehicle"),
-		make: z.string().min(1).max(30).nullable().describe("Vehicle Make"),
-		model: z.string().min(1).max(30).nullable().describe("Vehicle Model"),
-		trim: z.string().min(1).max(30).nullable().describe("Vehicle Trim"),
+		year: z.number().min(1875).max(2100).describe("Year of Vehicle"),
+		make: z.string().min(1).max(30).describe("Vehicle Make"),
+		model: z.string().min(1).max(30).describe("Vehicle Model"),
+		trim: z.string().min(1).max(30).describe("Vehicle Trim"),
 		// TODO: Delete highwayMPG
 		highwayMPG: z.number().max(5000).nonnegative().nullable(),
 	})
