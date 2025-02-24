@@ -21,6 +21,7 @@ import { useState } from "react";
 import FormSection from "./CalculatorFormComponents/FormSection";
 import { BaseVehicleSchema } from "../utils/server/types/VehicleTypes/GetVehicleTypes";
 import VehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/VehicleDataSubForm";
+import PurchaseAndSalesSubForm from "./CalculatorFormComponents/FormSubSections/PurchaseAndSalesSubForm";
 
 // TODO: Require "type" field before loading the rest of the form
 
@@ -236,6 +237,7 @@ const CalculateMileageForm = () => {
 				/>
 
 				<VehicleDataSubForm register={register} errors={errors} />
+				<PurchaseAndSalesSubForm register={register} errors={errors} />
 			</FormSection>
 			<button className="submit" disabled={isSubmitting}>
 				{isSubmitting ? "Loading" : "Submit"}
