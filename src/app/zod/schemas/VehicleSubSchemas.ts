@@ -114,9 +114,13 @@ export const PurchaseAndSalesSchema = z
 			.positive()
 			.describe("Price you'll sell it for $"),
 	})
-	.refine((data) => {
-		return data.milesBoughtAt <= data.willSellCarAtMiles;
-	})
+	.refine(
+		(data) => {
+			console.log("refining");
+			return data.milesBoughtAt <= data.willSellCarAtMiles;
+		},
+		{ message: boughtAtLessThanSoldAtError, path: ["milesBoughtAt"] }
+	)
 	.describe(boughtAtLessThanSoldAtError);
 
 export type PurchaseAndSales = Readonly<z.infer<typeof PurchaseAndSalesSchema>>;

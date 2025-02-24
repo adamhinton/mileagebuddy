@@ -12,6 +12,7 @@ import {
 	GasVehicleSchema,
 	refineZodVehicleValidation,
 } from "./GetVehicleTypes";
+import { boughtAtLessThanSoldAtError } from "@/app/zod/schemas/VehicleSubSchemas";
 
 /**
  * This doesn't have any ids anywhere because it's for a POST request
@@ -48,9 +49,15 @@ export const GasVehicleSchemaForPOST = GasVehicleSchema.omit({
 		.omit({
 			vehicleID: true,
 		})
-		.refine((data) => {
-			return data.milesBoughtAt <= data.willSellCarAtMiles;
-		})
+		.refine(
+			(data) => {
+				return data.milesBoughtAt <= data.willSellCarAtMiles;
+			},
+			{
+				message: boughtAtLessThanSoldAtError,
+				path: ["purchaseAndSales"],
+			}
+		)
 		.describe("milesBoughtAt must be less than or equal to willSellCarAtMiles"),
 
 	usage: GasVehicleSchema.shape.usage.omit({ vehicleID: true }),
@@ -82,7 +89,16 @@ export const ElectricVehicleSchemaForPOST = ElectricVehicleSchema.omit({
 		.innerType()
 		.omit({
 			vehicleID: true,
-		}),
+		})
+		.refine(
+			(data) => {
+				return data.milesBoughtAt <= data.willSellCarAtMiles;
+			},
+			{
+				message: boughtAtLessThanSoldAtError,
+				path: ["purchaseAndSales"],
+			}
+		),
 	usage: ElectricVehicleSchema.shape.usage.omit({ vehicleID: true }),
 });
 
