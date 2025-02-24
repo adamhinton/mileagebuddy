@@ -76,13 +76,10 @@ import PurchaseAndSalesSubForm from "./CalculatorFormComponents/FormSubSections/
 const smallGasVehicleSchemaForTesting = GasVehicleSchemaForPOST.pick({
 	type: true,
 	vehiclesOrder: true,
-	// type: true,
 	gasVehicleData: true,
 	fixedCosts: true,
 	vehicleData: true,
 	purchaseAndSales: true,
-
-	// vehicleData: true,
 });
 
 type SmallGasVehicleForTesting = z.infer<
@@ -92,7 +89,6 @@ type SmallGasVehicleForTesting = z.infer<
 const smallElectricVehicleSchemaForTesting = ElectricVehicleSchemaForPOST.pick({
 	type: true,
 	vehiclesOrder: true,
-	// type: true,
 	electricVehicleData: true,
 	fixedCosts: true,
 	vehicleData: true,
