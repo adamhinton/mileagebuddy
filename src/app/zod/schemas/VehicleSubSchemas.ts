@@ -62,6 +62,10 @@ export type ElectricVehicleData = Readonly<
 	z.infer<typeof ElectricVehicleDataSchema>
 >;
 
+// This error string is also used in the PurchaseAndSalesSubForm.tsx file so I'm defining it here for consistency
+export const boughtAtLessThanSoldAtError =
+	"Miles bought at must be less than miles you'll sell at";
+
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
@@ -113,7 +117,7 @@ export const PurchaseAndSalesSchema = z
 	.refine((data) => {
 		return data.milesBoughtAt <= data.willSellCarAtMiles;
 	})
-	.describe("Miles bought at must be less than miles you'll sell at");
+	.describe(boughtAtLessThanSoldAtError);
 
 export type PurchaseAndSales = Readonly<z.infer<typeof PurchaseAndSalesSchema>>;
 
