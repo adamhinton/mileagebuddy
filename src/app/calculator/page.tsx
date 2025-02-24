@@ -24,6 +24,7 @@ import VehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/Vehic
 import PurchaseAndSalesSubForm from "./CalculatorFormComponents/FormSubSections/PurchaseAndSalesSubForm";
 import UsageSubForm from "./CalculatorFormComponents/FormSubSections/UsageSubForm";
 import FixedCostsSubForm from "./CalculatorFormComponents/FormSubSections/FixedCostsSubForm";
+import YearlyMaintenanceCostsSubForm from "./CalculatorFormComponents/FormSubSections/YearlyMaintenanceCostsSubForm";
 
 // TODO: Require "type" field before loading the rest of the form
 
@@ -83,6 +84,7 @@ const smallGasVehicleSchemaForTesting = GasVehicleSchemaForPOST.pick({
 	vehicleData: true,
 	purchaseAndSales: true,
 	usage: true,
+	yearlyMaintenanceCosts: true,
 });
 
 type SmallGasVehicleForTesting = z.infer<
@@ -97,6 +99,7 @@ const smallElectricVehicleSchemaForTesting = ElectricVehicleSchemaForPOST.pick({
 	vehicleData: true,
 	purchaseAndSales: true,
 	usage: true,
+	yearlyMaintenanceCosts: true,
 });
 
 // type SmallElectricVehicleForTesting = z.infer<
@@ -217,6 +220,7 @@ const CalculateMileageForm = () => {
 				<PurchaseAndSalesSubForm register={register} errors={errors} />
 				<UsageSubForm register={register} errors={errors} />
 				<FixedCostsSubForm register={register} errors={errors} />
+				<YearlyMaintenanceCostsSubForm register={register} errors={errors} />
 			</FormSection>
 			<button className="submit" disabled={isSubmitting}>
 				{isSubmitting ? "Loading" : "Submit"}
