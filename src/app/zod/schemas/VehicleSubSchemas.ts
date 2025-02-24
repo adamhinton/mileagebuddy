@@ -18,7 +18,7 @@ export const VehicleDataSchema = z
 		make: z.string().min(1).max(30).describe("Vehicle Make"),
 		model: z.string().min(1).max(30).describe("Vehicle Model"),
 		trim: z.string().min(1).max(30).describe("Vehicle Trim"),
-		// TODO: Delete highwayMPG
+		// TODO: Delete highwayMPG, this is redundant with a field used elsewhere.
 		highwayMPG: z.number().max(5000).nonnegative().nullable().optional(),
 	})
 	.describe("test blah");
