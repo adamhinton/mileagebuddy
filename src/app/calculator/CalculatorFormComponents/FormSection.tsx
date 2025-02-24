@@ -26,13 +26,15 @@ const FormSection = ({
 	const [isExpanded, setIsExpanded] = useState(isActive);
 
 	return (
-		<section className={`${tailWindClassNames.FORM_SECTION}`}>
+		<section className={`${tailWindClassNames.mileageCalcForm.FORM_SECTION}`}>
 			<button
 				type="button"
 				onClick={() => setIsExpanded(!isExpanded)}
 				className="w-full flex items-center justify-between p-4 bg-background-elevated"
 			>
-				<div className={`${tailWindClassNames.FORM_SECTION_HEADER}`}>
+				<div
+					className={`${tailWindClassNames.mileageCalcForm.FORM_SECTION_HEADER}`}
+				>
 					<h3 className="text-lg font-medium text-neutral-text">{title}</h3>
 					{isCompleted && <span className="ml-2 text-accent">✓</span>}
 				</div>
@@ -41,7 +43,9 @@ const FormSection = ({
 			</button>
 
 			{isExpanded && (
-				<div className={`${tailWindClassNames.FORM_SECTION_CONTENT}`}>
+				<div
+					className={`${tailWindClassNames.mileageCalcForm.FORM_SECTION_CONTENT}`}
+				>
 					{children}
 				</div>
 			)}
