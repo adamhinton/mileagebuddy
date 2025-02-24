@@ -19,7 +19,7 @@ export const VehicleDataSchema = z
 		model: z.string().min(1).max(30).describe("Vehicle Model"),
 		trim: z.string().min(1).max(30).describe("Vehicle Trim"),
 		// TODO: Delete highwayMPG
-		highwayMPG: z.number().max(5000).nonnegative().nullable(),
+		highwayMPG: z.number().max(5000).nonnegative().nullable().optional(),
 	})
 	.describe("test blah");
 
