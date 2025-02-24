@@ -185,58 +185,12 @@ const CalculateMileageForm = () => {
 				</label>
 			</div>
 
-			<div className="ml-4">
-				<label className="mr-4">
-					<input
-						type="radio"
-						value="gas"
-						{...register("type", { required: true })}
-						className="mr-1"
-					/>
-					Gas
-				</label>
-				<label>
-					<input
-						type="radio"
-						value="electric"
-						{...register("type", { required: true })}
-						className="mr-1"
-					/>
-					Electric
-				</label>
-			</div>
-
-			{/* <MileageCalcFormNumInput
-				id="vehiclesOrder"
-				label="Vehicles Order"
-				register={register}
-				error={errors.vehiclesOrder?.message || undefined} 	
-				formValue={formValues.vehiclesOrder}
-				subSchema={GasVehicleSchemaForPOST.shape.vehiclesOrder}
-				setValue={setValue}
-			/> */}
-
 			<FormSection
 				title={"Gas Vehicle Data"}
 				isActive={true}
 				isCompleted={false}
 				onComplete={() => {}}
 			>
-				<MileageCalcFormNumInput
-					registerFn={register}
-					path="gasVehicleData.gasCostPerGallon"
-					error={errors.gasVehicleData?.gasCostPerGallon?.message || undefined}
-					subSchema={
-						GasVehicleSchemaForPOST.shape.gasVehicleData.shape.gasCostPerGallon
-					}
-				/>
-				<MileageCalcFormNumInput
-					registerFn={register}
-					path="fixedCosts.inspectionCost"
-					error={errors.fixedCosts?.inspectionCost?.message || undefined}
-					subSchema={BaseVehicleSchema.shape.fixedCosts.shape.inspectionCost}
-				/>
-
 				<VehicleDataSubForm register={register} errors={errors} />
 				<PurchaseAndSalesSubForm register={register} errors={errors} />
 				<UsageSubForm register={register} errors={errors} />
