@@ -73,6 +73,7 @@ const MileageCalcFormNumInput = ({
 			</label>
 			<input
 				id={id}
+				data-testid={id}
 				className={`${tailWindClassNames.mileageCalcForm.FORM_NUMBER_INPUT}`}
 				type="number"
 				{...registerFn(path, {
