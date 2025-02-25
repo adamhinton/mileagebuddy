@@ -80,7 +80,40 @@ describe("Common Input Behavior", () => {
 
 		expect(error).toBeNull();
 	});
-	// it("Toggles error message when re-rendered with different error prop", () => {});
+	it.only("Toggles error message when re-rendered with different error prop", () => {
+		const { rerender } = render(
+			<MileageInputNumTestWrapper
+				path="gasVehicleData.milesPerGallonCity"
+				schema={z.number()}
+				error="This is an error"
+			/>
+		);
+		const error = screen.getByText("This is an error");
+		expect(error).toBeVisible();
+
+		// Re-render without error
+		rerender(
+			<MileageInputNumTestWrapper
+				path="gasVehicleData.milesPerGallonCity"
+				schema={z.number()}
+			/>
+		);
+		const noError = screen.queryByTestId(
+			"gasVehicleData.milesPerGallonCity-error"
+		);
+		expect(noError).toBeNull();
+
+		// Re-render with different error
+		rerender(
+			<MileageInputNumTestWrapper
+				path="gasVehicleData.milesPerGallonCity"
+				schema={z.number()}
+				error="A different error"
+			/>
+		);
+		const newError = screen.getByText("A different error");
+		expect(newError).toBeVisible();
+	});
 });
 
 describe("Number Input Specific", () => {

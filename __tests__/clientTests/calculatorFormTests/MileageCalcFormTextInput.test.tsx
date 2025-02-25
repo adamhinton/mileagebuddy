@@ -75,7 +75,38 @@ describe("Common Input Behavior", () => {
 
 		expect(error).toBeNull();
 	});
-	// it("Toggles error message when re-rendered with different error prop", () => {});
+	it("Toggles error message when re-rendered with different error prop", () => {
+		const { rerender } = render(
+			<MileageInputTextTestWrapper
+				path="vehicleData.vehicleName"
+				schema={z.string()}
+				error="This is an error"
+			/>
+		);
+		const error = screen.getByText("This is an error");
+		expect(error).toBeVisible();
+
+		// Re-render without error
+		rerender(
+			<MileageInputTextTestWrapper
+				path="vehicleData.vehicleName"
+				schema={z.string()}
+			/>
+		);
+		const noError = screen.queryByTestId("vehicleData.vehicleName-error");
+		expect(noError).toBeNull();
+
+		// Re-render with different error
+		rerender(
+			<MileageInputTextTestWrapper
+				path="vehicleData.vehicleName"
+				schema={z.string()}
+				error="A different error"
+			/>
+		);
+		const newError = screen.getByText("A different error");
+		expect(newError).toBeVisible();
+	});
 });
 
 describe("Text Input Specific", () => {
