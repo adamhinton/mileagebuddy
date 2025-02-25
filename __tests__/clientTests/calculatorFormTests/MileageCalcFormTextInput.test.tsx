@@ -115,7 +115,27 @@ describe("Common Input Behavior", () => {
 });
 
 describe("Text Input Specific", () => {
-	// it("enforces maxLength from schema", () => {});
-	// it("enforces minLength from schema", () => {});
-	// it("accepts valid text input", () => {});
+	it("enforces maxLength from schema", () => {
+		render(
+			<MileageInputTextTestWrapper
+				path="vehicleData.vehicleName"
+				schema={z.string().max(5)}
+			/>
+		);
+		const input = screen.getByTestId("vehicleData.vehicleName-input");
+
+		expect(input).toHaveAttribute("maxLength", "5");
+	});
+
+	it("enforces minLength from schema", () => {
+		render(
+			<MileageInputTextTestWrapper
+				path="vehicleData.vehicleName"
+				schema={z.string().min(5)}
+			/>
+		);
+		const input = screen.getByTestId("vehicleData.vehicleName-input");
+
+		expect(input).toHaveAttribute("minLength", "5");
+	});
 });
