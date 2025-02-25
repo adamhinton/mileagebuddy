@@ -83,7 +83,7 @@ describe("Common Input Behavior", () => {
 		expect(error).toBeNull();
 	});
 
-	it.only("Toggles error message when re-rendered with different error prop", () => {
+	it("Toggles error message when re-rendered with different error prop", () => {
 		const { rerender } = render(
 			<MileageInputNumTestWrapper
 				path="gasVehicleData.milesPerGallonCity"
@@ -120,9 +120,20 @@ describe("Common Input Behavior", () => {
 });
 
 describe("Number Input Specific", () => {
-	it("enforces min value of 0 for nonnegative fields", () => {});
-	it("enforces max value from schema", () => {});
-	it('uses step="0.01" for gas/charging cost fields', () => {});
-	it('uses step="1" for other number fields', () => {});
-	it("converts input value to number type", () => {});
+	it("enforces min value of 0 for nonnegative fields", () => {
+		render(
+			<MileageInputNumTestWrapper
+				path="electricVehicleData.costPerCharge"
+				schema={z.number().nonnegative()}
+			/>
+		);
+		const input = screen.getByTestId("electricVehicleData.costPerCharge-input");
+
+		expect(input).toHaveAttribute("min", "0");
+	});
+
+	// it("enforces max value from schema", () => {});
+	// it('uses step="0.01" for gas/charging cost fields', () => {});
+	// it('uses step="1" for other number fields', () => {});
+	// it("converts input value to number type", () => {});
 });
