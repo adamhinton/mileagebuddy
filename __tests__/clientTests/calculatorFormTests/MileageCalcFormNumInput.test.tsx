@@ -156,6 +156,7 @@ describe("Number Input Specific", () => {
 		const input = screen.getByTestId("gasVehicleData.gasCostPerGallon-input");
 
 		expect(input).toHaveAttribute("step", "0.01");
+		expect(input).not.toHaveAttribute("step", "1");
 
 		render(
 			<MileageInputNumTestWrapper
@@ -169,6 +170,20 @@ describe("Number Input Specific", () => {
 
 		expect(input2).toHaveAttribute("step", "0.01");
 	});
-	// it('uses step="1" for other number fields', () => {});
-	// it("converts input value to number type", () => {});
+
+	// Increments by 1 for all other fields besides gas/charging cost
+	// TODO just realized there's a step option for zod numbers; add that to the schemas
+	it('uses step="1" for other number fields', () => {
+		render(
+			<MileageInputNumTestWrapper
+				// Random other field
+				path="yearlyMaintenanceCosts.batteries"
+				schema={z.number()}
+			/>
+		);
+		const input = screen.getByTestId("yearlyMaintenanceCosts.batteries-input");
+
+		expect(input).toHaveAttribute("step", "1");
+		expect(input).not.toHaveAttribute("step", "0.01");
+	});
 });
