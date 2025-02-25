@@ -41,7 +41,17 @@ describe("Common Input Behavior", () => {
 		expect(label).toBeVisible();
 	});
 
-	// it("shows required asterisk for required fields", () => {});
+	it("shows required asterisk for required fields", () => {
+		render(
+			<MileageInputNumTestWrapper
+				path="gasVehicleData.milesPerGallonCity"
+				schema={z.number().nonnegative()}
+			/>
+		);
+		const label = screen.getByText("*");
+
+		expect(label).toBeVisible();
+	});
 	// it("does not show required asterisk for optional fields", () => {});
 	// it("displays error message when error prop provided", () => {});
 	// it("hides error message when error prop is undefined", () => {});
