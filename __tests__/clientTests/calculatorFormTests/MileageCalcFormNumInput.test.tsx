@@ -132,7 +132,17 @@ describe("Number Input Specific", () => {
 		expect(input).toHaveAttribute("min", "0");
 	});
 
-	// it("enforces max value from schema", () => {});
+	it("enforces max value from schema", () => {
+		render(
+			<MileageInputNumTestWrapper
+				path="yearlyMaintenanceCosts.batteries"
+				schema={z.number().max(100)}
+			/>
+		);
+		const input = screen.getByTestId("yearlyMaintenanceCosts.batteries-input");
+
+		expect(input).toHaveAttribute("max", "100");
+	});
 	// it('uses step="0.01" for gas/charging cost fields', () => {});
 	// it('uses step="1" for other number fields', () => {});
 	// it("converts input value to number type", () => {});
