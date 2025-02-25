@@ -41,17 +41,22 @@ const MileageCalcFormTextInput = ({
 	// Can use input's register path as the id as well
 	const id = path;
 
-	const isRequired = subSchema.isOptional();
+	const isRequired = !subSchema.isOptional();
 
 	// I wrote all sub-schemas with a description
 	// If there's no description, this uses the key name as a backup
 	// The key name would look a little funny to the user (like "gasCostPerGallon" instead of "Gas Cost Per Gallon") but it would be human-readable at least
 	const label = subSchema.description || path.split(".").pop();
 
+	const testidInput = `${id}-input`;
+	const testidLabel = `${id}-label`;
+	const testidError = `${id}-error`;
+
 	return (
 		<div>
 			<label
 				htmlFor={id}
+				data-testid={testidLabel}
 				className="text-sm font-medium text-neutral-text mr-1"
 			>
 				{label}
@@ -59,7 +64,7 @@ const MileageCalcFormTextInput = ({
 			</label>
 			<input
 				id={id}
-				data-testid={id}
+				data-testid={testidInput}
 				className={`${tailWindClassNames.mileageCalcForm.FORM_TEXT_INPUT}`}
 				type="text"
 				{...registerFn(path)}
@@ -70,7 +75,10 @@ const MileageCalcFormTextInput = ({
 				minLength={minLength}
 			/>
 			{error && (
-				<p className={tailWindClassNames.mileageCalcForm.FORM_ERROR_MESSAGE}>
+				<p
+					className={tailWindClassNames.mileageCalcForm.FORM_ERROR_MESSAGE}
+					data-testid={testidError}
+				>
 					{error}
 				</p>
 			)}

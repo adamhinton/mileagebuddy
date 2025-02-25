@@ -62,10 +62,15 @@ const MileageCalcFormNumInput = ({
 			? "0.01"
 			: "1";
 
+	const testidInput = `${id}-input`;
+	const testidLabel = `${id}-label`;
+	const testidError = `${id}-error`;
+
 	return (
 		<div>
 			<label
 				htmlFor={id}
+				datatype={testidLabel}
 				className={`${tailWindClassNames.mileageCalcForm.FORM_INPUT_LABEL}`}
 			>
 				{label}
@@ -73,7 +78,7 @@ const MileageCalcFormNumInput = ({
 			</label>
 			<input
 				id={id}
-				data-testid={id}
+				data-testid={testidInput}
 				className={`${tailWindClassNames.mileageCalcForm.FORM_NUMBER_INPUT}`}
 				type="number"
 				{...registerFn(path, {
@@ -87,7 +92,10 @@ const MileageCalcFormNumInput = ({
 				step={step}
 			/>
 			{error && (
-				<p className={tailWindClassNames.mileageCalcForm.FORM_ERROR_MESSAGE}>
+				<p
+					className={tailWindClassNames.mileageCalcForm.FORM_ERROR_MESSAGE}
+					data-testid={testidError}
+				>
 					{error}
 				</p>
 			)}{" "}
