@@ -20,7 +20,7 @@ type MileageCalcFormTextInputProps<TFieldValues extends FieldValues> = {
 /**
  * Text input for small values (<30 chars)
  *
- *  @param path What you pass in to register(). For instance "vehicleData.vehicleName"
+ *  @param path What you pass in to register(). For instance "vehicleData.vehicleName". Can make this a generic if we re-use this component in other forms
  *
  * @param error Auto-generated error message from react-hook-form by way of Zod schema validation
  *
