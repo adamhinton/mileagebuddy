@@ -52,7 +52,7 @@ const MileageCalcFormNumInput = ({
 	// The key name would look a little funny to the user (like "gasCostPerGallon" instead of "Gas Cost Per Gallon") but it would be human-readable at least
 	const label = subSchema.description || path.split(".").pop();
 
-	const isRequired = subSchema.isOptional();
+	const isRequired = !subSchema.isOptional();
 
 	// Inputs can be as precise as two decimal places for gas cost or EV cost per charge purposes, but not more
 	// All other inputs are incremented by the dollar
