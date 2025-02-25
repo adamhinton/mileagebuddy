@@ -29,6 +29,7 @@ describe("Common Input Behavior", () => {
 		expect(input).toBeVisible();
 		expect(label).toBeVisible();
 	});
+
 	it("renders with label from path when schema has no description", () => {
 		render(
 			<MileageInputTextTestWrapper
@@ -40,6 +41,7 @@ describe("Common Input Behavior", () => {
 
 		expect(label).toBeVisible();
 	});
+
 	it("shows required asterisk for required fields", () => {
 		render(
 			<MileageInputTextTestWrapper
@@ -51,6 +53,7 @@ describe("Common Input Behavior", () => {
 
 		expect(label).toBeVisible();
 	});
+
 	it("displays error message when error prop provided", () => {
 		render(
 			<MileageInputTextTestWrapper
@@ -64,6 +67,7 @@ describe("Common Input Behavior", () => {
 		expect(error).toBeVisible();
 		expect(error).toHaveTextContent("This is an error");
 	});
+
 	it("hides error message when error prop is undefined", () => {
 		render(
 			<MileageInputTextTestWrapper
@@ -75,6 +79,7 @@ describe("Common Input Behavior", () => {
 
 		expect(error).toBeNull();
 	});
+
 	it("Toggles error message when re-rendered with different error prop", () => {
 		const { rerender } = render(
 			<MileageInputTextTestWrapper
