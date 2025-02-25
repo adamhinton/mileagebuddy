@@ -4,6 +4,8 @@
 
 import { MileageInputTextTestWrapper } from "@/app/utils/unitTestUtils/mileageCalculatorFormutils/MileageCalcInputTestUtils";
 import { render, screen } from "@testing-library/react";
+// Importing this is essential for stuff like toBeVisible()
+import "@testing-library/jest-dom";
 import { z } from "zod";
 
 describe("Sanity check", () => {
@@ -22,8 +24,9 @@ describe("Common Input Behavior", () => {
 			/>
 		);
 		const label = screen.getByText("My Vehicle Name");
+		const input = screen.getByTestId("vehicleData.vehicleName-input");
 
-		// expect(input).toBeVisible();
+		expect(input).toBeVisible();
 		expect(label).toBeVisible();
 	});
 	// it("renders with label from schema description", () => {});
