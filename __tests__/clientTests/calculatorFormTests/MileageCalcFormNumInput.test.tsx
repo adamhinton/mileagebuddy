@@ -45,6 +45,7 @@ describe("Common Input Behavior", () => {
 		render(
 			<MileageInputNumTestWrapper
 				path="gasVehicleData.milesPerGallonCity"
+				// Defaults to not optional
 				schema={z.number().nonnegative()}
 			/>
 		);
@@ -52,8 +53,20 @@ describe("Common Input Behavior", () => {
 
 		expect(label).toBeVisible();
 	});
-	// it("does not show required asterisk for optional fields", () => {});
-	// it("displays error message when error prop provided", () => {});
+
+	it("displays error message when error prop provided", () => {
+		render(
+			<MileageInputNumTestWrapper
+				path="gasVehicleData.milesPerGallonCity"
+				schema={z.number()}
+				error="This is an error"
+			/>
+		);
+		const error = screen.getByText("This is an error");
+
+		expect(error).toBeVisible();
+		expect(error).toHaveTextContent("This is an error");
+	});
 	// it("hides error message when error prop is undefined", () => {});
 	// it("Toggles error message when re-rendered with different error prop", () => {});
 });
