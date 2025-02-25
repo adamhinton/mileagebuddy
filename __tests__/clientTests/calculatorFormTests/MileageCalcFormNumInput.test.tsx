@@ -143,7 +143,32 @@ describe("Number Input Specific", () => {
 
 		expect(input).toHaveAttribute("max", "100");
 	});
-	// it('uses step="0.01" for gas/charging cost fields', () => {});
+
+	// Allows user to input two decimal places for gas/charging cost fields
+	// All other fields increment by the dollar
+	it('uses step="0.01" for gas/charging cost fields', () => {
+		render(
+			<MileageInputNumTestWrapper
+				path="gasVehicleData.gasCostPerGallon"
+				schema={z.number()}
+			/>
+		);
+		const input = screen.getByTestId("gasVehicleData.gasCostPerGallon-input");
+
+		expect(input).toHaveAttribute("step", "0.01");
+
+		render(
+			<MileageInputNumTestWrapper
+				path="electricVehicleData.costPerCharge"
+				schema={z.number()}
+			/>
+		);
+		const input2 = screen.getByTestId(
+			"electricVehicleData.costPerCharge-input"
+		);
+
+		expect(input2).toHaveAttribute("step", "0.01");
+	});
 	// it('uses step="1" for other number fields', () => {});
 	// it("converts input value to number type", () => {});
 });
