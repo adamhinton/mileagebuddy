@@ -64,7 +64,17 @@ describe("Common Input Behavior", () => {
 		expect(error).toBeVisible();
 		expect(error).toHaveTextContent("This is an error");
 	});
-	// it("hides error message when error prop is undefined", () => {});
+	it("hides error message when error prop is undefined", () => {
+		render(
+			<MileageInputTextTestWrapper
+				path="vehicleData.vehicleName"
+				schema={z.string()}
+			/>
+		);
+		const error = screen.queryByTestId("vehicleData.vehicleName-error");
+
+		expect(error).toBeNull();
+	});
 	// it("Toggles error message when re-rendered with different error prop", () => {});
 });
 

@@ -67,7 +67,19 @@ describe("Common Input Behavior", () => {
 		expect(error).toBeVisible();
 		expect(error).toHaveTextContent("This is an error");
 	});
-	// it("hides error message when error prop is undefined", () => {});
+	it("hides error message when error prop is undefined", () => {
+		render(
+			<MileageInputNumTestWrapper
+				path="gasVehicleData.milesPerGallonCity"
+				schema={z.number()}
+			/>
+		);
+		const error = screen.queryByTestId(
+			"gasVehicleData.milesPerGallonCity-error"
+		);
+
+		expect(error).toBeNull();
+	});
 	// it("Toggles error message when re-rendered with different error prop", () => {});
 });
 
