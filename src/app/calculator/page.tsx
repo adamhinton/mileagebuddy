@@ -178,6 +178,13 @@ const CalculateMileageForm = () => {
 
 	const selectedType = watch("type");
 
+	if (selectedType === "gas") {
+		console.log(
+			"formValues.type in if block for selectedType:",
+			formValues.type
+		);
+	}
+
 	return (
 		<form onSubmit={handleSubmit(mySubmitLogic)}>
 			<div className="mb-4 flex items-center">
@@ -215,9 +222,9 @@ const CalculateMileageForm = () => {
 			</div>
 
 			{/* if type is nullish, nothing. If gas, GasVehicleDataSubForm. If electric, electric form */}
-			{selectedType === "gas" ? (
+			{formValues.type === "gas" ? (
 				<GasVehicleDataSubForm />
-			) : selectedType === "electric" ? (
+			) : formValues.type === "electric" ? (
 				<ElectricVehicleDataSubForm />
 			) : null}
 
