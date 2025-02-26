@@ -214,34 +214,12 @@ const CalculateMileageForm = () => {
 				</label>
 			</div>
 
-			{/* <FormSection
-				title={"Gas Vehicle Data"}
-				isActive={true}
-				isCompleted={false}
-				onComplete={() => {}}
-			>
-				TODO add stuff here
-			</FormSection> */}
-			{/* 
-			{getValues("type") === "gas" ? (
-				<GasVehicleDataSubForm />
-			) : (
-				// Otherwise type === "electric"
-				<ElectricVehicleDataSubForm />
-			)} */}
-
 			{/* if type is nullish, nothing. If gas, GasVehicleDataSubForm. If electric, electric form */}
 			{selectedType === "gas" ? (
 				<GasVehicleDataSubForm />
 			) : selectedType === "electric" ? (
 				<ElectricVehicleDataSubForm />
 			) : null}
-
-			{/* {/* <FormSection
-				title={"Vehicle Data"}
-				isActive={true}
-				isCompleted={false}
-				onComplete={() => {}} */}
 
 			<VehicleDataSubForm register={register} errors={errors} />
 			<PurchaseAndSalesSubForm register={register} errors={errors} />
