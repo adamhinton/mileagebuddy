@@ -16,7 +16,7 @@ import {
 import mySubmitLogic from "./formActions";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import FormSection from "./CalculatorFormComponents/FormSection";
 import VehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/VehicleDataSubForm";
 import PurchaseAndSalesSubForm from "./CalculatorFormComponents/FormSubSections/PurchaseAndSalesSubForm";
@@ -169,11 +169,14 @@ const CalculateMileageForm = () => {
 		handleSubmit,
 		setValue,
 		getValues,
+		watch,
 		formState: { errors, isSubmitting },
 	} = form;
 	const formValues = getValues();
 	console.log("formValues inside form before submit:", formValues);
 	console.log("errors inside form before submit:", errors);
+
+	const selectedType = watch("type");
 
 	return (
 		<form onSubmit={handleSubmit(mySubmitLogic)}>
@@ -211,14 +214,34 @@ const CalculateMileageForm = () => {
 				</label>
 			</div>
 
-			<FormSection
+			{/* <FormSection
 				title={"Gas Vehicle Data"}
 				isActive={true}
 				isCompleted={false}
 				onComplete={() => {}}
 			>
 				TODO add stuff here
-			</FormSection>
+			</FormSection> */}
+			{/* 
+			{getValues("type") === "gas" ? (
+				<GasVehicleDataSubForm />
+			) : (
+				// Otherwise type === "electric"
+				<ElectricVehicleDataSubForm />
+			)} */}
+
+			{/* if type is nullish, nothing. If gas, GasVehicleDataSubForm. If electric, electric form */}
+			{selectedType === "gas" ? (
+				<GasVehicleDataSubForm />
+			) : selectedType === "electric" ? (
+				<ElectricVehicleDataSubForm />
+			) : null}
+
+			{/* {/* <FormSection
+				title={"Vehicle Data"}
+				isActive={true}
+				isCompleted={false}
+				onComplete={() => {}} */}
 
 			<VehicleDataSubForm register={register} errors={errors} />
 			<PurchaseAndSalesSubForm register={register} errors={errors} />
@@ -232,4 +255,14 @@ const CalculateMileageForm = () => {
 			</button>
 		</form>
 	);
+};
+
+const GasVehicleDataSubForm = () => {
+	console.log("GasVehicleDataSubForm rendering");
+	return <div>GAS GAS GAS</div>;
+};
+
+const ElectricVehicleDataSubForm = () => {
+	console.log("ElectricVehicleDataSubForm rendering");
+	return <div>ELECTRIC ELECTRIC ELECTRIC</div>;
 };
