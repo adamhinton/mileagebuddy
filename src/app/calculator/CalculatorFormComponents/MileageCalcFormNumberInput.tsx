@@ -29,7 +29,6 @@ type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
  *
  * @param subSchema The Zod schema for the number input. For instance BaseVehicleSchema.shape.fixedCosts.shape.inspectionCost. Note that it's extended from BaseVehicleSchema because things like VehicleSchemaForPOST are union types, and you can't access the shape of a union type
  *
- * TODO write tests for num input once you've finished coding it
  */
 const MileageCalcFormNumInput = ({
 	registerFn,

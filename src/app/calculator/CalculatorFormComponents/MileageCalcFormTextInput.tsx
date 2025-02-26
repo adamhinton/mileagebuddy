@@ -26,7 +26,6 @@ type MileageCalcFormTextInputProps<TFieldValues extends FieldValues> = {
  *
  * @param subSchema The Zod schema for the text input. For instance BaseVehicleSchema.shape.vehicleData.shape.vehicleName. Note that it's extended from BaseVehicleSchema because things like VehicleSchemaForPOST are union types, and you can't access the shape of a union type
  *
- * TODO write tests for text input once you've finished coding it
  */
 const MileageCalcFormTextInput = ({
 	registerFn,
