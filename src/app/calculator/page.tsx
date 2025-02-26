@@ -217,13 +217,16 @@ const CalculateMileageForm = () => {
 				isCompleted={false}
 				onComplete={() => {}}
 			>
-				<VehicleDataSubForm register={register} errors={errors} />
-				<PurchaseAndSalesSubForm register={register} errors={errors} />
-				<UsageSubForm register={register} errors={errors} />
-				<FixedCostsSubForm register={register} errors={errors} />
-				<YearlyMaintenanceCostsSubForm register={register} errors={errors} />
-				<VariableCostsSubForm register={register} errors={errors} />
+				TODO add stuff here
 			</FormSection>
+
+			<VehicleDataSubForm register={register} errors={errors} />
+			<PurchaseAndSalesSubForm register={register} errors={errors} />
+			<UsageSubForm register={register} errors={errors} />
+			<FixedCostsSubForm register={register} errors={errors} />
+			<YearlyMaintenanceCostsSubForm register={register} errors={errors} />
+			<VariableCostsSubForm register={register} errors={errors} />
+
 			<button className="submit" disabled={isSubmitting}>
 				{isSubmitting ? "Loading" : "Submit"}
 			</button>
