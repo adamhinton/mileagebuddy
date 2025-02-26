@@ -4,7 +4,7 @@
 // These class names come from globals.css. If you change one of those names there, you still have to manually change them here
 // But at least this way there's a single source of truth.
 
-/**I made the type TailwindClassNames use string literal types because it makes intellisense better. You can see the class names without having to go back to globals.css */
+/**I made the type TailwindClassNames use string literal types because it makes intellisense better. You can see the class names just by hovering, without having to go back to globals.css */
 type TailwindClassNames = {
 	mileageCalcForm: {
 		FORM_SECTION: "mileage-calc-form-section";
