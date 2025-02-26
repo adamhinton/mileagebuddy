@@ -64,12 +64,12 @@
 
 	/* Each of these corresponds to a Vehicle sub-object */
 	.mileage-calc-form-section {
-		@apply mb-6 border border-primary-100 
+		@apply mb-4 border border-primary-100 
   rounded-lg overflow-hidden 
   transition-all duration-200;
 
-		@apply sm:mb-8;
-		@apply md:mb-10;
+		@apply sm:mb-6;
+		@apply md:mb-8;
 	}
 
 	.mileage-calc-form-section-header {
@@ -80,16 +80,16 @@
 	}
 
 	.mileage-calc-form-section-content {
-		@apply p-4 bg-background-base 
-  grid gap-4 
+		@apply p-2 bg-background-base 
+  grid gap-3 
   transition-all duration-200;
 
-		@apply sm:p-6 sm:gap-6;
-		@apply md:p-8 md:gap-8;
+		@apply sm:p-3 sm:gap-3;
+		@apply md:p-4 md:gap-4;
 	}
 
 	.mileage-calc-form-error-message {
-		@apply text-red-500 text-sm mt-1;
+		@apply text-red-500 text-xs mt-1;
 	}
 
 	.mileage-calc-form-input-label {

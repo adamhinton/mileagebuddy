@@ -30,7 +30,7 @@ const FormSection = ({
 			<button
 				type="button"
 				onClick={() => setIsExpanded(!isExpanded)}
-				className="w-full flex items-center justify-between p-4 bg-background-elevated"
+				className="w-full flex items-center justify-between p-2 bg-background-elevated"
 			>
 				<div
 					className={`${tailWindClassNames.mileageCalcForm.FORM_SECTION_HEADER}`}
