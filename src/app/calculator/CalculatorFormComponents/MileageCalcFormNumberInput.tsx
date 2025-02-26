@@ -88,7 +88,7 @@ const MileageCalcFormNumInput = ({
 				max={maxValue}
 				min={minValue}
 				required={isRequired}
-				// Not totally sure undefined is the right choice
+				// Not totally sure undefined is the right choice but it seems to work
 				defaultValue={undefined}
 				step={step}
 			/>
