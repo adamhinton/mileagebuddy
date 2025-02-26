@@ -16,10 +16,8 @@ import {
 import mySubmitLogic from "./formActions";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import MileageCalcFormNumInput from "./CalculatorFormComponents/MileageCalcFormNumberInput";
 import { useState } from "react";
 import FormSection from "./CalculatorFormComponents/FormSection";
-import { BaseVehicleSchema } from "../utils/server/types/VehicleTypes/GetVehicleTypes";
 import VehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/VehicleDataSubForm";
 import PurchaseAndSalesSubForm from "./CalculatorFormComponents/FormSubSections/PurchaseAndSalesSubForm";
 import UsageSubForm from "./CalculatorFormComponents/FormSubSections/UsageSubForm";
