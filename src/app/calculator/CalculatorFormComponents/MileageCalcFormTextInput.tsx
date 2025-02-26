@@ -59,7 +59,13 @@ const MileageCalcFormTextInput = ({
 				className="text-sm font-medium text-neutral-text mr-1"
 			>
 				{label}
-				{isRequired && <span className="text-red-500 ml-1">*</span>}
+				{isRequired && (
+					<span
+						className={tailWindClassNames.mileageCalcForm.REQUIRED_ASTERISK}
+					>
+						*
+					</span>
+				)}
 			</label>
 			<input
 				id={id}

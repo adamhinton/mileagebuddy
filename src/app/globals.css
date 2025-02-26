@@ -26,11 +26,6 @@
 @tailwind components;
 
 @layer components {
-	/* .btn is just a test component I made to see if this works */
-	.btn {
-		@apply bg-blue-500 lg:bg-red-500;
-	}
-
 	/* The base class for a text or num input in mileage calculator form
 	Do not use this class. It's meant to be combined with .mileage-calc-form-number-input or .mileage-calc-form-text-input */
 	.mileage-calc-form-input-base {
@@ -67,6 +62,7 @@
 		@apply md:w-48 md:h-8 md:p-4;
 	}
 
+	/* Each of these corresponds to a Vehicle sub-object */
 	.mileage-calc-form-section {
 		@apply mb-6 border border-primary-100 
   rounded-lg overflow-hidden 
@@ -98,6 +94,11 @@
 
 	.mileage-calc-form-input-label {
 		@apply text-sm font-medium text-neutral-text mr-1;
+	}
+
+	/*The asterisk indicating a field is required */
+	.mileage-calc-form-required-asterisk {
+		@apply text-red-500 ml-1;
 	}
 }
 
