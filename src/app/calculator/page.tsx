@@ -24,6 +24,8 @@ import UsageSubForm from "./CalculatorFormComponents/FormSubSections/UsageSubFor
 import FixedCostsSubForm from "./CalculatorFormComponents/FormSubSections/FixedCostsSubForm";
 import YearlyMaintenanceCostsSubForm from "./CalculatorFormComponents/FormSubSections/YearlyMaintenanceCostsSubForm";
 import VariableCostsSubForm from "./CalculatorFormComponents/FormSubSections/VariableCostsSubForm";
+import GasVehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/GasVehicleDataSubForm";
+import ElectricVehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/ElectricVehicleDataSubForm";
 
 // TODO: Require "type" field before loading the rest of the form
 
@@ -75,7 +77,7 @@ import VariableCostsSubForm from "./CalculatorFormComponents/FormSubSections/Var
 
 // Will start by writing the form for just one or two sections, thene expand from there
 
-const smallGasVehicleSchemaForTesting = GasVehicleSchemaForPOST.pick({
+export const smallGasVehicleSchemaForTesting = GasVehicleSchemaForPOST.pick({
 	type: true,
 	vehiclesOrder: true,
 	gasVehicleData: true,
@@ -87,25 +89,26 @@ const smallGasVehicleSchemaForTesting = GasVehicleSchemaForPOST.pick({
 	variableCosts: true,
 });
 
-type SmallGasVehicleForTesting = z.infer<
+export type SmallGasVehicleForTesting = z.infer<
 	typeof smallGasVehicleSchemaForTesting
 >;
 
-const smallElectricVehicleSchemaForTesting = ElectricVehicleSchemaForPOST.pick({
-	type: true,
-	vehiclesOrder: true,
-	electricVehicleData: true,
-	fixedCosts: true,
-	vehicleData: true,
-	purchaseAndSales: true,
-	usage: true,
-	yearlyMaintenanceCosts: true,
-	variableCosts: true,
-});
+export const smallElectricVehicleSchemaForTesting =
+	ElectricVehicleSchemaForPOST.pick({
+		type: true,
+		vehiclesOrder: true,
+		electricVehicleData: true,
+		fixedCosts: true,
+		vehicleData: true,
+		purchaseAndSales: true,
+		usage: true,
+		yearlyMaintenanceCosts: true,
+		variableCosts: true,
+	});
 
-// type SmallElectricVehicleForTesting = z.infer<
-// 	typeof smallElectricVehicleSchemaForTesting
-// >;
+export type SmallElectricVehicleForTesting = z.infer<
+	typeof smallElectricVehicleSchemaForTesting
+>;
 
 const VehicleForTestingSchema = z.discriminatedUnion("type", [
 	smallGasVehicleSchemaForTesting,
@@ -223,9 +226,9 @@ const CalculateMileageForm = () => {
 
 			{/* if type is nullish, nothing. If gas, GasVehicleDataSubForm. If electric, electric form */}
 			{formValues.type === "gas" ? (
-				<GasVehicleDataSubForm />
+				<GasVehicleDataSubForm register={register} errors={errors} />
 			) : formValues.type === "electric" ? (
-				<ElectricVehicleDataSubForm />
+				<ElectricVehicleDataSubForm register={register} errors={errors} />
 			) : null}
 
 			<VehicleDataSubForm register={register} errors={errors} />
@@ -242,12 +245,12 @@ const CalculateMileageForm = () => {
 	);
 };
 
-const GasVehicleDataSubForm = () => {
-	console.log("GasVehicleDataSubForm rendering");
-	return <div>GAS GAS GAS</div>;
-};
+// const GasVehicleDataSubForm = () => {
+// 	console.log("GasVehicleDataSubForm rendering");
+// 	return <div>GAS GAS GAS</div>;
+// };
 
-const ElectricVehicleDataSubForm = () => {
-	console.log("ElectricVehicleDataSubForm rendering");
-	return <div>ELECTRIC ELECTRIC ELECTRIC</div>;
-};
+// const ElectricVehicleDataSubForm = () => {
+// 	console.log("ElectricVehicleDataSubForm rendering");
+// 	return <div>ELECTRIC ELECTRIC ELECTRIC</div>;
+// };
