@@ -6,11 +6,9 @@
 
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import FormSection from "../FormSection";
-import { VehicleForTesting } from "../../page";
 import { BaseVehicleSchema } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
-
-// TODO pass in register
+import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 
 type Props = {
 	register: UseFormRegister<Vehicle_For_db_POST>;

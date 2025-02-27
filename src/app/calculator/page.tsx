@@ -81,48 +81,6 @@ import ElectricVehicleDataSubForm from "./CalculatorFormComponents/FormSubSectio
 
 // Will start by writing the form for just one or two sections, thene expand from there
 
-export const smallGasVehicleSchemaForTesting = GasVehicleSchemaForPOST.pick({
-	userid: true,
-	type: true,
-	vehiclesOrder: true,
-	gasVehicleData: true,
-	fixedCosts: true,
-	vehicleData: true,
-	purchaseAndSales: true,
-	usage: true,
-	yearlyMaintenanceCosts: true,
-	variableCosts: true,
-});
-
-export type SmallGasVehicleForTesting = z.infer<
-	typeof smallGasVehicleSchemaForTesting
->;
-
-export const smallElectricVehicleSchemaForTesting =
-	ElectricVehicleSchemaForPOST.pick({
-		userid: true,
-		type: true,
-		vehiclesOrder: true,
-		electricVehicleData: true,
-		fixedCosts: true,
-		vehicleData: true,
-		purchaseAndSales: true,
-		usage: true,
-		yearlyMaintenanceCosts: true,
-		variableCosts: true,
-	});
-
-export type SmallElectricVehicleForTesting = z.infer<
-	typeof smallElectricVehicleSchemaForTesting
->;
-
-const VehicleForTestingSchema = z.discriminatedUnion("type", [
-	smallGasVehicleSchemaForTesting,
-	smallElectricVehicleSchemaForTesting,
-]);
-
-export type VehicleForTesting = z.infer<typeof VehicleForTestingSchema>;
-
 const CalculatorPage = () => {
 	return (
 		<section className="h-screen p-4 sm:p-6 md:p-8">
@@ -263,13 +221,3 @@ const CalculateMileageForm = () => {
 		</form>
 	);
 };
-
-// const GasVehicleDataSubForm = () => {
-// 	console.log("GasVehicleDataSubForm rendering");
-// 	return <div>GAS GAS GAS</div>;
-// };
-
-// const ElectricVehicleDataSubForm = () => {
-// 	console.log("ElectricVehicleDataSubForm rendering");
-// 	return <div>ELECTRIC ELECTRIC ELECTRIC</div>;
-// };
