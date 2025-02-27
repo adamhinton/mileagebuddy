@@ -29,6 +29,7 @@ import YearlyMaintenanceCostsSubForm from "./CalculatorFormComponents/FormSubSec
 import VariableCostsSubForm from "./CalculatorFormComponents/FormSubSections/VariableCostsSubForm";
 import GasVehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/GasVehicleDataSubForm";
 import ElectricVehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/ElectricVehicleDataSubForm";
+import FormErrorSummary from "./CalculatorFormComponents/FormErrorSummary";
 
 // TODO:
 // Next buttons? Tie to (un)collapsing
@@ -106,6 +107,8 @@ const CalculateMileageForm = () => {
 	const [activeSection, setActiveSection] = useState(0);
 	// Checkmark that user de-selects if they don't want to be auto-advanced to next section
 	const [autoAdvance, setAutoAdvance] = useState(true);
+	const [isShowErrorSummary, setisShowErrorSummary] = useState(false);
+	console.log("isShowErrorSummary:", isShowErrorSummary);
 
 	const form = useForm<Vehicle_For_db_POST>({
 		// This is how it knows to validate with zod
@@ -174,6 +177,8 @@ const CalculateMileageForm = () => {
 				</label>
 			</div>
 
+			{isShowErrorSummary && <FormErrorSummary />}
+
 			<div className="ml-4">
 				<label className="mr-4">
 					<input
@@ -221,7 +226,13 @@ const CalculateMileageForm = () => {
 					<YearlyMaintenanceCostsSubForm register={register} errors={errors} />
 					<VariableCostsSubForm register={register} errors={errors} />
 
-					<button className="submit" disabled={isSubmitting}>
+					<button
+						className="submit"
+						disabled={isSubmitting}
+						onClick={() => {
+							setisShowErrorSummary(errors ? true : false);
+						}}
+					>
 						{isSubmitting ? "Loading" : "Submit"}
 					</button>
 				</>
