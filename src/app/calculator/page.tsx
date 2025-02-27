@@ -20,8 +20,7 @@ import {
 import mySubmitLogic from "./formActions";
 import { FieldErrors, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef, useState } from "react";
-import FormSection from "./CalculatorFormComponents/FormSection";
+import { useState } from "react";
 import VehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/VehicleDataSubForm";
 import PurchaseAndSalesSubForm from "./CalculatorFormComponents/FormSubSections/PurchaseAndSalesSubForm";
 import UsageSubForm from "./CalculatorFormComponents/FormSubSections/UsageSubForm";
@@ -31,7 +30,17 @@ import VariableCostsSubForm from "./CalculatorFormComponents/FormSubSections/Var
 import GasVehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/GasVehicleDataSubForm";
 import ElectricVehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/ElectricVehicleDataSubForm";
 
-// TODO: Require "type" field before loading the rest of the form
+// TODO:
+// Next buttons? Tie to (un)collapsing
+// // Maybe delete auto-advance checkbox if so
+// Edit functionality
+// Animations or something
+// Persist form data on page refresh
+// Three errors at top of form
+// Default values:
+// // Figure out where to save these
+// // Make input default values actually save to form values; right now user has to tab over input
+// More tests
 
 // Styling:
 // Efficient, accessible, clean, responsive. Use color schemes we already have. Update globals.css with new form styling if needed.
@@ -139,21 +148,16 @@ const CalculateMileageForm = () => {
 		watch,
 		formState: { errors, isSubmitting },
 	} = form;
+
 	const formValues = getValues();
 	console.log("formValues inside form before submit:", formValues);
 	console.log("errors inside form before submit:", errors);
 
-	const selectedType = watch("type");
-
-	if (selectedType === "gas") {
-		console.log(
-			"formValues.type in if block for selectedType:",
-			formValues.type
-		);
-	}
-
 	// Comes first by default
 	setValue("vehiclesOrder", 1);
+
+	// Using this instead of formValues.type because this way the form re-renders when watchedVehicleType changes
+	const watchedVehicleType = watch("type");
 
 	return (
 		<form onSubmit={handleSubmit(mySubmitLogic)}>
@@ -191,14 +195,13 @@ const CalculateMileageForm = () => {
 				</label>
 			</div>
 
-			{/* if type is nullish, nothing. If gas, GasVehicleDataSubForm. If electric, electric form */}
-			{formValues.type === "gas" ? (
+			{watchedVehicleType === "gas" ? (
 				<GasVehicleDataSubForm
 					register={register}
 					// We know that the type has narrowed down to a gas vehicle here
 					errors={errors as unknown as FieldErrors<Gas_Vehicle_For_DB_POST>}
 				/>
-			) : formValues.type === "electric" ? (
+			) : watchedVehicleType === "electric" ? (
 				<ElectricVehicleDataSubForm
 					register={register}
 					errors={
@@ -208,16 +211,21 @@ const CalculateMileageForm = () => {
 				/>
 			) : null}
 
-			<VehicleDataSubForm register={register} errors={errors} />
-			<PurchaseAndSalesSubForm register={register} errors={errors} />
-			<UsageSubForm register={register} errors={errors} />
-			<FixedCostsSubForm register={register} errors={errors} />
-			<YearlyMaintenanceCostsSubForm register={register} errors={errors} />
-			<VariableCostsSubForm register={register} errors={errors} />
+			{/* User has to specify vehicle type (gas or electric) before seeing the rest of the form */}
+			{watchedVehicleType && (
+				<>
+					<VehicleDataSubForm register={register} errors={errors} />
+					<PurchaseAndSalesSubForm register={register} errors={errors} />
+					<UsageSubForm register={register} errors={errors} />
+					<FixedCostsSubForm register={register} errors={errors} />
+					<YearlyMaintenanceCostsSubForm register={register} errors={errors} />
+					<VariableCostsSubForm register={register} errors={errors} />
 
-			<button className="submit" disabled={isSubmitting}>
-				{isSubmitting ? "Loading" : "Submit"}
-			</button>
+					<button className="submit" disabled={isSubmitting}>
+						{isSubmitting ? "Loading" : "Submit"}
+					</button>
+				</>
+			)}
 		</form>
 	);
 };
