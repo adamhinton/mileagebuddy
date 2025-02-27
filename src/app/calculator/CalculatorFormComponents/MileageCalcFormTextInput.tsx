@@ -9,6 +9,7 @@ import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
+import FormErrorMessage from "./FormErrorMessage";
 
 type MileageCalcFormTextInputProps<TFieldValues extends FieldValues> = {
 	registerFn: UseFormRegister<TFieldValues>;
@@ -49,7 +50,6 @@ const MileageCalcFormTextInput = ({
 
 	const testidInput = `${id}-input`;
 	const testidLabel = `${id}-label`;
-	const testidError = `${id}-error`;
 
 	return (
 		<div>
@@ -80,14 +80,7 @@ const MileageCalcFormTextInput = ({
 				maxLength={maxLength}
 				minLength={minLength}
 			/>
-			{error && (
-				<p
-					className={tailWindClassNames.mileageCalcForm.FORM_ERROR_MESSAGE}
-					data-testid={testidError}
-				>
-					{error}
-				</p>
-			)}
+			{error && <FormErrorMessage errorMessage={error} path={path} />}
 		</div>
 	);
 };
