@@ -12,9 +12,13 @@ import { z } from "zod";
 import {
 	GasVehicleSchemaForPOST,
 	ElectricVehicleSchemaForPOST,
+	Vehicle_For_db_POST,
+	VehicleToBePostedSchema,
+	Gas_Vehicle_For_DB_POST,
+	Electric_Vehicle_For_DB_POST,
 } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
 import mySubmitLogic from "./formActions";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useRef, useState } from "react";
 import FormSection from "./CalculatorFormComponents/FormSection";
@@ -78,6 +82,7 @@ import ElectricVehicleDataSubForm from "./CalculatorFormComponents/FormSubSectio
 // Will start by writing the form for just one or two sections, thene expand from there
 
 export const smallGasVehicleSchemaForTesting = GasVehicleSchemaForPOST.pick({
+	userid: true,
 	type: true,
 	vehiclesOrder: true,
 	gasVehicleData: true,
@@ -95,6 +100,7 @@ export type SmallGasVehicleForTesting = z.infer<
 
 export const smallElectricVehicleSchemaForTesting =
 	ElectricVehicleSchemaForPOST.pick({
+		userid: true,
 		type: true,
 		vehiclesOrder: true,
 		electricVehicleData: true,
@@ -134,9 +140,9 @@ const CalculateMileageForm = () => {
 	// Checkmark that user de-selects if they don't want to be auto-advanced to next section
 	const [autoAdvance, setAutoAdvance] = useState(true);
 
-	const form = useForm<VehicleForTesting>({
+	const form = useForm<Vehicle_For_db_POST>({
 		// This is how it knows to validate with zod
-		resolver: zodResolver(VehicleForTestingSchema),
+		resolver: zodResolver(VehicleToBePostedSchema),
 		// Can put default values here if needed: defaultValues: {...}
 	});
 
@@ -188,6 +194,8 @@ const CalculateMileageForm = () => {
 		);
 	}
 
+	setValue("vehiclesOrder", 1);
+
 	return (
 		<form onSubmit={handleSubmit(mySubmitLogic)}>
 			<div className="mb-4 flex items-center">
@@ -226,9 +234,19 @@ const CalculateMileageForm = () => {
 
 			{/* if type is nullish, nothing. If gas, GasVehicleDataSubForm. If electric, electric form */}
 			{formValues.type === "gas" ? (
-				<GasVehicleDataSubForm register={register} errors={errors} />
+				<GasVehicleDataSubForm
+					register={register}
+					// We know that the type has narrowed down to a gas vehicle here
+					errors={errors as unknown as FieldErrors<Gas_Vehicle_For_DB_POST>}
+				/>
 			) : formValues.type === "electric" ? (
-				<ElectricVehicleDataSubForm register={register} errors={errors} />
+				<ElectricVehicleDataSubForm
+					register={register}
+					errors={
+						// We know that the type has narrowed down to an electric vehicle here
+						errors as unknown as FieldErrors<Electric_Vehicle_For_DB_POST>
+					}
+				/>
 			) : null}
 
 			<VehicleDataSubForm register={register} errors={errors} />

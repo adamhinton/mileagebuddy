@@ -63,6 +63,8 @@ export const GasVehicleSchemaForPOST = GasVehicleSchema.omit({
 	usage: GasVehicleSchema.shape.usage.omit({ vehicleID: true }),
 });
 
+export type Gas_Vehicle_For_DB_POST = z.infer<typeof GasVehicleSchemaForPOST>;
+
 // This is for VehicleToBePostedSchema
 // See notes above VehicleToBePostedSchema about why I had  to do this
 export const ElectricVehicleSchemaForPOST = ElectricVehicleSchema.omit({
@@ -101,6 +103,10 @@ export const ElectricVehicleSchemaForPOST = ElectricVehicleSchema.omit({
 		),
 	usage: ElectricVehicleSchema.shape.usage.omit({ vehicleID: true }),
 });
+
+export type Electric_Vehicle_For_DB_POST = z.infer<
+	typeof ElectricVehicleSchemaForPOST
+>;
 
 // Vehicle without any ids except userid, because it hasn't been sent to db yet
 // This is for POST requests

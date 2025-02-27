@@ -9,13 +9,13 @@
 // TODO: Fix num input leading zeroes
 
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
-import { VehicleForTesting } from "../page";
 import { z } from "zod";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
+import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 
 type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
 	registerFn: UseFormRegister<TFieldValues>;
-	path: Path<VehicleForTesting>;
+	path: Path<Vehicle_For_db_POST>;
 	error?: string;
 	subSchema: z.ZodNumber;
 };
@@ -36,7 +36,7 @@ const MileageCalcFormNumInput = ({
 	path,
 	subSchema,
 	// TODO change this type when you're out of testing and using the real vehicle type
-}: MileageCalcFormNumInputProps<VehicleForTesting>) => {
+}: MileageCalcFormNumInputProps<Vehicle_For_db_POST>) => {
 	const maxValue = subSchema.maxValue || undefined;
 
 	// Can use input's register path as the id as well

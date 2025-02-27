@@ -5,9 +5,9 @@
 
 import MileageCalcFormNumInput from "@/app/calculator/CalculatorFormComponents/MileageCalcFormNumberInput";
 import MileageCalcFormTextInput from "@/app/calculator/CalculatorFormComponents/MileageCalcFormTextInput";
-import { VehicleForTesting } from "@/app/calculator/page";
 import { Path } from "react-hook-form";
 import { z } from "zod";
+import { Vehicle_For_db_POST } from "../../server/types/VehicleTypes/POSTVehicleTypes";
 
 const mockRegister = jest.fn().mockReturnValue({
 	onChange: jest.fn(),
@@ -20,7 +20,7 @@ export const MileageInputNumTestWrapper = ({
 	error,
 	schema,
 }: {
-	path: Path<VehicleForTesting>;
+	path: Path<Vehicle_For_db_POST>;
 	error?: string;
 	schema: z.ZodNumber;
 }) => {
@@ -39,7 +39,7 @@ export const MileageInputTextTestWrapper = ({
 	error,
 	schema,
 }: {
-	path: Path<VehicleForTesting>;
+	path: Path<Vehicle_For_db_POST>;
 	error?: string;
 	schema: z.ZodString;
 }) => {

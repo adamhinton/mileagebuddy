@@ -11,8 +11,8 @@ import { BaseVehicleSchema } from "@/app/utils/server/types/VehicleTypes/GetVehi
 import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
 
 type Props = {
-	register: UseFormRegister<VehicleForTesting>;
-	errors: FieldErrors<VehicleForTesting>;
+	register: UseFormRegister<Vehicle_For_db_POST>;
+	errors: FieldErrors<Vehicle_For_db_POST>;
 };
 
 const YearlyMaintenanceCostsSubForm = (props: Props) => {

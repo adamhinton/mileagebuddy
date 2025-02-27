@@ -13,8 +13,8 @@ import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
 // TODO pass in register
 
 type Props = {
-	register: UseFormRegister<VehicleForTesting>;
-	errors: FieldErrors<VehicleForTesting>;
+	register: UseFormRegister<Vehicle_For_db_POST>;
+	errors: FieldErrors<Vehicle_For_db_POST>;
 };
 
 const VehicleDataSubForm = (props: Props) => {

@@ -7,14 +7,17 @@
 
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import FormSection from "../FormSection";
-import { SmallElectricVehicleForTesting, VehicleForTesting } from "../../page";
 import { BaseVehicleSchema } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
+import {
+	Electric_Vehicle_For_DB_POST,
+	Vehicle_For_db_POST,
+} from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 
 type Props = {
-	register: UseFormRegister<VehicleForTesting>;
+	register: UseFormRegister<Vehicle_For_db_POST>;
 	// The form uses a union between EV and gas vehicle for testing, but this component will only be called if it's specified as an electric vehicle, so we pass in a more specific type here
-	errors: FieldErrors<SmallElectricVehicleForTesting>;
+	errors: FieldErrors<Electric_Vehicle_For_DB_POST>;
 };
 
 const ElectricVehicleDataSubForm = (props: Props) => {

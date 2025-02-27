@@ -6,13 +6,13 @@
 // Confused about the subschema being passed in? See the jsdoc for subSchema param
 
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
-import { VehicleForTesting } from "../page";
 import { z } from "zod";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
+import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 
 type MileageCalcFormTextInputProps<TFieldValues extends FieldValues> = {
 	registerFn: UseFormRegister<TFieldValues>;
-	path: Path<VehicleForTesting>;
+	path: Path<Vehicle_For_db_POST>;
 	error?: string;
 	subSchema: z.ZodString;
 };
@@ -33,7 +33,7 @@ const MileageCalcFormTextInput = ({
 	path,
 	subSchema,
 	// TODO change this type when you're out of testing and using the real vehicle type
-}: MileageCalcFormTextInputProps<VehicleForTesting>) => {
+}: MileageCalcFormTextInputProps<Vehicle_For_db_POST>) => {
 	const maxLength = subSchema.maxLength || undefined;
 	const minLength = subSchema.minLength || undefined;
 
