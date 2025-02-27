@@ -74,8 +74,9 @@ const MileageCalcFormTextInput = ({
 				type="text"
 				{...registerFn(path)}
 				required={isRequired}
+				// TODO bob is just for testing, move back to undefined
 				// Not totally sure undefined is the right choice
-				defaultValue={undefined}
+				defaultValue={"bob"}
 				maxLength={maxLength}
 				minLength={minLength}
 			/>
