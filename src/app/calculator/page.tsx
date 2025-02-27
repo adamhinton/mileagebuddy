@@ -194,6 +194,7 @@ const CalculateMileageForm = () => {
 		);
 	}
 
+	// Comes first by default
 	setValue("vehiclesOrder", 1);
 
 	return (
