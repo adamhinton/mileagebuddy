@@ -113,7 +113,10 @@ export const ElectricVehicleSchema = BaseVehicleSchema.extend({
  * This is because Zod can't handle unions or sub-types like .extend, .omit etc. with .refine
  * And .refine is important for more complex validations that can't be done with built in Zod functions like .max() or .nonnegative()
  */
-export const VehicleSchema = z.union([GasVehicleSchema, ElectricVehicleSchema]);
+export const VehicleSchema = z.discriminatedUnion("type", [
+	GasVehicleSchema,
+	ElectricVehicleSchema,
+]);
 
 /**
  * This performs refinements on Vehicle that can't be just done by built in zod functions like .max() or .nonnegative() etc
