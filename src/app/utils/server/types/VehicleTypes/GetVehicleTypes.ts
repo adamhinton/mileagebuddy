@@ -71,8 +71,6 @@ export type Vehicles = Vehicle[];
  *
  * IMPORTANT: Don't use this type for anything outside this file; VehicleSchema (and the type Vehicle which is inferred from it) is best.
  *
- * Note: I left maxes on these to avoid ridiculously high number spam
- *
  * IMPORTANT: Extending this schema? Make sure to slap .refine(data =>{ return refineZodVehicleValidation(data)}) on the end of your new schema
  * This is because Zod can't handle unions or sub-types like .extend, .omit etc. with .refine
  *
@@ -151,12 +149,8 @@ export const refineZodVehicleValidation = (vehicleData) => {
 	return { isVehicleValid, error };
 };
 
-// /**Always has "type": "gas" and electricVehicleData: null */
-// type GasVehicle = z.infer<typeof GasVehicleSchema>;
-// /**Always has "type": "electric" and gasVehicleData: null */
-// type ElectricVehicle = z.infer<typeof ElectricVehicleSchema>;
-
 // For testing and verification, TODO delete later
+// Leaving this object has come in handy because it tells me when there's some type mismatch
 export const bob: Vehicle = {
 	type: "gas",
 	gasVehicleData: {
