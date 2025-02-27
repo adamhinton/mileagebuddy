@@ -102,19 +102,11 @@ export const BaseVehicleSchema = z.object({
 
 export const GasVehicleSchema = BaseVehicleSchema.extend({
 	type: z.literal("gas"),
-	electricVehicleData: z
-		.null()
-		.describe("electricVehicleData must be null because this is a gas vehicle"),
-});
+}).omit({ electricVehicleData: true });
 
 export const ElectricVehicleSchema = BaseVehicleSchema.extend({
 	type: z.literal("electric"),
-	gasVehicleData: z
-		.null()
-		.describe(
-			"gasVehicleData must be null because this is an electric vehicle"
-		),
-});
+}).omit({ gasVehicleData: true });
 
 /**
  * The type Vehicle is inferred from this
@@ -167,7 +159,6 @@ export const refineZodVehicleValidation = (vehicleData) => {
 // For testing and verification, TODO delete later
 export const bob: Vehicle = {
 	type: "gas",
-	electricVehicleData: null,
 	gasVehicleData: {
 		vehicleID: 1,
 		gasCostPerGallon: 3.5,
@@ -181,17 +172,18 @@ export const bob: Vehicle = {
 	vehicleData: {
 		vehicleID: 1,
 		vehicleName: "Test Vehicle",
-		year: null,
-		make: null,
-		model: null,
-		trim: null,
-		highwayMPG: null,
+		year: 2011,
+		make: "Test make",
+		model: "Test model",
+		trim: "Idk bff Jill",
+		// Deprecated
+		highwayMPG: 35,
 	},
 	purchaseAndSales: {
 		vehicleID: 1,
-		yearPurchased: null,
+		yearPurchased: 2015,
 		purchasePrice: 10000,
-		downPaymentAmount: null,
+		downPaymentAmount: 0,
 		willSellCarAfterYears: 5,
 		milesBoughtAt: 10000,
 		willSellCarAtMiles: 50000,

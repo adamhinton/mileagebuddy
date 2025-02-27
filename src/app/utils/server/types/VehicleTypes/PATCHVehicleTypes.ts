@@ -59,7 +59,7 @@ export const ElectricVehicleSchemaForPATCH = ElectricVehicleSchema.extend({
  *
  * All sub-fields are optional; if a field isn't included, it won't be updated in the db
  */
-export const VehicleSchemaForPATCH = z.union([
+export const VehicleSchemaForPATCH = z.discriminatedUnion("type", [
 	GasVehicleSchemaForPATCH,
 	ElectricVehicleSchemaForPATCH,
 ]);

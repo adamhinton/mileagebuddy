@@ -27,7 +27,7 @@ export type Vehicle_For_db_POST = DeepReadonly<
 	z.infer<typeof VehicleToBePostedSchema>
 >;
 
-// // See notes above VehicleToBePostedSchema about why I had  to do this
+// See notes above VehicleToBePostedSchema about why I had  to do this
 export const GasVehicleSchemaForPOST = GasVehicleSchema.omit({
 	id: true,
 }).extend({
@@ -116,7 +116,10 @@ export type Electric_Vehicle_For_DB_POST = z.infer<
 // So I have to do this sort of clunky solution, which is to make a union of the two types without ids
 // TODO: Try to find a better way than this
 export const VehicleToBePostedSchema = z
-	.union([GasVehicleSchemaForPOST, ElectricVehicleSchemaForPOST])
+	.discriminatedUnion("type", [
+		GasVehicleSchemaForPOST,
+		ElectricVehicleSchemaForPOST,
+	])
 	.refine(
 		(data) => {
 			const validation = refineZodVehicleValidation(data);
