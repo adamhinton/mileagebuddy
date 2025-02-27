@@ -15,7 +15,6 @@ import {
 import {
 	ElectricVehicleDataSchema,
 	FixedCostsSchema,
-	GasVehicleDataSchema,
 	PurchaseAndSalesSchema,
 	UsageSchema,
 	VariableCostsSchema,
@@ -27,11 +26,11 @@ import {
 export const GasVehicleSchemaForPATCH = GasVehicleSchema.extend({
 	// Other fields won't be changed, like userid and id
 	vehiclesOrder: z.number().optional(),
-	type: z.enum(["gas"]).optional(),
+	// Not sure if this should be optional() or not
+	type: z.literal("gas"),
 	vehicleData: VehicleDataSchema.optional(),
-	gasVehicleData: GasVehicleDataSchema.optional(),
+	gasVehicleData: GasVehicleSchema.optional(),
 	// This will always be null anyway
-	electricVehicleData: ElectricVehicleDataSchema.optional(),
 	purchaseAndSales: PurchaseAndSalesSchema.optional(),
 	usage: UsageSchema.optional(),
 	fixedCosts: FixedCostsSchema.optional(),
@@ -43,10 +42,10 @@ export const GasVehicleSchemaForPATCH = GasVehicleSchema.extend({
 export const ElectricVehicleSchemaForPATCH = ElectricVehicleSchema.extend({
 	// Other fields won't be changed, like userid and id
 	vehiclesOrder: z.number().optional(),
-	type: z.enum(["electric"]).optional(),
+	// Not sure if this should be optional() or not
+	type: z.literal("electric"),
 	vehicleData: VehicleDataSchema.optional(),
 	// This will always be null anyway
-	gasVehicleData: GasVehicleDataSchema.optional(),
 	electricVehicleData: ElectricVehicleDataSchema.optional(),
 	purchaseAndSales: PurchaseAndSalesSchema.innerType().optional(),
 	usage: UsageSchema.optional(),
