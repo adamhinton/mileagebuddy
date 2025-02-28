@@ -177,7 +177,7 @@ const CalculateMileageForm = () => {
 				</label>
 			</div>
 
-			{isShowErrorSummary && <FormErrorSummary />}
+			{isShowErrorSummary && <FormErrorSummary errors={errors} />}
 
 			<div className="ml-4">
 				<label className="mr-4">
