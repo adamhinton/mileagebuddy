@@ -21,42 +21,46 @@ export const VehicleDataSchema = z
 		// TODO: Delete highwayMPG, this is redundant with a field used elsewhere.
 		highwayMPG: z.number().max(5000).nonnegative().nullable().optional(),
 	})
-	.describe("test blah");
+	.describe("Gas Vehicle Data");
 
 export type VehicleData = Readonly<z.infer<typeof VehicleDataSchema>>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
-export const GasVehicleDataSchema = z.object({
-	vehicleID: z.number().readonly(),
-	gasCostPerGallon: z
-		.number()
-		.max(1000)
-		.nonnegative()
-		.describe("Gas Cost $/gal"),
-	milesPerGallonHighway: z
-		.number()
-		.max(1000)
-		.nonnegative()
-		.describe("MPG Highway"),
-	milesPerGallonCity: z.number().max(1000).nonnegative().describe("MPG City"),
-});
+export const GasVehicleDataSchema = z
+	.object({
+		vehicleID: z.number().readonly(),
+		gasCostPerGallon: z
+			.number()
+			.max(1000)
+			.nonnegative()
+			.describe("Gas Cost $/gal"),
+		milesPerGallonHighway: z
+			.number()
+			.max(1000)
+			.nonnegative()
+			.describe("MPG Highway"),
+		milesPerGallonCity: z.number().max(1000).nonnegative().describe("MPG City"),
+	})
+	.describe("Vehicle Data");
 
 export type GasVehicleData = Readonly<z.infer<typeof GasVehicleDataSchema>>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
-export const ElectricVehicleDataSchema = z.object({
-	vehicleID: z.number().readonly(),
-	costPerCharge: z
-		.number()
-		.nonnegative()
-		.max(1000)
-		.describe("Cost Per Charge $"),
-	milesPerCharge: z.number().max(10_000).describe("Miles Per Charge"),
-});
+export const ElectricVehicleDataSchema = z
+	.object({
+		vehicleID: z.number().readonly(),
+		costPerCharge: z
+			.number()
+			.nonnegative()
+			.max(1000)
+			.describe("Cost Per Charge $"),
+		milesPerCharge: z.number().max(10_000).describe("Miles Per Charge"),
+	})
+	.describe("Electric Vehicle Data");
 
 export type ElectricVehicleData = Readonly<
 	z.infer<typeof ElectricVehicleDataSchema>
@@ -114,6 +118,7 @@ export const PurchaseAndSalesSchema = z
 			.positive()
 			.describe("Price you'll sell it for $"),
 	})
+	.describe("Purchase and Sales")
 	.refine(
 		(data) => {
 			console.log("refining");
@@ -129,113 +134,123 @@ export type PurchaseAndSales = Readonly<z.infer<typeof PurchaseAndSalesSchema>>;
  * This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
-export const UsageSchema = z.object({
-	vehicleID: z.number().readonly(),
-	// TODO: This is including non-commute days. It's in a SEVEN DAY WEEK, enforce that and make sure user understands it
-	averageDailyMiles: z
-		.number()
-		.max(5_000)
-		.nonnegative()
-		.describe("Average daily miles (7 day week)"),
-	weeksPerYear: z
-		.number()
-		.int()
-		.nonnegative()
-		.max(52)
-		.describe("Weeks driven per year"),
-	percentHighway: z
-		.number()
-		.nonnegative()
-		.max(100)
-		.describe("% highway driving"),
-	// extraDistanceMiles isn't actually used in the calcs. TODO delete this?
-	extraDistanceMiles: z
-		.number()
-		.nonnegative()
-		.max(500_000)
-		.nullable()
-		.optional()
-		// TODO Describe this better
-		.describe("How many extra miles per year should we add on?"),
-	// TODO Delete this as well as extraDistanceMiles?
-	extraDistancePercentHighway: z
-		.number()
-		.nonnegative()
-		.max(100)
-		.nullable()
-		.optional()
-		.describe("Extra distance percent highway"),
-});
+export const UsageSchema = z
+	.object({
+		vehicleID: z.number().readonly(),
+		// TODO: This is including non-commute days. It's in a SEVEN DAY WEEK, enforce that and make sure user understands it
+		averageDailyMiles: z
+			.number()
+			.max(5_000)
+			.nonnegative()
+			.describe("Average daily miles (7 day week)"),
+		weeksPerYear: z
+			.number()
+			.int()
+			.nonnegative()
+			.max(52)
+			.describe("Weeks driven per year"),
+		percentHighway: z
+			.number()
+			.nonnegative()
+			.max(100)
+			.describe("% highway driving"),
+		// extraDistanceMiles isn't actually used in the calcs. TODO delete this?
+		extraDistanceMiles: z
+			.number()
+			.nonnegative()
+			.max(500_000)
+			.nullable()
+			.optional()
+			// TODO Describe this better
+			.describe("How many extra miles per year should we add on?"),
+		// TODO Delete this as well as extraDistanceMiles?
+		extraDistancePercentHighway: z
+			.number()
+			.nonnegative()
+			.max(100)
+			.nullable()
+			.optional()
+			.describe("Extra distance percent highway"),
+	})
+	.describe("Usage");
 
 export type Usage = Readonly<z.infer<typeof UsageSchema>>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
-export const FixedCostsSchema = z.object({
-	vehicleID: z.number().readonly(),
-	yearlyInsuranceCost: z
-		.number()
-		.nonnegative()
-		.max(500_000)
-		.describe("Yearly insurance cost $"),
-	yearlyRegistrationCost: z
-		.number()
-		.nonnegative()
-		.max(50_000)
-		.describe("Yearly registration cost $"),
-	yearlyTaxes: z
-		.number()
-		.nonnegative()
-		.max(50_000_000)
-		.describe("Yearly taxes $"),
-	monthlyLoanPayment: z
-		.number()
-		.max(50_000)
-		.nonnegative()
-		.describe("Monthly loan payment $"),
-	monthlyWarrantyCost: z
-		.number()
-		.max(50_000)
-		.nonnegative()
-		.describe("Monthly warranty cost $"),
-	inspectionCost: z
-		.number()
-		.max(5_000)
-		.nonnegative()
-		.describe("Yearly inspection cost $"),
-	otherYearlyCosts: z
-		.number()
-		.max(500_000)
-		.nonnegative()
-		.describe("Other yearly costs $"),
-});
+export const FixedCostsSchema = z
+	.object({
+		vehicleID: z.number().readonly(),
+		yearlyInsuranceCost: z
+			.number()
+			.nonnegative()
+			.max(500_000)
+			.describe("Yearly insurance cost $"),
+		yearlyRegistrationCost: z
+			.number()
+			.nonnegative()
+			.max(50_000)
+			.describe("Yearly registration cost $"),
+		yearlyTaxes: z
+			.number()
+			.nonnegative()
+			.max(50_000_000)
+			.describe("Yearly taxes $"),
+		monthlyLoanPayment: z
+			.number()
+			.max(50_000)
+			.nonnegative()
+			.describe("Monthly loan payment $"),
+		monthlyWarrantyCost: z
+			.number()
+			.max(50_000)
+			.nonnegative()
+			.describe("Monthly warranty cost $"),
+		inspectionCost: z
+			.number()
+			.max(5_000)
+			.nonnegative()
+			.describe("Yearly inspection cost $"),
+		otherYearlyCosts: z
+			.number()
+			.max(500_000)
+			.nonnegative()
+			.describe("Other yearly costs $"),
+	})
+	.describe("Fixed Costs");
 
 export type FixedCosts = Readonly<z.infer<typeof FixedCostsSchema>>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
-export const YearlyMaintenanceCostsSchema = z.object({
-	vehicleID: z.number().readonly(),
-	oilChanges: z
-		.number()
-		.nonnegative()
-		.max(1_000)
-		.describe("Yearly oil changes cost $"),
-	tires: z.number().nonnegative().max(50_000).describe("Yearly tires cost $"),
-	batteries: z
-		.number()
-		.nonnegative()
-		.max(50_000)
-		.describe("Yearly batteries cost $"),
-	brakes: z.number().nonnegative().max(50_000).describe("Yearly brakes cost $"),
-	other: z
-		.number()
-		.nonnegative()
-		.max(500_000)
-		.describe("Other maintenance costs $"),
-});
+export const YearlyMaintenanceCostsSchema = z
+	.object({
+		vehicleID: z.number().readonly(),
+		oilChanges: z
+			.number()
+			.nonnegative()
+			.max(1_000)
+			.describe("Yearly oil changes cost $"),
+		tires: z.number().nonnegative().max(50_000).describe("Yearly tires cost $"),
+		batteries: z
+			.number()
+			.nonnegative()
+			.max(50_000)
+			.describe("Yearly batteries cost $"),
+		brakes: z
+			.number()
+			.nonnegative()
+			.max(50_000)
+			.describe("Yearly brakes cost $"),
+		other: z
+			.number()
+			.nonnegative()
+			.max(500_000)
+			.describe("Other maintenance costs $"),
+	})
+	.describe("Yearly Maintenance Costs");
 
 export type YearlyMaintenanceCosts = Readonly<
 	z.infer<typeof YearlyMaintenanceCostsSchema>
@@ -244,33 +259,35 @@ export type YearlyMaintenanceCosts = Readonly<
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  */
-export const VariableCostsSchema = z.object({
-	vehicleID: z.number().readonly(),
-	monthlyParkingCosts: z
-		.number()
-		.max(20_000)
-		.nonnegative()
-		.describe("Monthly parking costs $"),
-	monthlyTolls: z
-		.number()
-		.max(20_000)
-		.nonnegative()
-		.describe("Monthly tolls $"),
-	monthlyCarWashCost: z
-		.number()
-		.max(10_000)
-		.nonnegative()
-		.describe("Monthly car wash cost $"),
-	monthlyMiscellaneousCosts: z
-		.number()
-		.max(500_000)
-		.nonnegative()
-		.describe("Monthly miscellaneous costs $"),
-	monthlyCostDeductions: z
-		.number()
-		.max(500_000)
-		.nonnegative()
-		.describe("Monthly cost savings $: Rebates, tax deductions etc"),
-});
+export const VariableCostsSchema = z
+	.object({
+		vehicleID: z.number().readonly(),
+		monthlyParkingCosts: z
+			.number()
+			.max(20_000)
+			.nonnegative()
+			.describe("Monthly parking costs $"),
+		monthlyTolls: z
+			.number()
+			.max(20_000)
+			.nonnegative()
+			.describe("Monthly tolls $"),
+		monthlyCarWashCost: z
+			.number()
+			.max(10_000)
+			.nonnegative()
+			.describe("Monthly car wash cost $"),
+		monthlyMiscellaneousCosts: z
+			.number()
+			.max(500_000)
+			.nonnegative()
+			.describe("Monthly miscellaneous costs $"),
+		monthlyCostDeductions: z
+			.number()
+			.max(500_000)
+			.nonnegative()
+			.describe("Monthly cost savings $: Rebates, tax deductions etc"),
+	})
+	.describe("Variable Costs");
 
 export type VariableCosts = Readonly<z.infer<typeof VariableCostsSchema>>;

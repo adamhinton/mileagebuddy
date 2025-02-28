@@ -6,6 +6,10 @@
 // TODO unit tests once this is fully fleshed out
 
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
+import {
+	Electric_Vehicle_For_DB_POST,
+	Gas_Vehicle_For_DB_POST,
+} from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { ReactNode, useState } from "react";
 
 type FormSectionProps = {
@@ -14,6 +18,7 @@ type FormSectionProps = {
 	isCompleted?: boolean;
 	isActive?: boolean;
 	onComplete?: () => void;
+	id: keyof Gas_Vehicle_For_DB_POST | keyof Electric_Vehicle_For_DB_POST;
 };
 
 const FormSection = ({
@@ -22,11 +27,15 @@ const FormSection = ({
 	isCompleted = false,
 	isActive = false,
 	// TODO onComplete. Just a "Next" button?
+	id,
 }: FormSectionProps) => {
 	const [isExpanded, setIsExpanded] = useState(isActive);
 
 	return (
-		<section className={`${tailWindClassNames.mileageCalcForm.FORM_SECTION}`}>
+		<section
+			className={`${tailWindClassNames.mileageCalcForm.FORM_SECTION}`}
+			id={id}
+		>
 			<button
 				type="button"
 				onClick={() => setIsExpanded(!isExpanded)}

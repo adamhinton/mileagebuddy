@@ -26,7 +26,7 @@ const PurchaseAndSalesSubForm = (props: Props) => {
 		null;
 
 	return (
-		<FormSection title="Purchase and Sales">
+		<FormSection title="Purchase and Sales" id="purchaseAndSales">
 			<MileageCalcFormNumInput
 				registerFn={register}
 				path="purchaseAndSales.yearPurchased"

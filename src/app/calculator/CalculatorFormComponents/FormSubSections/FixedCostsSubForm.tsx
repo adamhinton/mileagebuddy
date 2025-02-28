@@ -19,7 +19,7 @@ const FixedCostsSubForm = (props: Props) => {
 	const { register, errors } = props;
 
 	return (
-		<FormSection title="Fixed Costs">
+		<FormSection title="Fixed Costs" id="fixedCosts">
 			<MileageCalcFormNumInput
 				registerFn={register}
 				path="fixedCosts.yearlyInsuranceCost"

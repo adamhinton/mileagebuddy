@@ -24,7 +24,7 @@ const ElectricVehicleDataSubForm = (props: Props) => {
 	const { register, errors } = props;
 
 	return (
-		<FormSection title="Electric Vehicle Data">
+		<FormSection title="Electric Vehicle Data" id="electricVehicleData">
 			<MileageCalcFormNumInput
 				registerFn={register}
 				path="electricVehicleData.costPerCharge"

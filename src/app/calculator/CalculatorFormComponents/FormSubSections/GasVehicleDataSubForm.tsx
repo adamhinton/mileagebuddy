@@ -21,7 +21,7 @@ const GasVehicleDataSubForm = (props: Props) => {
 	const { register, errors } = props;
 
 	return (
-		<FormSection title="Gas Vehicle Data">
+		<FormSection title="Gas Vehicle Data" id="gasVehicleData">
 			<MileageCalcFormNumInput
 				registerFn={register}
 				path="gasVehicleData.gasCostPerGallon"
