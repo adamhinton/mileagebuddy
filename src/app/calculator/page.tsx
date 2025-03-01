@@ -216,7 +216,10 @@ const CalculateMileageForm = () => {
 				/>
 			) : null}
 
-			{/* User has to specify vehicle type (gas or electric) before seeing the rest of the form */}
+			{/* User has to specify vehicle type (gas or electric) before seeing the rest of the form
+			
+			// Each of these sub-forms is a sub-object of Vehicle_For_db_POST
+			*/}
 			{watchedVehicleType && (
 				<>
 					<VehicleDataSubForm register={register} errors={errors} />
