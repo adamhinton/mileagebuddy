@@ -10,14 +10,16 @@ import {
 	Electric_Vehicle_For_DB_POST,
 	Gas_Vehicle_For_DB_POST,
 } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
+import { type CollapsedOrNot } from "../page";
 
 type FormSectionProps = {
 	title: string;
 	children: ReactNode;
 	isCompleted?: boolean;
-	isActive?: boolean;
-	onComplete?: () => void;
+	isCollapsed: CollapsedOrNot;
+
+	onToggleCollapse: () => void;
 	id: keyof Gas_Vehicle_For_DB_POST | keyof Electric_Vehicle_For_DB_POST;
 };
 
@@ -25,12 +27,10 @@ const FormSection = ({
 	title,
 	children,
 	isCompleted = false,
-	isActive = false,
-	// TODO onComplete. Just a "Next" button?
+	isCollapsed,
+	onToggleCollapse,
 	id,
 }: FormSectionProps) => {
-	const [isExpanded, setIsExpanded] = useState(isActive);
-
 	return (
 		<section
 			className={`${tailWindClassNames.mileageCalcForm.FORM_SECTION}`}
@@ -38,7 +38,7 @@ const FormSection = ({
 		>
 			<button
 				type="button"
-				onClick={() => setIsExpanded(!isExpanded)}
+				onClick={onToggleCollapse}
 				className="w-full flex items-center justify-between p-2 bg-background-elevated"
 			>
 				<div
@@ -48,10 +48,11 @@ const FormSection = ({
 					{isCompleted && <span className="ml-2 text-accent">✓</span>}
 				</div>
 				{/* TODO up/down chevron icons */}
-				{isExpanded ? <span>Up</span> : <span>Down</span>}
 			</button>
 
-			{isExpanded && (
+			{!isCollapsed ? <span>↑</span> : <span>↓</span>}
+
+			{!isCollapsed && (
 				<div
 					className={`${tailWindClassNames.mileageCalcForm.FORM_SECTION_CONTENT}`}
 				>

@@ -13,18 +13,27 @@ import {
 	Electric_Vehicle_For_DB_POST,
 	Vehicle_For_db_POST,
 } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
+import { CollapsedOrNot } from "../../page";
 
 type Props = {
 	register: UseFormRegister<Vehicle_For_db_POST>;
 	// The form uses a union between EV and gas vehicle for testing, but this component will only be called if it's specified as an electric vehicle, so we pass in a more specific type here
 	errors: FieldErrors<Electric_Vehicle_For_DB_POST>;
+	isCollapsed: CollapsedOrNot;
+
+	onToggleCollapse: () => void;
 };
 
 const ElectricVehicleDataSubForm = (props: Props) => {
-	const { register, errors } = props;
+	const { register, errors, isCollapsed, onToggleCollapse } = props;
 
 	return (
-		<FormSection title="Electric Vehicle Data" id="electricVehicleData">
+		<FormSection
+			title="Electric Vehicle Data"
+			id="electricVehicleData"
+			isCollapsed={isCollapsed}
+			onToggleCollapse={onToggleCollapse}
+		>
 			<MileageCalcFormNumInput
 				registerFn={register}
 				path="electricVehicleData.costPerCharge"

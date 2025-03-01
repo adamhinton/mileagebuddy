@@ -14,6 +14,7 @@ import {
 	Gas_Vehicle_For_DB_POST,
 	Electric_Vehicle_For_DB_POST,
 } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
+import { useCallback } from "react";
 import mySubmitLogic from "./formActions";
 import { FieldErrors, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -63,11 +64,51 @@ const CalculatorPage = () => {
 	);
 };
 
+/**Better way of toggling collapsed state than true or false */
+export type CollapsedOrNot = "isCollapsed" | "isNotCollapsed";
+
 export default CalculatorPage;
 
 const CalculateMileageForm = () => {
+	const [collapsedSections, setCollapsedSections] = useState<
+		Record<
+			// This type is dumb, TODO fix it with an omit instead. It's because it doesn't recognize keys unique to gas or EVs if I just use keyof Vehicle_For_db_POST
+			keyof Gas_Vehicle_For_DB_POST | keyof Electric_Vehicle_For_DB_POST,
+			CollapsedOrNot
+		>
+		// @ts-expect-error I omitted irrelevant keys; TODO make better type for this and the other stuff in this file that uses the keyof thingy above
+	>({
+		// Set initial collapsed state for each section (true = collapsed)
+		gasVehicleData: "isNotCollapsed",
+		vehicleData: "isCollapsed",
+		electricVehicleData: "isCollapsed",
+		purchaseAndSales: "isCollapsed",
+		usage: "isCollapsed",
+		fixedCosts: "isCollapsed",
+		yearlyMaintenanceCosts: "isCollapsed",
+		variableCosts: "isCollapsed",
+	});
+
+	console.log("collapsedSections:", collapsedSections);
+
+	/**Toggle collapsed state of a section */
+	const toggleSectionCollapse = useCallback(
+		(
+			sectionId:
+				| keyof Gas_Vehicle_For_DB_POST
+				| keyof Electric_Vehicle_For_DB_POST
+		) => {
+			setCollapsedSections((prev) => ({
+				...prev,
+				[sectionId]: !prev[sectionId],
+			}));
+		},
+		[]
+	);
+
 	// Checkmark that user de-selects if they don't want to be auto-advanced to next section
 	const [autoAdvance, setAutoAdvance] = useState(true);
+
 	// Show the error summary at the top of the form
 	const [isShowErrorSummary, setisShowErrorSummary] = useState(false);
 
@@ -142,16 +183,18 @@ const CalculateMileageForm = () => {
 			{watchedVehicleType === "gas" ? (
 				<GasVehicleDataSubForm
 					register={register}
-					// We know that the type has narrowed down to a gas vehicle here
 					errors={errors as unknown as FieldErrors<Gas_Vehicle_For_DB_POST>}
+					isCollapsed={collapsedSections.gasVehicleData}
+					onToggleCollapse={() => toggleSectionCollapse("gasVehicleData")}
 				/>
 			) : watchedVehicleType === "electric" ? (
 				<ElectricVehicleDataSubForm
 					register={register}
 					errors={
-						// We know that the type has narrowed down to an electric vehicle here
 						errors as unknown as FieldErrors<Electric_Vehicle_For_DB_POST>
 					}
+					isCollapsed={collapsedSections.electricVehicleData}
+					onToggleCollapse={() => toggleSectionCollapse("electricVehicleData")}
 				/>
 			) : null}
 
@@ -160,17 +203,44 @@ const CalculateMileageForm = () => {
 			*/}
 			{watchedVehicleType && (
 				<>
-					<VehicleDataSubForm register={register} errors={errors} />
-
-					<PurchaseAndSalesSubForm register={register} errors={errors} />
-
-					<UsageSubForm register={register} errors={errors} />
-
-					<FixedCostsSubForm register={register} errors={errors} />
-
-					<YearlyMaintenanceCostsSubForm register={register} errors={errors} />
-
-					<VariableCostsSubForm register={register} errors={errors} />
+					<VehicleDataSubForm
+						register={register}
+						errors={errors}
+						isCollapsed={collapsedSections.vehicleData}
+						onToggleCollapse={() => toggleSectionCollapse("vehicleData")}
+					/>
+					<PurchaseAndSalesSubForm
+						register={register}
+						errors={errors}
+						isCollapsed={collapsedSections.purchaseAndSales}
+						onToggleCollapse={() => toggleSectionCollapse("purchaseAndSales")}
+					/>
+					<UsageSubForm
+						register={register}
+						errors={errors}
+						isCollapsed={collapsedSections.usage}
+						onToggleCollapse={() => toggleSectionCollapse("usage")}
+					/>
+					<FixedCostsSubForm
+						register={register}
+						errors={errors}
+						isCollapsed={collapsedSections.fixedCosts}
+						onToggleCollapse={() => toggleSectionCollapse("fixedCosts")}
+					/>
+					<YearlyMaintenanceCostsSubForm
+						register={register}
+						errors={errors}
+						isCollapsed={collapsedSections.yearlyMaintenanceCosts}
+						onToggleCollapse={() =>
+							toggleSectionCollapse("yearlyMaintenanceCosts")
+						}
+					/>
+					<VariableCostsSubForm
+						register={register}
+						errors={errors}
+						isCollapsed={collapsedSections.variableCosts}
+						onToggleCollapse={() => toggleSectionCollapse("variableCosts")}
+					/>
 
 					<button
 						className="submit"

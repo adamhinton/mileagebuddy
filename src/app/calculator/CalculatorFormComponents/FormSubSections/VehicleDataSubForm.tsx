@@ -9,19 +9,28 @@ import MileageCalcFormTextInput from "../MileageCalcFormTextInput";
 import { BaseVehicleSchema } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
+import { CollapsedOrNot } from "../../page";
 
 // TODO pass in register
 
 type Props = {
 	register: UseFormRegister<Vehicle_For_db_POST>;
 	errors: FieldErrors<Vehicle_For_db_POST>;
+	isCollapsed: CollapsedOrNot;
+
+	onToggleCollapse: () => void;
 };
 
 const VehicleDataSubForm = (props: Props) => {
-	const { register, errors } = props;
+	const { register, errors, isCollapsed, onToggleCollapse } = props;
 
 	return (
-		<FormSection title="Vehicle Data" id="vehicleData">
+		<FormSection
+			title="Vehicle Data"
+			id="vehicleData"
+			isCollapsed={isCollapsed}
+			onToggleCollapse={onToggleCollapse}
+		>
 			<MileageCalcFormTextInput
 				registerFn={register}
 				path="vehicleData.vehicleName"
