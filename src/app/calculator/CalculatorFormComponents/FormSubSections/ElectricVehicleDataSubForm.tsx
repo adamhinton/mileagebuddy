@@ -20,7 +20,6 @@ type Props = {
 	// The form uses a union between EV and gas vehicle for testing, but this component will only be called if it's specified as an electric vehicle, so we pass in a more specific type here
 	errors: FieldErrors<Electric_Vehicle_For_DB_POST>;
 	isCollapsed: CollapsedOrNot;
-
 	onToggleCollapse: () => void;
 };
 

@@ -17,7 +17,6 @@ type Props = {
 	register: UseFormRegister<Vehicle_For_db_POST>;
 	errors: FieldErrors<Vehicle_For_db_POST>;
 	isCollapsed: CollapsedOrNot;
-
 	onToggleCollapse: () => void;
 };
 

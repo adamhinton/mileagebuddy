@@ -18,7 +18,6 @@ type FormSectionProps = {
 	children: ReactNode;
 	isCompleted?: boolean;
 	isCollapsed: CollapsedOrNot;
-
 	onToggleCollapse: () => void;
 	id: keyof Gas_Vehicle_For_DB_POST | keyof Electric_Vehicle_For_DB_POST;
 };
