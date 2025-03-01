@@ -4,6 +4,8 @@
 // It only shows up once user hits Submit
 // It just displays the name of the relevant form section; clicking on it scrolls the user to that section
 
+// TODO dynamically update errors when they go away
+
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { FieldErrors } from "react-hook-form";
 import FormErrorMessage from "./FormErrorMessage";
