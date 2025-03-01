@@ -27,13 +27,16 @@ const FormErrorSummary = (props: Props) => {
 	// Clicking on the name will scroll the user to that section
 	// TODO expand the relevant section on click (or on submit) --- WIP
 	return (
-		<section>
-			<h3>Errors:</h3>
-			<ul>
+		<section className="mb-4 p-2 border border-red-400 rounded-md bg-red-50 dark:bg-red-900/20 dark:border-red-800">
+			<h5 className="text-red-600 dark:text-red-400 mb-1">
+				Please correct the following errors:
+			</h5>
+			<ul className="list-disc pl-5 space-y-1">
 				{errorLinks.map(({ key, path, message }) => (
-					<li key={key}>
+					<li key={key} className="text-sm">
 						<a
 							href={`#${path}`}
+							className="text-primary hover:underline focus:outline-none focus:ring-1 focus:ring-primary"
 							onClick={(e) => {
 								e.preventDefault();
 								const element = document.getElementById(path);
@@ -54,6 +57,7 @@ const FormErrorSummary = (props: Props) => {
 		</section>
 	);
 };
+
 export default FormErrorSummary;
 
 // Get names of first three form sections that have errors

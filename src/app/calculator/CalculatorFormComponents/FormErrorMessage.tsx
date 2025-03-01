@@ -12,7 +12,7 @@ import { Path } from "react-hook-form";
 type ErrorMessageProps = {
 	errorMessage: string;
 	// To make testid. Only passed in if it's in the actual component; not needed when it's at top of main form
-	path: Path<Vehicle_For_db_POST>;
+	path?: Path<Vehicle_For_db_POST>;
 };
 
 const FormErrorMessage = (props: ErrorMessageProps) => {
