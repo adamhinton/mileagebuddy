@@ -6,6 +6,7 @@
 
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { FieldErrors } from "react-hook-form";
+import FormErrorMessage from "./FormErrorMessage";
 
 type Props = {
 	errors: FieldErrors<Vehicle_For_db_POST>;
@@ -45,7 +46,7 @@ const FormErrorSummary = (props: Props) => {
 								}
 							}}
 						>
-							{message}
+							<FormErrorMessage errorMessage={message} />
 						</a>
 					</li>
 				))}
@@ -60,7 +61,7 @@ const extractErrorMessages = (errors: FieldErrors<Vehicle_For_db_POST>) => {
 	const errorLinks: { key: string; path: string; message: string }[] = [];
 
 	// Skip these top-level fields, these errors are not relevant to the user
-	// Actually, if these errors happen something has gone seriously wrong. Good luck
+	// Actually, if these errors happen something has gone seriously wrong. Good
 	const skipFields = ["userid", "root", "type"];
 
 	// This code block adds the first three sections with errors to the errorLinks array
