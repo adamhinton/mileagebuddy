@@ -11,13 +11,10 @@ import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { CollapsedOrNot } from "../../page";
 
-// TODO pass in register
-
 type Props = {
 	register: UseFormRegister<Vehicle_For_db_POST>;
 	errors: FieldErrors<Vehicle_For_db_POST>;
 	isCollapsed: CollapsedOrNot;
-
 	onToggleCollapse: () => void;
 };
 
