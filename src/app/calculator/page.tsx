@@ -1,6 +1,5 @@
 "use client";
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // README
 // This is the meat and potatoes of the whole MileageBuddy project.
 // This is the Calculator that calculates the cost per mile of a vehicle based on daily use.
@@ -8,10 +7,7 @@
 // This will be used to create (or edit) an object of type Vehicle, whose cost will be calculated with the function from calculateCarCostMain.
 // Form validation will be done by Zod.
 
-import { z } from "zod";
 import {
-	GasVehicleSchemaForPOST,
-	ElectricVehicleSchemaForPOST,
 	Vehicle_For_db_POST,
 	VehicleToBePostedSchema,
 	Gas_Vehicle_For_DB_POST,
@@ -104,11 +100,9 @@ const CalculatorPage = () => {
 export default CalculatorPage;
 
 const CalculateMileageForm = () => {
-	const [activeSection, setActiveSection] = useState(0);
 	// Checkmark that user de-selects if they don't want to be auto-advanced to next section
 	const [autoAdvance, setAutoAdvance] = useState(true);
 	const [isShowErrorSummary, setisShowErrorSummary] = useState(false);
-	console.log("isShowErrorSummary:", isShowErrorSummary);
 
 	const form = useForm<Vehicle_For_db_POST>({
 		// This is how it knows to validate with zod
