@@ -116,23 +116,6 @@ const CalculateMileageForm = () => {
 		// Can put default values here if needed: defaultValues: {...}
 	});
 
-	// Dummy sections for testing, TODO update this with real vehicle sub-objects
-	const sections = [
-		{
-			title: "Vehicle Type",
-			fields: ["type"], // Radio for gas/electric
-		},
-		{
-			title: "Basic Vehicle Information",
-			fields: ["vehicleName", "year", "make", "model"],
-		},
-		{
-			title: "Purchase & Sales Information",
-			fields: ["purchasePrice", "yearPurchased", "downPaymentAmount"],
-		},
-		// ... more sections
-	];
-
 	const handleSectionComplete = (sectionIndex: number) => {
 		if (autoAdvance && sectionIndex < sections.length - 1) {
 			setActiveSection(sectionIndex + 1);
