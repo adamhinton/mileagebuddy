@@ -116,12 +116,6 @@ const CalculateMileageForm = () => {
 		// Can put default values here if needed: defaultValues: {...}
 	});
 
-	const handleSectionComplete = (sectionIndex: number) => {
-		if (autoAdvance && sectionIndex < sections.length - 1) {
-			setActiveSection(sectionIndex + 1);
-		}
-	};
-
 	const {
 		register,
 		/**
