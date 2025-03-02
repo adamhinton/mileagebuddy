@@ -6,7 +6,7 @@
 // The form is broken down into sections, each of which corresponds to a sub-object of the Vehicle object.
 // Also calculates the cost of any additional miles driven.
 // Form validation will be done by Zod.
-// Form displays input errors next to each input (if there is an error), as well as a summary of the first three sections with errors at the top of the form.
+// Errors: Form displays input errors next to each input (if there is an error), as well as a summary of the first three sections with errors at the top of the form.
 
 import { useState, useMemo } from "react";
 import { useForm, FieldErrors } from "react-hook-form";
