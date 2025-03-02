@@ -92,6 +92,8 @@ const CalculateMileageForm = () => {
 		variableCosts: "isCollapsed",
 	});
 
+	console.log("collapsedSections in main fxn:", collapsedSections);
+
 	/**Toggle collapsed state of a section */
 	const toggleSectionCollapse = useCallback(
 		(sectionId: CollapsibleSectionTitles) => {
@@ -155,12 +157,18 @@ const CalculateMileageForm = () => {
 			const currentIndex = formSectionOrder.indexOf(currentSectionId);
 			if (currentIndex < formSectionOrder.length - 1) {
 				const nextSectionId = formSectionOrder[currentIndex + 1];
+				console.log("nextSectionId:", nextSectionId);
 				// Expand next section and collapse current (if desired)
-				setCollapsedSections((prev) => ({
-					...prev,
-					[currentSectionId]: "isCollapsed",
-					[nextSectionId]: "isNotCollapsed",
-				}));
+				setCollapsedSections((prev) => {
+					console.log("prev:", prev);
+					return {
+						...prev,
+						[currentSectionId]: "isCollapsed",
+						[nextSectionId]: "isNotCollapsed",
+					};
+				});
+
+				console.log("collapsedSections:", collapsedSections);
 
 				// Scroll to next section
 				setTimeout(() => {
