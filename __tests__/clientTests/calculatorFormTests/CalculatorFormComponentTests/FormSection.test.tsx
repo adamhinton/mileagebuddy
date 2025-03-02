@@ -42,8 +42,15 @@ const renderFormSection = ({
 };
 
 describe("FormSection.tsx", () => {
-	it("renders without crashing", () => {
+	it("renders without crashing when not collapsed", () => {
 		renderFormSection({});
+		expect(screen.getByText("Test Section")).toBeInTheDocument();
+	});
+
+	it("renders without crashing when collapsed", () => {
+		renderFormSection({
+			isCollapsed: "isCollapsed",
+		});
 		expect(screen.getByText("Test Section")).toBeInTheDocument();
 	});
 });
