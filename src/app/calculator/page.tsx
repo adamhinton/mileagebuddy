@@ -89,8 +89,6 @@ const CalculateMileageForm = () => {
 		variableCosts: "isCollapsed",
 	});
 
-	console.log("collapsedSections in main fxn:", collapsedSections);
-
 	// Checkmark that user de-selects if they don't want to be auto-advanced to next section
 	const [autoAdvance, setAutoAdvance] = useState(true);
 
