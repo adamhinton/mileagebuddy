@@ -45,11 +45,12 @@ const FormSection = ({
 				>
 					<h3 className="text-lg font-medium text-neutral-text">{title}</h3>
 					{isCompleted && <span className="ml-2 text-accent">✓</span>}
+
+					{/* TODO better chevron and space this out properly */}
+					{!isCollapsed ? <span>↑</span> : <span>↓</span>}
 				</div>
 				{/* TODO up/down chevron icons */}
 			</button>
-
-			{!isCollapsed ? <span>↑</span> : <span>↓</span>}
 
 			{!isCollapsed && (
 				<div
