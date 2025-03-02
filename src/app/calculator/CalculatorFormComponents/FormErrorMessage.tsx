@@ -2,8 +2,6 @@ import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNam
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { Path } from "react-hook-form";
 
-// TODO tests for this, low priority
-
 /**
  * This component goes in two places:
  * 1. At the top of the form, where it's used to display the error messages for the whole form
