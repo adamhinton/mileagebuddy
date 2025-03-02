@@ -13,7 +13,8 @@ import {
 import { ReactNode } from "react";
 import { type CollapsedOrNot } from "../page";
 
-type FormSectionProps = {
+// exporting to use in test file
+export type FormSectionProps = {
 	title: string;
 	children: ReactNode;
 	isCompleted?: boolean;
