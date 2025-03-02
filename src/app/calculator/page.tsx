@@ -9,28 +9,19 @@
 // Errors: Form displays input errors next to each input (if there is an error), as well as a summary of the first three sections with errors at the top of the form.
 
 import { useState, useMemo } from "react";
-import { useForm, FieldErrors } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	Vehicle_For_db_POST,
 	VehicleToBePostedSchema,
-	Gas_Vehicle_For_DB_POST,
-	Electric_Vehicle_For_DB_POST,
 } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
 import mySubmitLogic from "./formActions";
-import VehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/VehicleDataSubForm";
-import PurchaseAndSalesSubForm from "./CalculatorFormComponents/FormSubSections/PurchaseAndSalesSubForm";
-import UsageSubForm from "./CalculatorFormComponents/FormSubSections/UsageSubForm";
-import FixedCostsSubForm from "./CalculatorFormComponents/FormSubSections/FixedCostsSubForm";
-import YearlyMaintenanceCostsSubForm from "./CalculatorFormComponents/FormSubSections/YearlyMaintenanceCostsSubForm";
-import VariableCostsSubForm from "./CalculatorFormComponents/FormSubSections/VariableCostsSubForm";
-import GasVehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/GasVehicleDataSubForm";
-import ElectricVehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/ElectricVehicleDataSubForm";
 import FormErrorSummary from "./CalculatorFormComponents/FormErrorSummary";
 import {
 	CollapsibleSectionTitles,
 	useFormNavigation,
 } from "./calculatorUtils/FormNavUtils";
+import FormSubSections from "./CalculatorFormComponents/AllFormSubSections";
 
 // TYPES/VALIDATION
 // Vehicle is DeepReadOnly right now, need to make mutable version for this which will be easy
@@ -162,110 +153,27 @@ const CalculateMileageForm = () => {
 				</label>
 			</div>
 
-			{/* If vehicle is gas, display gas vehicle questions. If electric, display EV questions */}
-			{watchedVehicleType === "gas" ? (
-				<GasVehicleDataSubForm
-					register={register}
-					errors={errors as unknown as FieldErrors<Gas_Vehicle_For_DB_POST>}
-					isCollapsed={collapsedSections.gasVehicleData}
-					onToggleCollapse={() => toggleSectionCollapse("gasVehicleData")}
-					onNext={() => goToNextSection("gasVehicleData")}
-					isLastSection={false}
-					sectionIndex={formSectionOrder.indexOf("gasVehicleData")}
-					totalSections={formSectionOrder.length}
-				/>
-			) : watchedVehicleType === "electric" ? (
-				<ElectricVehicleDataSubForm
-					register={register}
-					errors={
-						errors as unknown as FieldErrors<Electric_Vehicle_For_DB_POST>
-					}
-					isCollapsed={collapsedSections.electricVehicleData}
-					onToggleCollapse={() => toggleSectionCollapse("electricVehicleData")}
-					onNext={() => goToNextSection("electricVehicleData")}
-					isLastSection={false}
-					sectionIndex={formSectionOrder.indexOf("electricVehicleData")}
-					totalSections={formSectionOrder.length}
-				/>
-			) : null}
+			{/* This part does a lot of heavy lifting
+			It's all the form sections, one for each sub-object of Vehicle */}
+			<FormSubSections
+				register={register}
+				errors={errors}
+				collapsedSections={collapsedSections}
+				toggleSectionCollapse={toggleSectionCollapse}
+				goToNextSection={goToNextSection}
+				formSectionOrder={formSectionOrder}
+				watchedVehicleType={watchedVehicleType}
+			/>
 
-			{/* User has to specify vehicle type (gas or electric) before seeing the rest of the form */}
-			{watchedVehicleType && (
-				<>
-					<VehicleDataSubForm
-						register={register}
-						errors={errors}
-						isCollapsed={collapsedSections.vehicleData}
-						onToggleCollapse={() => toggleSectionCollapse("vehicleData")}
-						onNext={() => goToNextSection("vehicleData")}
-						isLastSection={false}
-						sectionIndex={formSectionOrder.indexOf("vehicleData")}
-						totalSections={formSectionOrder.length}
-					/>
-					<PurchaseAndSalesSubForm
-						register={register}
-						errors={errors}
-						isCollapsed={collapsedSections.purchaseAndSales}
-						onToggleCollapse={() => toggleSectionCollapse("purchaseAndSales")}
-						onNext={() => goToNextSection("purchaseAndSales")}
-						isLastSection={false}
-						sectionIndex={formSectionOrder.indexOf("purchaseAndSales")}
-						totalSections={formSectionOrder.length}
-					/>
-					<UsageSubForm
-						register={register}
-						errors={errors}
-						isCollapsed={collapsedSections.usage}
-						onToggleCollapse={() => toggleSectionCollapse("usage")}
-						onNext={() => goToNextSection("usage")}
-						isLastSection={false}
-						sectionIndex={formSectionOrder.indexOf("usage")}
-						totalSections={formSectionOrder.length}
-					/>
-					<FixedCostsSubForm
-						register={register}
-						errors={errors}
-						isCollapsed={collapsedSections.fixedCosts}
-						onToggleCollapse={() => toggleSectionCollapse("fixedCosts")}
-						onNext={() => goToNextSection("fixedCosts")}
-						isLastSection={false}
-						sectionIndex={formSectionOrder.indexOf("fixedCosts")}
-						totalSections={formSectionOrder.length}
-					/>
-					<YearlyMaintenanceCostsSubForm
-						register={register}
-						errors={errors}
-						isCollapsed={collapsedSections.yearlyMaintenanceCosts}
-						onToggleCollapse={() =>
-							toggleSectionCollapse("yearlyMaintenanceCosts")
-						}
-						onNext={() => goToNextSection("yearlyMaintenanceCosts")}
-						isLastSection={false}
-						sectionIndex={formSectionOrder.indexOf("yearlyMaintenanceCosts")}
-						totalSections={formSectionOrder.length}
-					/>
-					<VariableCostsSubForm
-						register={register}
-						errors={errors}
-						isCollapsed={collapsedSections.variableCosts}
-						onToggleCollapse={() => toggleSectionCollapse("variableCosts")}
-						onNext={() => goToNextSection("variableCosts")}
-						isLastSection={true}
-						sectionIndex={formSectionOrder.indexOf("variableCosts")}
-						totalSections={formSectionOrder.length}
-					/>
-
-					<button
-						className="submit"
-						disabled={isSubmitting}
-						onClick={() => {
-							setisShowErrorSummary(errors ? true : false);
-						}}
-					>
-						{isSubmitting ? "Loading" : "Submit"}
-					</button>
-				</>
-			)}
+			<button
+				className="submit"
+				disabled={isSubmitting}
+				onClick={() => {
+					setisShowErrorSummary(errors ? true : false);
+				}}
+			>
+				{isSubmitting ? "Loading" : "Submit"}
+			</button>
 		</form>
 	);
 };
