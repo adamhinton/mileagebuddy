@@ -53,4 +53,68 @@ describe("FormSection.tsx", () => {
 		});
 		expect(screen.getByText("Test Section")).toBeInTheDocument();
 	});
+
+	it("displays the correct title and section index", () => {
+		renderFormSection({
+			title: "Custom Title",
+			sectionIndex: 1,
+			totalSections: 3,
+		});
+		expect(screen.getByText("Custom Title")).toBeInTheDocument();
+		expect(screen.getByText("2 of 3")).toBeInTheDocument();
+	});
+
+	it("calls onToggleCollapse when the header is clicked", () => {
+		const onToggleCollapse = jest.fn();
+		renderFormSection({ onToggleCollapse });
+		fireEvent.click(screen.getByText("Test Section"));
+		expect(onToggleCollapse).toHaveBeenCalled();
+	});
+
+	it("displays children when not collapsed", () => {
+		renderFormSection({ isCollapsed: "isNotCollapsed" });
+		expect(screen.getByText("Test Content")).toBeInTheDocument();
+	});
+
+	it("does not display children when collapsed", () => {
+		renderFormSection({ isCollapsed: "isCollapsed" });
+		expect(screen.queryByText("Test Content")).toBeNull();
+	});
+
+	// Not testing that it actually collapses here because that's dependent on a function passed in from the parent component
+	it("Calls onToggleCollapse when header is clicked", () => {
+		const onToggleCollapse = jest.fn();
+
+		renderFormSection({ onToggleCollapse });
+		fireEvent.click(screen.getByText("Test Section"));
+		expect(onToggleCollapse).toHaveBeenCalled();
+	});
+
+	it("displays the Next button when not the last section", () => {
+		renderFormSection({
+			isCollapsed: "isNotCollapsed",
+			isLastSection: false,
+		});
+		expect(screen.getByText("Next")).toBeVisible();
+	});
+
+	it("does not display the Next button when it is the last section", () => {
+		renderFormSection({
+			isCollapsed: "isNotCollapsed",
+			isLastSection: true,
+		});
+		expect(screen.queryByText("Next")).toBeNull();
+	});
+
+	// Not testing that the onNext actually does what it's supposed to because that is passed in from a parent component
+	it("calls onNext when the Next button is clicked", () => {
+		const onNext = jest.fn();
+		renderFormSection({
+			isCollapsed: "isNotCollapsed",
+			isLastSection: false,
+			onNext,
+		});
+		fireEvent.click(screen.getByText("Next"));
+		expect(onNext).toHaveBeenCalled();
+	});
 });
