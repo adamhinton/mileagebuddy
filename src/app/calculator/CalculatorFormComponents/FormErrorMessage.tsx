@@ -16,6 +16,11 @@ type ErrorMessageProps = {
 const FormErrorMessage = (props: ErrorMessageProps) => {
 	const { errorMessage, path } = props;
 
+	// This should never happen
+	if (errorMessage === "") {
+		return null;
+	}
+
 	return (
 		<p
 			className={`${tailWindClassNames.mileageCalcForm.FORM_ERROR_MESSAGE}`}

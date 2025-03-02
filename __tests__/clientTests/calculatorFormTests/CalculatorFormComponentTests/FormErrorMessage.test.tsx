@@ -28,4 +28,10 @@ describe("FormErrorMessage.tsx", () => {
 		const errorMessage = screen.getByTestId("electricVehicleData-error");
 		expect(errorMessage).toBeVisible();
 	});
+
+	// This should never happen
+	it("Does not render anything when errorMessage is an empty string", () => {
+		const { container } = render(<FormErrorMessage errorMessage="" />);
+		expect(container).toBeEmptyDOMElement();
+	});
 });
