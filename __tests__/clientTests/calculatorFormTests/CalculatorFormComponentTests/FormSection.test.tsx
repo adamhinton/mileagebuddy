@@ -42,16 +42,16 @@ const renderFormSection = ({
 };
 
 describe("FormSection.tsx", () => {
-	it("renders without crashing when not collapsed", () => {
+	it("renders without errors when not collapsed", () => {
 		renderFormSection({});
-		expect(screen.getByText("Test Section")).toBeInTheDocument();
+		expect(screen.getByText("Test Section")).toBeVisible();
 	});
 
-	it("renders without crashing when collapsed", () => {
+	it("renders without errors when collapsed", () => {
 		renderFormSection({
 			isCollapsed: "isCollapsed",
 		});
-		expect(screen.getByText("Test Section")).toBeInTheDocument();
+		expect(screen.getByText("Test Section")).toBeVisible();
 	});
 
 	it("displays the correct title and section index", () => {
