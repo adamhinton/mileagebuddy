@@ -14,7 +14,7 @@ import {
 	Gas_Vehicle_For_DB_POST,
 	Electric_Vehicle_For_DB_POST,
 } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
-import { createRef, useCallback, useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import mySubmitLogic from "./formActions";
 import { FieldErrors, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -137,8 +137,8 @@ const CalculateMileageForm = () => {
 	// Don't totally understand why this needs to be a useMemo, but linter yells at me in the useCallback below if I don't
 	const formSectionOrder = useMemo(() => {
 		const formSectionOrder: Readonly<CollapsibleSectionTitles[]> = [
-			"vehicleData",
 			watchedVehicleType === "gas" ? "gasVehicleData" : "electricVehicleData",
+			"vehicleData",
 			"purchaseAndSales",
 			"usage",
 			"fixedCosts",
