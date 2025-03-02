@@ -1,6 +1,6 @@
 //____________________________________
 // This is (obviously) tests for FormErrorMessage.test.tsx
-// The component is fairly simple
+// The component is very simple, so there's not much to test
 //____________________________________
 
 import FormErrorMessage from "@/app/calculator/CalculatorFormComponents/FormErrorMessage";
