@@ -99,7 +99,8 @@ const CalculateMileageForm = () => {
 		(sectionId: CollapsibleSectionTitles) => {
 			setCollapsedSections((prev) => ({
 				...prev,
-				[sectionId]: !prev[sectionId],
+				[sectionId]:
+					prev[sectionId] === "isCollapsed" ? "isNotCollapsed" : "isCollapsed",
 			}));
 		},
 		[]

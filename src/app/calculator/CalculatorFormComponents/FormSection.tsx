@@ -62,14 +62,12 @@ const FormSection = ({
 						</span>
 					)}
 					{isCompleted && <span className="ml-2 text-accent">✓</span>}
-
-					{/* TODO better chevron and space this out properly */}
-					{!isCollapsed ? <span>↑</span> : <span>↓</span>}
+					{isCollapsed === "isCollapsed" ? <span>↓</span> : <span>↑</span>}
 				</div>
 				{/* TODO up/down chevron icons */}
 			</button>
 
-			{!isCollapsed && (
+			{isCollapsed === "isNotCollapsed" && (
 				<div>
 					{children}
 
