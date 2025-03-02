@@ -14,7 +14,7 @@ import {
 	Gas_Vehicle_For_DB_POST,
 	Electric_Vehicle_For_DB_POST,
 } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
-import { useCallback, useMemo } from "react";
+import { useMemo } from "react";
 import mySubmitLogic from "./formActions";
 import { FieldErrors, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,6 +28,10 @@ import VariableCostsSubForm from "./CalculatorFormComponents/FormSubSections/Var
 import GasVehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/GasVehicleDataSubForm";
 import ElectricVehicleDataSubForm from "./CalculatorFormComponents/FormSubSections/ElectricVehicleDataSubForm";
 import FormErrorSummary from "./CalculatorFormComponents/FormErrorSummary";
+import {
+	CollapsibleSectionTitles,
+	useFormNavigation,
+} from "./calculatorUtils/FormNavUtils";
 
 // TODO:
 // Next buttons? Tie to (un)collapsing
@@ -53,13 +57,6 @@ import FormErrorSummary from "./CalculatorFormComponents/FormErrorSummary";
 
 // STRETCH:
 // Real time calculations? Maybe broken down by section.
-
-/**The names of the sub-objects of type Vehicle (excluding the three strings below), each of which is also the title of its respective collapsible form section */
-type CollapsibleSectionTitles = Exclude<
-	keyof Gas_Vehicle_For_DB_POST | keyof Electric_Vehicle_For_DB_POST,
-	// Every key of type Vehicle except these three
-	"userid" | "vehiclesOrder" | "type"
->;
 
 const CalculatorPage = () => {
 	return (
@@ -93,18 +90,6 @@ const CalculateMileageForm = () => {
 	});
 
 	console.log("collapsedSections in main fxn:", collapsedSections);
-
-	/**Toggle collapsed state of a section */
-	const toggleSectionCollapse = useCallback(
-		(sectionId: CollapsibleSectionTitles) => {
-			setCollapsedSections((prev) => ({
-				...prev,
-				[sectionId]:
-					prev[sectionId] === "isCollapsed" ? "isNotCollapsed" : "isCollapsed",
-			}));
-		},
-		[]
-	);
 
 	// Checkmark that user de-selects if they don't want to be auto-advanced to next section
 	const [autoAdvance, setAutoAdvance] = useState(true);
@@ -152,32 +137,10 @@ const CalculateMileageForm = () => {
 		return formSectionOrder;
 	}, [watchedVehicleType]);
 
-	// Functions to handle section navigation
-	const goToNextSection = useCallback(
-		(currentSectionId: CollapsibleSectionTitles) => {
-			const currentIndex = formSectionOrder.indexOf(currentSectionId);
-			if (currentIndex < formSectionOrder.length - 1) {
-				const nextSectionId = formSectionOrder[currentIndex + 1];
-				console.log("nextSectionId:", nextSectionId);
-				// Expand next section and collapse current (if desired)
-				setCollapsedSections((prev) => {
-					return {
-						...prev,
-						[currentSectionId]: "isCollapsed",
-						[nextSectionId]: "isNotCollapsed",
-					};
-				});
-
-				// Scroll to next section
-				setTimeout(() => {
-					const element = document.getElementById(nextSectionId);
-					if (element) {
-						element.scrollIntoView({ behavior: "smooth", block: "start" });
-					}
-				}, 100);
-			}
-		},
-		[formSectionOrder]
+	// Get form navigation utils from custom hook
+	const { goToNextSection, toggleSectionCollapse } = useFormNavigation(
+		formSectionOrder,
+		setCollapsedSections
 	);
 
 	console.log("formValues inside form before submit:", formValues);
