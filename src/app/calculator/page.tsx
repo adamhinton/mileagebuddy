@@ -54,6 +54,12 @@ import FormErrorSummary from "./CalculatorFormComponents/FormErrorSummary";
 // STRETCH:
 // Real time calculations? Maybe broken down by section.
 
+/**The names of the sub-objects of type Vehicle (excluding the three strings below), each of which is also the title of its respective collapsible form section */
+type CollapsibleSectionTitles = Exclude<
+	keyof Gas_Vehicle_For_DB_POST | keyof Electric_Vehicle_For_DB_POST,
+	"userid" | "vehiclesOrder" | "type"
+>;
+
 const CalculatorPage = () => {
 	return (
 		<section className="h-screen p-4 sm:p-6 md:p-8">
@@ -72,12 +78,7 @@ export default CalculatorPage;
 const CalculateMileageForm = () => {
 	// Determines whether each section is collapsed or not
 	const [collapsedSections, setCollapsedSections] = useState<
-		Record<
-			// This type is dumb, TODO fix it with an omit instead. It's because it doesn't recognize keys unique to gas or EVs if I just use keyof Vehicle_For_db_POST
-			keyof Gas_Vehicle_For_DB_POST | keyof Electric_Vehicle_For_DB_POST,
-			CollapsedOrNot
-		>
-		// @ts-expect-error I omitted irrelevant keys; TODO make better type for this and the other stuff in this file that uses the keyof thingy above
+		Record<CollapsibleSectionTitles, CollapsedOrNot>
 	>({
 		// Set initial collapsed state for each section (true = collapsed)
 		gasVehicleData: "isNotCollapsed",
@@ -92,11 +93,7 @@ const CalculateMileageForm = () => {
 
 	/**Toggle collapsed state of a section */
 	const toggleSectionCollapse = useCallback(
-		(
-			sectionId:
-				| keyof Gas_Vehicle_For_DB_POST
-				| keyof Electric_Vehicle_For_DB_POST
-		) => {
+		(sectionId: CollapsibleSectionTitles) => {
 			setCollapsedSections((prev) => ({
 				...prev,
 				[sectionId]: !prev[sectionId],
