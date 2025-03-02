@@ -71,17 +71,17 @@ const CalculatorPage = () => {
 	);
 };
 
+export default CalculatorPage;
+
 /**Better way of toggling collapsed state than true or false */
 export type CollapsedOrNot = "isCollapsed" | "isNotCollapsed";
-
-export default CalculatorPage;
 
 const CalculateMileageForm = () => {
 	// Determines whether each section is collapsed or not
 	const [collapsedSections, setCollapsedSections] = useState<
 		Record<CollapsibleSectionTitles, CollapsedOrNot>
 	>({
-		// Set initial collapsed state for each section (true = collapsed)
+		// Set initial collapsed state for each section except the first
 		gasVehicleData: "isNotCollapsed",
 		vehicleData: "isCollapsed",
 		electricVehicleData: "isCollapsed",
