@@ -39,8 +39,6 @@ import {
 // Note: VehicleToBePostedSchema is a union of GasVehicleSchemaForPOST and ElectricVehicleSchemaForPOST. Will have to do validation on one or the other based on user input, you can't do zod validation on a union type. but that shouldn't be too hard.
 
 // TODO:
-// Next buttons? Tie to (un)collapsing
-// // Maybe delete auto-advance checkbox if so
 // Edit functionality
 // Animations or something
 // Persist form data on page refresh
@@ -48,6 +46,7 @@ import {
 // // Figure out where to save these
 // // Make input default values actually save to form values; right now user has to tab over input
 // More tests
+// General styling improvements
 // Make this file a bit smaller, abstractify some stuff
 
 // SPECS:
@@ -109,7 +108,9 @@ const CalculateMileageForm = () => {
 	 */
 	const watchedVehicleType = watch("type");
 
-	/**The order form sections are listed in, for form navigation purposes */
+	/**The order form sections are listed in, for form navigation purposes
+	 * Not totally sure why I have to use useMemo, but the linter yelled at me until I did it this way
+	 */
 	const formSectionOrder = useMemo(() => {
 		const formSectionOrder: Readonly<CollapsibleSectionTitles[]> = [
 			watchedVehicleType === "gas" ? "gasVehicleData" : "electricVehicleData",
