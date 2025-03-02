@@ -14,7 +14,7 @@ import {
 	Gas_Vehicle_For_DB_POST,
 	Electric_Vehicle_For_DB_POST,
 } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
-import { useCallback } from "react";
+import { createRef, useCallback, useMemo } from "react";
 import mySubmitLogic from "./formActions";
 import { FieldErrors, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -129,14 +129,56 @@ const CalculateMileageForm = () => {
 	} = form;
 
 	const formValues = getValues();
+
+	// Using this instead of formValues.type because this way the form re-renders when watchedVehicleType changes
+	const watchedVehicleType = watch("type");
+
+	// The order form sections are displayed in
+	// Don't totally understand why this needs to be a useMemo, but linter yells at me in the useCallback below if I don't
+	const formSectionOrder = useMemo(() => {
+		const formSectionOrder: Readonly<CollapsibleSectionTitles[]> = [
+			"vehicleData",
+			watchedVehicleType === "gas" ? "gasVehicleData" : "electricVehicleData",
+			"purchaseAndSales",
+			"usage",
+			"fixedCosts",
+			"yearlyMaintenanceCosts",
+			"variableCosts",
+		] as const;
+
+		return formSectionOrder;
+	}, [watchedVehicleType]);
+
+	// Functions to handle section navigation
+	const goToNextSection = useCallback(
+		(currentSectionId: CollapsibleSectionTitles) => {
+			const currentIndex = formSectionOrder.indexOf(currentSectionId);
+			if (currentIndex < formSectionOrder.length - 1) {
+				const nextSectionId = formSectionOrder[currentIndex + 1];
+				// Expand next section and collapse current (if desired)
+				setCollapsedSections((prev) => ({
+					...prev,
+					[currentSectionId]: "isCollapsed",
+					[nextSectionId]: "isNotCollapsed",
+				}));
+
+				// Scroll to next section
+				setTimeout(() => {
+					const element = document.getElementById(nextSectionId);
+					if (element) {
+						element.scrollIntoView({ behavior: "smooth", block: "start" });
+					}
+				}, 100);
+			}
+		},
+		[formSectionOrder]
+	);
+
 	console.log("formValues inside form before submit:", formValues);
 	console.log("errors inside form before submit:", errors);
 
 	// Comes first by default
 	setValue("vehiclesOrder", 1);
-
-	// Using this instead of formValues.type because this way the form re-renders when watchedVehicleType changes
-	const watchedVehicleType = watch("type");
 
 	return (
 		<form onSubmit={handleSubmit(mySubmitLogic)}>
@@ -183,6 +225,10 @@ const CalculateMileageForm = () => {
 					errors={errors as unknown as FieldErrors<Gas_Vehicle_For_DB_POST>}
 					isCollapsed={collapsedSections.gasVehicleData}
 					onToggleCollapse={() => toggleSectionCollapse("gasVehicleData")}
+					onNext={() => goToNextSection("gasVehicleData")}
+					isLastSection={false}
+					sectionIndex={formSectionOrder.indexOf("gasVehicleData")}
+					totalSections={formSectionOrder.length}
 				/>
 			) : watchedVehicleType === "electric" ? (
 				<ElectricVehicleDataSubForm
@@ -192,6 +238,10 @@ const CalculateMileageForm = () => {
 					}
 					isCollapsed={collapsedSections.electricVehicleData}
 					onToggleCollapse={() => toggleSectionCollapse("electricVehicleData")}
+					onNext={() => goToNextSection("electricVehicleData")}
+					isLastSection={false}
+					sectionIndex={formSectionOrder.indexOf("electricVehicleData")}
+					totalSections={formSectionOrder.length}
 				/>
 			) : null}
 
@@ -205,24 +255,40 @@ const CalculateMileageForm = () => {
 						errors={errors}
 						isCollapsed={collapsedSections.vehicleData}
 						onToggleCollapse={() => toggleSectionCollapse("vehicleData")}
+						onNext={() => goToNextSection("vehicleData")}
+						isLastSection={false}
+						sectionIndex={formSectionOrder.indexOf("vehicleData")}
+						totalSections={formSectionOrder.length}
 					/>
 					<PurchaseAndSalesSubForm
 						register={register}
 						errors={errors}
 						isCollapsed={collapsedSections.purchaseAndSales}
 						onToggleCollapse={() => toggleSectionCollapse("purchaseAndSales")}
+						onNext={() => goToNextSection("purchaseAndSales")}
+						isLastSection={false}
+						sectionIndex={formSectionOrder.indexOf("purchaseAndSales")}
+						totalSections={formSectionOrder.length}
 					/>
 					<UsageSubForm
 						register={register}
 						errors={errors}
 						isCollapsed={collapsedSections.usage}
 						onToggleCollapse={() => toggleSectionCollapse("usage")}
+						onNext={() => goToNextSection("usage")}
+						isLastSection={false}
+						sectionIndex={formSectionOrder.indexOf("usage")}
+						totalSections={formSectionOrder.length}
 					/>
 					<FixedCostsSubForm
 						register={register}
 						errors={errors}
 						isCollapsed={collapsedSections.fixedCosts}
 						onToggleCollapse={() => toggleSectionCollapse("fixedCosts")}
+						onNext={() => goToNextSection("fixedCosts")}
+						isLastSection={false}
+						sectionIndex={formSectionOrder.indexOf("fixedCosts")}
+						totalSections={formSectionOrder.length}
 					/>
 					<YearlyMaintenanceCostsSubForm
 						register={register}
@@ -231,12 +297,20 @@ const CalculateMileageForm = () => {
 						onToggleCollapse={() =>
 							toggleSectionCollapse("yearlyMaintenanceCosts")
 						}
+						onNext={() => goToNextSection("yearlyMaintenanceCosts")}
+						isLastSection={false}
+						sectionIndex={formSectionOrder.indexOf("yearlyMaintenanceCosts")}
+						totalSections={formSectionOrder.length}
 					/>
 					<VariableCostsSubForm
 						register={register}
 						errors={errors}
 						isCollapsed={collapsedSections.variableCosts}
 						onToggleCollapse={() => toggleSectionCollapse("variableCosts")}
+						onNext={() => goToNextSection("variableCosts")}
+						isLastSection={true}
+						sectionIndex={formSectionOrder.indexOf("variableCosts")}
+						totalSections={formSectionOrder.length}
 					/>
 
 					<button

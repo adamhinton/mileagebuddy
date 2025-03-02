@@ -21,10 +21,24 @@ type Props = {
 	errors: FieldErrors<Electric_Vehicle_For_DB_POST>;
 	isCollapsed: CollapsedOrNot;
 	onToggleCollapse: () => void;
+	// These next four props are form navigation stuff
+	onNext: () => void;
+	isLastSection: boolean;
+	sectionIndex: number;
+	totalSections: number;
 };
 
 const ElectricVehicleDataSubForm = (props: Props) => {
-	const { register, errors, isCollapsed, onToggleCollapse } = props;
+	const {
+		register,
+		errors,
+		isCollapsed,
+		onToggleCollapse,
+		isLastSection,
+		sectionIndex,
+		totalSections,
+		onNext,
+	} = props;
 
 	return (
 		<FormSection
@@ -32,6 +46,10 @@ const ElectricVehicleDataSubForm = (props: Props) => {
 			id="electricVehicleData"
 			isCollapsed={isCollapsed}
 			onToggleCollapse={onToggleCollapse}
+			onNext={onNext}
+			isLastSection={isLastSection}
+			sectionIndex={sectionIndex}
+			totalSections={totalSections}
 		>
 			<MileageCalcFormNumInput
 				registerFn={register}

@@ -20,6 +20,14 @@ type FormSectionProps = {
 	isCollapsed: CollapsedOrNot;
 	onToggleCollapse: () => void;
 	id: keyof Gas_Vehicle_For_DB_POST | keyof Electric_Vehicle_For_DB_POST;
+	// These last four props are form navigation stuff
+	// onNext is what happens when user clicks the 'Next`
+	onNext: () => void;
+	// Is this the last section in the form
+	isLastSection: boolean;
+	// Which number section is it in the form (see formSectionOrder in page.tsx)
+	sectionIndex: number;
+	totalSections: number;
 };
 
 const FormSection = ({
@@ -29,6 +37,10 @@ const FormSection = ({
 	isCollapsed,
 	onToggleCollapse,
 	id,
+	onNext,
+	isLastSection = false,
+	sectionIndex,
+	totalSections,
 }: FormSectionProps) => {
 	return (
 		<section
@@ -44,6 +56,11 @@ const FormSection = ({
 					className={`${tailWindClassNames.mileageCalcForm.FORM_SECTION_HEADER}`}
 				>
 					<h3 className="text-lg font-medium text-neutral-text">{title}</h3>
+					{sectionIndex !== undefined && totalSections && (
+						<span className="text-sm text-neutral-text ml-2">
+							{sectionIndex + 1} of {totalSections}
+						</span>
+					)}
 					{isCompleted && <span className="ml-2 text-accent">✓</span>}
 
 					{/* TODO better chevron and space this out properly */}
@@ -53,10 +70,22 @@ const FormSection = ({
 			</button>
 
 			{!isCollapsed && (
-				<div
-					className={`${tailWindClassNames.mileageCalcForm.FORM_SECTION_CONTENT}`}
-				>
+				<div>
 					{children}
+
+					{/* Navigation controls at bottom */}
+					<div className="flex justify-end mt-4 space-x-2">
+						{/* Optional Previous button if needed */}
+						{onNext && !isLastSection && (
+							<button
+								type="button"
+								onClick={onNext}
+								className="px-4 py-2 bg-primary text-white rounded hover:bg-primary-600 focus:ring-2 focus:ring-primary focus:outline-none"
+							>
+								Next
+							</button>
+						)}
+					</div>
 				</div>
 			)}
 		</section>

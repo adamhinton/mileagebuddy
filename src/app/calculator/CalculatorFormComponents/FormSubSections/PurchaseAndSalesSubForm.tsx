@@ -18,10 +18,24 @@ type Props = {
 	errors: FieldErrors<Vehicle_For_db_POST>;
 	isCollapsed: CollapsedOrNot;
 	onToggleCollapse: () => void;
+	// These next four props are form navigation stuff
+	onNext: () => void;
+	isLastSection: boolean;
+	sectionIndex: number;
+	totalSections: number;
 };
 
 const PurchaseAndSalesSubForm = (props: Props) => {
-	const { register, errors, isCollapsed, onToggleCollapse } = props;
+	const {
+		register,
+		errors,
+		isCollapsed,
+		onToggleCollapse,
+		isLastSection,
+		sectionIndex,
+		totalSections,
+		onNext,
+	} = props;
 
 	// There is validation done to ensure that milesBoughtAt is less than or equal to willSellCarAtMiles. This is done in the zod schema at the object level (PurchaseAndSales) because it transcends two keys -- milesBoughtAt and willSellCarAtMiles. This is a little different from the other validations, which are done at the key level. Because of this, we need to check if the error is this specific error and display it differently. This is a little hacky but it works.
 	const hasBoughtAtLessThanSoldtAtError =
@@ -34,6 +48,10 @@ const PurchaseAndSalesSubForm = (props: Props) => {
 			id="purchaseAndSales"
 			isCollapsed={isCollapsed}
 			onToggleCollapse={onToggleCollapse}
+			onNext={onNext}
+			isLastSection={isLastSection}
+			sectionIndex={sectionIndex}
+			totalSections={totalSections}
 		>
 			<MileageCalcFormNumInput
 				registerFn={register}

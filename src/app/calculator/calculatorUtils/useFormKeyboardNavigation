@@ -1,0 +1,39 @@
+// README
+// This is (obviously) for a form with multiple sections. When the user presses Tab on the last input of a section, it will automatically move to the first input of the next section. This is a hook that can be used in any component that has multiple sections with inputs.
+
+import { useEffect } from "react";
+
+// New hook in a separate file
+const useFormKeyboardNavigation = (
+	sectionRefs: React.RefObject<HTMLDivElement>[],
+	goToNextSection: (currentIndex: number) => void
+) => {
+	useEffect(() => {
+		// Capture Tab key on the last input of each section
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === "Tab" && !e.shiftKey) {
+				const activeElement = document.activeElement;
+
+				// Check if the active element is the last input in any section
+				sectionRefs.forEach((ref, index) => {
+					if (!ref.current) return;
+
+					const inputs = ref.current.querySelectorAll(
+						"input, select, textarea"
+					);
+					if (
+						inputs.length > 0 &&
+						inputs[inputs.length - 1] === activeElement
+					) {
+						// This is the last input in this section
+						goToNextSection(index);
+						e.preventDefault(); // Prevent default tab behavior
+					}
+				});
+			}
+		};
+
+		document.addEventListener("keydown", handleKeyDown);
+		return () => document.removeEventListener("keydown", handleKeyDown);
+	}, [sectionRefs, goToNextSection]);
+};
