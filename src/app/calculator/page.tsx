@@ -161,15 +161,12 @@ const CalculateMileageForm = () => {
 				console.log("nextSectionId:", nextSectionId);
 				// Expand next section and collapse current (if desired)
 				setCollapsedSections((prev) => {
-					console.log("prev:", prev);
 					return {
 						...prev,
 						[currentSectionId]: "isCollapsed",
 						[nextSectionId]: "isNotCollapsed",
 					};
 				});
-
-				console.log("collapsedSections:", collapsedSections);
 
 				// Scroll to next section
 				setTimeout(() => {
