@@ -17,4 +17,15 @@ describe("FormErrorMessage.tsx", () => {
 		const errorMessage = screen.getByText("Test Error Message");
 		expect(errorMessage).toBeVisible();
 	});
+
+	it("Has the correct testid derived from path if path is passed in", () => {
+		render(
+			<FormErrorMessage
+				errorMessage="Test Error Message"
+				path="electricVehicleData"
+			/>
+		);
+		const errorMessage = screen.getByTestId("electricVehicleData-error");
+		expect(errorMessage).toBeVisible();
+	});
 });
