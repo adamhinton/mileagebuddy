@@ -38,6 +38,22 @@ import {
 // Use Vehicle_For_DB_PATCH and VehicleSchemaForPATCH when editing a vehicle using this form
 // Note: VehicleToBePostedSchema is a union of GasVehicleSchemaForPOST and ElectricVehicleSchemaForPOST. Will have to do validation on one or the other based on user input, you can't do zod validation on a union type. but that shouldn't be too hard.
 
+// TODO:
+// Next buttons? Tie to (un)collapsing
+// // Maybe delete auto-advance checkbox if so
+// Edit functionality
+// Animations or something
+// Persist form data on page refresh
+// Default values:
+// // Figure out where to save these
+// // Make input default values actually save to form values; right now user has to tab over input
+// More tests
+// Make this file a bit smaller, abstractify some stuff
+
+// SPECS:
+// Stretch: optimistic UI updates
+// Specifics of form inputs:
+
 /**Better way of toggling collapsed state than true or false */
 export type CollapsedOrNot = "isCollapsed" | "isNotCollapsed";
 
