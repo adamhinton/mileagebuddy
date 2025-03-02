@@ -70,6 +70,7 @@ export type CollapsedOrNot = "isCollapsed" | "isNotCollapsed";
 export default CalculatorPage;
 
 const CalculateMileageForm = () => {
+	// Determines whether each section is collapsed or not
 	const [collapsedSections, setCollapsedSections] = useState<
 		Record<
 			// This type is dumb, TODO fix it with an omit instead. It's because it doesn't recognize keys unique to gas or EVs if I just use keyof Vehicle_For_db_POST
@@ -88,8 +89,6 @@ const CalculateMileageForm = () => {
 		yearlyMaintenanceCosts: "isCollapsed",
 		variableCosts: "isCollapsed",
 	});
-
-	console.log("collapsedSections:", collapsedSections);
 
 	/**Toggle collapsed state of a section */
 	const toggleSectionCollapse = useCallback(
