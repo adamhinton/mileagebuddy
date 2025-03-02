@@ -57,6 +57,7 @@ import FormErrorSummary from "./CalculatorFormComponents/FormErrorSummary";
 /**The names of the sub-objects of type Vehicle (excluding the three strings below), each of which is also the title of its respective collapsible form section */
 type CollapsibleSectionTitles = Exclude<
 	keyof Gas_Vehicle_For_DB_POST | keyof Electric_Vehicle_For_DB_POST,
+	// Every key of type Vehicle except these three
 	"userid" | "vehiclesOrder" | "type"
 >;
 
