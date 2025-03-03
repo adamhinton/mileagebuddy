@@ -22,6 +22,7 @@ import {
 	useFormNavigation,
 } from "./calculatorUtils/FormNavUtils";
 import FormSubSections from "./CalculatorFormComponents/AllFormSubSections";
+import ClearFormButton from "./CalculatorFormComponents/ClearFormButton";
 
 // TYPES/VALIDATION
 // Vehicle is DeepReadOnly right now, need to make mutable version for this which will be easy
@@ -33,7 +34,6 @@ import FormSubSections from "./CalculatorFormComponents/AllFormSubSections";
 // Edit functionality
 // Animations or something
 // Persist form data on page refresh
-// Clear form functionality
 // Default values:
 // // Figure out where to save these
 // // Make input default values actually save to form values; right now user has to tab over input
@@ -43,7 +43,6 @@ import FormSubSections from "./CalculatorFormComponents/AllFormSubSections";
 // Make formNav options one object with four properties: type FormNavOptions = { goToNextSection: () => void, toggleSectionCollapse: () => void, etc. }
 // Make CollapsibleSectionTitles type a tuple of literals so as to be the one source of truth for the order
 
-// SPECS:
 // Stretch: optimistic UI updates
 // Specifics of form inputs:
 
@@ -91,10 +90,19 @@ const CalculateMileageForm = () => {
 		setValue,
 		getValues,
 		watch,
+		reset,
 		formState: { errors, isSubmitting },
 	} = form;
 
 	const formValues = getValues();
+
+	/**Wrapper to give this a clearer name
+	 *
+	 *
+	 */
+	const clearAllFormValues = () => {
+		reset();
+	};
 
 	/**Changes the displayed form section when user indicates that they have a gas or EV
 	 *
@@ -134,6 +142,9 @@ const CalculateMileageForm = () => {
 	return (
 		<form onSubmit={handleSubmit(mySubmitLogic)}>
 			{isShowErrorSummary && <FormErrorSummary errors={errors} />}
+
+			{/* User can click this to clear all form values */}
+			<ClearFormButton onClick={clearAllFormValues} />
 
 			<div className="ml-4">
 				<label className="mr-4">
