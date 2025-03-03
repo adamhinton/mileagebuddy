@@ -121,7 +121,6 @@ export const PurchaseAndSalesSchema = z
 	.describe("Purchase and Sales")
 	.refine(
 		(data) => {
-			console.log("refining");
 			return data.milesBoughtAt <= data.willSellCarAtMiles;
 		},
 		{ message: boughtAtLessThanSoldAtError, path: ["milesBoughtAt"] }

@@ -524,11 +524,6 @@ describe("POST /api/vehicles", () => {
 		};
 		(createClientSSROnly as jest.Mock).mockReturnValue(supabase);
 
-		console.log(
-			"vehicleWithNullGasVehicleData:",
-			vehicleWithNullGasVehicleData
-		);
-
 		const request = {
 			json: jest.fn().mockResolvedValue(vehicleWithNullGasVehicleData),
 			body: vehicleWithNullGasVehicleData,

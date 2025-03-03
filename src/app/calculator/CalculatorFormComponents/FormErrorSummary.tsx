@@ -23,8 +23,6 @@ const FormErrorSummary = (props: Props) => {
 
 	const errorLinks = extractErrorMessages(errors);
 
-	console.log("errorLinks in FormErrorSummary:", errorLinks);
-
 	// This displays the names of the first three sections that have errors
 	// Clicking on the name will scroll the user to that section
 	// TODO expand the relevant section on click (or on submit) --- WIP

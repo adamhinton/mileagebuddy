@@ -35,10 +35,8 @@ export const useFormNavigation = (
 			// If the current section is not the last section
 			if (currentIndex < formSectionOrder.length - 1) {
 				const nextSectionId = formSectionOrder[currentIndex + 1];
-				console.log("nextSectionId:", nextSectionId);
 				// Expand next section and collapse current
 				setCollapsedSections((prev) => {
-					console.log("prev:", prev);
 					return {
 						...prev,
 						[currentSectionId]: "isCollapsed",

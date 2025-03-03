@@ -308,12 +308,6 @@ export default function Page() {
 
 			<button
 				onClick={async () => {
-					// const res = await fetch("api/vehicles?userid=1", {
-					// 	method: "GET",
-					// });
-					// const data: Vehicles = await res.json();
-					// console.log("data from GET vehicles:", data);
-
 					if (!loggedInUser) {
 						console.error("No logged in user to GET vehicles for");
 						return;

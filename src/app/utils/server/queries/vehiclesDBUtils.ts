@@ -187,9 +187,6 @@ const addNewVehicleToDB = async (
 	} = body;
 
 	try {
-		// const isSafe = VehicleToBePostedSchema.safeParse(body);
-		// console.log("isSafe in addNewVehicleToDB:", isSafe);
-
 		// Wrote db function insert_vehicle_function.sql for this
 		const { data, error } = await supabase.rpc("insert_vehicle", {
 			// These parameter names had to be all lower case to play nice with SQL
