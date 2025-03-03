@@ -46,6 +46,7 @@ import ClearFormButton from "./CalculatorFormComponents/ClearFormButton";
 // Stretch: optimistic UI updates
 // Specifics of form inputs:
 
+/** Prevent typos by making sure localStorage persisted data is always accessed the same way */
 const LOCAL_STORAGE_FORM_DATA_KEY = "mileageFormData";
 
 /**Better way of toggling collapsed state than true or false */
