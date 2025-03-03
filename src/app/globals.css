@@ -62,11 +62,12 @@
 		@apply md:w-48 md:h-8 md:p-4;
 	}
 
-	/* Each of these corresponds to a Vehicle sub-object */
+	/* Each of these corresponds to a Vehicle sub-object. These sections are collapsible */
 	.mileage-calc-form-section {
 		@apply mb-4 border border-primary-100 
-  rounded-lg overflow-hidden 
-  transition-all duration-200;
+    rounded-lg overflow-hidden 
+    shadow-sm hover:shadow
+		transition-all duration-300;
 
 		@apply sm:mb-6;
 		@apply md:mb-8;
