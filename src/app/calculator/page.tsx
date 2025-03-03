@@ -140,7 +140,6 @@ const CalculateMileageForm = () => {
 	const mySubmitLogic: SubmitHandler<Vehicle_For_db_POST> = async (
 		formData
 	) => {
-		// use server may not work here
 		console.log("formData:", formData);
 
 		// When you write the code to send the form data to the server, make sure to call clearAllFormValues() AFTER the server responds with a success
