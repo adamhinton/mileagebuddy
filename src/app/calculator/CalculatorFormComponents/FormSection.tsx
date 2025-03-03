@@ -27,7 +27,7 @@ export type FormSectionProps = {
 	// Is this the last section in the form
 	isLastSection: boolean;
 	// Which number section is it in the form (see formSectionOrder in page.tsx)
-	sectionIndex: number;
+	sectionIndex: number; // 0-indexed
 	totalSections: number;
 };
 
