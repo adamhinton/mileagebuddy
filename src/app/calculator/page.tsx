@@ -124,14 +124,14 @@ const CalculateMileageForm = () => {
 	}, [watch]); // watch function from react-hook-form is stable
 
 	/**Wrapper to give this a clearer name
-	 *
-	 *
+	 * Clears all form values and removes persisted form data from localStorage
 	 */
 	const clearAllFormValues = () => {
-		console.log("Clearing form values");
-		reset();
-		// All inputs are persisted in localStorage, so remove those too
+		// Remove persisted form data
 		localStorage.removeItem(LOCAL_STORAGE_FORM_DATA_KEY);
+
+		// Reset all form values
+		reset({}); // Pass empty object to reset all fields to undefined
 	};
 
 	// TODO: Flesh out onSubmit. Shouldn't be hard, just pass it to POST function. Maybe we need to specify this lives on the server?
