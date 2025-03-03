@@ -7,15 +7,16 @@
 // Also calculates the cost of any additional miles driven.
 // Form validation will be done by Zod.
 // Errors: Form displays input errors next to each input (if there is an error), as well as a summary of the first three sections with errors at the top of the form.
+// Persistence: If user navigates away or exits the page before finishing the form, the form state is saved to localStorage and restored when user returns.
+// User can also clear the form with a button.
 
-import { useState, useMemo } from "react";
-import { useForm } from "react-hook-form";
+import { useState, useMemo, useEffect } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	Vehicle_For_db_POST,
 	VehicleToBePostedSchema,
 } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
-import mySubmitLogic from "./formActions";
 import FormErrorSummary from "./CalculatorFormComponents/FormErrorSummary";
 import {
 	CollapsibleSectionTitles,
@@ -77,10 +78,14 @@ const CalculateMileageForm = () => {
 	/**Shows bullet-pointed errors at top of form after user hits submit */
 	const [isShowErrorSummary, setisShowErrorSummary] = useState(false);
 
+	const savedLocalStorageValues = getSavedValuesFromLocalStorage();
+
 	// Form setup
 	const form = useForm<Vehicle_For_db_POST>({
 		// This is how you tell rhf to use zod for validation
 		resolver: zodResolver(VehicleToBePostedSchema),
+		// If user navigated away from page before submitting and comes back, restore form data
+		defaultValues: savedLocalStorageValues,
 	});
 
 	const {
@@ -95,12 +100,44 @@ const CalculateMileageForm = () => {
 
 	const formValues = getValues();
 
+	// For persisting form data in localStorage
+	// const watchAllFields = watch(); // Watch all fields
+
+	// Every time user changes a form value, save it to localStorage
+	// This will be loaded back into the form if user navigates away and comes back
+	useEffect(() => {
+		const subscription = watch((value) => {
+			// Only persist if we have values
+			if (Object.keys(value).length > 0) {
+				localStorage.setItem("mileageFormData", JSON.stringify(value));
+			}
+		});
+
+		// Cleanup subscription on unmount
+		return () => subscription.unsubscribe();
+	}, [watch]); // watch function from react-hook-form is stable
+
 	/**Wrapper to give this a clearer name
 	 *
 	 *
 	 */
 	const clearAllFormValues = () => {
 		reset();
+		// All inputs are persisted in localStorage, so remove those too
+		localStorage.removeItem("mileageFormData");
+	};
+
+	// TODO: Flesh out onSubmit. Shouldn't be hard, just pass it to POST function. Maybe we need to specify this lives on the server?
+	// Note: r-h-f does Zod validation automatically so we don't need to instate that manually
+	// This runs after form validation has succeeded so we're safe to clear form values
+	const mySubmitLogic: SubmitHandler<Vehicle_For_db_POST> = async (
+		formData
+	) => {
+		// use server may not work here
+		console.log("formData:", formData);
+
+		// When you write the code to send the form data to the server, make sure to call clearAllFormValues() AFTER the server responds with a success
+		clearAllFormValues();
 	};
 
 	/**Changes the displayed form section when user indicates that they have a gas or EV
@@ -192,3 +229,15 @@ const CalculateMileageForm = () => {
 };
 
 export default CalculatorPage;
+
+const getSavedValuesFromLocalStorage = () => {
+	const savedData = localStorage.getItem("mileageFormData");
+	if (savedData) {
+		try {
+			return JSON.parse(savedData);
+		} catch (e) {
+			console.error("Error parsing saved form data:", e);
+		}
+	}
+	return {};
+};
