@@ -33,11 +33,9 @@ import ClearFormButton from "./CalculatorFormComponents/ClearFormButton";
 
 // TODO:
 // Edit functionality
-// Persist form data on page refresh
 // Default values:
 // // Figure out where to save these
 // // Make input default values actually save to form values; right now user has to tab over input
-// More tests
 // General styling improvements. Animations, transitions etc
 // Make this file a bit smaller, abstractify some stuff
 // Make formNav options one object with four properties: type FormNavOptions = { goToNextSection: () => void, toggleSectionCollapse: () => void, etc. }
