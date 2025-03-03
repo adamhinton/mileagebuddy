@@ -15,14 +15,14 @@ const renderFormSection = ({
 	children = <div>Test Content</div>,
 	isCompleted = false,
 	// This is a union type that can be either "isCollapsed" or "isNotCollapsed"
-	isCollapsed = "isNotCollapsed" as const,
+	isCollapsed = "isCollapsed" as const,
 	onToggleCollapse = jest.fn(),
 	id = "vehicleData" as const,
 	onNext = jest.fn(),
 	isLastSection = false,
 	sectionIndex = 0,
 	totalSections = 1,
-	// Partial because we have default values for all props, so we only need to pass in things we're changing
+	// Partial for this test because we have default testing values for all props, so we only need to pass in things we're changing from the default
 }: Partial<FormSectionProps>) => {
 	return render(
 		<FormSection
