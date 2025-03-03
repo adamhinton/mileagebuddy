@@ -33,6 +33,7 @@ import FormSubSections from "./CalculatorFormComponents/AllFormSubSections";
 // Edit functionality
 // Animations or something
 // Persist form data on page refresh
+// Clear form functionality
 // Default values:
 // // Figure out where to save these
 // // Make input default values actually save to form values; right now user has to tab over input
@@ -40,7 +41,7 @@ import FormSubSections from "./CalculatorFormComponents/AllFormSubSections";
 // General styling improvements
 // Make this file a bit smaller, abstractify some stuff
 // Make formNav options one object with four properties: type FormNavOptions = { goToNextSection: () => void, toggleSectionCollapse: () => void, etc. }
-// Make CollapsibleSectionTitles type a tuple of literals so as to be the one source of truth for the order of form sections
+// Make CollapsibleSectionTitles type a tuple of literals so as to be the one source of truth for the order
 
 // SPECS:
 // Stretch: optimistic UI updates
