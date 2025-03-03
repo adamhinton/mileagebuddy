@@ -46,6 +46,8 @@ import ClearFormButton from "./CalculatorFormComponents/ClearFormButton";
 // Stretch: optimistic UI updates
 // Specifics of form inputs:
 
+const LOCAL_STORAGE_FORM_DATA_KEY = "mileageFormData";
+
 /**Better way of toggling collapsed state than true or false */
 export type CollapsedOrNot = "isCollapsed" | "isNotCollapsed";
 
@@ -109,7 +111,10 @@ const CalculateMileageForm = () => {
 		const subscription = watch((value) => {
 			// Only persist if we have values
 			if (Object.keys(value).length > 0) {
-				localStorage.setItem("mileageFormData", JSON.stringify(value));
+				localStorage.setItem(
+					LOCAL_STORAGE_FORM_DATA_KEY,
+					JSON.stringify(value)
+				);
 			}
 		});
 
@@ -122,9 +127,10 @@ const CalculateMileageForm = () => {
 	 *
 	 */
 	const clearAllFormValues = () => {
+		console.log("Clearing form values");
 		reset();
 		// All inputs are persisted in localStorage, so remove those too
-		localStorage.removeItem("mileageFormData");
+		localStorage.removeItem(LOCAL_STORAGE_FORM_DATA_KEY);
 	};
 
 	// TODO: Flesh out onSubmit. Shouldn't be hard, just pass it to POST function. Maybe we need to specify this lives on the server?
@@ -231,7 +237,7 @@ const CalculateMileageForm = () => {
 export default CalculatorPage;
 
 const getSavedValuesFromLocalStorage = () => {
-	const savedData = localStorage.getItem("mileageFormData");
+	const savedData = localStorage.getItem(LOCAL_STORAGE_FORM_DATA_KEY);
 	if (savedData) {
 		try {
 			return JSON.parse(savedData);
