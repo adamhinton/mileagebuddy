@@ -40,6 +40,7 @@ import FormSubSections from "./CalculatorFormComponents/AllFormSubSections";
 // General styling improvements
 // Make this file a bit smaller, abstractify some stuff
 // Make formNav options one object with four properties: type FormNavOptions = { goToNextSection: () => void, toggleSectionCollapse: () => void, etc. }
+// Make CollapsibleSectionTitles type a tuple of literals so as to be the one source of truth for the order of form sections
 
 // SPECS:
 // Stretch: optimistic UI updates
