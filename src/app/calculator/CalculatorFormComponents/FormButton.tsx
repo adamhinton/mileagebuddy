@@ -28,7 +28,6 @@ type FormButtonPropsBase = {
 	/** Button text */
 	text: string;
 	variant?: ButtonVariant;
-	/** Disable the button */
 	isDisabled?: boolean;
 	className?: string;
 	ariaLabel?: string;
