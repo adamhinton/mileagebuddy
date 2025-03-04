@@ -24,6 +24,7 @@ import {
 } from "./calculatorUtils/FormNavUtils";
 import FormSubSections from "./CalculatorFormComponents/AllFormSubSections";
 import ClearFormButton from "./CalculatorFormComponents/ClearFormButton";
+import getSavedFormValuesFromLocalStorage from "./calculatorUtils/getSavedFormValuesFromLocalStorage";
 
 // TYPES/VALIDATION
 // Vehicle is DeepReadOnly right now, need to make mutable version for this which will be easy
@@ -45,7 +46,7 @@ import ClearFormButton from "./CalculatorFormComponents/ClearFormButton";
 // Specifics of form inputs:
 
 /** Prevent typos by making sure localStorage persisted data is always accessed the same way */
-const LOCAL_STORAGE_FORM_DATA_KEY = "mileageFormData";
+export const LOCAL_STORAGE_FORM_DATA_KEY = "mileageFormData";
 
 /**Better way of toggling collapsed state than true or false */
 export type CollapsedOrNot = "isCollapsed" | "isNotCollapsed";
@@ -79,7 +80,7 @@ const CalculateMileageForm = () => {
 	/**Shows bullet-pointed errors at top of form after user hits submit */
 	const [isShowErrorSummary, setisShowErrorSummary] = useState(false);
 
-	const savedLocalStorageValues = getSavedValuesFromLocalStorage();
+	const savedLocalStorageValues = getSavedFormValuesFromLocalStorage();
 
 	// Form setup
 	const form = useForm<Vehicle_For_db_POST>({
@@ -233,15 +234,3 @@ const CalculateMileageForm = () => {
 };
 
 export default CalculatorPage;
-
-const getSavedValuesFromLocalStorage = () => {
-	const savedData = localStorage.getItem(LOCAL_STORAGE_FORM_DATA_KEY);
-	if (savedData) {
-		try {
-			return JSON.parse(savedData);
-		} catch (e) {
-			console.error("Error parsing saved form data:", e);
-		}
-	}
-	return {};
-};
