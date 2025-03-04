@@ -365,6 +365,7 @@ describe("POST /api/vehicles", () => {
 		const mockInsertVehicleWithoutAllFields = {
 			userid: "1",
 			type: "gas",
+			// @ts-expect-error - intentionally missing required fields
 			gasVehicleData: completeMockVehicle.gasVehicleData,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
 			usage: completeMockVehicle.usage,
@@ -526,8 +527,6 @@ describe("POST /api/vehicles", () => {
 		} as unknown as NextRequest;
 
 		const response = await POST(request);
-
-		console.log("response in TEST:", response);
 
 		const responseData = await response.json();
 
