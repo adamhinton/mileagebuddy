@@ -18,11 +18,12 @@ const renderFormSection = ({
 	isCollapsed = "isCollapsed" as const,
 	onToggleCollapse = jest.fn(),
 	id = "vehicleData" as const,
-	onNext = jest.fn(),
-	isLastSection = false,
-	sectionIndex = 0,
-	totalSections = 1,
-	// Partial for this test because we have default testing values for all props, so we only need to pass in things we're changing from the default
+	formNavOptions = {
+		onNext: jest.fn(),
+		isLastSection: false,
+		sectionIndex: 0,
+		totalSections: 1,
+	},
 }: Partial<FormSectionProps>) => {
 	return render(
 		<FormSection
@@ -31,10 +32,7 @@ const renderFormSection = ({
 			isCollapsed={isCollapsed}
 			onToggleCollapse={onToggleCollapse}
 			id={id}
-			onNext={onNext}
-			isLastSection={isLastSection}
-			sectionIndex={sectionIndex}
-			totalSections={totalSections}
+			formNavOptions={formNavOptions}
 		>
 			{children}
 		</FormSection>
@@ -57,8 +55,12 @@ describe("FormSection.tsx", () => {
 	it("displays the correct title and section index", () => {
 		renderFormSection({
 			title: "Custom Title",
-			sectionIndex: 1,
-			totalSections: 3,
+			formNavOptions: {
+				onNext: jest.fn(),
+				isLastSection: false,
+				sectionIndex: 1,
+				totalSections: 3,
+			},
 		});
 		expect(screen.getByText("Custom Title")).toBeInTheDocument();
 		expect(screen.getByText("2 of 3")).toBeInTheDocument();
@@ -93,7 +95,12 @@ describe("FormSection.tsx", () => {
 	it("displays the Next button when not the last section", () => {
 		renderFormSection({
 			isCollapsed: "isNotCollapsed",
-			isLastSection: false,
+			formNavOptions: {
+				onNext: jest.fn(),
+				isLastSection: false,
+				sectionIndex: 0,
+				totalSections: 1,
+			},
 		});
 		expect(screen.getByText("Next")).toBeVisible();
 	});
@@ -101,7 +108,12 @@ describe("FormSection.tsx", () => {
 	it("does not display the Next button when it is the last section", () => {
 		renderFormSection({
 			isCollapsed: "isNotCollapsed",
-			isLastSection: true,
+			formNavOptions: {
+				onNext: jest.fn(),
+				isLastSection: true,
+				sectionIndex: 0,
+				totalSections: 1,
+			},
 		});
 		expect(screen.queryByText("Next")).toBeNull();
 	});
@@ -111,8 +123,12 @@ describe("FormSection.tsx", () => {
 		const onNext = jest.fn();
 		renderFormSection({
 			isCollapsed: "isNotCollapsed",
-			isLastSection: false,
-			onNext,
+			formNavOptions: {
+				onNext: onNext,
+				isLastSection: false,
+				sectionIndex: 0,
+				totalSections: 1,
+			},
 		});
 		fireEvent.click(screen.getByText("Next"));
 		expect(onNext).toHaveBeenCalled();
