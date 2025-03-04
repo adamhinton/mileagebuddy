@@ -24,7 +24,10 @@ export type FormSectionProps = {
 	formNavOptions: FormNavigationOptions;
 };
 
-/**Utils passed in to relevant form sections for form UI navigation */
+/**Utils passed in to relevant form sections for form UI navigation
+ *
+ * I put these all in one object to make it clear what they're for.
+ */
 export type FormNavigationOptions = {
 	// onNext is what happens when user clicks 'Next` to navigate to next form section
 	onNext: () => void;
