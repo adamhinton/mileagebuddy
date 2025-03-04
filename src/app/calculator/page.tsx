@@ -43,7 +43,6 @@ import getSavedFormValuesFromLocalStorage from "./calculatorUtils/getSavedFormVa
 // Make CollapsibleSectionTitles type a tuple of literals so as to be the one source of truth for the order
 
 // Stretch: optimistic UI updates
-// Specifics of form inputs:
 
 /** Prevent typos by making sure localStorage persisted data is always accessed the same way */
 export const LOCAL_STORAGE_FORM_DATA_KEY = "mileageFormData";
