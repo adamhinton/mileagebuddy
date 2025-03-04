@@ -21,7 +21,7 @@ type ConfirmationDialogOptions = {
 /**
  * Base props shared by all button configurations
  *
- * Don't use this type. It's extended to make different config options. Use FormButtonProps instead.
+ * Don't use this type. It's extended to make different config options. Use FormButtonProps instead. This type would allow invalid states.
  */
 type FormButtonPropsBase = {
 	onClick: () => void;
