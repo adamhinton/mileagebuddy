@@ -47,10 +47,12 @@ const FormSubSections = ({
 					errors={errors as unknown as FieldErrors<Gas_Vehicle_For_DB_POST>}
 					isCollapsed={collapsedSections.gasVehicleData}
 					onToggleCollapse={() => toggleSectionCollapse("gasVehicleData")}
-					onNext={() => goToNextSection("gasVehicleData")}
-					isLastSection={false}
-					sectionIndex={formSectionOrder.indexOf("gasVehicleData")}
-					totalSections={formSectionOrder.length}
+					formNavOptions={{
+						onNext: () => goToNextSection("gasVehicleData"),
+						isLastSection: false,
+						sectionIndex: formSectionOrder.indexOf("gasVehicleData"),
+						totalSections: formSectionOrder.length,
+					}}
 				/>
 			) : watchedVehicleType === "electric" ? (
 				<ElectricVehicleDataSubForm
@@ -60,10 +62,12 @@ const FormSubSections = ({
 					}
 					isCollapsed={collapsedSections.electricVehicleData}
 					onToggleCollapse={() => toggleSectionCollapse("electricVehicleData")}
-					onNext={() => goToNextSection("electricVehicleData")}
-					isLastSection={false}
-					sectionIndex={formSectionOrder.indexOf("electricVehicleData")}
-					totalSections={formSectionOrder.length}
+					formNavOptions={{
+						onNext: () => goToNextSection("electricVehicleData"),
+						isLastSection: false,
+						sectionIndex: formSectionOrder.indexOf("electricVehicleData"),
+						totalSections: formSectionOrder.length,
+					}}
 				/>
 			) : null}
 
@@ -75,40 +79,48 @@ const FormSubSections = ({
 						errors={errors}
 						isCollapsed={collapsedSections.vehicleData}
 						onToggleCollapse={() => toggleSectionCollapse("vehicleData")}
-						onNext={() => goToNextSection("vehicleData")}
-						isLastSection={false}
-						sectionIndex={formSectionOrder.indexOf("vehicleData")}
-						totalSections={formSectionOrder.length}
+						formNavOptions={{
+							onNext: () => goToNextSection("vehicleData"),
+							isLastSection: false,
+							sectionIndex: formSectionOrder.indexOf("vehicleData"),
+							totalSections: formSectionOrder.length,
+						}}
 					/>
 					<PurchaseAndSalesSubForm
 						register={register}
 						errors={errors}
 						isCollapsed={collapsedSections.purchaseAndSales}
 						onToggleCollapse={() => toggleSectionCollapse("purchaseAndSales")}
-						onNext={() => goToNextSection("purchaseAndSales")}
-						isLastSection={false}
-						sectionIndex={formSectionOrder.indexOf("purchaseAndSales")}
-						totalSections={formSectionOrder.length}
+						formNavOptions={{
+							onNext: () => goToNextSection("purchaseAndSales"),
+							isLastSection: false,
+							sectionIndex: formSectionOrder.indexOf("purchaseAndSales"),
+							totalSections: formSectionOrder.length,
+						}}
 					/>
 					<UsageSubForm
 						register={register}
 						errors={errors}
 						isCollapsed={collapsedSections.usage}
 						onToggleCollapse={() => toggleSectionCollapse("usage")}
-						onNext={() => goToNextSection("usage")}
-						isLastSection={false}
-						sectionIndex={formSectionOrder.indexOf("usage")}
-						totalSections={formSectionOrder.length}
+						formNavOptions={{
+							onNext: () => goToNextSection("usage"),
+							isLastSection: false,
+							sectionIndex: formSectionOrder.indexOf("usage"),
+							totalSections: formSectionOrder.length,
+						}}
 					/>
 					<FixedCostsSubForm
 						register={register}
 						errors={errors}
 						isCollapsed={collapsedSections.fixedCosts}
 						onToggleCollapse={() => toggleSectionCollapse("fixedCosts")}
-						onNext={() => goToNextSection("fixedCosts")}
-						isLastSection={false}
-						sectionIndex={formSectionOrder.indexOf("fixedCosts")}
-						totalSections={formSectionOrder.length}
+						formNavOptions={{
+							onNext: () => goToNextSection("fixedCosts"),
+							isLastSection: false,
+							sectionIndex: formSectionOrder.indexOf("fixedCosts"),
+							totalSections: formSectionOrder.length,
+						}}
 					/>
 					<YearlyMaintenanceCostsSubForm
 						register={register}
@@ -117,20 +129,24 @@ const FormSubSections = ({
 						onToggleCollapse={() =>
 							toggleSectionCollapse("yearlyMaintenanceCosts")
 						}
-						onNext={() => goToNextSection("yearlyMaintenanceCosts")}
-						isLastSection={false}
-						sectionIndex={formSectionOrder.indexOf("yearlyMaintenanceCosts")}
-						totalSections={formSectionOrder.length}
+						formNavOptions={{
+							onNext: () => goToNextSection("yearlyMaintenanceCosts"),
+							isLastSection: false,
+							sectionIndex: formSectionOrder.indexOf("yearlyMaintenanceCosts"),
+							totalSections: formSectionOrder.length,
+						}}
 					/>
 					<VariableCostsSubForm
 						register={register}
 						errors={errors}
 						isCollapsed={collapsedSections.variableCosts}
 						onToggleCollapse={() => toggleSectionCollapse("variableCosts")}
-						onNext={() => goToNextSection("variableCosts")}
-						isLastSection={true}
-						sectionIndex={formSectionOrder.indexOf("variableCosts")}
-						totalSections={formSectionOrder.length}
+						formNavOptions={{
+							onNext: () => goToNextSection("variableCosts"),
+							isLastSection: true,
+							sectionIndex: formSectionOrder.indexOf("variableCosts"),
+							totalSections: formSectionOrder.length,
+						}}
 					/>
 				</>
 			)}

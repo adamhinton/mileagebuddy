@@ -21,14 +21,18 @@ export type FormSectionProps = {
 	isCollapsed: CollapsedOrNot;
 	onToggleCollapse: () => void;
 	id: keyof Gas_Vehicle_For_DB_POST | keyof Electric_Vehicle_For_DB_POST;
-	// These last four props are form navigation stuff
-	// onNext is what happens when user clicks the 'Next`
+	formNavOptions: FormNavigationOptions;
+};
+
+/**Utils passed in to relevant form sections for form UI navigation */
+export type FormNavigationOptions = {
+	// onNext is what happens when user clicks 'Next` to navigate to next form section
 	onNext: () => void;
-	// Is this the last section in the form
+	// Is this the last section in the form. If it is, don't show "Next" button
 	isLastSection: boolean;
 	// Which number section is it in the form (see formSectionOrder in page.tsx)
-	sectionIndex: number; // 0-indexed
-	totalSections: number;
+	sectionIndex: number; // which section is this in the form. 0 indexed. Uses this to display e.g. "1 of 5"
+	totalSections: number; // how many form sections are there in total. Uses this to display e.g. "1 of 5"
 };
 
 const FormSection = ({
@@ -38,11 +42,10 @@ const FormSection = ({
 	isCollapsed,
 	onToggleCollapse,
 	id,
-	onNext,
-	isLastSection = false,
-	sectionIndex,
-	totalSections,
+	formNavOptions,
 }: FormSectionProps) => {
+	const { onNext, isLastSection, sectionIndex, totalSections } = formNavOptions;
+
 	return (
 		<section
 			className={`${tailWindClassNames.mileageCalcForm.FORM_SECTION}`}

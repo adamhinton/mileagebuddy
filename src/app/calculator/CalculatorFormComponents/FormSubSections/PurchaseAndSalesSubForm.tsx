@@ -6,7 +6,7 @@
 // NOTE: The subSchema passed in here is a little different from the others. Because PurchaseAndSalesSchema has built-in validation that the others don't (see its .refine and .describe in its definition), we need to get its innerType(). This is as simple as calling the innerType() in `schema={...}`
 
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import FormSection from "../FormSection";
+import FormSection, { FormNavigationOptions } from "../FormSection";
 import { BaseVehicleSchema } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
 import { boughtAtLessThanSoldAtError } from "@/app/zod/schemas/VehicleSubSchemas";
@@ -18,24 +18,13 @@ type Props = {
 	errors: FieldErrors<Vehicle_For_db_POST>;
 	isCollapsed: CollapsedOrNot;
 	onToggleCollapse: () => void;
-	// These next four props are form navigation stuff
-	onNext: () => void;
-	isLastSection: boolean;
-	sectionIndex: number;
-	totalSections: number;
+	formNavOptions: FormNavigationOptions;
 };
 
 const PurchaseAndSalesSubForm = (props: Props) => {
-	const {
-		register,
-		errors,
-		isCollapsed,
-		onToggleCollapse,
-		isLastSection,
-		sectionIndex,
-		totalSections,
-		onNext,
-	} = props;
+	const { register, errors, isCollapsed, formNavOptions, onToggleCollapse } =
+		props;
+	const { onNext, isLastSection, sectionIndex, totalSections } = formNavOptions;
 
 	// There is validation done to ensure that milesBoughtAt is less than or equal to willSellCarAtMiles. This is done in the zod schema at the object level (PurchaseAndSales) because it transcends two keys -- milesBoughtAt and willSellCarAtMiles. This is a little different from the other validations, which are done at the key level. Because of this, we need to check if the error is this specific error and display it differently. This is a little hacky but it works.
 	const hasBoughtAtLessThanSoldtAtError =
@@ -48,10 +37,12 @@ const PurchaseAndSalesSubForm = (props: Props) => {
 			id="purchaseAndSales"
 			isCollapsed={isCollapsed}
 			onToggleCollapse={onToggleCollapse}
-			onNext={onNext}
-			isLastSection={isLastSection}
-			sectionIndex={sectionIndex}
-			totalSections={totalSections}
+			formNavOptions={{
+				onNext,
+				isLastSection,
+				sectionIndex,
+				totalSections,
+			}}
 		>
 			<MileageCalcFormNumInput
 				registerFn={register}

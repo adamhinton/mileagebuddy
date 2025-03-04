@@ -4,7 +4,7 @@
 // See VehicleSubSchemas for the corresponding structure
 
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import FormSection from "../FormSection";
+import FormSection, { FormNavigationOptions } from "../FormSection";
 import { BaseVehicleSchema } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
 import {
@@ -18,24 +18,13 @@ type Props = {
 	errors: FieldErrors<Gas_Vehicle_For_DB_POST>;
 	isCollapsed: CollapsedOrNot;
 	onToggleCollapse: () => void;
-	// These next four props are form navigation stuff
-	onNext: () => void;
-	isLastSection: boolean;
-	sectionIndex: number;
-	totalSections: number;
+	formNavOptions: FormNavigationOptions;
 };
 
 const GasVehicleDataSubForm = (props: Props) => {
-	const {
-		register,
-		errors,
-		isCollapsed,
-		onToggleCollapse,
-		isLastSection,
-		sectionIndex,
-		totalSections,
-		onNext,
-	} = props;
+	const { register, errors, isCollapsed, formNavOptions, onToggleCollapse } =
+		props;
+	const { onNext, isLastSection, sectionIndex, totalSections } = formNavOptions;
 
 	return (
 		<FormSection
@@ -43,10 +32,12 @@ const GasVehicleDataSubForm = (props: Props) => {
 			id="gasVehicleData"
 			isCollapsed={isCollapsed}
 			onToggleCollapse={onToggleCollapse}
-			onNext={onNext}
-			isLastSection={isLastSection}
-			sectionIndex={sectionIndex}
-			totalSections={totalSections}
+			formNavOptions={{
+				onNext,
+				isLastSection,
+				sectionIndex,
+				totalSections,
+			}}
 		>
 			<MileageCalcFormNumInput
 				registerFn={register}
