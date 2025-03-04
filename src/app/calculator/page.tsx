@@ -23,8 +23,8 @@ import {
 	useFormNavigation,
 } from "./calculatorUtils/FormNavUtils";
 import FormSubSections from "./CalculatorFormComponents/AllFormSubSections";
-import ClearFormButton from "./CalculatorFormComponents/ClearFormButton";
 import getSavedFormValuesFromLocalStorage from "./calculatorUtils/getSavedFormValuesFromLocalStorage";
+import FormButton from "./CalculatorFormComponents/FormButton";
 
 // TYPES/VALIDATION
 // Vehicle is DeepReadOnly right now, need to make mutable version for this which will be easy
@@ -184,7 +184,18 @@ const CalculateMileageForm = () => {
 			{isShowErrorSummary && <FormErrorSummary errors={errors} />}
 
 			{/* User can click this to clear all form values */}
-			<ClearFormButton onClick={clearAllFormValues} />
+			<FormButton
+				onClick={clearAllFormValues}
+				text="Clear Form"
+				variant="primary"
+				isConfirmationRequired={true}
+				confirmationDialogOptions={{
+					title: "Clear Form",
+					message: "Are you sure you want to clear the form?",
+					confirmButtonText: "Clear",
+					cancelButtonText: "Cancel",
+				}}
+			/>
 
 			<div className="ml-4">
 				<label className="mr-4">
@@ -219,15 +230,16 @@ const CalculateMileageForm = () => {
 				watchedVehicleType={watchedVehicleType}
 			/>
 
-			<button
+			<FormButton
+				text={isSubmitting ? "Loading" : "Submit"}
 				className="submit"
-				disabled={isSubmitting}
+				isDisabled={isSubmitting}
 				onClick={() => {
 					setisShowErrorSummary(errors ? true : false);
 				}}
-			>
-				{isSubmitting ? "Loading" : "Submit"}
-			</button>
+				isConfirmationRequired={false}
+				type={"submit"}
+			></FormButton>
 		</form>
 	);
 };
