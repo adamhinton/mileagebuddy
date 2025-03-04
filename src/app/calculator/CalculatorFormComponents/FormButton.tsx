@@ -24,6 +24,7 @@ type ConfirmationDialogOptions = {
  * Don't use this type. It's extended to make different config options. Use FormButtonProps instead. This type would allow invalid states.
  */
 type FormButtonPropsBase = {
+	// Don't use this type - see above
 	onClick: () => void;
 	/** Button text */
 	text: string;
