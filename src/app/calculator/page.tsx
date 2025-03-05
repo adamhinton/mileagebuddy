@@ -131,9 +131,7 @@ const CalculateMileageForm = (props: FormProps) => {
 	// Form setup
 	const form = useForm<EditSchemaOrPOSTSchema>({
 		// This is how you tell rhf to use zod for validation
-		resolver: zodResolver(
-			mode === "editVehicle" ? VehicleSchemaForPATCH : VehicleToBePostedSchema
-		),
+		resolver: zodResolver(schema),
 		// If in edit mode, populate form with vehicle to be edited
 		// If in vehicle creation mode, populate form with saved form values from localStorage (if they exist)
 		defaultValues: mode === "editVehicle" ? vehicle : savedLocalStorageValues,
@@ -183,14 +181,22 @@ const CalculateMileageForm = (props: FormProps) => {
 	};
 
 	// TODO: Flesh out onSubmit. Shouldn't be hard, just pass it to POST function. Maybe we need to specify this lives on the server?
-	// Note: r-h-f does Zod validation automatically so we don't need to instate that manually
+	// Note: r-h-f does Zod validation automatically so we don't need to instate that manually. The patch/post endpoints also do zod validation on the server before sending to db.
 	// This runs after form validation has succeeded so we're safe to clear form values
-	const mySubmitLogic: SubmitHandler<Vehicle_For_db_POST> = async (
-		formData
-	) => {
-		console.log("formData:", formData);
+	// Will either edit ane xisting Vehicle in the DB or create a new one, depending on mode
+	const mySubmitLogic: SubmitHandler<VehiclePATCHorPOST> = async (formData) => {
+		if (mode === "editVehicle") {
+			// TODO flesh this out
+		} else if (mode === "newVehicle") {
+			// TODO flesh this out
+		} else {
+			console.error("Invalid mode passed to form");
+			console.error("How did you even do that?");
+		}
 
-		// When you write the code to send the form data to the server, make sure to call clearAllFormValues() AFTER the server responds with a success
+		console.log("formData in submit handler:", formData);
+
+		// Note to self: When you write the code to send the form data to the server, make sure to call clearAllFormValues() AFTER the server responds with a success
 		clearAllFormValues();
 	};
 
