@@ -85,7 +85,7 @@ type FormPropsBase = {
 };
 
 // Edit existing vehicle mode
-type FormPropsEdit = FormPropsBase & {
+type FormPropsEditMode = FormPropsBase & {
 	mode: "editVehicle";
 	// Vehicle to edit
 	vehicle: Vehicle_For_db_PATCH;
@@ -93,14 +93,14 @@ type FormPropsEdit = FormPropsBase & {
 };
 
 // Add new vehicle mode
-type FormPropsNewVehicle = FormPropsBase & {
+type FormPropsNewVehicleMode = FormPropsBase & {
 	mode: "newVehicle";
 	// No vehicle to edit
 	vehicle: never;
 	schema: typeof VehicleToBePostedSchema;
 };
 
-type FormProps = FormPropsEdit | FormPropsNewVehicle;
+type FormProps = FormPropsEditMode | FormPropsNewVehicleMode;
 
 const CalculateMileageForm = (props: FormProps) => {
 	const { mode, vehicle, schema } = props;
@@ -134,8 +134,9 @@ const CalculateMileageForm = (props: FormProps) => {
 		resolver: zodResolver(
 			mode === "editVehicle" ? VehicleSchemaForPATCH : VehicleToBePostedSchema
 		),
-		// If user navigated away from page before submitting and comes back, restore form data
-		defaultValues: savedLocalStorageValues,
+		// If in edit mode, populate form with vehicle to be edited
+		// If in vehicle creation mode, populate form with saved form values from localStorage (if they exist)
+		defaultValues: mode === "editVehicle" ? vehicle : savedLocalStorageValues,
 	});
 
 	const {
