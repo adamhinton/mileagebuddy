@@ -1,4 +1,5 @@
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
+import { Vehicle_For_db_PATCH } from "@/app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { Path } from "react-hook-form";
 
@@ -10,7 +11,7 @@ import { Path } from "react-hook-form";
 type ErrorMessageProps = {
 	errorMessage: string;
 	// To make testid. Only passed in if it's in the actual component; not needed when it's at top of main form
-	path?: Path<Vehicle_For_db_POST>;
+	path?: Path<Vehicle_For_db_POST | Vehicle_For_db_PATCH>;
 };
 
 const FormErrorMessage = (props: ErrorMessageProps) => {
