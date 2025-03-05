@@ -11,13 +11,12 @@
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
-import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import FormErrorMessage from "./FormErrorMessage";
-import { Vehicle_For_db_PATCH } from "@/app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
+import { VehiclePATCHorPOST } from "../page";
 
 type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
 	registerFn: UseFormRegister<TFieldValues>;
-	path: Path<Vehicle_For_db_POST | Vehicle_For_db_PATCH>;
+	path: Path<VehiclePATCHorPOST>;
 	error?: string;
 	subSchema: z.ZodNumber;
 };
@@ -38,9 +37,7 @@ const MileageCalcFormNumInput = ({
 	path,
 	subSchema,
 	// TODO change this type when you're out of testing and using the real vehicle type
-}: MileageCalcFormNumInputProps<
-	Vehicle_For_db_POST | Vehicle_For_db_PATCH
->) => {
+}: MileageCalcFormNumInputProps<VehiclePATCHorPOST>) => {
 	const maxValue = subSchema.maxValue || undefined;
 
 	// Can use input's register path as the id as well
