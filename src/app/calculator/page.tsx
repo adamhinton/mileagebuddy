@@ -9,6 +9,7 @@
 // Errors: Form displays input errors next to each input (if there is an error), as well as a summary of the first three sections with errors at the top of the form.
 // Persistence: If user navigates away or exits the page before finishing the form, the form state is saved to localStorage and restored when user returns.
 // User can also clear the form with a button.
+// EDIT MODE: This form can be used to either edit a vehicle or create a new one, depending on the props passed in. There is minimal UI difference between these mods.
 
 import { useState, useMemo, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -29,6 +30,7 @@ import {
 	Vehicle_For_db_PATCH,
 	VehicleSchemaForPATCH,
 } from "../utils/server/types/VehicleTypes/PATCHVehicleTypes";
+import { z } from "zod";
 
 // TYPES/VALIDATION
 // Vehicle is DeepReadOnly right now, need to make mutable version for this which will be easy
@@ -57,21 +59,33 @@ const CalculatorPage = () => {
 	return (
 		<section className="h-screen p-4 sm:p-6 md:p-8">
 			<h1 className="text-2xl sm:text-3xl md:text-4xl">Calculator Page</h1>
-			<CalculateMileageForm />
+			<CalculateMileageForm
+				mode="editVehicle"
+				vehicle={{} as unknown as Vehicle_For_db_PATCH}
+				schema={VehicleSchemaForPATCH}
+			/>
 		</section>
 	);
 };
 
+/**
+ * If edit mode, Vehicle_For_db_PATCH. If new vehicle mode, Vehicle_For_db_POST
+ *
+ * This will be used in the various sub-components of the form
+ */
+export type VehiclePATCHorPOST = Vehicle_For_db_POST | Vehicle_For_db_PATCH;
+
 // Base props
 // This allows invalid states, don't use it. See extended prop types just below
-type FormPropsBase<Vehicle extends Vehicle_For_db_PATCH | Vehicle_For_db_POST> =
-	{
-		mode: "editVehicle" | "newVehicle";
-		vehicle?: Vehicle_For_db_PATCH;
-		schema: typeof VehicleToBePostedSchema | typeof VehicleSchemaForPATCH;
-	};
+type FormPropsBase = {
+	mode: "editVehicle" | "newVehicle";
+	// The vehicle to be edited, if in edit mode
+	vehicle?: Vehicle_For_db_PATCH;
+	schema: typeof VehicleToBePostedSchema | typeof VehicleSchemaForPATCH;
+};
 
-type FormPropsEdit = FormPropsBase<Vehicle_For_db_PATCH> & {
+// Edit existing vehicle mode
+type FormPropsEdit = FormPropsBase & {
 	mode: "editVehicle";
 	// Vehicle to edit
 	vehicle: Vehicle_For_db_PATCH;
@@ -79,7 +93,7 @@ type FormPropsEdit = FormPropsBase<Vehicle_For_db_PATCH> & {
 };
 
 // Add new vehicle mode
-type FormPropsNewVehicle = FormPropsBase<Vehicle_For_db_POST> & {
+type FormPropsNewVehicle = FormPropsBase & {
 	mode: "newVehicle";
 	// No vehicle to edit
 	vehicle: never;
@@ -88,7 +102,11 @@ type FormPropsNewVehicle = FormPropsBase<Vehicle_For_db_POST> & {
 
 type FormProps = FormPropsEdit | FormPropsNewVehicle;
 
-const CalculateMileageForm<T extends Vehicle_For_db_PATCH | Vehicle_For_db_POST> = (props: FormProps<T>) => {
+const CalculateMileageForm = (props: FormProps) => {
+	const { mode, vehicle, schema } = props;
+
+	type EditSchemaOrPOSTSchema = z.infer<typeof schema>;
+
 	// User can collapse or uncollapse form sections
 	// Hitting "next" in a section also scrolls to the next section and uncollapses it
 	// This state (obviously) tracks which sections are collapsed or not)
@@ -111,9 +129,11 @@ const CalculateMileageForm<T extends Vehicle_For_db_PATCH | Vehicle_For_db_POST>
 	const savedLocalStorageValues = getSavedFormValuesFromLocalStorage();
 
 	// Form setup
-	const form = useForm<Vehicle_For_db_POST>({
+	const form = useForm<EditSchemaOrPOSTSchema>({
 		// This is how you tell rhf to use zod for validation
-		resolver: zodResolver(VehicleToBePostedSchema),
+		resolver: zodResolver(
+			mode === "editVehicle" ? VehicleSchemaForPATCH : VehicleToBePostedSchema
+		),
 		// If user navigated away from page before submitting and comes back, restore form data
 		defaultValues: savedLocalStorageValues,
 	});
