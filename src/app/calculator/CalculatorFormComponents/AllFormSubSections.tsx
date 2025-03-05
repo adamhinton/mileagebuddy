@@ -4,7 +4,6 @@
 
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import {
-	Vehicle_For_db_POST,
 	Gas_Vehicle_For_DB_POST,
 	Electric_Vehicle_For_DB_POST,
 } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
@@ -17,11 +16,11 @@ import VariableCostsSubForm from "../CalculatorFormComponents/FormSubSections/Va
 import GasVehicleDataSubForm from "../CalculatorFormComponents/FormSubSections/GasVehicleDataSubForm";
 import ElectricVehicleDataSubForm from "../CalculatorFormComponents/FormSubSections/ElectricVehicleDataSubForm";
 import { CollapsibleSectionTitles } from "../calculatorUtils/FormNavUtils";
-import { CollapsedOrNot } from "../page";
+import { CollapsedOrNot, VehiclePATCHorPOST } from "../page";
 
 type FormSubSectionsProps = {
-	register: UseFormRegister<Vehicle_For_db_POST>;
-	errors: FieldErrors<Vehicle_For_db_POST>;
+	register: UseFormRegister<VehiclePATCHorPOST>;
+	errors: FieldErrors<VehiclePATCHorPOST>;
 	collapsedSections: Record<CollapsibleSectionTitles, CollapsedOrNot>;
 	toggleSectionCollapse: (sectionId: CollapsibleSectionTitles) => void;
 	goToNextSection: (sectionId: CollapsibleSectionTitles) => void;
