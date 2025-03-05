@@ -10,13 +10,18 @@ import { z } from "zod";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import FormErrorMessage from "./FormErrorMessage";
+import { Vehicle_For_db_PATCH } from "@/app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 
 type MileageCalcFormTextInputProps<TFieldValues extends FieldValues> = {
 	registerFn: UseFormRegister<TFieldValues>;
-	path: Path<Vehicle_For_db_POST>;
+	// Edit mode or new vehicle mode
+	// Only difference for this component is that in edit mode, the input will be pre-filled with the existing value
+	path: Path<Vehicle_For_db_POST | Vehicle_For_db_PATCH>;
 	error?: string;
 	subSchema: z.ZodString;
 };
+
+type VehicleType = Vehicle_For_db_POST | Vehicle_For_db_PATCH;
 
 /**
  * Text input for small values (<30 chars)
@@ -34,7 +39,7 @@ const MileageCalcFormTextInput = ({
 	path,
 	subSchema,
 	// TODO change this type when you're out of testing and using the real vehicle type
-}: MileageCalcFormTextInputProps<Vehicle_For_db_POST>) => {
+}: MileageCalcFormTextInputProps<VehicleType>) => {
 	const maxLength = subSchema.maxLength || undefined;
 	const minLength = subSchema.minLength || undefined;
 
