@@ -10,12 +10,11 @@ import FormSection, { FormNavigationOptions } from "../FormSection";
 import { BaseVehicleSchema } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
 import { boughtAtLessThanSoldAtError } from "@/app/zod/schemas/VehicleSubSchemas";
-import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
-import { CollapsedOrNot } from "../../page";
+import { CollapsedOrNot, VehiclePATCHorPOST } from "../../page";
 
 type Props = {
-	register: UseFormRegister<Vehicle_For_db_POST>;
-	errors: FieldErrors<Vehicle_For_db_POST>;
+	register: UseFormRegister<VehiclePATCHorPOST>;
+	errors: FieldErrors<VehiclePATCHorPOST>;
 	isCollapsed: CollapsedOrNot;
 	onToggleCollapse: () => void;
 	formNavOptions: FormNavigationOptions;

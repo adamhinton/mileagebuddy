@@ -7,14 +7,11 @@ import { FieldErrors, UseFormRegister } from "react-hook-form";
 import FormSection, { FormNavigationOptions } from "../FormSection";
 import { BaseVehicleSchema } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
-import {
-	Gas_Vehicle_For_DB_POST,
-	Vehicle_For_db_POST,
-} from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
-import { CollapsedOrNot } from "../../page";
+import { Gas_Vehicle_For_DB_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
+import { CollapsedOrNot, VehiclePATCHorPOST } from "../../page";
 
 type Props = {
-	register: UseFormRegister<Vehicle_For_db_POST>; // The form uses a union between EV and gas vehicle for testing, but this component will only be called if it's specified as a gas vehicle, so we pass in a more specific type here
+	register: UseFormRegister<VehiclePATCHorPOST>; // The form uses a union between EV and gas vehicle for testing, but this component will only be called if it's specified as a gas vehicle, so we pass in a more specific type here
 	errors: FieldErrors<Gas_Vehicle_For_DB_POST>;
 	isCollapsed: CollapsedOrNot;
 	onToggleCollapse: () => void;
