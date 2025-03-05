@@ -38,8 +38,7 @@ import FormButton from "./CalculatorFormComponents/FormButton";
 // // Figure out where to save these
 // // Make input default values actually save to form values; right now user has to tab over input
 // General styling improvements. Animations, transitions etc
-// Make this file a bit smaller, abstractify some stuff
-// Make formNav options one object with four properties: type FormNavOptions = { goToNextSection: () => void, toggleSectionCollapse: () => void, etc. }
+// Make this file a bit smaller, abstractify some stuff (already done, can do more)
 // Make CollapsibleSectionTitles type a tuple of literals so as to be the one source of truth for the order
 
 // Stretch: optimistic UI updates
