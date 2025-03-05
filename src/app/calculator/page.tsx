@@ -25,6 +25,10 @@ import {
 import FormSubSections from "./CalculatorFormComponents/AllFormSubSections";
 import getSavedFormValuesFromLocalStorage from "./calculatorUtils/getSavedFormValuesFromLocalStorage";
 import FormButton from "./CalculatorFormComponents/FormButton";
+import {
+	Vehicle_For_db_PATCH,
+	VehicleSchemaForPATCH,
+} from "../utils/server/types/VehicleTypes/PATCHVehicleTypes";
 
 // TYPES/VALIDATION
 // Vehicle is DeepReadOnly right now, need to make mutable version for this which will be easy
@@ -58,7 +62,33 @@ const CalculatorPage = () => {
 	);
 };
 
-const CalculateMileageForm = () => {
+// Base props
+// This allows invalid states, don't use it. See extended prop types just below
+type FormPropsBase<Vehicle extends Vehicle_For_db_PATCH | Vehicle_For_db_POST> =
+	{
+		mode: "editVehicle" | "newVehicle";
+		vehicle?: Vehicle_For_db_PATCH;
+		schema: typeof VehicleToBePostedSchema | typeof VehicleSchemaForPATCH;
+	};
+
+type FormPropsEdit = FormPropsBase<Vehicle_For_db_PATCH> & {
+	mode: "editVehicle";
+	// Vehicle to edit
+	vehicle: Vehicle_For_db_PATCH;
+	schema: typeof VehicleSchemaForPATCH;
+};
+
+// Add new vehicle mode
+type FormPropsNewVehicle = FormPropsBase<Vehicle_For_db_POST> & {
+	mode: "newVehicle";
+	// No vehicle to edit
+	vehicle: never;
+	schema: typeof VehicleToBePostedSchema;
+};
+
+type FormProps = FormPropsEdit | FormPropsNewVehicle;
+
+const CalculateMileageForm<T extends Vehicle_For_db_PATCH | Vehicle_For_db_POST> = (props: FormProps<T>) => {
 	// User can collapse or uncollapse form sections
 	// Hitting "next" in a section also scrolls to the next section and uncollapses it
 	// This state (obviously) tracks which sections are collapsed or not)
