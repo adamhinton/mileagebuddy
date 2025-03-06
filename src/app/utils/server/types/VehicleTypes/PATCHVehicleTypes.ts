@@ -25,8 +25,6 @@ import {
 // Really dumb that I have to do this twice then make a union of this and ElectricVehicleSchemaForPATCH
 export const GasVehicleSchemaForPATCH = GasVehicleSchema.extend({
 	// Other fields won't be changed, like userid and id
-	vehiclesOrder: z.number().optional(),
-	// Not sure if this should be optional() or not
 	type: z.literal("gas"),
 	vehicleData: VehicleDataSchema.optional(),
 	gasVehicleData: GasVehicleSchema.optional(),
@@ -41,8 +39,6 @@ export const GasVehicleSchemaForPATCH = GasVehicleSchema.extend({
 // Really dumb that I have to do this twice then make a union of this and GasVehicleSchemaForPATCH
 export const ElectricVehicleSchemaForPATCH = ElectricVehicleSchema.extend({
 	// Other fields won't be changed, like userid and id
-	vehiclesOrder: z.number().optional(),
-	// Not sure if this should be optional() or not
 	type: z.literal("electric"),
 	vehicleData: VehicleDataSchema.optional(),
 	// This will always be null anyway
