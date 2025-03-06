@@ -59,10 +59,9 @@ const CalculatorPage = () => {
 	return (
 		<section className="h-screen p-4 sm:p-6 md:p-8">
 			<h1 className="text-2xl sm:text-3xl md:text-4xl">Calculator Page</h1>
-			<CalculateMileageForm
-				mode="editVehicle"
-				vehicle={{} as unknown as Vehicle_For_db_PATCH}
-				schema={VehicleSchemaForPATCH}
+			<CalculateMileageForm<Vehicle_For_db_POST>
+				mode="newVehicle"
+				schema={VehicleToBePostedSchema}
 			/>
 		</section>
 	);
@@ -80,15 +79,15 @@ export type VehiclePATCHorPOST = Vehicle_For_db_POST | Vehicle_For_db_PATCH;
 type FormPropsBase = {
 	mode: "editVehicle" | "newVehicle";
 	// The vehicle to be edited, if in edit mode
-	vehicle?: Vehicle_For_db_PATCH;
-	schema: typeof VehicleToBePostedSchema | typeof VehicleSchemaForPATCH;
+	schema: z.ZodSchema;
+	vehicleToEdit?: never;
 };
 
 // Edit existing vehicle mode
 type FormPropsEditMode = FormPropsBase & {
 	mode: "editVehicle";
 	// Vehicle to edit
-	vehicle: Vehicle_For_db_PATCH;
+	vehicleToEdit: Vehicle_For_db_PATCH;
 	schema: typeof VehicleSchemaForPATCH;
 };
 
@@ -96,16 +95,17 @@ type FormPropsEditMode = FormPropsBase & {
 type FormPropsNewVehicleMode = FormPropsBase & {
 	mode: "newVehicle";
 	// No vehicle to edit
-	vehicle: never;
 	schema: typeof VehicleToBePostedSchema;
 };
 
-type FormProps = FormPropsEditMode | FormPropsNewVehicleMode;
+type FormProps<T> = T extends Vehicle_For_db_PATCH
+	? FormPropsEditMode
+	: FormPropsNewVehicleMode;
 
-const CalculateMileageForm = (props: FormProps) => {
-	const { mode, vehicle, schema } = props;
-
-	type EditSchemaOrPOSTSchema = z.infer<typeof schema>;
+const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
+	props: FormProps<T>
+) => {
+	const { mode, vehicleToEdit, schema } = props;
 
 	// User can collapse or uncollapse form sections
 	// Hitting "next" in a section also scrolls to the next section and uncollapses it
@@ -126,15 +126,30 @@ const CalculateMileageForm = (props: FormProps) => {
 	/**Shows bullet-pointed errors at top of form after user hits submit */
 	const [isShowErrorSummary, setisShowErrorSummary] = useState(false);
 
+	// TODO validate local storage values before using them
 	const savedLocalStorageValues = getSavedFormValuesFromLocalStorage();
 
+	// const savedVehicleIsValidVehicle = () => {
+	// 	// Check if the saved form values are a valid vehicle object
+	// 	try {
+	// 		schema.parse(savedLocalStorageValues);
+	// 		return true;
+	// 	} catch (error) {
+	// 		console.error("Saved form values are not a valid vehicle object:", error);
+	// 		return false;
+	// 	}
+	// };
+
 	// Form setup
-	const form = useForm<EditSchemaOrPOSTSchema>({
+	const form = useForm<VehiclePATCHorPOST>({
 		// This is how you tell rhf to use zod for validation
+		// Not sure I'm passing this in correctly but it seems to work
+		// Docker will validate against both schemas and only return error if both fail
 		resolver: zodResolver(schema),
 		// If in edit mode, populate form with vehicle to be edited
 		// If in vehicle creation mode, populate form with saved form values from localStorage (if they exist)
-		defaultValues: mode === "editVehicle" ? vehicle : savedLocalStorageValues,
+		defaultValues:
+			mode === "editVehicle" ? vehicleToEdit : savedLocalStorageValues,
 	});
 
 	const {
@@ -177,7 +192,8 @@ const CalculateMileageForm = (props: FormProps) => {
 		localStorage.removeItem(LOCAL_STORAGE_FORM_DATA_KEY);
 
 		// Reset all form values
-		reset({}); // Pass empty object to reset all fields to undefined
+		// TODO form reset may be wonky in edit mode
+		reset({} as unknown as T); // Pass empty object to reset all fields to undefined
 	};
 
 	// TODO: Flesh out onSubmit. Shouldn't be hard, just pass it to POST function. Maybe we need to specify this lives on the server?
