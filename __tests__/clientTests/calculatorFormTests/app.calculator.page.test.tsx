@@ -1,4 +1,5 @@
 import CalculatorPage from "@/app/calculator/page";
+import TestReduxStore from "@/app/utils/unitTestUtils/dummyReduxStore";
 import { render } from "@testing-library/react";
 
 describe("Sanity check", () => {
@@ -9,6 +10,10 @@ describe("Sanity check", () => {
 
 describe("Calculator page", () => {
 	it("Renders without errors", () => {
-		render(<CalculatorPage />);
+		render(
+			<TestReduxStore>
+				<CalculatorPage />
+			</TestReduxStore>
+		);
 	});
 });
