@@ -6,12 +6,12 @@
 
 // TODO dynamically update errors when they go away
 
-import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { FieldErrors } from "react-hook-form";
 import FormErrorMessage from "./FormErrorMessage";
+import { VehiclePATCHorPOST } from "../page";
 
 type Props = {
-	errors: FieldErrors<Vehicle_For_db_POST>;
+	errors: FieldErrors<VehiclePATCHorPOST>;
 };
 
 const FormErrorSummary = (props: Props) => {
@@ -61,7 +61,7 @@ const FormErrorSummary = (props: Props) => {
 export default FormErrorSummary;
 
 // Get names of first three form sections that have errors
-const extractErrorMessages = (errors: FieldErrors<Vehicle_For_db_POST>) => {
+const extractErrorMessages = (errors: FieldErrors<VehiclePATCHorPOST>) => {
 	const errorLinks: { key: string; path: string; message: string }[] = [];
 
 	// Skip these top-level fields, these errors are not relevant to the user
