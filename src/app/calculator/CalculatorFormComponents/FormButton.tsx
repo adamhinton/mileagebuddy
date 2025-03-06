@@ -4,7 +4,7 @@
 // The confirmation dialog is optional and configurable
 // _______________________________________________________
 
-import { useState } from "react";
+import { ButtonHTMLAttributes, useState } from "react";
 
 type ButtonVariant = "primary" | "danger" | "secondary";
 
@@ -32,7 +32,7 @@ type FormButtonPropsBase = {
 	isDisabled?: boolean;
 	className?: string;
 	ariaLabel?: string;
-	type?: "submit";
+	type?: ButtonHTMLAttributes<HTMLButtonElement>["type"];
 };
 
 /**
@@ -79,6 +79,7 @@ const FormButton = ({
 	isDisabled = false,
 	className = "",
 	ariaLabel,
+	type = "button",
 }: FormButtonProps) => {
 	// Show confirmation dialog when user clicks the button
 	const [showConfirmation, setShowConfirmation] = useState(false);
@@ -114,7 +115,7 @@ const FormButton = ({
 	return (
 		<>
 			<button
-				type="button"
+				type={type || "button"}
 				onClick={handleClick}
 				className={`px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
           text-sm sm:text-base ${buttonStyles[variant]} ${className}`}
