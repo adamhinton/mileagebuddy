@@ -69,7 +69,6 @@ const testVehicles: Vehicle[] = [
 			milesPerGallonHighway: 20,
 			milesPerGallonCity: 15,
 		},
-		electricVehicleData: null,
 	},
 
 	// Gas Vehicle 2
@@ -137,7 +136,6 @@ const testVehicles: Vehicle[] = [
 			milesPerGallonHighway: 32,
 			milesPerGallonCity: 24,
 		},
-		electricVehicleData: null,
 	},
 
 	// Electric Vehicle 1
@@ -199,7 +197,6 @@ const testVehicles: Vehicle[] = [
 			monthlyMiscellaneousCosts: 50,
 			monthlyCostDeductions: 0,
 		},
-		gasVehicleData: null,
 		electricVehicleData: {
 			vehicleID: 201,
 			costPerCharge: 15,
@@ -266,7 +263,6 @@ const testVehicles: Vehicle[] = [
 			monthlyMiscellaneousCosts: 35,
 			monthlyCostDeductions: 0,
 		},
-		gasVehicleData: null,
 		electricVehicleData: {
 			vehicleID: 202,
 			milesPerCharge: 250,
