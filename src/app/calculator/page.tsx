@@ -26,11 +26,10 @@ import {
 import FormSubSections from "./CalculatorFormComponents/AllFormSubSections";
 import getSavedFormValuesFromLocalStorage from "./calculatorUtils/getSavedFormValuesFromLocalStorage";
 import FormButton from "./CalculatorFormComponents/FormButton";
-import {
-	Vehicle_For_db_PATCH,
-	VehicleSchemaForPATCH,
-} from "../utils/server/types/VehicleTypes/PATCHVehicleTypes";
-import { z } from "zod";
+import { Vehicle_For_db_PATCH } from "../utils/server/types/VehicleTypes/PATCHVehicleTypes";
+import { z, ZodSchema } from "zod";
+import { useAppSelector } from "@/redux/hooks";
+import { insertVehicleClient } from "../utils/server/client/DBInteractions/VehiclesDBInteractions";
 
 // TYPES/VALIDATION
 // Vehicle is DeepReadOnly right now, need to make mutable version for this which will be easy
@@ -39,7 +38,8 @@ import { z } from "zod";
 // Note: VehicleToBePostedSchema is a union of GasVehicleSchemaForPOST and ElectricVehicleSchemaForPOST. Will have to do validation on one or the other based on user input, you can't do zod validation on a union type. but that shouldn't be too hard.
 
 // TODO:
-// Edit functionality
+// TODO IMPORTANT Get userid from logged in user - right now it's hardcoded for testing
+// Let non-authenticated users save vehicles to localStorage
 // Default values:
 // // Figure out where to save these
 // // Make input default values actually save to form values; right now user has to tab over input
@@ -88,14 +88,14 @@ type FormPropsEditMode = FormPropsBase & {
 	mode: "editVehicle";
 	// Vehicle to edit
 	vehicleToEdit: Vehicle_For_db_PATCH;
-	schema: typeof VehicleSchemaForPATCH;
+	schema: ZodSchema<Vehicle_For_db_PATCH>;
 };
 
 // Add new vehicle mode
 type FormPropsNewVehicleMode = FormPropsBase & {
 	mode: "newVehicle";
 	// No vehicle to edit
-	schema: typeof VehicleToBePostedSchema;
+	schema: ZodSchema<Vehicle_For_db_POST>;
 };
 
 // Edit mode or new vehicle creation mode
@@ -106,6 +106,9 @@ type FormProps<T> = T extends Vehicle_For_db_PATCH
 const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 	props: FormProps<T>
 ) => {
+	const loggedInUser = useAppSelector((state) => state.user.value);
+	const userId = loggedInUser!.id;
+
 	const { mode, vehicleToEdit, schema } = props;
 
 	// User can collapse or uncollapse form sections
@@ -201,11 +204,24 @@ const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 	// Note: r-h-f does Zod validation automatically so we don't need to instate that manually. The patch/post endpoints also do zod validation on the server before sending to db.
 	// This runs after form validation has succeeded so we're safe to clear form values
 	// Will either edit ane xisting Vehicle in the DB or create a new one, depending on mode
-	const mySubmitLogic: SubmitHandler<VehiclePATCHorPOST> = async (formData) => {
-		if (mode === "editVehicle") {
+	const mySubmitLogic: SubmitHandler<VehiclePATCHorPOST> = async (
+		formData: VehiclePATCHorPOST
+	) => {
+		console.log("Submitting");
+		// type is Vehicle_For_db_PATCH
+		// It has an id because it has already been assigned an id in the db
+		if (mode === "editVehicle" && "id" in formData) {
+		}
+		// type is Vehicle_For_db_POST
+		// Doesn't have an id because it hasn't been assigned one in the db yet
+		else if (mode === "newVehicle" && !("id" in formData)) {
 			// TODO flesh this out
-		} else if (mode === "newVehicle") {
-			// TODO flesh this out
+			try {
+				const newVehicle = await insertVehicleClient(formData);
+				console.log("newVehicle:", newVehicle);
+			} catch (error) {
+				console.error("Error inserting vehicle:", error);
+			}
 		} else {
 			console.error("Invalid mode passed to form");
 			console.error("How did you even do that?");
@@ -252,9 +268,17 @@ const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 
 	// new vehicles should always come first in user's list
 	setValue("vehiclesOrder", 1);
+	setValue("userid", userId);
 
 	return (
-		<form onSubmit={handleSubmit(mySubmitLogic)}>
+		<form
+			onSubmit={handleSubmit(
+				// OnValid
+				mySubmitLogic,
+				// OnInvalid. TODO delete this after testing
+				(e) => console.log("error in handleSubmit:", e)
+			)}
+		>
 			{isShowErrorSummary && <FormErrorSummary errors={errors} />}
 
 			{/* User can click this to clear all form values */}

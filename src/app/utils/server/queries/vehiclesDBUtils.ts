@@ -194,8 +194,8 @@ const addNewVehicleToDB = async (
 			_type: type,
 			_vehiclesorder: vehiclesOrder,
 			_vehicledata: vehicleData,
-			_gasvehicledata: gasVehicleData,
-			_electricvehicledata: electricVehicleData,
+			_gasvehicledata: gasVehicleData || null,
+			_electricvehicledata: electricVehicleData || null, // Always pass the parameter, even if null
 			_purchaseandsales: purchaseAndSales,
 			_usage: usage,
 			_fixedcosts: fixedCosts,
