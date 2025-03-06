@@ -14,10 +14,7 @@
 import { useState, useMemo, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-	Vehicle_For_db_POST,
-	VehicleToBePostedSchema,
-} from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
+import { Vehicle_For_db_POST } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
 import FormErrorSummary from "./CalculatorFormComponents/FormErrorSummary";
 import {
 	CollapsibleSectionTitles,

@@ -166,6 +166,8 @@ const deleteDBVehicleByID = async (
 /** Attempts to add a new vehicle's data to DB
  *
  * Returns the vehicle if successful, and an error if unsuccessful
+ *
+ * Zod validation has alraedy been done on both the client and server before this si called
  */
 const addNewVehicleToDB = async (
 	body: Vehicle_For_db_POST,
