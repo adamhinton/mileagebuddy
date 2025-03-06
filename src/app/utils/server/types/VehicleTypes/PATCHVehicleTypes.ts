@@ -15,6 +15,7 @@ import {
 import {
 	ElectricVehicleDataSchema,
 	FixedCostsSchema,
+	GasVehicleDataSchema,
 	PurchaseAndSalesSchema,
 	UsageSchema,
 	VariableCostsSchema,
@@ -27,7 +28,7 @@ export const GasVehicleSchemaForPATCH = GasVehicleSchema.extend({
 	// Other fields won't be changed, like userid and id
 	type: z.literal("gas"),
 	vehicleData: VehicleDataSchema.optional(),
-	gasVehicleData: GasVehicleSchema.optional(),
+	gasVehicleData: GasVehicleDataSchema.optional(),
 	// This will always be null anyway
 	purchaseAndSales: PurchaseAndSalesSchema.optional(),
 	usage: UsageSchema.optional(),

@@ -26,10 +26,17 @@ import {
 import FormSubSections from "./CalculatorFormComponents/AllFormSubSections";
 import getSavedFormValuesFromLocalStorage from "./calculatorUtils/getSavedFormValuesFromLocalStorage";
 import FormButton from "./CalculatorFormComponents/FormButton";
-import { Vehicle_For_db_PATCH } from "../utils/server/types/VehicleTypes/PATCHVehicleTypes";
+import {
+	Vehicle_For_db_PATCH,
+	VehicleSchemaForPATCH,
+} from "../utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import { z, ZodSchema } from "zod";
 import { useAppSelector } from "@/redux/hooks";
-import { insertVehicleClient } from "../utils/server/client/DBInteractions/VehiclesDBInteractions";
+import {
+	insertVehicleClient,
+	updateVehicleInDBClient,
+} from "../utils/server/client/DBInteractions/VehiclesDBInteractions";
+import testVehicles from "../utils/unitTestUtils/fakeTestVehicles";
 
 // TYPES/VALIDATION
 // Vehicle is DeepReadOnly right now, need to make mutable version for this which will be easy
@@ -55,13 +62,16 @@ export const LOCAL_STORAGE_FORM_DATA_KEY = "mileageFormData";
 /**Better way of toggling collapsed state than true or false */
 export type CollapsedOrNot = "isCollapsed" | "isNotCollapsed";
 
+console.log("testVehicles[0]:", testVehicles[0]);
+
 const CalculatorPage = () => {
 	return (
 		<section className="h-screen p-4 sm:p-6 md:p-8">
 			<h1 className="text-2xl sm:text-3xl md:text-4xl">Calculator Page</h1>
-			<CalculateMileageForm<Vehicle_For_db_POST>
-				mode="newVehicle"
-				schema={VehicleToBePostedSchema}
+			<CalculateMileageForm<Vehicle_For_db_PATCH>
+				mode="editVehicle"
+				schema={VehicleSchemaForPATCH}
+				vehicleToEdit={testVehicles[0]}
 			/>
 		</section>
 	);
@@ -208,15 +218,24 @@ const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 		formData: VehiclePATCHorPOST
 	) => {
 		console.log("Submitting");
+		console.log("mode:", mode);
 		// type is Vehicle_For_db_PATCH
 		// It has an id because it has already been assigned an id in the db
 		if (mode === "editVehicle" && "id" in formData) {
+			console.log("edit mode submitting");
+			try {
+				const updatedVehicle = await updateVehicleInDBClient(formData);
+				console.log("updatedVehicle:", updatedVehicle);
+			} catch (error) {
+				console.error("Error updating vehicle:", error);
+			}
 		}
 		// type is Vehicle_For_db_POST
 		// Doesn't have an id because it hasn't been assigned one in the db yet
 		else if (mode === "newVehicle" && !("id" in formData)) {
 			// TODO flesh this out
 			try {
+				console.log("new vehicle mode submitting");
 				const newVehicle = await insertVehicleClient(formData);
 				console.log("newVehicle:", newVehicle);
 			} catch (error) {

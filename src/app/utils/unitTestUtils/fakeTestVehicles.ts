@@ -1,12 +1,12 @@
 // README
 // This is (obviously) a list of dummy Vehicles for testing purposes. It is used in the fake redux store in my unit tests.
 
-import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
+import { Vehicle_For_db_PATCH } from "../server/types/VehicleTypes/PATCHVehicleTypes";
 
-const testVehicles: Vehicle[] = [
+const testVehicles: Vehicle_For_db_PATCH[] = [
 	// Gas Vehicle 1
 	{
-		id: 101,
+		id: 10,
 		userid: "b1b2b3b4-1234-5678-9abc-def012345678",
 		vehiclesOrder: 1,
 		type: "gas",
