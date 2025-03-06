@@ -80,7 +80,7 @@ type FormPropsBase = {
 	mode: "editVehicle" | "newVehicle";
 	// The vehicle to be edited, if in edit mode
 	schema: z.ZodSchema;
-	vehicleToEdit?: never;
+	vehicleToEdit?: Vehicle_For_db_PATCH;
 };
 
 // Edit existing vehicle mode
@@ -98,6 +98,7 @@ type FormPropsNewVehicleMode = FormPropsBase & {
 	schema: typeof VehicleToBePostedSchema;
 };
 
+// Edit mode or new vehicle creation mode
 type FormProps<T> = T extends Vehicle_For_db_PATCH
 	? FormPropsEditMode
 	: FormPropsNewVehicleMode;
@@ -109,7 +110,7 @@ const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 
 	// User can collapse or uncollapse form sections
 	// Hitting "next" in a section also scrolls to the next section and uncollapses it
-	// This state (obviously) tracks which sections are collapsed or not)
+	// This state (obviously) tracks which sections are collapsed or not
 	const [collapsedSections, setCollapsedSections] = useState<
 		Record<CollapsibleSectionTitles, CollapsedOrNot>
 	>({
@@ -256,6 +257,7 @@ const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 			{isShowErrorSummary && <FormErrorSummary errors={errors} />}
 
 			{/* User can click this to clear all form values */}
+			{/* TODO clear form button only seems to work the second time it's clicked */}
 			<FormButton
 				onClick={clearAllFormValues}
 				text="Clear Form"
