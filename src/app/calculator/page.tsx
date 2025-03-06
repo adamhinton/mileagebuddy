@@ -214,7 +214,8 @@ const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 		console.log("formData in submit handler:", formData);
 
 		// Note to self: When you write the code to send the form data to the server, make sure to call clearAllFormValues() AFTER the server responds with a success
-		clearAllFormValues();
+		// Commenting this out for now because it's annoying to have to re-enter all the form data every time I want to test the form submission
+		// clearAllFormValues();
 	};
 
 	/**Changes the displayed form section when user indicates that they have a gas or EV
