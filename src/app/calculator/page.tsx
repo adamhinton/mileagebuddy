@@ -22,12 +22,12 @@ import VehicleCreationOrEditForm from "./CalculatorFormComponents/VehicleCreatio
 
 // TODO:
 // TODO IMPORTANT Get userid from logged in user - right now it's hardcoded for testing
+// Figure out how/where in the UI to toggle between testing and vehicle creation
 // Let non-authenticated users save vehicles to localStorage
 // Default values:
 // // Figure out where to save these
 // // Make input default values actually save to form values; right now user has to tab over input
 // General styling improvements. Animations, transitions etc
-// Make this file a bit smaller, abstractify some stuff (already done, can do more)
 // Make CollapsibleSectionTitles type a tuple of literals so as to be the one source of truth for the order
 
 // Stretch: optimistic UI updates
