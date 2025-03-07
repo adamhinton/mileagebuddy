@@ -207,7 +207,6 @@ const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 		reset({} as unknown as T); // Pass empty object to reset all fields to undefined
 	};
 
-	// TODO: Flesh out onSubmit. Shouldn't be hard, just pass it to POST function. Maybe we need to specify this lives on the server?
 	// Note: r-h-f does Zod validation automatically so we don't need to instate that manually. The patch/post endpoints also do zod validation on the server before sending to db.
 	// This runs after form validation has succeeded so we're safe to clear form values
 	// Will either edit ane xisting Vehicle in the DB or create a new one, depending on mode
@@ -220,7 +219,6 @@ const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 		// type is Vehicle_For_db_PATCH
 		// It has an id because it has already been assigned an id in the db
 		if (mode === "editVehicle" && "id" in formData) {
-			console.log("edit mode submitting");
 			try {
 				const updatedVehicle = await updateVehicleInDBClient(formData);
 				console.log("updatedVehicle:", updatedVehicle);
