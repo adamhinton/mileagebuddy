@@ -19,15 +19,12 @@ import {
 	useFormNavigation,
 } from "../calculatorUtils/FormNavUtils";
 import getSavedFormValuesFromLocalStorage from "../calculatorUtils/getSavedFormValuesFromLocalStorage";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-	insertVehicleClient,
-	updateVehicleInDBClient,
-} from "@/app/utils/server/client/DBInteractions/VehiclesDBInteractions";
 import FormErrorSummary from "./FormErrorSummary";
 import FormButton from "./FormButton";
 import FormSubSections from "./AllFormSubSections";
+import formSubmitLogic from "../calculatorUtils/formSubmitLogic";
 
 /** Prevent typos by making sure localStorage persisted data is always accessed the same way */
 export const LOCAL_STORAGE_FORM_DATA_KEY = "mileageFormData";
@@ -115,8 +112,6 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 	// Form setup
 	const form = useForm<VehiclePATCHorPOST>({
 		// This is how you tell rhf to use zod for validation
-		// Not sure I'm passing this in correctly but it seems to work
-		// Docker will validate against both schemas and only return error if both fail
 		resolver: zodResolver(schema),
 		// If in edit mode, populate form with vehicle to be edited
 		// If in vehicle creation mode, populate form with saved form values from localStorage (if they exist)
@@ -168,49 +163,6 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 		reset({} as unknown as T); // Pass empty object to reset all fields to undefined
 	};
 
-	// Note: r-h-f does Zod validation automatically so we don't need to instate that manually. The patch/post endpoints also do zod validation on the server before sending to db.
-	// This runs after form validation has succeeded so we're safe to clear form values
-	// Will either edit ane xisting Vehicle in the DB or create a new one, depending on mode
-	const mySubmitLogic: SubmitHandler<VehiclePATCHorPOST> = async (
-		formData: VehiclePATCHorPOST
-	) => {
-		console.log("Submitting");
-		console.log("mode:", mode);
-
-		// type is Vehicle_For_db_PATCH
-		// It has an id because it has already been assigned an id in the db
-		if (mode === "editVehicle" && "id" in formData) {
-			try {
-				const updatedVehicle = await updateVehicleInDBClient(formData);
-				console.log("updatedVehicle:", updatedVehicle);
-			} catch (error) {
-				console.error("Error updating vehicle:", error);
-			}
-		}
-
-		// type is Vehicle_For_db_POST
-		// Doesn't have an id because it hasn't been assigned one in the db yet
-		else if (mode === "newVehicle" && !("id" in formData)) {
-			// TODO flesh this out
-			try {
-				console.log("new vehicle mode submitting");
-				const newVehicle = await insertVehicleClient(formData);
-				console.log("newVehicle:", newVehicle);
-			} catch (error) {
-				console.error("Error inserting vehicle:", error);
-			}
-
-			// Mode is neither edit nor creation, or the type of vehicle passed in doesn't match the mode. TS should always prevent this so hopefully it never happens
-		} else {
-			console.error("Invalid mode passed to form");
-			console.error("How did you even do that?");
-		}
-
-		// Note to self: When you write the code to send the form data to the server, make sure to call clearAllFormValues() AFTER the server responds with a success
-		// Commenting this out for now because it's annoying to have to re-enter all the form data every time I want to test the form submission
-		// clearAllFormValues();
-	};
-
 	/**Changes the displayed form section when user indicates that they have a gas or EV
 	 *
 	 * Can't just use formValues.type for this because the component won't re-render when that changes
@@ -251,7 +203,7 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 		<form
 			onSubmit={handleSubmit(
 				// onValid. This runs after r-h-f has validated the form
-				mySubmitLogic
+				formSubmitLogic
 			)}
 		>
 			{isShowErrorSummary && Object.keys(errors).length > 0 && (
