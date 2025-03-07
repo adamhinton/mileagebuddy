@@ -3,7 +3,7 @@
 // and I don't want to get too far out of the simple scope of a unit testing suite
 // ________________________________________________________________
 
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import VehicleCreationOrEditForm from "@/app/calculator/CalculatorFormComponents/VehicleCreationForm";
 import TestReduxStore from "@/app/utils/unitTestUtils/dummyReduxStore";
@@ -18,6 +18,18 @@ describe("VehicleCreationOrEditForm", () => {
 
 	it("renders without errors in new vehicle mode", () => {
 		renderVehicleForm("newVehicle");
+	});
+
+	it("updates form section visibility when vehicle type changes", () => {
+		const { getByLabelText, queryByText } = renderVehicleForm("newVehicle");
+
+		// Select electric vehicle
+		const electricRadio = getByLabelText("Electric");
+		fireEvent.click(electricRadio);
+
+		// Verify electric vehicle form section is visible and gas is not
+		expect(queryByText("Electric Vehicle Data")).toBeInTheDocument();
+		expect(queryByText("Gas Vehicle Data")).not.toBeInTheDocument();
 	});
 });
 
