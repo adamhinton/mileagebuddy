@@ -295,7 +295,9 @@ const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 				(e) => console.log("error in handleSubmit:", e)
 			)}
 		>
-			{isShowErrorSummary && <FormErrorSummary errors={errors} />}
+			{isShowErrorSummary && Object.keys(errors).length > 0 && (
+				<FormErrorSummary errors={errors} />
+			)}
 
 			{/* User can click this to clear all form values */}
 			{/* TODO clear form button only seems to work the second time it's clicked */}
@@ -350,7 +352,8 @@ const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 				className="submit"
 				isDisabled={isSubmitting}
 				onClick={() => {
-					setisShowErrorSummary(errors ? true : false);
+					setisShowErrorSummary(Object.keys(errors).length > 0);
+					console.log("isShowErrorSummary after submit:", isShowErrorSummary);
 				}}
 				isConfirmationRequired={false}
 				type={"submit"}
