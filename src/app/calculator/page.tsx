@@ -216,6 +216,7 @@ const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 	) => {
 		console.log("Submitting");
 		console.log("mode:", mode);
+
 		// type is Vehicle_For_db_PATCH
 		// It has an id because it has already been assigned an id in the db
 		if (mode === "editVehicle" && "id" in formData) {
@@ -227,6 +228,7 @@ const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 				console.error("Error updating vehicle:", error);
 			}
 		}
+
 		// type is Vehicle_For_db_POST
 		// Doesn't have an id because it hasn't been assigned one in the db yet
 		else if (mode === "newVehicle" && !("id" in formData)) {
@@ -238,12 +240,12 @@ const CalculateMileageForm = <T extends VehiclePATCHorPOST>(
 			} catch (error) {
 				console.error("Error inserting vehicle:", error);
 			}
+
+			// Mode is neither edit nor creation, or the type of vehicle passed in doesn't match the mode. TS should always prevent this so hopefully it never happens
 		} else {
 			console.error("Invalid mode passed to form");
 			console.error("How did you even do that?");
 		}
-
-		console.log("formData in submit handler:", formData);
 
 		// Note to self: When you write the code to send the form data to the server, make sure to call clearAllFormValues() AFTER the server responds with a success
 		// Commenting this out for now because it's annoying to have to re-enter all the form data every time I want to test the form submission
