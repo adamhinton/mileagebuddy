@@ -250,10 +250,8 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 	return (
 		<form
 			onSubmit={handleSubmit(
-				// OnValid
-				mySubmitLogic,
-				// OnInvalid. TODO delete this after testing
-				(e) => console.log("error in handleSubmit:", e)
+				// onValid. This runs after r-h-f has validated the form
+				mySubmitLogic
 			)}
 		>
 			{isShowErrorSummary && Object.keys(errors).length > 0 && (
