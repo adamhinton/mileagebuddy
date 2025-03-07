@@ -160,6 +160,7 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 		localStorage.removeItem(LOCAL_STORAGE_FORM_DATA_KEY);
 
 		// Reset all form values
+		// TODO I think reset will still be wonky in edit mode
 		reset({
 			id: mode === "editVehicle" ? vehicleToEdit?.id : undefined,
 			userId: userId,
