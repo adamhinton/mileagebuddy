@@ -8,6 +8,7 @@
 // Persistence: If user navigates away or exits the page before finishing the form, the form state is saved to localStorage and restored when user returns.
 // User can also clear the form with a button.
 // EDIT MODE: This form can be used to either edit a vehicle or create a new one, depending on the props passed in. There is minimal UI difference between these mods.
+// Testing: Tested in VehicleCreationForm.test.tsx
 
 import { Vehicle_For_db_PATCH } from "@/app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
@@ -159,8 +160,12 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 		localStorage.removeItem(LOCAL_STORAGE_FORM_DATA_KEY);
 
 		// Reset all form values
-		// TODO form reset may be wonky in edit mode
-		reset({} as unknown as T); // Pass empty object to reset all fields to undefined
+		reset({
+			id: mode === "editVehicle" ? vehicleToEdit?.id : undefined,
+			userId: userId,
+			type: formValues.type,
+			vehiclesOrder: formValues.vehiclesOrder,
+		} as unknown as T); // Pass empty object to reset all fields to undefined
 	};
 
 	/**Changes the displayed form section when user indicates that they have a gas or EV
