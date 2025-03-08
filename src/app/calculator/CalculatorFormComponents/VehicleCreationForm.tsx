@@ -12,7 +12,7 @@
 
 import { Vehicle_For_db_PATCH } from "@/app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
-import { useAppSelector } from "@/redux/hooks";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useEffect, useMemo, useState } from "react";
 import { z, ZodSchema } from "zod";
 import {
@@ -206,12 +206,13 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 	setValue("vehiclesOrder", 1);
 	setValue("userid", userId);
 
+	const dispatch = useAppDispatch();
+
 	return (
 		<form
-			onSubmit={handleSubmit(
-				// onValid. This runs after r-h-f has validated the form
-				formSubmitLogic
-			)}
+			onSubmit={handleSubmit((formData) => {
+				formSubmitLogic(formData, dispatch);
+			})}
 		>
 			{isShowErrorSummary && Object.keys(errors).length > 0 && (
 				<FormErrorSummary errors={errors} />

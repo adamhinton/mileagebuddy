@@ -6,20 +6,21 @@
 
 "use client";
 
-import { SubmitHandler } from "react-hook-form";
 import { VehiclePATCHorPOST } from "../CalculatorFormComponents/VehicleCreationForm";
 import {
 	insertVehicleClient,
 	updateVehicleInDBClient,
 } from "@/app/utils/server/client/DBInteractions/VehiclesDBInteractions";
-import { useAppDispatch } from "@/redux/hooks";
-import { editVehicleById } from "@/redux/reducers/vehiclesReducer";
+import { addVehicle, editVehicleById } from "@/redux/reducers/vehiclesReducer";
+import { Action, ThunkDispatch } from "@reduxjs/toolkit";
+import { RootState } from "@/redux/store";
 
 // Note: r-h-f does Zod validation automatically so we don't need to instate that manually. The patch/post endpoints also do zod validation on the server before sending to db.
 // This runs after form validation has succeeded so we're safe to clear form values
 // Will either edit ane xisting Vehicle in the DB or create a new one, depending on mode
-const formSubmitLogic: SubmitHandler<VehiclePATCHorPOST> = async (
-	formData: VehiclePATCHorPOST
+const formSubmitLogic = async (
+	formData: VehiclePATCHorPOST,
+	dispatch: ThunkDispatch<RootState, unknown, Action>
 ) => {
 	console.log("Submitting");
 
@@ -30,7 +31,8 @@ const formSubmitLogic: SubmitHandler<VehiclePATCHorPOST> = async (
 			const updatedVehicle = await updateVehicleInDBClient(formData);
 			console.log("updatedVehicle:", updatedVehicle);
 
-			useAppDispatch(editVehicleById({ vehicle: updatedVehicle }));
+			// Set to redux state
+			dispatch(editVehicleById({ vehicle: updatedVehicle }));
 		} catch (error) {
 			console.error("Error updating vehicle:", error);
 		}
@@ -44,14 +46,18 @@ const formSubmitLogic: SubmitHandler<VehiclePATCHorPOST> = async (
 			console.log("new vehicle mode submitting");
 			const newVehicle = await insertVehicleClient(formData);
 			console.log("newVehicle:", newVehicle);
+
+			// Set to redux state
+			dispatch(addVehicle(newVehicle));
 		} catch (error) {
 			console.error("Error inserting vehicle:", error);
 		}
 
 		// Mode is neither edit nor creation, or the type of vehicle passed in doesn't match the mode. TS should always prevent this so hopefully it never happens
 	} else {
-		console.error("Invalid mode passed to form");
-		console.error("How did you even do that?");
+		console.error(
+			"Invalid mode passed to form submit. How did you even do that?"
+		);
 	}
 
 	// Note to self: When you write the code to send the form data to the server, make sure to call clearAllFormValues() AFTER the server responds with a success
