@@ -7,11 +7,11 @@
 
 "use client";
 
+import { useAppSelector } from "@/redux/hooks";
 import {
 	Vehicle_For_db_PATCH,
 	VehicleSchemaForPATCH,
 } from "../utils/server/types/VehicleTypes/PATCHVehicleTypes";
-import testVehicles from "../utils/unitTestUtils/fakeTestVehicles";
 import VehicleCreationOrEditForm from "./CalculatorFormComponents/VehicleCreationForm";
 
 // TYPES/VALIDATION
@@ -33,13 +33,17 @@ import VehicleCreationOrEditForm from "./CalculatorFormComponents/VehicleCreatio
 // Stretch: optimistic UI updates
 
 const CalculatorPage = () => {
+	const usersVehicles = useAppSelector((state) => state.vehicles);
+	const firstVehicle = usersVehicles[0];
+	console.log("firstVehicle:", firstVehicle);
+
 	return (
 		<section className="h-screen p-4 sm:p-6 md:p-8">
 			<h1 className="text-2xl sm:text-3xl md:text-4xl">Calculator Page</h1>
 			<VehicleCreationOrEditForm<Vehicle_For_db_PATCH>
 				mode="editVehicle"
 				schema={VehicleSchemaForPATCH}
-				vehicleToEdit={testVehicles[0]}
+				vehicleToEdit={firstVehicle}
 			/>
 		</section>
 	);

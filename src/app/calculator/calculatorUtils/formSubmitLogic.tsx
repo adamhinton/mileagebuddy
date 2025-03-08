@@ -12,6 +12,8 @@ import {
 	insertVehicleClient,
 	updateVehicleInDBClient,
 } from "@/app/utils/server/client/DBInteractions/VehiclesDBInteractions";
+import { useAppDispatch } from "@/redux/hooks";
+import { editVehicleById } from "@/redux/reducers/vehiclesReducer";
 
 // Note: r-h-f does Zod validation automatically so we don't need to instate that manually. The patch/post endpoints also do zod validation on the server before sending to db.
 // This runs after form validation has succeeded so we're safe to clear form values
@@ -27,6 +29,8 @@ const formSubmitLogic: SubmitHandler<VehiclePATCHorPOST> = async (
 		try {
 			const updatedVehicle = await updateVehicleInDBClient(formData);
 			console.log("updatedVehicle:", updatedVehicle);
+
+			useAppDispatch(editVehicleById({ vehicle: updatedVehicle }));
 		} catch (error) {
 			console.error("Error updating vehicle:", error);
 		}

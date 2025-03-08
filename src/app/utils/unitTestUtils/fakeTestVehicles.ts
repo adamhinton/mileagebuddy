@@ -11,7 +11,7 @@ const testVehicles: Vehicle_For_db_PATCH[] = [
 		vehiclesOrder: 1,
 		type: "gas",
 		vehicleData: {
-			vehicleID: 101,
+			vehicleID: 10,
 			vehicleName: "Ford F-150",
 			year: 2018,
 			make: "Ford",
@@ -20,7 +20,7 @@ const testVehicles: Vehicle_For_db_PATCH[] = [
 			highwayMPG: 20,
 		},
 		purchaseAndSales: {
-			vehicleID: 101,
+			vehicleID: 10,
 			yearPurchased: 2018,
 			purchasePrice: 30000,
 			downPaymentAmount: 5000,
@@ -30,7 +30,7 @@ const testVehicles: Vehicle_For_db_PATCH[] = [
 			willSellCarAtPrice: 15000,
 		},
 		usage: {
-			vehicleID: 101,
+			vehicleID: 10,
 			averageDailyMiles: 50,
 			weeksPerYear: 50,
 			percentHighway: 60,
@@ -38,7 +38,7 @@ const testVehicles: Vehicle_For_db_PATCH[] = [
 			extraDistancePercentHighway: 70,
 		},
 		fixedCosts: {
-			vehicleID: 101,
+			vehicleID: 10,
 			yearlyInsuranceCost: 1200,
 			yearlyRegistrationCost: 150,
 			yearlyTaxes: 250,
@@ -48,7 +48,7 @@ const testVehicles: Vehicle_For_db_PATCH[] = [
 			otherYearlyCosts: 200,
 		},
 		yearlyMaintenanceCosts: {
-			vehicleID: 101,
+			vehicleID: 10,
 			oilChanges: 150,
 			tires: 400,
 			batteries: 0,
@@ -56,7 +56,7 @@ const testVehicles: Vehicle_For_db_PATCH[] = [
 			other: 100,
 		},
 		variableCosts: {
-			vehicleID: 101,
+			vehicleID: 10,
 			monthlyParkingCosts: 0,
 			monthlyTolls: 20,
 			monthlyCarWashCost: 15,
@@ -64,7 +64,7 @@ const testVehicles: Vehicle_For_db_PATCH[] = [
 			monthlyCostDeductions: 0,
 		},
 		gasVehicleData: {
-			vehicleID: 101,
+			vehicleID: 10,
 			gasCostPerGallon: 3.5,
 			milesPerGallonHighway: 20,
 			milesPerGallonCity: 15,

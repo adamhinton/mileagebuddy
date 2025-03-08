@@ -73,7 +73,8 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 	props: FormProps<T>
 ) => {
 	const loggedInUser = useAppSelector((state) => state.user.value);
-	const userId = loggedInUser!.id;
+	const userId = loggedInUser ? loggedInUser.id : "testid";
+	console.log("userId:", userId);
 
 	const { mode, vehicleToEdit, schema } = props;
 
