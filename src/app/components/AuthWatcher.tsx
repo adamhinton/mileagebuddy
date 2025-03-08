@@ -58,6 +58,15 @@ const AuthWatcher = () => {
 				console.log("Token refreshed:", session);
 			} else if (event === "USER_UPDATED") {
 				// Handle user update event
+
+				dispatch(
+					setUser({
+						id: session!.user.id,
+						email: session!.user.email!,
+						isDarkMode: false,
+					})
+				);
+
 				console.log("User updated:", session);
 			} else if (event === "PASSWORD_RECOVERY") {
 				// Handle password recovery event
