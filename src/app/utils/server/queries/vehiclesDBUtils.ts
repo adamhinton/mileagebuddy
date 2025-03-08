@@ -19,35 +19,35 @@ export const stringForJoiningVehicleTables = `
 		userid, type, id, "vehiclesOrder",
 
 		"vehicleData"(
-			"vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
+			"id", "vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
 		),
 
 		"gasVehicleData"(
-			"vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
+			"id", "vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
 		),
 
 		"electricVehicleData"(
-			"vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles"
+			"id", "vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles"
 		),
 
 		"purchaseAndSales"(
-			"vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", "willSellCarAtPrice"
+			"id", "vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", "willSellCarAtPrice"
 		),
 
 		usage(
-			"vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", "extraDistanceMiles", "extraDistancePercentHighway"
+			"id", "vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", "extraDistanceMiles", "extraDistancePercentHighway"
 		),
 
 		"fixedCosts"(
-			"vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts"
+			"id", "vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts"
 		),
 
 		"yearlyMaintenanceCosts"(
-			"vehicleID", "oilChanges", tires, batteries, brakes, other
+			"id", "vehicleID", "oilChanges", tires, batteries, brakes, other
 		),
 
 		"variableCosts"(
-			"vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions"
+			"id", "vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions"
 		)
 
 		`;
