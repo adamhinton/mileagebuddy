@@ -34,7 +34,10 @@ const AuthWatcher = () => {
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((event, session) => {
+			console.log("session in AuthWatcher useEffect:", session);
+
 			if (event === "SIGNED_IN") {
+				console.log("SIGNED_IN");
 				dispatch(
 					setUser({
 						id: session!.user.id,
@@ -62,7 +65,15 @@ const AuthWatcher = () => {
 			} else if (event === "INITIAL_SESSION") {
 				// INITIAL_SESSION is page first loading, among other things
 				console.log("INITIAL SESSION");
-				// Handle initial session event
+
+				dispatch(
+					setUser({
+						id: session!.user.id,
+						email: session!.user.email!,
+						isDarkMode: false,
+					})
+				);
+				fetchAndSetVehicles(session!.user.id);
 			}
 		});
 
