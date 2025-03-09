@@ -44,9 +44,10 @@ export default function RootLayout({
 					<ThemeWrapper>
 						<ReduxStoreProvider>
 							{/* AuthWatcher is a component that watches for auth events and updates the Redux store */}
-							<AuthWatcher />
-							<Header />
-							{children}
+							<AuthWatcher>
+								<Header />
+								{children}
+							</AuthWatcher>
 						</ReduxStoreProvider>
 					</ThemeWrapper>
 				</div>
