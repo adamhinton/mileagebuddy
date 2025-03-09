@@ -160,14 +160,14 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 		// Remove persisted form data
 		localStorage.removeItem(LOCAL_STORAGE_FORM_DATA_KEY);
 
-		// Reset all form values
+		// Reset all form values except pre-set ones that aren't defined by the user
 		// TODO I think reset will still be wonky in edit mode
 		reset({
 			id: mode === "editVehicle" ? vehicleToEdit?.id : undefined,
 			userId: userId,
 			type: formValues.type,
 			vehiclesOrder: formValues.vehiclesOrder,
-		} as unknown as T); // Pass empty object to reset all fields to undefined
+		} as unknown as T); // Reset any fields not named here to undefined. TODO: The formValues object has two identical userId's after I do this. How could that even happen?
 	};
 
 	/**Changes the displayed form section when user indicates that they have a gas or EV
