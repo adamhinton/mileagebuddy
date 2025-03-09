@@ -8,7 +8,10 @@ import { FieldErrors, UseFormRegister } from "react-hook-form";
 import FormSection, { FormNavigationOptions } from "../FormSection";
 import { BaseVehicleSchema } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
-import { CollapsedOrNot, VehiclePATCHorPOST } from "../../page";
+import {
+	type CollapsedOrNot,
+	type VehiclePATCHorPOST,
+} from "../VehicleCreationForm";
 
 type Props = {
 	register: UseFormRegister<VehiclePATCHorPOST>;
