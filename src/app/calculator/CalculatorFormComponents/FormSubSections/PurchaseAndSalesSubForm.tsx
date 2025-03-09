@@ -10,7 +10,10 @@ import FormSection, { FormNavigationOptions } from "../FormSection";
 import { BaseVehicleSchema } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
 import { boughtAtLessThanSoldAtError } from "@/app/zod/schemas/VehicleSubSchemas";
-import { CollapsedOrNot, VehiclePATCHorPOST } from "../../page";
+import {
+	type VehiclePATCHorPOST,
+	type CollapsedOrNot,
+} from "../VehicleCreationForm";
 
 type Props = {
 	register: UseFormRegister<VehiclePATCHorPOST>;
