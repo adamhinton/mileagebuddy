@@ -128,7 +128,8 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 				? hasResetFormValues
 					? defaultVehicleValuesPATCH(userId, vehicleToEdit!)
 					: vehicleToEdit!
-				: savedLocalStorageValues || defaultVehicleValuesPOST(userId),
+				: // TODO localStorage items not populating on page load. Or more specifically, I think they're getting overwritten by the default values
+					savedLocalStorageValues || defaultVehicleValuesPOST(userId),
 	});
 
 	const {
@@ -153,9 +154,6 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 	}, [hasResetFormValues, mode, reset, userId, vehicleToEdit]);
 
 	const formValues = getValues();
-
-	// For persisting form data in localStorage
-	// const watchAllFields = watch(); // Watch all fields
 
 	// Every time user changes a form value, save it to localStorage
 	// This will be loaded back into the form if user navigates away and comes back

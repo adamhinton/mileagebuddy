@@ -8,10 +8,6 @@
 "use client";
 
 import { useAppSelector } from "@/redux/hooks";
-import {
-	Vehicle_For_db_PATCH,
-	VehicleSchemaForPATCH,
-} from "../utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import VehicleCreationOrEditForm from "./CalculatorFormComponents/VehicleCreationForm";
 import { VehicleToBePostedSchema } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
 
