@@ -26,6 +26,10 @@ import FormErrorSummary from "./FormErrorSummary";
 import FormButton from "./FormButton";
 import FormSubSections from "./AllFormSubSections";
 import formSubmitLogic from "../calculatorUtils/formSubmitLogic";
+import {
+	defaultVehicleValuesPATCH,
+	defaultVehicleValuesPOST,
+} from "../calculatorUtils/calculatorFormDefaultValues";
 
 /** Prevent typos by making sure localStorage persisted data is always accessed the same way */
 export const LOCAL_STORAGE_FORM_DATA_KEY = "mileageFormData";
@@ -111,6 +115,8 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 	// 	}
 	// };
 
+	const [hasResetFormValues, setHasResetFormValues] = useState(false);
+
 	// Form setup
 	const form = useForm<VehiclePATCHorPOST>({
 		// This is how you tell rhf to use zod for validation
@@ -118,7 +124,11 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 		// If in edit mode, populate form with vehicle to be edited
 		// If in vehicle creation mode, populate form with saved form values from localStorage (if they exist)
 		defaultValues:
-			mode === "editVehicle" ? vehicleToEdit : savedLocalStorageValues,
+			mode === "editVehicle"
+				? hasResetFormValues
+					? defaultVehicleValuesPATCH(userId, vehicleToEdit!)
+					: vehicleToEdit!
+				: savedLocalStorageValues || defaultVehicleValuesPOST(userId),
 	});
 
 	const {
@@ -130,6 +140,17 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 		reset,
 		formState: { errors, isSubmitting },
 	} = form;
+
+	useEffect(() => {
+		if (hasResetFormValues) {
+			reset(
+				mode === "editVehicle"
+					? defaultVehicleValuesPATCH(userId, vehicleToEdit!)
+					: defaultVehicleValuesPOST(userId)
+			);
+			setHasResetFormValues(false);
+		}
+	}, [hasResetFormValues, mode, reset, userId, vehicleToEdit]);
 
 	const formValues = getValues();
 
@@ -155,19 +176,25 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 
 	/**Wrapper to give this a clearer name
 	 * Clears all form values and removes persisted form data from localStorage
+	 *
+	 * Note to self: This is a mess. Apologies to my future self. For some reason RHF's reset() functionality wasn't working, so I had to do some wonky stuff with react state.
 	 */
 	const clearAllFormValues = () => {
+		// set all form sections 	to be collapsed first because for some reason this wasn't working if they weren't collapsed
+		// @ts-expect-error - I'm tired and don't want to deal with typing this. TODO loop around to this
+		collapseAllSections(setCollapsedSections);
+
 		// Remove persisted form data
 		localStorage.removeItem(LOCAL_STORAGE_FORM_DATA_KEY);
 
+		setHasResetFormValues(true);
+
 		// Reset all form values except pre-set ones that aren't defined by the user
-		// TODO I think reset will still be wonky in edit mode
-		reset({
-			id: mode === "editVehicle" ? vehicleToEdit?.id : undefined,
-			userId: userId,
-			type: formValues.type,
-			vehiclesOrder: formValues.vehiclesOrder,
-		} as unknown as T); // Reset any fields not named here to undefined. TODO: The formValues object has two identical userId's after I do this. How could that even happen?
+		reset(
+			mode === "editVehicle"
+				? defaultVehicleValuesPATCH(userId, vehicleToEdit!)
+				: defaultVehicleValuesPOST(userId)
+		);
 	};
 
 	/**Changes the displayed form section when user indicates that they have a gas or EV
@@ -282,3 +309,20 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 };
 
 export default VehicleCreationOrEditForm;
+
+// I typed this out when I was tired and frustrated. It's technical debt. TODO type this better when you have a chance.
+const collapseAllSections = (
+	setCollapsedSections: (myObj: unknown) => void
+) => {
+	setCollapsedSections({
+		// ts-expect-error - I'm tired and don't want to deal with typing this. TODO loop around to this
+		gasVehicleData: "isCollapsed",
+		vehicleData: "isCollapsed",
+		electricVehicleData: "isCollapsed",
+		purchaseAndSales: "isCollapsed",
+		usage: "isCollapsed",
+		fixedCosts: "isCollapsed",
+		yearlyMaintenanceCosts: "isCollapsed",
+		variableCosts: "isCollapsed",
+	});
+};

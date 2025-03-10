@@ -13,6 +13,7 @@ import {
 	VehicleSchemaForPATCH,
 } from "../utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import VehicleCreationOrEditForm from "./CalculatorFormComponents/VehicleCreationForm";
+import { VehicleToBePostedSchema } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
 
 // TYPES/VALIDATION
 // Vehicle is DeepReadOnly right now, need to make mutable version for this which will be easy
@@ -40,10 +41,9 @@ const CalculatorPage = () => {
 	return (
 		<section className="h-screen p-4 sm:p-6 md:p-8">
 			<h1 className="text-2xl sm:text-3xl md:text-4xl">Calculator Page</h1>
-			<VehicleCreationOrEditForm<Vehicle_For_db_PATCH>
-				mode="editVehicle"
-				schema={VehicleSchemaForPATCH}
-				vehicleToEdit={firstVehicle}
+			<VehicleCreationOrEditForm
+				mode="newVehicle"
+				schema={VehicleToBePostedSchema}
 			/>
 		</section>
 	);
