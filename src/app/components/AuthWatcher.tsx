@@ -3,6 +3,7 @@
 // README
 // This component exists solely to watch for auth events (login, logout etc) and update Redux state
 // It wraps around its children so that the children don't render until the auth state is known
+// This component has no UI, it's just a wrapper
 
 import { useAppDispatch } from "@/redux/hooks";
 import { createClientCSROnly } from "../utils/server/supabase/client";

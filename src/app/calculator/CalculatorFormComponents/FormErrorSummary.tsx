@@ -8,7 +8,7 @@
 
 import { FieldErrors } from "react-hook-form";
 import FormErrorMessage from "./FormErrorMessage";
-import { VehiclePATCHorPOST } from "../page";
+import { VehiclePATCHorPOST } from "./VehicleCreationForm";
 
 type Props = {
 	errors: FieldErrors<VehiclePATCHorPOST>;
