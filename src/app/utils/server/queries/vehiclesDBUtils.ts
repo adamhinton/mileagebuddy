@@ -179,8 +179,6 @@ const addNewVehicleToDB = async (
 		type,
 		vehiclesOrder,
 		vehicleData,
-		gasVehicleData,
-		electricVehicleData,
 		purchaseAndSales,
 		usage,
 		fixedCosts,
@@ -196,8 +194,12 @@ const addNewVehicleToDB = async (
 			_type: type,
 			_vehiclesorder: vehiclesOrder,
 			_vehicledata: vehicleData,
-			_gasvehicledata: gasVehicleData || null,
-			_electricvehicledata: electricVehicleData || null, // Always pass the parameter, even if null
+			_gasvehicledata:
+				body.type === "gas" && body.gasVehicleData ? body.gasVehicleData : null, // Always pass the parameter, even if null
+			_electricvehicledata:
+				body.type === "electric" && body.electricVehicleData
+					? body.electricVehicleData
+					: null, // Always pass the parameter, even if null
 			_purchaseandsales: purchaseAndSales,
 			_usage: usage,
 			_fixedcosts: fixedCosts,
@@ -244,8 +246,7 @@ const updateVehicleInDB = async (
 		type,
 		vehiclesOrder,
 		vehicleData,
-		gasVehicleData,
-		electricVehicleData,
+
 		purchaseAndSales,
 		usage,
 		fixedCosts,
@@ -259,8 +260,10 @@ const updateVehicleInDB = async (
 		!type &&
 		!vehiclesOrder &&
 		!vehicleData &&
-		!gasVehicleData &&
-		!electricVehicleData &&
+		((updatedPartialVehicle.type === "gas" &&
+			!updatedPartialVehicle.gasVehicleData) ||
+			(updatedPartialVehicle.type === "electric" &&
+				!updatedPartialVehicle.electricVehicleData)) &&
 		!purchaseAndSales &&
 		!usage &&
 		!fixedCosts &&

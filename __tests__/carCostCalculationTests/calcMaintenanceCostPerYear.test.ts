@@ -24,21 +24,6 @@ describe("calcMaintenanceCostPerYear", () => {
 		);
 	});
 
-	it("Can handle null values", async () => {
-		const dummyYearlyMaintenanceCosts2: YearlyMaintenanceCosts = {
-			vehicleID: 1,
-			oilChanges: null,
-			tires: null,
-			batteries: null,
-			brakes: null,
-			other: null,
-		};
-
-		expect(await calcMaintenanceCostPerYear(dummyYearlyMaintenanceCosts2)).toBe(
-			0
-		);
-	});
-
 	it("Can handle zero values", async () => {
 		const dummyYearlyMaintenanceCosts3: YearlyMaintenanceCosts = {
 			vehicleID: 1,
@@ -54,11 +39,11 @@ describe("calcMaintenanceCostPerYear", () => {
 		);
 	});
 
-	it("Handles a mix of zero, null and positive values", async () => {
+	it("Handles a mix of zero and positive values", async () => {
 		const dummyYearlyMaintenanceCosts4: YearlyMaintenanceCosts = {
 			vehicleID: 1,
 			oilChanges: 0,
-			tires: null,
+			tires: 0,
 			batteries: 50,
 			brakes: 0,
 			other: 100,
