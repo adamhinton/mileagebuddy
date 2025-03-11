@@ -26,9 +26,80 @@
 @tailwind components;
 
 @layer components {
-	/* .btn is just a test component I made to see if this works */
-	.btn {
-		@apply bg-blue-500 lg:bg-red-500;
+	/* The base class for a text or num input in mileage calculator form
+	Do not use this class. It's meant to be combined with .mileage-calc-form-number-input or .mileage-calc-form-text-input */
+	.mileage-calc-form-input-base {
+		@apply px-1 py-1 h-6
+  text-neutral-text
+  bg-background-elevated 
+  border border-primary-100
+  rounded-md
+  transition-colors
+  focus:outline-none 
+  focus:border-primary 
+  focus:ring-1 
+  focus:ring-primary
+  dark:border-primary-200
+  disabled:opacity-50
+  disabled:cursor-not-allowed;
+	}
+
+	/* Small number input (<5 digits) in Forms. See MileageCalcFormNumberInput.tsx
+	Do not use this class on its own. It's meant to be combined with .mileage-calc-form-input-base */
+	.mileage-calc-form-number-input {
+		@apply w-16 mileage-calc-form-input-base;
+
+		@apply sm:w-20 sm:h-6 sm:px-2 sm:py-3;
+		@apply md:w-24 md:h-8 md:p-4;
+	}
+
+	/* Small text input in Forms. See MileageCalcFormTextInput.tsx
+	Do not use this class on its own. It's meant to be combined with .mileage-calc-form-input-base */
+	.mileage-calc-form-text-input {
+		@apply w-32 mileage-calc-form-input-base text-sm;
+
+		@apply sm:w-40 sm:h-6 sm:px-2 sm:py-3;
+		@apply md:w-48 md:h-8 md:p-4;
+	}
+
+	/* Each of these corresponds to a Vehicle sub-object. These sections are collapsible */
+	.mileage-calc-form-section {
+		@apply mb-4 border border-primary-100 
+    rounded-lg overflow-hidden 
+    shadow-sm hover:shadow
+		transition-all duration-300;
+
+		@apply sm:mb-6;
+		@apply md:mb-8;
+	}
+
+	.mileage-calc-form-section-header {
+		@apply w-full flex items-center justify-between 
+  p-1 bg-background-elevated 
+  hover:bg-background-highlight 
+  transition-colors;
+	}
+
+	.mileage-calc-form-section-content {
+		@apply p-2 bg-background-base 
+  grid gap-3 
+  transition-all duration-200;
+
+		@apply sm:p-3 sm:gap-3;
+		@apply md:p-4 md:gap-4;
+	}
+
+	.mileage-calc-form-error-message {
+		@apply text-red-500 text-xs mt-1;
+	}
+
+	.mileage-calc-form-input-label {
+		@apply text-sm font-medium text-neutral-text mr-1;
+	}
+
+	/*The asterisk indicating a field is required */
+	.mileage-calc-form-required-asterisk {
+		@apply text-red-500 ml-1;
 	}
 }
 

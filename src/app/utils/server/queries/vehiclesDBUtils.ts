@@ -19,35 +19,35 @@ export const stringForJoiningVehicleTables = `
 		userid, type, id, "vehiclesOrder",
 
 		"vehicleData"(
-			"vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
+			"id", "vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
 		),
 
 		"gasVehicleData"(
-			"vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
+			"id", "vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
 		),
 
 		"electricVehicleData"(
-			"vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles"
+			"id", "vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles"
 		),
 
 		"purchaseAndSales"(
-			"vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", "willSellCarAtPrice"
+			"id", "vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", "willSellCarAtPrice"
 		),
 
 		usage(
-			"vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", "extraDistanceMiles", "extraDistancePercentHighway"
+			"id", "vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", "extraDistanceMiles", "extraDistancePercentHighway"
 		),
 
 		"fixedCosts"(
-			"vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts"
+			"id", "vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts"
 		),
 
 		"yearlyMaintenanceCosts"(
-			"vehicleID", "oilChanges", tires, batteries, brakes, other
+			"id", "vehicleID", "oilChanges", tires, batteries, brakes, other
 		),
 
 		"variableCosts"(
-			"vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions"
+			"id", "vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions"
 		)
 
 		`;
@@ -166,6 +166,8 @@ const deleteDBVehicleByID = async (
 /** Attempts to add a new vehicle's data to DB
  *
  * Returns the vehicle if successful, and an error if unsuccessful
+ *
+ * Zod validation has alraedy been done on both the client and server before this si called
  */
 const addNewVehicleToDB = async (
 	body: Vehicle_For_db_POST,
@@ -187,9 +189,6 @@ const addNewVehicleToDB = async (
 	} = body;
 
 	try {
-		// const isSafe = VehicleToBePostedSchema.safeParse(body);
-		// console.log("isSafe in addNewVehicleToDB:", isSafe);
-
 		// Wrote db function insert_vehicle_function.sql for this
 		const { data, error } = await supabase.rpc("insert_vehicle", {
 			// These parameter names had to be all lower case to play nice with SQL
@@ -197,8 +196,8 @@ const addNewVehicleToDB = async (
 			_type: type,
 			_vehiclesorder: vehiclesOrder,
 			_vehicledata: vehicleData,
-			_gasvehicledata: gasVehicleData,
-			_electricvehicledata: electricVehicleData,
+			_gasvehicledata: gasVehicleData || null,
+			_electricvehicledata: electricVehicleData || null, // Always pass the parameter, even if null
 			_purchaseandsales: purchaseAndSales,
 			_usage: usage,
 			_fixedcosts: fixedCosts,

@@ -71,8 +71,6 @@ export type Vehicles = Vehicle[];
  *
  * IMPORTANT: Don't use this type for anything outside this file; VehicleSchema (and the type Vehicle which is inferred from it) is best.
  *
- * Note: I left maxes on these to avoid ridiculously high number spam
- *
  * IMPORTANT: Extending this schema? Make sure to slap .refine(data =>{ return refineZodVehicleValidation(data)}) on the end of your new schema
  * This is because Zod can't handle unions or sub-types like .extend, .omit etc. with .refine
  *
@@ -102,19 +100,11 @@ export const BaseVehicleSchema = z.object({
 
 export const GasVehicleSchema = BaseVehicleSchema.extend({
 	type: z.literal("gas"),
-	electricVehicleData: z
-		.null()
-		.describe("electricVehicleData must be null because this is a gas vehicle"),
-});
+}).omit({ electricVehicleData: true });
 
 export const ElectricVehicleSchema = BaseVehicleSchema.extend({
 	type: z.literal("electric"),
-	gasVehicleData: z
-		.null()
-		.describe(
-			"gasVehicleData must be null because this is an electric vehicle"
-		),
-});
+}).omit({ gasVehicleData: true });
 
 /**
  * The type Vehicle is inferred from this
@@ -123,7 +113,10 @@ export const ElectricVehicleSchema = BaseVehicleSchema.extend({
  * This is because Zod can't handle unions or sub-types like .extend, .omit etc. with .refine
  * And .refine is important for more complex validations that can't be done with built in Zod functions like .max() or .nonnegative()
  */
-export const VehicleSchema = z.union([GasVehicleSchema, ElectricVehicleSchema]);
+export const VehicleSchema = z.discriminatedUnion("type", [
+	GasVehicleSchema,
+	ElectricVehicleSchema,
+]);
 
 /**
  * This performs refinements on Vehicle that can't be just done by built in zod functions like .max() or .nonnegative() etc
@@ -159,15 +152,10 @@ export const refineZodVehicleValidation = (vehicleData) => {
 	return { isVehicleValid, error };
 };
 
-// /**Always has "type": "gas" and electricVehicleData: null */
-// type GasVehicle = z.infer<typeof GasVehicleSchema>;
-// /**Always has "type": "electric" and gasVehicleData: null */
-// type ElectricVehicle = z.infer<typeof ElectricVehicleSchema>;
-
 // For testing and verification, TODO delete later
+// Leaving this object has come in handy because it tells me when there's some type mismatch
 export const bob: Vehicle = {
 	type: "gas",
-	electricVehicleData: null,
 	gasVehicleData: {
 		vehicleID: 1,
 		gasCostPerGallon: 3.5,
@@ -181,17 +169,18 @@ export const bob: Vehicle = {
 	vehicleData: {
 		vehicleID: 1,
 		vehicleName: "Test Vehicle",
-		year: null,
-		make: null,
-		model: null,
-		trim: null,
-		highwayMPG: null,
+		year: 2011,
+		make: "Test make",
+		model: "Test model",
+		trim: "Idk bff Jill",
+		// Deprecated
+		highwayMPG: 35,
 	},
 	purchaseAndSales: {
 		vehicleID: 1,
-		yearPurchased: null,
+		yearPurchased: 2015,
 		purchasePrice: 10000,
-		downPaymentAmount: null,
+		downPaymentAmount: 0,
 		willSellCarAfterYears: 5,
 		milesBoughtAt: 10000,
 		willSellCarAtMiles: 50000,
@@ -207,28 +196,28 @@ export const bob: Vehicle = {
 	},
 	fixedCosts: {
 		vehicleID: 1,
-		yearlyInsuranceCost: null,
-		yearlyRegistrationCost: null,
-		yearlyTaxes: null,
-		monthlyLoanPayment: null,
-		monthlyWarrantyCost: null,
-		inspectionCost: null,
-		otherYearlyCosts: null,
+		yearlyInsuranceCost: 100,
+		yearlyRegistrationCost: 100,
+		yearlyTaxes: 100,
+		monthlyLoanPayment: 100,
+		monthlyWarrantyCost: 100,
+		inspectionCost: 100,
+		otherYearlyCosts: 100,
 	},
 	yearlyMaintenanceCosts: {
 		vehicleID: 1,
-		oilChanges: null,
-		tires: null,
-		batteries: null,
-		brakes: null,
-		other: null,
+		oilChanges: 100,
+		tires: 100,
+		batteries: 100,
+		brakes: 100,
+		other: 100,
 	},
 	variableCosts: {
 		vehicleID: 1,
-		monthlyParkingCosts: null,
-		monthlyTolls: null,
-		monthlyCarWashCost: null,
-		monthlyMiscellaneousCosts: null,
-		monthlyCostDeductions: null,
+		monthlyParkingCosts: 100,
+		monthlyTolls: 100,
+		monthlyCarWashCost: 100,
+		monthlyMiscellaneousCosts: 100,
+		monthlyCostDeductions: 100,
 	},
 };

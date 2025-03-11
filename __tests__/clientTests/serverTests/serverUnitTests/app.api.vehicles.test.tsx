@@ -123,7 +123,6 @@ describe("GET /api/vehicles", () => {
 				monthlyMiscellaneousCosts: 50.0,
 				monthlyCostDeductions: 80.0,
 			},
-			electricVehicleData: null,
 		},
 	];
 
@@ -318,7 +317,6 @@ describe("POST /api/vehicles", () => {
 				monthlyMiscellaneousCosts: 50.0,
 				monthlyCostDeductions: 80.0,
 			},
-			electricVehicleData: null,
 		},
 	];
 
@@ -367,7 +365,7 @@ describe("POST /api/vehicles", () => {
 		const mockInsertVehicleWithoutAllFields = {
 			userid: "1",
 			type: "gas",
-			electricVehicleData: completeMockVehicle.electricVehicleData,
+			// @ts-expect-error - intentionally missing required fields
 			gasVehicleData: completeMockVehicle.gasVehicleData,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
 			usage: completeMockVehicle.usage,
@@ -413,7 +411,6 @@ describe("POST /api/vehicles", () => {
 				costPerCharge: 15,
 				milesPerCharge: 200,
 			},
-			gasVehicleData: null,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
 			usage: completeMockVehicle.usage,
 			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
@@ -459,7 +456,6 @@ describe("POST /api/vehicles", () => {
 				costPerCharge: 15,
 				milesPerCharge: 200,
 			},
-			gasVehicleData: null,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
 			usage: completeMockVehicle.usage,
 			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
@@ -524,11 +520,6 @@ describe("POST /api/vehicles", () => {
 		};
 		(createClientSSROnly as jest.Mock).mockReturnValue(supabase);
 
-		console.log(
-			"vehicleWithNullGasVehicleData:",
-			vehicleWithNullGasVehicleData
-		);
-
 		const request = {
 			json: jest.fn().mockResolvedValue(vehicleWithNullGasVehicleData),
 			body: vehicleWithNullGasVehicleData,
@@ -536,8 +527,6 @@ describe("POST /api/vehicles", () => {
 		} as unknown as NextRequest;
 
 		const response = await POST(request);
-
-		console.log("response in TEST:", response);
 
 		const responseData = await response.json();
 
@@ -612,7 +601,6 @@ describe("DELETE /api/vehicles", () => {
 				monthlyMiscellaneousCosts: 50.0,
 				monthlyCostDeductions: 80.0,
 			},
-			electricVehicleData: null,
 		},
 	];
 
@@ -780,7 +768,6 @@ describe("PATCH api/vehicles", () => {
 			monthlyMiscellaneousCosts: 50.0,
 			monthlyCostDeductions: 80.0,
 		},
-		electricVehicleData: null,
 	};
 
 	const partialMockVehicle: Partial<Vehicle> = {

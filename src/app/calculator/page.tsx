@@ -1,48 +1,45 @@
-// README
-// This is the meat and potatoes of the whole MileageBuddy project.
-// This is the Calculator that calculates the cost per mile of a vehicle based on daily use.
-// Also calculates the cost of any additional miles driven.
-// This will be used to create (or edit) an object of type Vehicle, whose cost will be calculated with the function from calculateCarCostMain.
-// Form validation will be done by Zod.
+// _______________________________________________________
+// In this form, the user creates or edits a Vehicle based on the mode props passed in
+// The form is validated using zod and the schema is passed in as a prop
+// See VehicleCreationOrEditForm for more details
 
-// Styling:
-// Efficient, accessible, clean, responsive. Use color schemes we already have. Update globals.css with new form styling if needed.
+// _______________________________________________________
 
-// SPECS:
-// Frontend: react-hook-form (I think?) with zod validation. Then submit to server action; once that comes back happy, update redux state.
-// Stretch: optimistic UI updates
-// Backend: server actions, also with zod validation. Then submit created (or patched) vehicle to /api/vehicles
-// Zod validation on both client and server
-// There will be lots of inputs, figure out how to break that up
-// Multiple pages? Like one for each sub-object of vehicle? (yearlyMaintenanceCosts, yearlyFixedCosts etc)
-// Or collapsible sections?
-// Definitely not just one long form
-// Input error specs:
-// Line-item errors on bad input, probably in red right above that inut
-// Focus page on the first error if it pops up after submit
-// Ideally show error before they hit submit
-// Display error summary at top of form too; ideally clickable ones that take user to relevant section
+"use client";
 
-// Specifics of form inputs:
-// Radio button near the start for gas vs electric
-// Work out how to update form state for gas vs electric
-// Make sure units are very clear (dollars, gallons etc)
+import { useAppSelector } from "@/redux/hooks";
+import VehicleCreationOrEditForm from "./CalculatorFormComponents/VehicleCreationForm";
+import { VehicleToBePostedSchema } from "../utils/server/types/VehicleTypes/POSTVehicleTypes";
 
-// TYPES
+// TYPES/VALIDATION
 // Vehicle is DeepReadOnly right now, need to make mutable version for this which will be easy
-// Use VehicleToBePostedSchema from zod and the ts type Vehicle_For_DB_POST here. That will be the object which guides the zod validaton. It omits things like vehicleID etc.
+// Use VehicleToBePostedSchema from zod and the ts type Vehicle_For_DB_POST here. That will be the object which guides the zod validation. It omits things like vehicleID etc.
 // Use Vehicle_For_DB_PATCH and VehicleSchemaForPATCH when editing a vehicle using this form
+// Note: VehicleToBePostedSchema is a union of GasVehicleSchemaForPOST and ElectricVehicleSchemaForPOST. Will have to do validation on one or the other based on user input, you can't do zod validation on a union type. but that shouldn't be too hard.
 
-// STRETCH:
-// Real time calculations? Maybe broken down by section.
+// TODO:
+// Figure out how/where in the UI to toggle between testing and vehicle creation
+// Let non-authenticated users save vehicles to localStorage
+// Default values:
+// // Figure out where to save these
+// // Make input default values actually save to form values; right now user has to tab over input
+// General styling improvements. Animations, transitions etc
+// Make CollapsibleSectionTitles type a tuple of literals so as to be the one source of truth for the order
 
-// Will start by writing the form for just one or two sections, thene expand from there
+// Stretch: optimistic UI updates
 
 const CalculatorPage = () => {
+	const usersVehicles = useAppSelector((state) => state.vehicles);
+	const firstVehicle = usersVehicles[0];
+	console.log("firstVehicle:", firstVehicle);
+
 	return (
-		// 100% vh
-		<section className="h-screen">
-			<h1>Calculator Page</h1>
+		<section className="h-screen p-4 sm:p-6 md:p-8">
+			<h1 className="text-2xl sm:text-3xl md:text-4xl">Calculator Page</h1>
+			<VehicleCreationOrEditForm
+				mode="newVehicle"
+				schema={VehicleToBePostedSchema}
+			/>
 		</section>
 	);
 };

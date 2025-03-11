@@ -1,5 +1,7 @@
 "use client";
 
+// TODO run npx type-coverage --detail and fix any issues
+
 import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import {
 	deleteVehicleByIDClient,
@@ -308,12 +310,6 @@ export default function Page() {
 
 			<button
 				onClick={async () => {
-					// const res = await fetch("api/vehicles?userid=1", {
-					// 	method: "GET",
-					// });
-					// const data: Vehicles = await res.json();
-					// console.log("data from GET vehicles:", data);
-
 					if (!loggedInUser) {
 						console.error("No logged in user to GET vehicles for");
 						return;

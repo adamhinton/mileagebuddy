@@ -100,9 +100,27 @@ const vehiclesSlice = createSlice({
 		removeAllVehicles: (state) => {
 			state.length = 0;
 		},
+		editVehicleById: (state, action: PayloadAction<{ vehicle: Vehicle }>) => {
+			// find vehicle with relevant id and edit it
+
+			const { vehicle } = action.payload;
+			const vehicleIndex = state.findIndex((v) => v.id === vehicle.id);
+			if (vehicleIndex !== -1) {
+				state[vehicleIndex] = vehicle;
+			} else {
+				console.error("Vehicle not found in state");
+			}
+
+			console.log("state:", state);
+		},
 	},
 });
 
-export const { addVehicle, removeOneVehicle, setVehicles, removeAllVehicles } =
-	vehiclesSlice.actions;
+export const {
+	addVehicle,
+	removeOneVehicle,
+	setVehicles,
+	removeAllVehicles,
+	editVehicleById,
+} = vehiclesSlice.actions;
 export default vehiclesSlice.reducer;

@@ -107,7 +107,7 @@ export const insertVehicleClient = async (
 			"Vehicle for POST failed validation. ",
 			isVehicle.error.errors
 		);
-		throw new Error("Vehicle failed validation");
+		throw new Error("Vehicle failed validation xyz");
 	}
 
 	try {

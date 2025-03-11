@@ -12,6 +12,7 @@ import {
 	GasVehicleSchema,
 	refineZodVehicleValidation,
 } from "./GetVehicleTypes";
+import { boughtAtLessThanSoldAtError } from "@/app/zod/schemas/VehicleSubSchemas";
 
 /**
  * This doesn't have any ids anywhere because it's for a POST request
@@ -26,7 +27,7 @@ export type Vehicle_For_db_POST = DeepReadonly<
 	z.infer<typeof VehicleToBePostedSchema>
 >;
 
-// // See notes above VehicleToBePostedSchema about why I had  to do this
+// See notes above VehicleToBePostedSchema about why I had  to do this
 export const GasVehicleSchemaForPOST = GasVehicleSchema.omit({
 	id: true,
 }).extend({
@@ -48,13 +49,21 @@ export const GasVehicleSchemaForPOST = GasVehicleSchema.omit({
 		.omit({
 			vehicleID: true,
 		})
-		.refine((data) => {
-			return data.milesBoughtAt <= data.willSellCarAtMiles;
-		})
+		.refine(
+			(data) => {
+				return data.milesBoughtAt <= data.willSellCarAtMiles;
+			},
+			{
+				message: boughtAtLessThanSoldAtError,
+				path: ["purchaseAndSales"],
+			}
+		)
 		.describe("milesBoughtAt must be less than or equal to willSellCarAtMiles"),
 
 	usage: GasVehicleSchema.shape.usage.omit({ vehicleID: true }),
 });
+
+export type Gas_Vehicle_For_DB_POST = z.infer<typeof GasVehicleSchemaForPOST>;
 
 // This is for VehicleToBePostedSchema
 // See notes above VehicleToBePostedSchema about why I had  to do this
@@ -82,9 +91,22 @@ export const ElectricVehicleSchemaForPOST = ElectricVehicleSchema.omit({
 		.innerType()
 		.omit({
 			vehicleID: true,
-		}),
+		})
+		.refine(
+			(data) => {
+				return data.milesBoughtAt <= data.willSellCarAtMiles;
+			},
+			{
+				message: boughtAtLessThanSoldAtError,
+				path: ["purchaseAndSales"],
+			}
+		),
 	usage: ElectricVehicleSchema.shape.usage.omit({ vehicleID: true }),
 });
+
+export type Electric_Vehicle_For_DB_POST = z.infer<
+	typeof ElectricVehicleSchemaForPOST
+>;
 
 // Vehicle without any ids except userid, because it hasn't been sent to db yet
 // This is for POST requests
@@ -94,7 +116,10 @@ export const ElectricVehicleSchemaForPOST = ElectricVehicleSchema.omit({
 // So I have to do this sort of clunky solution, which is to make a union of the two types without ids
 // TODO: Try to find a better way than this
 export const VehicleToBePostedSchema = z
-	.union([GasVehicleSchemaForPOST, ElectricVehicleSchemaForPOST])
+	.discriminatedUnion("type", [
+		GasVehicleSchemaForPOST,
+		ElectricVehicleSchemaForPOST,
+	])
 	.refine(
 		(data) => {
 			const validation = refineZodVehicleValidation(data);

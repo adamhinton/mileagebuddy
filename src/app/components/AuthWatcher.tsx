@@ -2,12 +2,12 @@
 
 // README
 // This component exists solely to watch for auth events (login, logout etc) and update Redux state
-// There is no UI here, so it doesn't return anything
+// It wraps around its children so that the children don't render until the auth state is known
 
 import { useAppDispatch } from "@/redux/hooks";
 import { createClientCSROnly } from "../utils/server/supabase/client";
 import { clearUser, setUser } from "@/redux/reducers/userReducer";
-import { useEffect } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import {
 	removeAllVehicles,
 	setVehicles,
@@ -15,9 +15,14 @@ import {
 import { getVehiclesByUserIDClient } from "../utils/server/client/DBInteractions/VehiclesDBInteractions";
 import { redirect } from "next/navigation";
 
-const AuthWatcher = () => {
+interface AuthWatcherProps {
+	children: ReactNode;
+}
+
+const AuthWatcher = ({ children }: AuthWatcherProps) => {
 	const supabase = createClientCSROnly();
 	const dispatch = useAppDispatch();
+	const [authInitialized, setAuthInitialized] = useState(false);
 
 	useEffect(() => {
 		/**Get user's vehicles from DB and set them to redux state */
@@ -31,10 +36,34 @@ const AuthWatcher = () => {
 			}
 		};
 
+		// Check if there's an initial session on first load
+		const initializeAuth = async () => {
+			const { data } = await supabase.auth.getSession();
+
+			if (data.session) {
+				// User is already logged in
+				dispatch(
+					setUser({
+						id: data.session.user.id,
+						email: data.session.user.email!,
+						isDarkMode: false,
+					})
+				);
+				await fetchAndSetVehicles(data.session.user.id);
+			}
+
+			// Indicate auth is initialized whether user is logged in or not
+			setAuthInitialized(true);
+		};
+
+		// Check if there's a logged in user on first load and set them to state if they exist
+		initializeAuth();
+
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((event, session) => {
 			if (event === "SIGNED_IN") {
+				console.log("SIGNED_IN");
 				dispatch(
 					setUser({
 						id: session!.user.id,
@@ -55,6 +84,15 @@ const AuthWatcher = () => {
 				console.log("Token refreshed:", session);
 			} else if (event === "USER_UPDATED") {
 				// Handle user update event
+
+				dispatch(
+					setUser({
+						id: session!.user.id,
+						email: session!.user.email!,
+						isDarkMode: false,
+					})
+				);
+
 				console.log("User updated:", session);
 			} else if (event === "PASSWORD_RECOVERY") {
 				// Handle password recovery event
@@ -62,7 +100,15 @@ const AuthWatcher = () => {
 			} else if (event === "INITIAL_SESSION") {
 				// INITIAL_SESSION is page first loading, among other things
 				console.log("INITIAL SESSION");
-				// Handle initial session event
+
+				dispatch(
+					setUser({
+						id: session!.user.id,
+						email: session!.user.email!,
+						isDarkMode: false,
+					})
+				);
+				fetchAndSetVehicles(session!.user.id);
 			}
 		});
 
@@ -72,8 +118,19 @@ const AuthWatcher = () => {
 		};
 	}, [supabase.auth, dispatch]);
 
-	// Has to return something or TS yells at me where this is called in layout.tsx
-	return <></>;
+	// Only render children when auth is initialized
+	if (!authInitialized) {
+		return (
+			<div className="flex items-center justify-center min-h-screen">
+				<div className="text-center">
+					<h2 className="text-xl font-semibold mb-2">Loading...</h2>
+					<p>Checking authentication status</p>
+				</div>
+			</div>
+		);
+	}
+
+	return <>{children}</>;
 };
 
 export default AuthWatcher;
