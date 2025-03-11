@@ -31,6 +31,7 @@ import { VehicleToBePostedSchema } from "../utils/server/types/VehicleTypes/POST
 const CalculatorPage = () => {
 	const usersVehicles = useAppSelector((state) => state.vehicles);
 	const firstVehicle = usersVehicles[0];
+	console.log("firstVehicle:", firstVehicle);
 
 	return (
 		<section className="h-screen p-4 sm:p-6 md:p-8">
