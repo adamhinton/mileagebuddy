@@ -20,19 +20,6 @@ describe("calcVariableCostPerYear", () => {
 		expect(await calcVariableCostPerYear(dummyData)).toBe(1_800);
 	});
 
-	it("Can handle null values", async () => {
-		const dummyData2: VariableCosts = {
-			vehicleID: 1,
-			monthlyParkingCosts: null,
-			monthlyTolls: null,
-			monthlyCarWashCost: null,
-			monthlyMiscellaneousCosts: null,
-			monthlyCostDeductions: null,
-		};
-
-		expect(await calcVariableCostPerYear(dummyData2)).toBe(0);
-	});
-
 	// Zod should prevent this
 	it("Throws error if monthly cost deductions is negative", async () => {
 		const dummyData3: VariableCosts = {
@@ -49,10 +36,10 @@ describe("calcVariableCostPerYear", () => {
 		).rejects.toThrow();
 	});
 
-	it("Handles a mix of zeroes, nulls and positive values", async () => {
+	it("Handles a mix of zeroes and positive values", async () => {
 		const dummyData4: VariableCosts = {
 			vehicleID: 1,
-			monthlyParkingCosts: null,
+			monthlyParkingCosts: 0,
 			monthlyTolls: 60,
 			monthlyCarWashCost: 10,
 			monthlyMiscellaneousCosts: 0,

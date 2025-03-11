@@ -35,8 +35,6 @@ const dummyElectricVehicleData: ElectricVehicleData = {
 	vehicleID: 1,
 	costPerCharge: 3,
 	milesPerCharge: 102,
-	// electricRangeMiles doesn't actually get used
-	electricRangeMiles: 200,
 };
 
 // Only passing in needed types for the test

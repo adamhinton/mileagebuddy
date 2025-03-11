@@ -1,6 +1,6 @@
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import { Path } from "react-hook-form";
-import { VehiclePATCHorPOST } from "../page";
+import { VehiclePATCHorPOST } from "./VehicleCreationForm";
 
 /**
  * This component goes in two places:

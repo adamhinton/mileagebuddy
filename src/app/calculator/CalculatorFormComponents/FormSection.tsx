@@ -7,11 +7,11 @@
 
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import {
-	Electric_Vehicle_For_DB_POST,
-	Gas_Vehicle_For_DB_POST,
+	type Electric_Vehicle_For_DB_POST,
+	type Gas_Vehicle_For_DB_POST,
 } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
-import { ReactNode } from "react";
-import { type CollapsedOrNot } from "../page";
+import { type ReactNode } from "react";
+import { type CollapsedOrNot } from "./VehicleCreationForm";
 
 // exporting to use in test file
 export type FormSectionProps = {

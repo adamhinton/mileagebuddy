@@ -16,7 +16,7 @@ import VariableCostsSubForm from "../CalculatorFormComponents/FormSubSections/Va
 import GasVehicleDataSubForm from "../CalculatorFormComponents/FormSubSections/GasVehicleDataSubForm";
 import ElectricVehicleDataSubForm from "../CalculatorFormComponents/FormSubSections/ElectricVehicleDataSubForm";
 import { CollapsibleSectionTitles } from "../calculatorUtils/FormNavUtils";
-import { CollapsedOrNot, VehiclePATCHorPOST } from "../page";
+import { CollapsedOrNot, VehiclePATCHorPOST } from "./VehicleCreationForm";
 
 type FormSubSectionsProps = {
 	register: UseFormRegister<VehiclePATCHorPOST>;

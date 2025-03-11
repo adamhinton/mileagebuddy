@@ -155,9 +155,8 @@ export async function PATCH(
 		type,
 		vehiclesOrder,
 		vehicleData,
-		gasVehicleData,
-		electricVehicleData,
 		purchaseAndSales,
+		// gasVehicleData and electricVehicleData are accounted for in the `if` block just below
 		usage,
 		fixedCosts,
 		yearlyMaintenanceCosts,
@@ -170,8 +169,8 @@ export async function PATCH(
 		!type &&
 		!vehiclesOrder &&
 		!vehicleData &&
-		!gasVehicleData &&
-		!electricVehicleData &&
+		!("gasVehicleData" in updatedPartialVehicle) &&
+		!("electricVehicleData" in updatedPartialVehicle) &&
 		!purchaseAndSales &&
 		!usage &&
 		!fixedCosts &&
