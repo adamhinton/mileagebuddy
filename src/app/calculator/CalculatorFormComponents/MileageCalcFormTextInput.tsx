@@ -9,7 +9,7 @@ import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import FormErrorMessage from "./FormErrorMessage";
-import { VehiclePATCHorPOST } from "../page";
+import { VehiclePATCHorPOST } from "./VehicleCreationForm";
 
 type MileageCalcFormTextInputProps<TFieldValues extends FieldValues> = {
 	registerFn: UseFormRegister<TFieldValues>;

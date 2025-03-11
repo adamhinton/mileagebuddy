@@ -1,4 +1,3 @@
-import { VehicleToBePostedSchema } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { LOCAL_STORAGE_FORM_DATA_KEY } from "../CalculatorFormComponents/VehicleCreationForm";
 
 /**When the user navigates away, any in-progress form values are saved to local storage and retrieved when they come back

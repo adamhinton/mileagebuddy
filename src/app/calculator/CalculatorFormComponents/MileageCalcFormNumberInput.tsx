@@ -12,7 +12,7 @@ import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import FormErrorMessage from "./FormErrorMessage";
-import { VehiclePATCHorPOST } from "../page";
+import { VehiclePATCHorPOST } from "./VehicleCreationForm";
 
 type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
 	registerFn: UseFormRegister<TFieldValues>;
@@ -56,7 +56,7 @@ const MileageCalcFormNumInput = ({
 
 	// Inputs can be as precise as two decimal places for gas cost or EV cost per charge purposes, but not more
 	// All other inputs are incremented by the dollar
-	// Note, I tried to add a step() attribute to the gas cost and cost per charge, but couldn't figure out how to access it here. So we do it this way instead.
+	// Note, I tried to add a step() attribute to the zod schema's gas cost and cost per charge, but couldn't figure out how to access it here. So we do it this way instead.
 	const step =
 		path === "gasVehicleData.gasCostPerGallon" ||
 		path === "electricVehicleData.costPerCharge"
