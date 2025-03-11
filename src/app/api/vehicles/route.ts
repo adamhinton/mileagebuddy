@@ -23,7 +23,6 @@ export async function GET(request: Request) {
 
 	try {
 		const userID = url.searchParams.get("userid");
-		console.log("userID in route.ts GET:", userID);
 		const vehicleID = url.searchParams.get("vehicleid");
 
 		if (!userID) {

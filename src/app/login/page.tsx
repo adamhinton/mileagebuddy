@@ -125,12 +125,6 @@ globalThis.handleSignInWithGoogle = async function handleSignInWithGoogle(
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	response: any
 ) {
-	console.log("handleSignInWithGoogle starting");
-	console.log(
-		"handleSignInWithGoogle response PARAMETER, not return item:",
-		response
-	);
-
 	const supabase = createClientCSROnly();
 
 	// Retrieve signed in user info

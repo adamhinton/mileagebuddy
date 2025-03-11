@@ -1,17 +1,17 @@
 // README
 // This is (obviously) a list of dummy Vehicles for testing purposes. It is used in the fake redux store in my unit tests.
 
-import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
+import { Vehicle_For_db_PATCH } from "../server/types/VehicleTypes/PATCHVehicleTypes";
 
-const testVehicles: Vehicle[] = [
+const testVehicles: Vehicle_For_db_PATCH[] = [
 	// Gas Vehicle 1
 	{
-		id: 101,
+		id: 10,
 		userid: "b1b2b3b4-1234-5678-9abc-def012345678",
 		vehiclesOrder: 1,
 		type: "gas",
 		vehicleData: {
-			vehicleID: 101,
+			vehicleID: 10,
 			vehicleName: "Ford F-150",
 			year: 2018,
 			make: "Ford",
@@ -20,7 +20,7 @@ const testVehicles: Vehicle[] = [
 			highwayMPG: 20,
 		},
 		purchaseAndSales: {
-			vehicleID: 101,
+			vehicleID: 10,
 			yearPurchased: 2018,
 			purchasePrice: 30000,
 			downPaymentAmount: 5000,
@@ -30,7 +30,7 @@ const testVehicles: Vehicle[] = [
 			willSellCarAtPrice: 15000,
 		},
 		usage: {
-			vehicleID: 101,
+			vehicleID: 10,
 			averageDailyMiles: 50,
 			weeksPerYear: 50,
 			percentHighway: 60,
@@ -38,7 +38,7 @@ const testVehicles: Vehicle[] = [
 			extraDistancePercentHighway: 70,
 		},
 		fixedCosts: {
-			vehicleID: 101,
+			vehicleID: 10,
 			yearlyInsuranceCost: 1200,
 			yearlyRegistrationCost: 150,
 			yearlyTaxes: 250,
@@ -48,7 +48,7 @@ const testVehicles: Vehicle[] = [
 			otherYearlyCosts: 200,
 		},
 		yearlyMaintenanceCosts: {
-			vehicleID: 101,
+			vehicleID: 10,
 			oilChanges: 150,
 			tires: 400,
 			batteries: 0,
@@ -56,7 +56,7 @@ const testVehicles: Vehicle[] = [
 			other: 100,
 		},
 		variableCosts: {
-			vehicleID: 101,
+			vehicleID: 10,
 			monthlyParkingCosts: 0,
 			monthlyTolls: 20,
 			monthlyCarWashCost: 15,
@@ -64,12 +64,11 @@ const testVehicles: Vehicle[] = [
 			monthlyCostDeductions: 0,
 		},
 		gasVehicleData: {
-			vehicleID: 101,
+			vehicleID: 10,
 			gasCostPerGallon: 3.5,
 			milesPerGallonHighway: 20,
 			milesPerGallonCity: 15,
 		},
-		electricVehicleData: null,
 	},
 
 	// Gas Vehicle 2
@@ -137,7 +136,6 @@ const testVehicles: Vehicle[] = [
 			milesPerGallonHighway: 32,
 			milesPerGallonCity: 24,
 		},
-		electricVehicleData: null,
 	},
 
 	// Electric Vehicle 1
@@ -199,7 +197,6 @@ const testVehicles: Vehicle[] = [
 			monthlyMiscellaneousCosts: 50,
 			monthlyCostDeductions: 0,
 		},
-		gasVehicleData: null,
 		electricVehicleData: {
 			vehicleID: 201,
 			costPerCharge: 15,
@@ -266,7 +263,6 @@ const testVehicles: Vehicle[] = [
 			monthlyMiscellaneousCosts: 35,
 			monthlyCostDeductions: 0,
 		},
-		gasVehicleData: null,
 		electricVehicleData: {
 			vehicleID: 202,
 			milesPerCharge: 250,

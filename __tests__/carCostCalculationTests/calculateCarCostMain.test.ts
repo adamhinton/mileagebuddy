@@ -8,7 +8,7 @@ import { calculateCarCostMain } from "@/app/utils/CarCostAlgorithm/calculateCarC
 
 const completeMockVehicle = {
 	type: "gas" as const,
-	userid: 1,
+	userid: "1",
 	id: 1,
 	vehiclesOrder: 1,
 	vehicleData: {
