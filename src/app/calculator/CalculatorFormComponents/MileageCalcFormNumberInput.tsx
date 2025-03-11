@@ -93,9 +93,6 @@ const MileageCalcFormNumInput = ({
 				max={maxValue}
 				min={minValue}
 				required={isRequired}
-				// Not totally sure undefined is the right choice but it seems to work
-				// TODO 0 is just for testing, move back to undefined
-				defaultValue={0}
 				step={step}
 			/>
 			{error && <FormErrorMessage errorMessage={error} path={path} />}{" "}
