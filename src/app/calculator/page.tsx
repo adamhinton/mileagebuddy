@@ -18,7 +18,6 @@ import { VehicleToBePostedSchema } from "../utils/server/types/VehicleTypes/POST
 // Note: VehicleToBePostedSchema is a union of GasVehicleSchemaForPOST and ElectricVehicleSchemaForPOST. Will have to do validation on one or the other based on user input, you can't do zod validation on a union type. but that shouldn't be too hard.
 
 // TODO:
-// TODO IMPORTANT Get userid from logged in user - right now it's hardcoded for testing
 // Figure out how/where in the UI to toggle between testing and vehicle creation
 // Let non-authenticated users save vehicles to localStorage
 // Default values:
@@ -32,7 +31,6 @@ import { VehicleToBePostedSchema } from "../utils/server/types/VehicleTypes/POST
 const CalculatorPage = () => {
 	const usersVehicles = useAppSelector((state) => state.vehicles);
 	const firstVehicle = usersVehicles[0];
-	console.log("firstVehicle:", firstVehicle);
 
 	return (
 		<section className="h-screen p-4 sm:p-6 md:p-8">
