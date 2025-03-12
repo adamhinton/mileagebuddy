@@ -1,9 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 // TODO: Clean up this file
-
-// NOTE: To get the type of sub-objects within Vehicles, do this:
-// const fixedCosts: Vehicle["fixedCosts"] = ...
 
 // README:
 // Here we define types for Vehicle (obviously)
@@ -23,7 +18,7 @@
 // Here are the types to use in different situations
 // Vehicle you're GETTING from the DB: Vehicle
 // Vehicle you're POSTING to the DB: Vehicle_For_db_POST
-// Vehicle you're PATCHING to the DB: TODO, will write this soon
+// Vehicle you're PATCHING to the DB: Vehicle_For_db_PATCH
 
 import z from "zod";
 import {
@@ -35,14 +30,23 @@ import {
 	VariableCostsSchema,
 	VehicleDataSchema,
 	YearlyMaintenanceCostsSchema,
-} from "./VehicleSubSchemas";
+} from "../../../../zod/schemas/VehicleSubSchemas";
+
+// TODO: Make this only one field deep; right now the type definitions say every field in every object is readonly which isn't very reader-friendly
+/**Used to make all the sub-objects in a Vehicle readonly
+ *
+ * Just Readonly<Vehicle> would leave the sub-objects still mutable
+ */
+export type DeepReadonly<T> = {
+	readonly [P in keyof T]: T[P] extends object ? DeepReadonly<T[P]> : T[P];
+};
 
 /**This will be either an ElectricVehicle type or GasVehicle type
  * depending on the "type" field ("type": "gas" or "type":  "electric").
  * This matches what you will receive from a GET request to the db.
  * There are other types for vehicles you haven't POSTed yet, or PATCH vehicles.
  */
-export type Vehicle = z.infer<typeof VehicleSchema>;
+export type Vehicle = DeepReadonly<z.infer<typeof VehicleSchema>>;
 
 /**This is what you get back from the db
  * It has all the ids and stuff
@@ -67,19 +71,17 @@ export type Vehicles = Vehicle[];
  *
  * IMPORTANT: Don't use this type for anything outside this file; VehicleSchema (and the type Vehicle which is inferred from it) is best.
  *
- * Note: I left maxes on these to avoid ridiculously high number spam
- *
  * IMPORTANT: Extending this schema? Make sure to slap .refine(data =>{ return refineZodVehicleValidation(data)}) on the end of your new schema
  * This is because Zod can't handle unions or sub-types like .extend, .omit etc. with .refine
  *
  */
 export const BaseVehicleSchema = z.object({
 	id: z.number().readonly(),
-	userid: z.number().readonly(),
+	userid: z.string().uuid().readonly(),
 	vehiclesOrder: z.number().positive(),
 	type: z.enum(["gas", "electric"]),
 
-	vehicleData: VehicleDataSchema.describe("test blah 2"),
+	vehicleData: VehicleDataSchema,
 
 	gasVehicleData: GasVehicleDataSchema,
 
@@ -98,19 +100,11 @@ export const BaseVehicleSchema = z.object({
 
 export const GasVehicleSchema = BaseVehicleSchema.extend({
 	type: z.literal("gas"),
-	electricVehicleData: z
-		.null()
-		.describe("electricVehicleData must be null because this is a gas vehicle"),
-});
+}).omit({ electricVehicleData: true });
 
 export const ElectricVehicleSchema = BaseVehicleSchema.extend({
 	type: z.literal("electric"),
-	gasVehicleData: z
-		.null()
-		.describe(
-			"gasVehicleData must be null because this is an electric vehicle"
-		),
-});
+}).omit({ gasVehicleData: true });
 
 /**
  * The type Vehicle is inferred from this
@@ -119,7 +113,10 @@ export const ElectricVehicleSchema = BaseVehicleSchema.extend({
  * This is because Zod can't handle unions or sub-types like .extend, .omit etc. with .refine
  * And .refine is important for more complex validations that can't be done with built in Zod functions like .max() or .nonnegative()
  */
-export const VehicleSchema = z.union([GasVehicleSchema, ElectricVehicleSchema]);
+export const VehicleSchema = z.discriminatedUnion("type", [
+	GasVehicleSchema,
+	ElectricVehicleSchema,
+]);
 
 /**
  * This performs refinements on Vehicle that can't be just done by built in zod functions like .max() or .nonnegative() etc
@@ -155,15 +152,10 @@ export const refineZodVehicleValidation = (vehicleData) => {
 	return { isVehicleValid, error };
 };
 
-/**Always has "type": "gas" and electricVehicleData: null */
-type GasVehicle = z.infer<typeof GasVehicleSchema>;
-/**Always has "type": "electric" and gasVehicleData: null */
-type ElectricVehicle = z.infer<typeof ElectricVehicleSchema>;
-
-// For testing, delete later
-const bob: Vehicle = {
+// For testing and verification, TODO delete later
+// Leaving this object has come in handy because it tells me when there's some type mismatch
+export const bob: Vehicle = {
 	type: "gas",
-	electricVehicleData: null,
 	gasVehicleData: {
 		vehicleID: 1,
 		gasCostPerGallon: 3.5,
@@ -171,22 +163,24 @@ const bob: Vehicle = {
 		milesPerGallonCity: 25,
 	},
 	id: 1,
-	userid: 1,
+	// Random UUID from google
+	userid: "be1edc54-db41-4932-a98b-c772f1817f16",
 	vehiclesOrder: 1,
 	vehicleData: {
 		vehicleID: 1,
 		vehicleName: "Test Vehicle",
-		year: null,
-		make: null,
-		model: null,
-		trim: null,
-		highwayMPG: null,
+		year: 2011,
+		make: "Test make",
+		model: "Test model",
+		trim: "Idk bff Jill",
+		// Deprecated
+		highwayMPG: 35,
 	},
 	purchaseAndSales: {
 		vehicleID: 1,
-		yearPurchased: null,
+		yearPurchased: 2015,
 		purchasePrice: 10000,
-		downPaymentAmount: null,
+		downPaymentAmount: 0,
 		willSellCarAfterYears: 5,
 		milesBoughtAt: 10000,
 		willSellCarAtMiles: 50000,
@@ -202,33 +196,28 @@ const bob: Vehicle = {
 	},
 	fixedCosts: {
 		vehicleID: 1,
-		yearlyInsuranceCost: null,
-		yearlyRegistrationCost: null,
-		yearlyTaxes: null,
-		// Deprecated, there's a TODO to delete this
-		yearlyParkingCost: undefined,
-		monthlyLoanPayment: null,
-		monthlyWarrantyCost: null,
-		inspectionCost: null,
-		otherYearlyCosts: null,
+		yearlyInsuranceCost: 100,
+		yearlyRegistrationCost: 100,
+		yearlyTaxes: 100,
+		monthlyLoanPayment: 100,
+		monthlyWarrantyCost: 100,
+		inspectionCost: 100,
+		otherYearlyCosts: 100,
 	},
 	yearlyMaintenanceCosts: {
 		vehicleID: 1,
-		oilChanges: null,
-		tires: null,
-		batteries: null,
-		brakes: null,
-		other: null,
-		depreciation: null,
+		oilChanges: 100,
+		tires: 100,
+		batteries: 100,
+		brakes: 100,
+		other: 100,
 	},
 	variableCosts: {
 		vehicleID: 1,
-		monthlyParkingCosts: null,
-		monthlyTolls: null,
-		monthlyCarWashCost: null,
-		monthlyMiscellaneousCosts: null,
-		monthlyCostDeductions: null,
+		monthlyParkingCosts: 100,
+		monthlyTolls: 100,
+		monthlyCarWashCost: 100,
+		monthlyMiscellaneousCosts: 100,
+		monthlyCostDeductions: 100,
 	},
 };
-
-// refineZodVehicleValidation returns {isVehicleValid: boolean, error: string}; rewrite this .refine to get that and .describe the text of the error

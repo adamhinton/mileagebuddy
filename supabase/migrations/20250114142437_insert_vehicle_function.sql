@@ -8,19 +8,18 @@
 -- This function only returns the new vehicle's id, then the POST fetches that vehicle and returns the full vehicle data
 -- That isn't totally efficient, but it does separate concerns. If this project gets a lot of traffic, it'll be easy to streamline later.
 
-
 CREATE OR REPLACE FUNCTION insert_vehicle(
-    _userID bigint,
-    _type VARCHAR(10),
-    _vehiclesOrder INT,
-    _vehicleData jsonb,
-    _gasVehicleData jsonb,  -- Optional, depending on the vehicle type
-    _electricVehicleData jsonb, -- Optional, depending on the vehicle type
-    _purchaseAndSales jsonb,
-    _usage jsonb,
-    _fixedCosts jsonb,
-    _yearlyMaintenanceCosts jsonb,
-    _variableCosts jsonb
+        _userID UUID,
+        _type VARCHAR(10),
+        _vehiclesOrder INT,
+        _vehicleData jsonb,
+        _gasVehicleData jsonb,  -- Optional, depending on the vehicle type
+        _electricVehicleData jsonb, -- Optional, depending on the vehicle type
+        _purchaseAndSales jsonb,
+        _usage jsonb,
+        _fixedCosts jsonb,
+        _yearlyMaintenanceCosts jsonb,
+        _variableCosts jsonb
 )
 RETURNS INTEGER AS $$  -- Return vehicleID
 DECLARE
@@ -66,17 +65,17 @@ BEGIN
                 (_usage->>'extraDistancePercentHighway')::DECIMAL);
 
         INSERT INTO "fixedCosts" ("vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", 
-                                  "yearlyParkingCost", "monthlyLoanPayment", "monthlyWarrantyCost", 
+                                "monthlyLoanPayment", "monthlyWarrantyCost", 
                                   "inspectionCost", "otherYearlyCosts")
         VALUES (new_vehicle_id, (_fixedCosts->>'yearlyInsuranceCost')::DECIMAL, (_fixedCosts->>'yearlyRegistrationCost')::DECIMAL, 
-                (_fixedCosts->>'yearlyTaxes')::INT, (_fixedCosts->>'yearlyParkingCost')::DECIMAL, 
+                (_fixedCosts->>'yearlyTaxes')::INT, 
                 (_fixedCosts->>'monthlyLoanPayment')::INT, (_fixedCosts->>'monthlyWarrantyCost')::INT,
                 (_fixedCosts->>'inspectionCost')::INT, (_fixedCosts->>'otherYearlyCosts')::INT);
 
-        INSERT INTO "yearlyMaintenanceCosts" ("vehicleID", "oilChanges", "tires", "batteries", "brakes", "other", "depreciation")
+        INSERT INTO "yearlyMaintenanceCosts" ("vehicleID", "oilChanges", "tires", "batteries", "brakes", "other")
         VALUES (new_vehicle_id, (_yearlyMaintenanceCosts->>'oilChanges')::DECIMAL, (_yearlyMaintenanceCosts->>'tires')::DECIMAL,
                 (_yearlyMaintenanceCosts->>'batteries')::DECIMAL, (_yearlyMaintenanceCosts->>'brakes')::DECIMAL,
-                (_yearlyMaintenanceCosts->>'other')::DECIMAL, (_yearlyMaintenanceCosts->>'depreciation')::DECIMAL);
+                (_yearlyMaintenanceCosts->>'other')::DECIMAL);
 
         INSERT INTO "variableCosts" ("vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", 
                                      "monthlyMiscellaneousCosts", "monthlyCostDeductions")

@@ -87,7 +87,6 @@ export type Database = {
           updatedAt: string | null
           vehicleID: number
           yearlyInsuranceCost: number | null
-          yearlyParkingCost: number | null
           yearlyRegistrationCost: number | null
           yearlyTaxes: number | null
         }
@@ -102,7 +101,6 @@ export type Database = {
           updatedAt?: string | null
           vehicleID: number
           yearlyInsuranceCost?: number | null
-          yearlyParkingCost?: number | null
           yearlyRegistrationCost?: number | null
           yearlyTaxes?: number | null
         }
@@ -117,7 +115,6 @@ export type Database = {
           updatedAt?: string | null
           vehicleID?: number
           yearlyInsuranceCost?: number | null
-          yearlyParkingCost?: number | null
           yearlyRegistrationCost?: number | null
           yearlyTaxes?: number | null
         }
@@ -272,24 +269,6 @@ export type Database = {
           },
         ]
       }
-      users: {
-        Row: {
-          email: string
-          id: number
-          isDarkMode: boolean | null
-        }
-        Insert: {
-          email: string
-          id?: never
-          isDarkMode?: boolean | null
-        }
-        Update: {
-          email?: string
-          id?: never
-          isDarkMode?: boolean | null
-        }
-        Relationships: []
-      }
       variableCosts: {
         Row: {
           createdAt: string | null
@@ -394,7 +373,7 @@ export type Database = {
           id: number
           type: string
           updatedAt: string | null
-          userid: number
+          userid: string
           vehiclesOrder: number
         }
         Insert: {
@@ -403,7 +382,7 @@ export type Database = {
           id?: number
           type: string
           updatedAt?: string | null
-          userid: number
+          userid: string
           vehiclesOrder: number
         }
         Update: {
@@ -412,18 +391,10 @@ export type Database = {
           id?: number
           type?: string
           updatedAt?: string | null
-          userid?: number
+          userid?: string
           vehiclesOrder?: number
         }
-        Relationships: [
-          {
-            foreignKeyName: "fk_user"
-            columns: ["userid"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       yearlyMaintenanceCosts: {
         Row: {
@@ -431,7 +402,6 @@ export type Database = {
           brakes: number | null
           createdAt: string | null
           deletedAt: string | null
-          depreciation: number | null
           id: number
           oilChanges: number | null
           other: number | null
@@ -444,7 +414,6 @@ export type Database = {
           brakes?: number | null
           createdAt?: string | null
           deletedAt?: string | null
-          depreciation?: number | null
           id?: number
           oilChanges?: number | null
           other?: number | null
@@ -457,7 +426,6 @@ export type Database = {
           brakes?: number | null
           createdAt?: string | null
           deletedAt?: string | null
-          depreciation?: number | null
           id?: number
           oilChanges?: number | null
           other?: number | null

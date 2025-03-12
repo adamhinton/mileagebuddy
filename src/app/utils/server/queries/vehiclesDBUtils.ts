@@ -19,35 +19,35 @@ export const stringForJoiningVehicleTables = `
 		userid, type, id, "vehiclesOrder",
 
 		"vehicleData"(
-			"vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
+			"id", "vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
 		),
 
 		"gasVehicleData"(
-			"vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
+			"id", "vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
 		),
 
 		"electricVehicleData"(
-			"vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles"
+			"id", "vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles"
 		),
 
 		"purchaseAndSales"(
-			"vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", "willSellCarAtPrice"
+			"id", "vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", "willSellCarAtPrice"
 		),
 
 		usage(
-			"vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", "extraDistanceMiles", "extraDistancePercentHighway"
+			"id", "vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", "extraDistanceMiles", "extraDistancePercentHighway"
 		),
 
 		"fixedCosts"(
-			"vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts"
+			"id", "vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts"
 		),
 
 		"yearlyMaintenanceCosts"(
-			"vehicleID", "oilChanges", tires, batteries, brakes, other, depreciation
+			"id", "vehicleID", "oilChanges", tires, batteries, brakes, other
 		),
 
 		"variableCosts"(
-			"vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions"
+			"id", "vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions"
 		)
 
 		`;
@@ -94,7 +94,7 @@ async function getSingleVehicleById(
 /** Get all vehicles belonging to a user */
 async function getVehiclesByUser(
 	supabase: SupabaseClient,
-	userId: number
+	userId: string
 ): Promise<Vehicles> {
 	/** This is just the data from the vehicles table
 	 * There are several db tables that contain user data. Still need to aggregate all of them
@@ -166,6 +166,8 @@ const deleteDBVehicleByID = async (
 /** Attempts to add a new vehicle's data to DB
  *
  * Returns the vehicle if successful, and an error if unsuccessful
+ *
+ * Zod validation has alraedy been done on both the client and server before this si called
  */
 const addNewVehicleToDB = async (
 	body: Vehicle_For_db_POST,
@@ -177,8 +179,6 @@ const addNewVehicleToDB = async (
 		type,
 		vehiclesOrder,
 		vehicleData,
-		gasVehicleData,
-		electricVehicleData,
 		purchaseAndSales,
 		usage,
 		fixedCosts,
@@ -187,19 +187,19 @@ const addNewVehicleToDB = async (
 	} = body;
 
 	try {
-		// const isSafe = VehicleToBePostedSchema.safeParse(body);
-		// console.log("isSafe in addNewVehicleToDB:", isSafe);
-
 		// Wrote db function insert_vehicle_function.sql for this
-		// The db function should do auto-validation to make sure fields exist and are correct, but --- TODO: More thorough new Vehicle validation
 		const { data, error } = await supabase.rpc("insert_vehicle", {
 			// These parameter names had to be all lower case to play nice with SQL
 			_userid: userid,
 			_type: type,
 			_vehiclesorder: vehiclesOrder,
 			_vehicledata: vehicleData,
-			_gasvehicledata: gasVehicleData,
-			_electricvehicledata: electricVehicleData,
+			_gasvehicledata:
+				body.type === "gas" && body.gasVehicleData ? body.gasVehicleData : null, // Always pass the parameter, even if null
+			_electricvehicledata:
+				body.type === "electric" && body.electricVehicleData
+					? body.electricVehicleData
+					: null, // Always pass the parameter, even if null
 			_purchaseandsales: purchaseAndSales,
 			_usage: usage,
 			_fixedcosts: fixedCosts,
@@ -246,8 +246,7 @@ const updateVehicleInDB = async (
 		type,
 		vehiclesOrder,
 		vehicleData,
-		gasVehicleData,
-		electricVehicleData,
+
 		purchaseAndSales,
 		usage,
 		fixedCosts,
@@ -261,8 +260,10 @@ const updateVehicleInDB = async (
 		!type &&
 		!vehiclesOrder &&
 		!vehicleData &&
-		!gasVehicleData &&
-		!electricVehicleData &&
+		((updatedPartialVehicle.type === "gas" &&
+			!updatedPartialVehicle.gasVehicleData) ||
+			(updatedPartialVehicle.type === "electric" &&
+				!updatedPartialVehicle.electricVehicleData)) &&
 		!purchaseAndSales &&
 		!usage &&
 		!fixedCosts &&

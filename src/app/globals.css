@@ -1,21 +1,174 @@
+/* globals.css */
 @tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Implemented this because my header tags were same font size as regular text */
+@layer base {
+	h1 {
+		@apply text-4xl font-bold mb-4;
+	}
+	h2 {
+		@apply text-3xl font-bold mb-3;
+	}
+	h3 {
+		@apply text-2xl font-semibold mb-2;
+	}
+	h4 {
+		@apply text-xl font-semibold mb-2;
+	}
+	h5 {
+		@apply text-lg font-medium mb-1;
+	}
+	h6 {
+		@apply text-base font-medium mb-1;
+	}
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@tailwind components;
+
+@layer components {
+	/* The base class for a text or num input in mileage calculator form
+	Do not use this class. It's meant to be combined with .mileage-calc-form-number-input or .mileage-calc-form-text-input */
+	.mileage-calc-form-input-base {
+		@apply px-1 py-1 h-6
+  text-neutral-text
+  bg-background-elevated 
+  border border-primary-100
+  rounded-md
+  transition-colors
+  focus:outline-none 
+  focus:border-primary 
+  focus:ring-1 
+  focus:ring-primary
+  dark:border-primary-200
+  disabled:opacity-50
+  disabled:cursor-not-allowed;
+	}
+
+	/* Small number input (<5 digits) in Forms. See MileageCalcFormNumberInput.tsx
+	Do not use this class on its own. It's meant to be combined with .mileage-calc-form-input-base */
+	.mileage-calc-form-number-input {
+		@apply w-16 mileage-calc-form-input-base;
+
+		@apply sm:w-20 sm:h-6 sm:px-2 sm:py-3;
+		@apply md:w-24 md:h-8 md:p-4;
+	}
+
+	/* Small text input in Forms. See MileageCalcFormTextInput.tsx
+	Do not use this class on its own. It's meant to be combined with .mileage-calc-form-input-base */
+	.mileage-calc-form-text-input {
+		@apply w-32 mileage-calc-form-input-base text-sm;
+
+		@apply sm:w-40 sm:h-6 sm:px-2 sm:py-3;
+		@apply md:w-48 md:h-8 md:p-4;
+	}
+
+	/* Each of these corresponds to a Vehicle sub-object. These sections are collapsible */
+	.mileage-calc-form-section {
+		@apply mb-4 border border-primary-100 
+    rounded-lg overflow-hidden 
+    shadow-sm hover:shadow
+		transition-all duration-300;
+
+		@apply sm:mb-6;
+		@apply md:mb-8;
+	}
+
+	.mileage-calc-form-section-header {
+		@apply w-full flex items-center justify-between 
+  p-1 bg-background-elevated 
+  hover:bg-background-highlight 
+  transition-colors;
+	}
+
+	.mileage-calc-form-section-content {
+		@apply p-2 bg-background-base 
+  grid gap-3 
+  transition-all duration-200;
+
+		@apply sm:p-3 sm:gap-3;
+		@apply md:p-4 md:gap-4;
+	}
+
+	.mileage-calc-form-error-message {
+		@apply text-red-500 text-xs mt-1;
+	}
+
+	.mileage-calc-form-input-label {
+		@apply text-sm font-medium text-neutral-text mr-1;
+	}
+
+	/*The asterisk indicating a field is required */
+	.mileage-calc-form-required-asterisk {
+		@apply text-red-500 ml-1;
+	}
+}
+
+@tailwind utilities;
+
+/* Light Mode (default) */
+:root {
+	/* Primary color: Soft blue */
+	--primary: 220, 70%, 60%;
+	--primary-50: 220, 70%, 95%;
+	--primary-100: 220, 70%, 90%;
+	--primary-200: 220, 70%, 80%;
+
+	/* Secondary color: Soft orange */
+	--secondary: 40, 80%, 55%;
+	--secondary-50: 40, 80%, 95%;
+	--secondary-100: 40, 80%, 90%;
+	--secondary-200: 40, 80%, 80%;
+
+	/* Accent color: Soft green */
+	--accent: 150, 60%, 50%;
+	--accent-50: 150, 60%, 95%;
+	--accent-100: 150, 60%, 90%;
+	--accent-200: 150, 60%, 80%;
+
+	/* Neutral color: Light gray background */
+	--neutral: 0, 0%, 98%;
+	--neutral-text: 0, 0%, 20%;
+
+	--background-base: 210, 30%, 98%; /* Softest blue-gray */
+	--background-elevated: 200, 25%, 96%; /* Slightly deeper for cards */
+	--background-header: 220, 20%, 94%; /* Distinct but subtle for headers */
+	--background-sidebar: 200, 15%, 93%; /* Slightly different for sidebars */
+	--background-highlight: 190, 30%, 97%; /* Subtle highlight areas */
+}
+
+.dark {
+	/* Primary color: Soft blue */
+	--primary: 220, 40%, 70%;
+	--primary-50: 220, 40%, 15%;
+	--primary-100: 220, 40%, 20%;
+	--primary-200: 220, 40%, 30%;
+
+	/* Secondary color: Soft orange */
+	--secondary: 40, 50%, 65%;
+	--secondary-50: 40, 50%, 15%;
+	--secondary-100: 40, 50%, 20%;
+	--secondary-200: 40, 50%, 30%;
+
+	/* Accent color: Soft green */
+	--accent: 150, 30%, 60%;
+	--accent-50: 150, 30%, 15%;
+	--accent-100: 150, 30%, 20%;
+	--accent-200: 150, 30%, 30%;
+
+	/* Neutral color: Dark gray background */
+	--neutral: 0, 0%, 15%;
+	--neutral-text: 0, 0%, 95%;
+
+	/* Background System - Dark Mode */
+	--background-base: 220, 20%, 13%; /* Deep blue-gray */
+	--background-elevated: 215, 25%, 15%; /* Slightly lighter for cards */
+	--background-header: 220, 20%, 17%; /* Distinct header areas */
+	--background-sidebar: 215, 15%, 16%; /* Subtle sidebar difference */
+	--background-highlight: 210, 30%, 18%; /* Subtle highlight areas */
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+	color: hsl(var(--foreground));
+	background: hsl(var(--background));
+	font-family: Arial, Helvetica, sans-serif;
 }

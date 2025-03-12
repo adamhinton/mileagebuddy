@@ -7,35 +7,31 @@
 // Validation: Vehicles are validated here on the client, and also validated on the server before being sent to the db
 
 import {
-	Vehicle,
-	Vehicles,
+	type Vehicle,
+	type Vehicles,
 	VehicleSchema,
 } from "../../types/VehicleTypes/GetVehicleTypes";
 import {
-	Vehicle_For_db_PATCH,
+	type Vehicle_For_db_PATCH,
 	VehicleSchemaForPATCH,
 } from "../../types/VehicleTypes/PATCHVehicleTypes";
 import {
-	Vehicle_For_db_POST,
+	type Vehicle_For_db_POST,
 	VehicleToBePostedSchema,
 } from "../../types/VehicleTypes/POSTVehicleTypes";
-
-const baseUrl = new URL(
-	process.env.NEXT_PUBLIC_VERCEL_URL
-		? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-		: "http://localhost:3000"
-).href;
 
 /** See api/vehicles/route.ts GET for the associated endpoint */
 export const getVehiclesByUserIDClient = async (
 	userID: string
 ): Promise<Vehicles> => {
 	try {
-		const res = await fetch(`${baseUrl}api/vehicles?userid=${userID}`, {
+		const res = await fetch(`api/vehicles?userid=${userID}`, {
 			method: "GET",
 			headers: { accept: "application/json" },
 		});
 		const vehicles: Vehicles = await res.json();
+
+		console.log("vehicles:", vehicles);
 
 		// Validating GET receipts to notify me in dev if something is wrong
 		vehicles.forEach((vehicle) => {
@@ -67,7 +63,7 @@ export const getSingleVehicleByIDClient = async (
 ): Promise<[Vehicle?]> => {
 	try {
 		const res = await fetch(
-			`${baseUrl}/api/vehicles?userid=${userID}&vehicleid=${vehicleID}`,
+			`/api/vehicles?userid=${userID}&vehicleid=${vehicleID}`,
 			{
 				method: "GET",
 			}
@@ -111,11 +107,11 @@ export const insertVehicleClient = async (
 			"Vehicle for POST failed validation. ",
 			isVehicle.error.errors
 		);
-		throw new Error("Vehicle failed validation");
+		throw new Error("Vehicle failed validation xyz");
 	}
 
 	try {
-		const res = await fetch(`${baseUrl}/api/vehicles`, {
+		const res = await fetch(`/api/vehicles`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
@@ -152,7 +148,7 @@ export const deleteVehicleByIDClient = async (
 	vehicleID: number
 ): Promise<Vehicle> => {
 	try {
-		const res = await fetch(`${baseUrl}/api/vehicles?vehicleid=${vehicleID}`, {
+		const res = await fetch(`/api/vehicles?vehicleid=${vehicleID}`, {
 			method: "DELETE",
 		});
 		const deletedVehicle: Vehicle = await res.json();
@@ -188,7 +184,7 @@ export const updateVehicleInDBClient = async (
 	}
 
 	try {
-		const res = await fetch(`${baseUrl}/api/vehicles?vehicleid=${vehicle.id}`, {
+		const res = await fetch(`/api/vehicles?vehicleid=${vehicle.id}`, {
 			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",

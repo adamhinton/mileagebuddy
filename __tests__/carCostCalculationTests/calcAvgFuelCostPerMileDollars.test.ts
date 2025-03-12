@@ -8,7 +8,7 @@ import {
 	ElectricVehicleData,
 	GasVehicleData,
 	Usage,
-} from "@/app/utils/server/types/VehicleTypes/VehicleSubSchemas";
+} from "@/app/zod/schemas/VehicleSubSchemas";
 
 // Dummy part of a Vehicle with only gasVehicleData
 // Only passing in the needed fields
@@ -35,8 +35,6 @@ const dummyElectricVehicleData: ElectricVehicleData = {
 	vehicleID: 1,
 	costPerCharge: 3,
 	milesPerCharge: 102,
-	// electricRangeMiles doesn't actually get used
-	electricRangeMiles: 200,
 };
 
 // Only passing in needed types for the test

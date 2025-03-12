@@ -6,14 +6,13 @@
 
 import { calculateFixedCostPerYear } from "@/app/utils/CarCostAlgorithm/calculateFixedCostPerYear";
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
-import { FixedCosts } from "@/app/utils/server/types/VehicleTypes/VehicleSubSchemas";
+import { FixedCosts } from "@/app/zod/schemas/VehicleSubSchemas";
 
 const fakeFixedCosts: FixedCosts = {
 	vehicleID: 1,
 	yearlyInsuranceCost: 1000,
 	yearlyRegistrationCost: 100,
 	yearlyTaxes: 500,
-	yearlyParkingCost: null,
 	monthlyLoanPayment: 200,
 	monthlyWarrantyCost: 20,
 	inspectionCost: 50,
@@ -47,7 +46,6 @@ describe("calculateFixedCostPerYear", () => {
 	it("[2] Allows zero values", async () => {
 		const fakeFixedCostsWithZeroValues: FixedCosts = {
 			...fakeFixedCosts,
-			yearlyParkingCost: 0,
 			monthlyLoanPayment: 0,
 		};
 
@@ -63,39 +61,7 @@ describe("calculateFixedCostPerYear", () => {
 		// But, low priority - there's enough validation before reaching this function that this should never occur
 	});
 
-	it("[4] Allows null values", async () => {
-		const fakeFixedCostsWithNullValues: FixedCosts = {
-			...fakeFixedCosts,
-			yearlyInsuranceCost: null,
-			yearlyRegistrationCost: null,
-		};
-
-		const result = await calculateFixedCostPerYear({
-			fixedCosts: fakeFixedCostsWithNullValues,
-		} as unknown as Vehicle);
-
-		expect(result).toBe(3290);
-	});
-
-	it("[5] Returns 0 for all null values", async () => {
-		const fakeFixedCostsWithAllNullValues: FixedCosts = {
-			...fakeFixedCosts,
-			yearlyInsuranceCost: null,
-			yearlyRegistrationCost: null,
-			yearlyTaxes: null,
-			yearlyParkingCost: null,
-			monthlyLoanPayment: null,
-			monthlyWarrantyCost: null,
-			inspectionCost: null,
-			otherYearlyCosts: null,
-		};
-
-		const result = await calculateFixedCostPerYear({
-			fixedCosts: fakeFixedCostsWithAllNullValues,
-		} as unknown as Vehicle);
-
-		expect(result).toBe(0);
-	});
+	// used to have [4] and [5] here and they were deprecated, too lazy to change the numbers
 
 	it("[6] Returns 0 for all zero values", async () => {
 		const fakeFixedCostsWithAllZeroValues: FixedCosts = {
@@ -103,7 +69,6 @@ describe("calculateFixedCostPerYear", () => {
 			yearlyInsuranceCost: 0,
 			yearlyRegistrationCost: 0,
 			yearlyTaxes: 0,
-			yearlyParkingCost: 0,
 			monthlyLoanPayment: 0,
 			monthlyWarrantyCost: 0,
 			inspectionCost: 0,
