@@ -14,6 +14,10 @@ Code:
 Testing:
 -Generally, each unit test should start with a `runs without crashing`
 
+Styling:
+-Responsive, accessible is very important
+-Follow the conventions I've established in globals.tss, tailwind config and tailwindClassNames
+-Very important to adjust for dark and light mode as needed
 
 For every prompt:
 Please think step by step about whether there exists a less over-engineered and yet simpler, more elegant, and more robust solution to the problem that accords with KISS and DRY principles. Present it to me with your degree of confidence from 1 to 10 and its rationale, but do not modify code yet.
