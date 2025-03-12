@@ -54,28 +54,39 @@ type FormPropsBase = {
 };
 
 // Edit existing vehicle mode
+// How to call this:
+/* <VehicleCreationOrEditForm
+				mode="editVehicle"
+				schema={VehicleSchemaForPATCH}
+				vehicleToEdit={firstVehicle}
+			/> */
 type FormPropsEditMode = FormPropsBase & {
 	mode: "editVehicle";
-	// Vehicle to edit
 	vehicleToEdit: Vehicle_For_db_PATCH;
 	schema: ZodSchema<Vehicle_For_db_PATCH>;
 };
 
 // Add new vehicle mode
+// How to call this:
+/* <VehicleCreationOrEditForm
+				mode="newVehicle"
+				schema={VehicleToBePostedSchema}
+			/> */
+
 type FormPropsNewVehicleMode = FormPropsBase & {
 	mode: "newVehicle";
-	// No vehicle to edit
 	schema: ZodSchema<Vehicle_For_db_POST>;
 };
 
 // Edit mode or new vehicle creation mode
-type FormProps<T> = T extends Vehicle_For_db_PATCH
-	? FormPropsEditMode
-	: FormPropsNewVehicleMode;
-
-const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
-	props: FormProps<T>
-) => {
+// Not totally sure I structured this generic according to best practices, but it does the job.
+type FormProps = FormPropsEditMode | FormPropsNewVehicleMode;
+/** This has two slightly different props structures based on if it's in edit mode or new vehicle creation mode
+ *
+ * For edit mode, see FormPropsEditMode
+ * For new vehicle creation mode, see FormPropsNewVehicleMode
+ */
+const VehicleCreationOrEditForm = (props: FormProps) => {
 	const loggedInUser = useAppSelector((state) => state.user.value);
 	const userId = loggedInUser ? loggedInUser.id : "testid";
 	console.log("userId:", userId);
