@@ -28,6 +28,7 @@ import { VehicleSchemaForPATCH } from "../utils/server/types/VehicleTypes/PATCHV
 // General styling improvements. Animations, transitions etc
 // Make CollapsibleSectionTitles type a tuple of literals so as to be the one source of truth for the order
 // Trim string inputs and check if any other input sanitization is needed
+// Put edit form at /calculator/edit/:vehicleID or similar
 
 // Stretch: optimistic UI updates
 
