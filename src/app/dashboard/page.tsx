@@ -42,7 +42,6 @@ type AllCarCosts = {
 
 const Dashboard = () => {
 	const vehicles = useAppSelector((state) => state.vehicles);
-	console.log("Just got vehicles from redux");
 	/**Tracks the calculated costs per mile of each vehicle */
 	const [vehicleCosts, setVehicleCosts] = useState<AllCarCosts>({});
 
@@ -62,9 +61,7 @@ const Dashboard = () => {
 
 				for (const vehicle of vehicles) {
 					try {
-						console.log(`Calculating cost for vehicle ${vehicle.id}`);
 						const cost = await calculateCarCostMain(vehicle);
-						console.log(`Calculated cost for vehicle ${vehicle.id}:`, cost);
 						// Key is vehicle's id, value is cost calculation results
 						costs[vehicle.id] = cost;
 					} catch (vehicleError) {
@@ -75,7 +72,6 @@ const Dashboard = () => {
 					}
 				}
 
-				console.log("Setting vehicle costs:", costs);
 				setVehicleCosts(costs);
 			} catch (error) {
 				console.error("Error in calculateCosts:", error);
@@ -118,8 +114,7 @@ const Dashboard = () => {
 	// TODO flesh out vehicle delete button. Show confirmation modal
 	const onDeleteButtonClick = useCallback(
 		async (vehicleId: number, dispatch: Dispatch) => {
-			console.log(`Delete vehicle with ID: ${vehicleId}`);
-			// Show confirmation modal before deleting
+			// TODO Show confirmation modal before deleting
 
 			// Remove vehicle from DB
 			const dbDeleteResults = await deleteVehicleByIDClient(vehicleId);
@@ -154,8 +149,6 @@ const Dashboard = () => {
 					>
 						<div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 							{vehicles.map((vehicle) => {
-								// console.log("vehicle:", vehicle);
-								// console.log("vehicleCosts:", vehicleCosts);
 								return (
 									<SortableVehicleCard
 										key={vehicle.id}
