@@ -4,6 +4,8 @@
 // The confirmation dialog is optional and configurable
 // _______________________________________________________
 
+// TODO write tests for this
+
 import { ButtonHTMLAttributes, useState } from "react";
 import ConfirmationDialog from "./ConfirmationDialog";
 

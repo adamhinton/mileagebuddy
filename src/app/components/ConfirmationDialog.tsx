@@ -1,3 +1,7 @@
+// _______________________________________________________
+// This is a reusable confirmation dialog that can be shown in buttons, modals, or anywhere else in the app.
+// _______________________________________________________
+
 import { ReactNode } from "react";
 
 export type ConfirmationDialogProps = {
@@ -13,6 +17,8 @@ export type ConfirmationDialogProps = {
 	/** Optional CSS class for the confirmation button */
 	confirmButtonClass?: string;
 };
+
+// TODO write tests for this
 
 /**
  * Reusable confirmation dialog component
