@@ -23,7 +23,7 @@ import getSavedFormValuesFromLocalStorage from "../calculatorUtils/getSavedFormV
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormErrorSummary from "./FormErrorSummary";
-import FormButton from "./FormButton";
+import Button from "../../components/Button";
 import FormSubSections from "./AllFormSubSections";
 import formSubmitLogic from "../calculatorUtils/formSubmitLogic";
 import {
@@ -256,7 +256,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 
 			{/* User can click this to clear all form values */}
 			{/* TODO clear form button only seems to work the second time it's clicked */}
-			<FormButton
+			<Button
 				onClick={clearAllFormValues}
 				text="Clear Form"
 				variant="primary"
@@ -302,7 +302,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 				watchedVehicleType={watchedVehicleType}
 			/>
 
-			<FormButton
+			<Button
 				text={isSubmitting ? "Loading" : "Submit"}
 				className="submit"
 				isDisabled={isSubmitting}
@@ -312,7 +312,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 				}}
 				isConfirmationRequired={false}
 				type={"submit"}
-			></FormButton>
+			></Button>
 		</form>
 	);
 };
