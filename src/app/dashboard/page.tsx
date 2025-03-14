@@ -32,6 +32,7 @@ import { Vehicle } from "../utils/server/types/VehicleTypes/GetVehicleTypes";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 import { Dispatch } from "@reduxjs/toolkit";
 import { deleteVehicleByIDClient } from "../utils/server/client/DBInteractions/VehiclesDBInteractions";
+import ConfirmationDialog from "../components/ConfirmationDialog";
 
 /**
  * Contains this key value pair for each vehicle
@@ -215,11 +216,39 @@ type VehicleCardProps = {
 const VehicleCard = (props: VehicleCardProps) => {
 	const { vehicle, vehicleCost, onEdit, onDelete, dragHandleProps } = props;
 
+	const [showEditConfirmation, setShowEditConfirmation] = useState(false);
+	const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
 	const costPerMile = vehicleCost?.costPerAverageDailyMile ?? 0;
 	const costPerExtraMile = vehicleCost?.costPerExtraMile ?? 0;
 	const vehicleType = vehicle.type;
 
-	// ...rest of the component remains unchanged
+	// Handlers for the edit button
+	const handleEditClick = () => {
+		setShowEditConfirmation(true);
+	};
+
+	const handleEditConfirm = () => {
+		onEdit();
+		setShowEditConfirmation(false);
+	};
+
+	const handleEditCancel = () => {
+		setShowEditConfirmation(false);
+	};
+
+	const handleDeleteClick = () => {
+		setShowDeleteConfirmation(true);
+	};
+
+	const handleDeleteConfirm = () => {
+		onDelete();
+		setShowDeleteConfirmation(false);
+	};
+
+	const handleDeleteCancel = () => {
+		setShowDeleteConfirmation(false);
+	};
 
 	return (
 		<div className="bg-background-elevated rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg border border-primary-50">
@@ -325,7 +354,7 @@ const VehicleCard = (props: VehicleCardProps) => {
 				{/* Action buttons */}
 				<div className="flex justify-between mt-4">
 					<button
-						onClick={onEdit}
+						onClick={handleEditClick}
 						className="nav-link-outline flex items-center"
 						aria-label={`Edit ${vehicle.vehicleData.vehicleName}`}
 					>
@@ -346,7 +375,7 @@ const VehicleCard = (props: VehicleCardProps) => {
 					</button>
 
 					<button
-						onClick={onDelete}
+						onClick={handleDeleteClick}
 						className="text-red-500 hover:text-red-700 flex items-center"
 						aria-label={`Delete ${vehicle.vehicleData.vehicleName}`}
 					>
@@ -392,6 +421,29 @@ const VehicleCard = (props: VehicleCardProps) => {
 						Details
 					</button>
 				</div>
+
+				{/* Confirmation Dialogs */}
+				<ConfirmationDialog
+					title="Edit Vehicle"
+					message={`Are you sure you want to edit ${vehicle.vehicleData.vehicleName}?`}
+					confirmButtonText="Edit"
+					cancelButtonText="Cancel"
+					onConfirm={handleEditConfirm}
+					onCancel={handleEditCancel}
+					isOpen={showEditConfirmation}
+					confirmButtonClass="bg-primary text-white hover:bg-primary-600"
+				/>
+
+				<ConfirmationDialog
+					title="Delete Vehicle"
+					message={`Are you sure you want to delete ${vehicle.vehicleData.vehicleName}? This action cannot be undone.`}
+					confirmButtonText="Delete"
+					cancelButtonText="Cancel"
+					onConfirm={handleDeleteConfirm}
+					onCancel={handleDeleteCancel}
+					isOpen={showDeleteConfirmation}
+					confirmButtonClass="bg-red-600 text-white hover:bg-red-700"
+				/>
 			</div>
 		</div>
 	);
