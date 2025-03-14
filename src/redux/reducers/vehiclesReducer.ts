@@ -89,8 +89,13 @@ const vehiclesSlice = createSlice({
 		addVehicle: (state, action: PayloadAction<Vehicle>) => {
 			state.push(action.payload);
 		},
-		removeOneVehicle: (state, action: PayloadAction<number>) => {
-			state.splice(action.payload, 1);
+		removeVehicleById: (state, action: PayloadAction<number>) => {
+			const vehicleIndex = state.findIndex((v) => v.id === action.payload);
+			if (vehicleIndex !== -1) {
+				state.splice(vehicleIndex, 1);
+			} else {
+				console.error("Vehicle not found in state");
+			}
 		},
 		// Zod should have already validated these vehicles when getting them from the db
 		setVehicles: (state, action: PayloadAction<Vehicle[]>) => {
@@ -118,7 +123,7 @@ const vehiclesSlice = createSlice({
 
 export const {
 	addVehicle,
-	removeOneVehicle,
+	removeVehicleById,
 	setVehicles,
 	removeAllVehicles,
 	editVehicleById,
