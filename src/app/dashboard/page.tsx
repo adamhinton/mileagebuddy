@@ -15,6 +15,7 @@ import {
 	useSensor,
 	useSensors,
 	DragEndEvent,
+	DraggableAttributes,
 } from "@dnd-kit/core";
 import {
 	arrayMove,
@@ -24,33 +25,57 @@ import {
 	useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { Vehicle } from "../utils/server/types/VehicleTypes/GetVehicleTypes";
+import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
 
 /**
- * key is vehicle's id, value is cost calculation results
  * Contains this key value pair for each vehicle
  */
 type AllCarCosts = {
-	[vehicleId: UUID]: CarCostCalculationResults;
+	[vehicleId: number]: CarCostCalculationResults;
 };
 
 const Dashboard = () => {
 	const vehicles = useAppSelector((state) => state.vehicles);
+	console.log("Just got vehicles from redux");
 	const dispatch = useAppDispatch();
+	/**Tracks the calculated costs per mile of each vehicle */
 	const [vehicleCosts, setVehicleCosts] = useState<AllCarCosts>({});
 
 	// Calculate costs for all vehicles when the component loads
 	useEffect(() => {
+		console.log("UseEffect starting with vehicles:", vehicles);
+
 		const calculateCosts = async () => {
-			// Key is vehicle's id, value is cost calculation results
-			const costs: AllCarCosts = {};
-
-			for (const vehicle of vehicles) {
-				const cost = await calculateCarCostMain(vehicle);
+			try {
 				// Key is vehicle's id, value is cost calculation results
-				costs[vehicle.id] = cost;
-			}
+				const costs: AllCarCosts = {};
 
-			setVehicleCosts(costs);
+				if (!vehicles || vehicles.length === 0) {
+					console.log("No vehicles available to calculate costs");
+					return;
+				}
+
+				for (const vehicle of vehicles) {
+					try {
+						console.log(`Calculating cost for vehicle ${vehicle.id}`);
+						const cost = await calculateCarCostMain(vehicle);
+						console.log(`Calculated cost for vehicle ${vehicle.id}:`, cost);
+						// Key is vehicle's id, value is cost calculation results
+						costs[vehicle.id] = cost;
+					} catch (vehicleError) {
+						console.error(
+							`Error calculating cost for vehicle ${vehicle.id}:`,
+							vehicleError
+						);
+					}
+				}
+
+				console.log("Setting vehicle costs:", costs);
+				setVehicleCosts(costs);
+			} catch (error) {
+				console.error("Error in calculateCosts:", error);
+			}
 		};
 
 		calculateCosts();
@@ -109,15 +134,19 @@ const Dashboard = () => {
 						strategy={verticalListSortingStrategy}
 					>
 						<div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-							{vehicles.map((vehicle) => (
-								<SortableVehicleCard
-									key={vehicle.id}
-									vehicle={vehicle}
-									vehicleCost={vehicleCosts[vehicle.id]}
-									onEdit={() => onEditButtonClick(vehicle.id)}
-									onDelete={() => onDeleteButtonClick(vehicle.id)}
-								/>
-							))}
+							{vehicles.map((vehicle) => {
+								// console.log("vehicle:", vehicle);
+								// console.log("vehicleCosts:", vehicleCosts);
+								return (
+									<SortableVehicleCard
+										key={vehicle.id}
+										vehicle={vehicle}
+										vehicleCost={vehicleCosts[vehicle.id]}
+										onEdit={() => onEditButtonClick(vehicle.id)}
+										onDelete={() => onDeleteButtonClick(vehicle.id)}
+									/>
+								);
+							})}
 						</div>
 					</SortableContext>
 				</DndContext>
@@ -128,8 +157,17 @@ const Dashboard = () => {
 	);
 };
 
+type SortableVehicleCardProps = {
+	vehicle: Vehicle;
+	vehicleCost: CarCostCalculationResults;
+	onEdit: () => void;
+	onDelete: () => void;
+};
+
 // Sortable wrapper for VehicleCard
-const SortableVehicleCard = ({ vehicle, vehicleCost, onEdit, onDelete }) => {
+const SortableVehicleCard = (props: SortableVehicleCardProps) => {
+	const { vehicle, vehicleCost, onEdit, onDelete } = props;
+
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable({ id: vehicle.id });
 
@@ -145,22 +183,31 @@ const SortableVehicleCard = ({ vehicle, vehicleCost, onEdit, onDelete }) => {
 				vehicleCost={vehicleCost}
 				onEdit={onEdit}
 				onDelete={onDelete}
-				dragHandleProps={{ ...attributes, ...listeners }}
+				dragHandleProps={{ attributes, listeners }}
 			/>
 		</div>
 	);
 };
 
-const VehicleCard = ({
-	vehicle,
-	vehicleCost,
-	onEdit,
-	onDelete,
-	dragHandleProps,
-}) => {
-	const costPerMile = vehicleCost?.costPerAverageDailyMile || 0;
-	const costPerExtraMile = vehicleCost?.costPerExtraMile || 0;
+type VehicleCardProps = {
+	vehicle: Vehicle;
+	vehicleCost: CarCostCalculationResults;
+	onEdit: () => void;
+	onDelete: () => void;
+	dragHandleProps: {
+		attributes: DraggableAttributes;
+		listeners: SyntheticListenerMap | undefined;
+	};
+};
+
+const VehicleCard = (props: VehicleCardProps) => {
+	const { vehicle, vehicleCost, onEdit, onDelete, dragHandleProps } = props;
+
+	const costPerMile = vehicleCost?.costPerAverageDailyMile ?? 0;
+	const costPerExtraMile = vehicleCost?.costPerExtraMile ?? 0;
 	const vehicleType = vehicle.type;
+
+	// ...rest of the component remains unchanged
 
 	return (
 		<div className="bg-background-elevated rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg border border-primary-50">
