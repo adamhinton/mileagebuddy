@@ -6,7 +6,10 @@ import {
 	calculateCarCostMain,
 	type CarCostCalculationResults,
 } from "@/app/utils/CarCostAlgorithm/calculateCarCostMain";
-import { setVehicles } from "@/redux/reducers/vehiclesReducer";
+import {
+	removeVehicleById,
+	setVehicles,
+} from "@/redux/reducers/vehiclesReducer";
 import {
 	DndContext,
 	closestCenter,
@@ -27,6 +30,8 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { Vehicle } from "../utils/server/types/VehicleTypes/GetVehicleTypes";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
+import { Dispatch } from "@reduxjs/toolkit";
+import { deleteVehicleByIDClient } from "../utils/server/client/DBInteractions/VehiclesDBInteractions";
 
 /**
  * Contains this key value pair for each vehicle
@@ -38,7 +43,6 @@ type AllCarCosts = {
 const Dashboard = () => {
 	const vehicles = useAppSelector((state) => state.vehicles);
 	console.log("Just got vehicles from redux");
-	const dispatch = useAppDispatch();
 	/**Tracks the calculated costs per mile of each vehicle */
 	const [vehicleCosts, setVehicleCosts] = useState<AllCarCosts>({});
 
@@ -112,10 +116,25 @@ const Dashboard = () => {
 	}, []);
 
 	// TODO flesh out vehicle delete button. Show confirmation modal
-	const onDeleteButtonClick = useCallback((vehicleId: number) => {
-		console.log(`Delete vehicle with ID: ${vehicleId}`);
-		// Show confirmation modal before deleting
-	}, []);
+	const onDeleteButtonClick = useCallback(
+		async (vehicleId: number, dispatch: Dispatch) => {
+			console.log(`Delete vehicle with ID: ${vehicleId}`);
+			// Show confirmation modal before deleting
+
+			// Remove vehicle from DB
+			const dbDeleteResults = await deleteVehicleByIDClient(vehicleId);
+			if ("error" in dbDeleteResults) {
+				console.error("Error deleting vehicle:", dbDeleteResults.error);
+				return;
+			}
+
+			// Remove vehicle from global Redux state
+			dispatch(removeVehicleById(vehicleId));
+		},
+		[]
+	);
+
+	const dispatch = useAppDispatch();
 
 	return (
 		<div className="min-h-screen bg-background-base p-4 md:p-6 lg:p-8">
@@ -143,7 +162,7 @@ const Dashboard = () => {
 										vehicle={vehicle}
 										vehicleCost={vehicleCosts[vehicle.id]}
 										onEdit={() => onEditButtonClick(vehicle.id)}
-										onDelete={() => onDeleteButtonClick(vehicle.id)}
+										onDelete={() => onDeleteButtonClick(vehicle.id, dispatch)}
 									/>
 								);
 							})}
