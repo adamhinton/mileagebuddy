@@ -146,7 +146,12 @@ export const insertVehicleClient = async (
  */
 export const deleteVehicleByIDClient = async (
 	vehicleID: number
-): Promise<Vehicle> => {
+): Promise<
+	| Vehicle
+	| {
+			error: string;
+	  }
+> => {
 	try {
 		const res = await fetch(`/api/vehicles?vehicleid=${vehicleID}`, {
 			method: "DELETE",
@@ -156,6 +161,9 @@ export const deleteVehicleByIDClient = async (
 		return deletedVehicle;
 	} catch (error) {
 		console.error("Error deleting vehicle by ID:", error);
+		return {
+			error: "Error deleting vehicle by ID",
+		};
 		throw error;
 	}
 };
