@@ -34,6 +34,8 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { deleteVehicleByIDClient } from "../utils/server/client/DBInteractions/VehiclesDBInteractions";
 import ConfirmationDialog from "../components/ConfirmationDialog";
 
+// TODO use the pre-existing Button component here instead of making our own
+
 /**
  * Contains this key value pair for each vehicle
  */
