@@ -29,19 +29,17 @@
 	/* The base class for a text or num input in mileage calculator form
 	Do not use this class. It's meant to be combined with .mileage-calc-form-number-input or .mileage-calc-form-text-input */
 	.mileage-calc-form-input-base {
-		@apply px-1 py-1 h-6
-  text-neutral-text
-  bg-background-elevated 
-  border border-primary-100
-  rounded-md
-  transition-colors
-  focus:outline-none 
-  focus:border-primary 
-  focus:ring-1 
-  focus:ring-primary
-  dark:border-primary-200
-  disabled:opacity-50
-  disabled:cursor-not-allowed;
+		@apply h-6 rounded-md border border-primary-100 
+    bg-neutral-50 dark:bg-neutral-900
+    px-1 py-1 text-neutral-text
+    transition-colors
+    focus:outline-none 
+    focus:border-primary 
+    focus:ring-1 
+    focus:ring-primary
+    dark:border-primary-200
+    disabled:opacity-50
+    disabled:cursor-not-allowed;
 	}
 
 	/* Small number input (<5 digits) in Forms. See MileageCalcFormNumberInput.tsx
@@ -125,7 +123,7 @@
 
 	/* Form components styling */
 	.form-input-base {
-		@apply block w-full px-3 py-2 bg-white dark:bg-neutral-800 
+		@apply block w-full px-3 py-2 bg-neutral-50 dark:bg-neutral-900 
       border border-neutral-300 dark:border-neutral-600 rounded-md 
       shadow-sm text-sm sm:text-sm text-neutral-900 dark:text-neutral-100
       focus:ring-2 focus:ring-primary focus:border-primary 

@@ -68,7 +68,7 @@ const MileageCalcFormTextInput = ({
 				data-testid={testidInput}
 				className={`block w-full px-3 py-2 sm:text-sm border-neutral-300 dark:border-neutral-600 rounded-md shadow-sm 
 				focus:ring-primary focus:border-primary dark:focus:ring-primary-500 dark:focus:border-primary-500
-				bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100
+				bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100
 				${error ? "border-red-300 dark:border-red-700 focus:ring-red-500 focus:border-red-500 dark:focus:ring-red-500 dark:focus:border-red-500" : ""}
 				disabled:bg-neutral-100 dark:disabled:bg-neutral-700 disabled:cursor-not-allowed`}
 				type="text"
