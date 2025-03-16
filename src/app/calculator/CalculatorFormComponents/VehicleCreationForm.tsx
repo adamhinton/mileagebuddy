@@ -10,6 +10,8 @@
 // EDIT MODE: This form can be used to either edit a vehicle or create a new one, depending on the props passed in. There is minimal UI difference between these mods.
 // Testing: Tested in VehicleCreationForm.test.tsx
 
+// TODO: VCF isn't clearing on form submit (not on edit submit at least)
+
 import { Vehicle_For_db_PATCH } from "@/app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
