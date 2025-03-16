@@ -44,11 +44,18 @@ export const useFormNavigation = (
 					};
 				});
 
-				// Scroll to next section
+				// Scroll to next section with better positioning
 				setTimeout(() => {
 					const element = document.getElementById(nextSectionId);
 					if (element) {
-						element.scrollIntoView({ behavior: "smooth", block: "start" });
+						// Changed from "start" to "center" to ensure the section header is fully visible
+						element.scrollIntoView({ behavior: "smooth", block: "center" });
+
+						// For better user experience, ensure the section button gets focus
+						const sectionButton = element.querySelector("button");
+						if (sectionButton) {
+							sectionButton.focus();
+						}
 					}
 				}, 100);
 			}
