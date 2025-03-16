@@ -10,7 +10,6 @@
 
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
-import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import FormErrorMessage from "./FormErrorMessage";
 import { VehiclePATCHorPOST } from "./VehicleCreationForm";
 
@@ -36,27 +35,16 @@ const MileageCalcFormNumInput = ({
 	error,
 	path,
 	subSchema,
-	// TODO change this type when you're out of testing and using the real vehicle type
 }: MileageCalcFormNumInputProps<VehiclePATCHorPOST>) => {
 	const maxValue = subSchema.maxValue || undefined;
-
-	// Can use input's register path as the id as well
+	const minValue =
+		subSchema.minValue || (subSchema.nonnegative() ? 0 : undefined);
 	const id = path;
-
-	// if isRequiredToBePositive, min is 0. otherwise it's schema.minValue. Otherwise it's undefined
-	const isRequiredToBePositive = subSchema.nonnegative();
-	const minValue = isRequiredToBePositive ? 0 : subSchema.minValue || undefined;
-
-	// I wrote all sub-schemas with a description
-	// If there's no description, this uses the key name as a backup
-	// The key name would look a little funny to the user (like "gasCostPerGallon" instead of "Gas Cost Per Gallon") but it would be human-readable at least
-	const label = subSchema.description || path.split(".").pop();
-
 	const isRequired = !subSchema.isOptional();
+	const label = subSchema.description || path.split(".").pop();
 
 	// Inputs can be as precise as two decimal places for gas cost or EV cost per charge purposes, but not more
 	// All other inputs are incremented by the dollar
-	// Note, I tried to add a step() attribute to the zod schema's gas cost and cost per charge, but couldn't figure out how to access it here. So we do it this way instead.
 	const step =
 		path === "gasVehicleData.gasCostPerGallon" ||
 		path === "electricVehicleData.costPerCharge"
@@ -67,35 +55,40 @@ const MileageCalcFormNumInput = ({
 	const testidLabel = `${id}-label`;
 
 	return (
-		<div>
+		<div className="mb-4">
 			<label
 				htmlFor={id}
-				datatype={testidLabel}
-				className={`${tailWindClassNames.mileageCalcForm.FORM_INPUT_LABEL}`}
+				data-testid={testidLabel}
+				className="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1"
 			>
 				{label}
 				{isRequired && (
-					<span
-						className={tailWindClassNames.mileageCalcForm.REQUIRED_ASTERISK}
-					>
-						*
-					</span>
+					<span className="ml-1 text-red-500 dark:text-red-400">*</span>
 				)}
 			</label>
-			<input
-				id={id}
-				data-testid={testidInput}
-				className={`${tailWindClassNames.mileageCalcForm.FORM_NUMBER_INPUT}`}
-				type="number"
-				{...registerFn(path, {
-					valueAsNumber: true,
-				})}
-				max={maxValue}
-				min={minValue}
-				required={isRequired}
-				step={step}
-			/>
-			{error && <FormErrorMessage errorMessage={error} path={path} />}{" "}
+
+			<div className="relative rounded-md shadow-sm">
+				<input
+					id={id}
+					data-testid={testidInput}
+					className={`block w-full pl-7 pr-3 py-2 sm:text-sm border-neutral-300 dark:border-neutral-600 rounded-md shadow-sm 
+					focus:ring-primary focus:border-primary dark:focus:ring-primary-500 dark:focus:border-primary-500
+					bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100
+					${error ? "border-red-300 dark:border-red-700 focus:ring-red-500 focus:border-red-500 dark:focus:ring-red-500 dark:focus:border-red-500" : ""}
+					disabled:bg-neutral-100 dark:disabled:bg-neutral-700 disabled:cursor-not-allowed`}
+					type="number"
+					{...registerFn(path, {
+						valueAsNumber: true,
+					})}
+					max={maxValue}
+					min={minValue}
+					required={isRequired}
+					step={step}
+					aria-describedby={error ? `${id}-error` : undefined}
+				/>
+			</div>
+
+			{error && <FormErrorMessage errorMessage={error} path={path} />}
 		</div>
 	);
 };

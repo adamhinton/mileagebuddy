@@ -249,49 +249,74 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 			onSubmit={handleSubmit((formData) => {
 				formSubmitLogic(formData, dispatch);
 			})}
+			className="max-w-3xl mx-auto my-6 space-y-8"
 		>
 			{isShowErrorSummary && Object.keys(errors).length > 0 && (
 				<FormErrorSummary errors={errors} />
 			)}
 
-			{/* User can click this to clear all form values */}
-			{/* TODO clear form button only seems to work the second time it's clicked */}
-			<Button
-				onClick={clearAllFormValues}
-				text="Clear Form"
-				variant="primary"
-				isConfirmationRequired={true}
-				confirmationDialogOptions={{
-					title: "Clear Form",
-					message: "Are you sure you want to clear the form?",
-					confirmButtonText: "Clear",
-					cancelButtonText: "Cancel",
-				}}
-			/>
+			<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+				<h1 className="text-2xl font-bold text-neutral-800 dark:text-neutral-100">
+					{mode === "editVehicle"
+						? `Edit ${vehicleToEdit?.vehicleData?.vehicleName || "Vehicle"}`
+						: "Create New Vehicle"}
+				</h1>
 
-			<div className="ml-4">
-				<label className="mr-4">
-					<input
-						type="radio"
-						value="gas"
-						{...register("type", { required: true })}
-						className="mr-1"
-					/>
-					Gas
-				</label>
-				<label>
-					<input
-						type="radio"
-						value="electric"
-						{...register("type", { required: true })}
-						className="mr-1"
-					/>
-					Electric
-				</label>
+				<Button
+					onClick={clearAllFormValues}
+					text="Clear Form"
+					variant="secondary"
+					isConfirmationRequired={true}
+					confirmationDialogOptions={{
+						title: "Clear Form",
+						message: "Are you sure you want to clear all form data?",
+						confirmButtonText: "Clear",
+						cancelButtonText: "Cancel",
+					}}
+					className="self-start"
+				/>
 			</div>
 
-			{/* This part does a lot of heavy lifting
-			It's all the form sections, one for each sub-object of Vehicle */}
+			<div className="p-6 bg-white dark:bg-neutral-800 rounded-lg shadow-sm border border-neutral-200 dark:border-neutral-700">
+				<h2 className="text-lg font-medium text-neutral-800 dark:text-neutral-200 mb-4">
+					Vehicle Type
+				</h2>
+
+				<div className="flex flex-wrap gap-4 mb-6">
+					<label
+						className="flex items-center space-x-2 bg-neutral-100 dark:bg-neutral-700 px-4 py-2 rounded-md cursor-pointer border-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
+						${watchedVehicleType === 'gas' ? 'border-primary dark:border-primary-400' : 'border-transparent'}"
+					>
+						<input
+							type="radio"
+							value="gas"
+							{...register("type", { required: true })}
+							className="text-primary focus:ring-primary h-4 w-4"
+						/>
+						<span>Gas Vehicle</span>
+					</label>
+					<label
+						className="flex items-center space-x-2 bg-neutral-100 dark:bg-neutral-700 px-4 py-2 rounded-md cursor-pointer border-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
+						${watchedVehicleType === 'electric' ? 'border-primary dark:border-primary-400' : 'border-transparent'}"
+					>
+						<input
+							type="radio"
+							value="electric"
+							{...register("type", { required: true })}
+							className="text-primary focus:ring-primary h-4 w-4"
+						/>
+						<span>Electric Vehicle</span>
+					</label>
+				</div>
+
+				{errors.type && (
+					<p className="mt-1 text-sm text-red-600 dark:text-red-400">
+						Please select a vehicle type
+					</p>
+				)}
+			</div>
+
+			{/* All form sections */}
 			<FormSubSections
 				register={register}
 				errors={errors}
@@ -302,17 +327,19 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 				watchedVehicleType={watchedVehicleType}
 			/>
 
-			<Button
-				text={isSubmitting ? "Loading" : "Submit"}
-				className="submit"
-				isDisabled={isSubmitting}
-				onClick={() => {
-					setisShowErrorSummary(Object.keys(errors).length > 0);
-					console.log("isShowErrorSummary after submit:", isShowErrorSummary);
-				}}
-				isConfirmationRequired={false}
-				type={"submit"}
-			></Button>
+			<div className="flex justify-end pt-6 border-t border-neutral-200 dark:border-neutral-700">
+				<Button
+					text={isSubmitting ? "Saving..." : "Save Vehicle"}
+					className="px-6 py-2.5"
+					isDisabled={isSubmitting}
+					onClick={() => {
+						setisShowErrorSummary(Object.keys(errors).length > 0);
+					}}
+					isConfirmationRequired={false}
+					type="submit"
+					variant="primary"
+				/>
+			</div>
 		</form>
 	);
 };

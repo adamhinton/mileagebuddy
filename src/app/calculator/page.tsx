@@ -3,7 +3,6 @@
 // In this form, the user creates or edits a Vehicle based on the mode props passed in
 // The form is validated using zod and the schema is passed in as a prop
 // See VehicleCreationOrEditForm for more details
-
 // _______________________________________________________
 
 "use client";
@@ -38,17 +37,27 @@ const CalculatorPage = () => {
 	console.log("firstVehicle:", firstVehicle);
 
 	return (
-		<section className="h-screen p-4 sm:p-6 md:p-8">
-			<h1 className="text-2xl sm:text-3xl md:text-4xl">Calculator Page</h1>
-			{/* <VehicleCreationOrEditForm
-				mode="newVehicle"
-				schema={VehicleToBePostedSchema}
-			/> */}
-			<VehicleCreationOrEditForm
-				mode="editVehicle"
-				schema={VehicleSchemaForPATCH}
-				vehicleToEdit={firstVehicle}
-			/>
+		<section className="min-h-screen p-4 sm:p-6 md:p-8 bg-neutral-50 dark:bg-neutral-900">
+			<div className="max-w-5xl mx-auto">
+				<header className="mb-6">
+					<h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-neutral-800 dark:text-neutral-100">
+						Vehicle Calculator
+					</h1>
+					<p className="mt-2 text-neutral-600 dark:text-neutral-400">
+						Create or edit your vehicle details to calculate ownership costs
+					</p>
+				</header>
+
+				{/* <VehicleCreationOrEditForm
+					mode="newVehicle"
+					schema={VehicleToBePostedSchema}
+				/> */}
+				<VehicleCreationOrEditForm
+					mode="editVehicle"
+					schema={VehicleSchemaForPATCH}
+					vehicleToEdit={firstVehicle}
+				/>
+			</div>
 		</section>
 	);
 };

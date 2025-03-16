@@ -23,37 +23,68 @@ const FormErrorSummary = (props: Props) => {
 
 	const errorLinks = extractErrorMessages(errors);
 
+	if (errorLinks.length === 0) return null;
+
 	// This displays the names of the first three sections that have errors
 	// Clicking on the name will scroll the user to that section
-	// TODO expand the relevant section on click (or on submit) --- WIP
 	return (
-		<section className="mb-4 p-2 border border-red-400 rounded-md bg-red-50 dark:bg-red-900/20 dark:border-red-800">
-			<h5 className="text-red-600 dark:text-red-400 mb-1">
-				Please correct the following errors:
-			</h5>
-			<ul className="list-disc pl-5 space-y-1">
-				{errorLinks.map(({ key, path, message }) => (
-					<li key={key} className="text-sm">
-						<a
-							href={`#${path}`}
-							className="text-primary hover:underline focus:outline-none focus:ring-1 focus:ring-primary"
-							onClick={(e) => {
-								e.preventDefault();
-								const element = document.getElementById(path);
-								if (element) {
-									element.focus();
-									element.scrollIntoView({
-										behavior: "smooth",
-										block: "center",
-									});
-								}
-							}}
-						>
-							<FormErrorMessage errorMessage={message} />
-						</a>
-					</li>
-				))}
-			</ul>
+		<section className="mb-6 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 overflow-hidden transition-all">
+			<div className="p-4 flex items-start">
+				<div className="flex-shrink-0 mt-0.5">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						className="h-5 w-5 text-red-600 dark:text-red-400"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+						aria-hidden="true"
+					>
+						<path
+							fillRule="evenodd"
+							d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+							clipRule="evenodd"
+						/>
+					</svg>
+				</div>
+				<div className="ml-3 w-full">
+					<h2 className="text-sm font-medium text-red-800 dark:text-red-300">
+						Please fix the following issues before continuing:
+					</h2>
+					<ul className="mt-2 text-sm text-red-700 dark:text-red-400 space-y-1 list-none">
+						{errorLinks.map(({ key, path, message }) => (
+							<li key={key} className="flex items-start">
+								<span className="mr-2">•</span>
+								<a
+									href={`#${path}`}
+									className="hover:text-red-800 dark:hover:text-red-300 hover:underline focus:outline-none focus:underline focus:text-red-800 dark:focus:text-red-300 transition-colors"
+									onClick={(e) => {
+										e.preventDefault();
+										const element = document.getElementById(path);
+										if (element) {
+											element.focus();
+											element.scrollIntoView({
+												behavior: "smooth",
+												block: "center",
+											});
+
+											// If section is collapsed, let's open it
+											const button = element.querySelector("button");
+											if (
+												button &&
+												element.getAttribute("aria-expanded") === "false"
+											) {
+												button.click();
+											}
+										}
+									}}
+								>
+									<span className="font-medium">{message}</span> section has
+									errors
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			</div>
 		</section>
 	);
 };
