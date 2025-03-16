@@ -277,40 +277,40 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 				/>
 			</div>
 
-			<div className="p-6 bg-white dark:bg-neutral-800 rounded-lg shadow-sm border border-neutral-200 dark:border-neutral-700">
-				<h2 className="text-lg font-medium text-neutral-800 dark:text-neutral-200 mb-4">
+			<div className="p-3 bg-white dark:bg-neutral-800 rounded-lg shadow-sm border border-neutral-200 dark:border-neutral-700 mb-6">
+				<h3 className="text-base font-medium text-neutral-800 dark:text-neutral-200 mb-2">
 					Vehicle Type
-				</h2>
+				</h3>
 
-				<div className="flex flex-wrap gap-4 mb-6">
+				<div className="flex items-center gap-3 mb-2">
 					<label
-						className="flex items-center space-x-2 bg-neutral-100 dark:bg-neutral-700 px-4 py-2 rounded-md cursor-pointer border-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
-						${watchedVehicleType === 'gas' ? 'border-primary dark:border-primary-400' : 'border-transparent'}"
+						className="flex flex-1 items-center gap-2 bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 rounded-md cursor-pointer border hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
+						${watchedVehicleType === 'gas' ? 'border-primary dark:border-primary-400' : 'border-neutral-200 dark:border-neutral-600'}"
 					>
 						<input
 							type="radio"
 							value="gas"
 							{...register("type", { required: true })}
-							className="text-primary focus:ring-primary h-4 w-4"
+							className="text-primary focus:ring-primary h-3.5 w-3.5"
 						/>
-						<span>Gas Vehicle</span>
+						<span className="text-sm">Gas Vehicle</span>
 					</label>
 					<label
-						className="flex items-center space-x-2 bg-neutral-100 dark:bg-neutral-700 px-4 py-2 rounded-md cursor-pointer border-2 hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
-						${watchedVehicleType === 'electric' ? 'border-primary dark:border-primary-400' : 'border-transparent'}"
+						className="flex flex-1 items-center gap-2 bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 rounded-md cursor-pointer border hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
+						${watchedVehicleType === 'electric' ? 'border-primary dark:border-primary-400' : 'border-neutral-200 dark:border-neutral-600'}"
 					>
 						<input
 							type="radio"
 							value="electric"
 							{...register("type", { required: true })}
-							className="text-primary focus:ring-primary h-4 w-4"
+							className="text-primary focus:ring-primary h-3.5 w-3.5"
 						/>
-						<span>Electric Vehicle</span>
+						<span className="text-sm">Electric Vehicle</span>
 					</label>
 				</div>
 
 				{errors.type && (
-					<p className="mt-1 text-sm text-red-600 dark:text-red-400">
+					<p className="text-xs text-red-600 dark:text-red-400">
 						Please select a vehicle type
 					</p>
 				)}
