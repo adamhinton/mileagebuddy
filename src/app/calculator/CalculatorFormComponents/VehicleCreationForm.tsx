@@ -13,7 +13,7 @@
 import { Vehicle_For_db_PATCH } from "@/app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { z, ZodSchema } from "zod";
 import {
 	CollapsibleSectionTitles,
@@ -111,6 +111,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 
 	/**Shows bullet-pointed errors at top of form after user hits submit */
 	const [isShowErrorSummary, setisShowErrorSummary] = useState(false);
+	const errorSummaryRef = useRef<HTMLDivElement>(null);
 
 	// TODO validate local storage values before using them
 	const savedLocalStorageValues = getSavedFormValuesFromLocalStorage();
@@ -152,6 +153,20 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 		reset,
 		formState: { errors, isSubmitting },
 	} = form;
+
+	// When error summary becomes visible and has errors, scroll to it
+	useEffect(() => {
+		if (
+			isShowErrorSummary &&
+			Object.keys(errors).length > 0 &&
+			errorSummaryRef.current
+		) {
+			errorSummaryRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "start",
+			});
+		}
+	}, [isShowErrorSummary, errors]);
 
 	useEffect(() => {
 		if (hasResetFormValues) {
@@ -252,7 +267,9 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 			className="max-w-3xl mx-auto my-6 space-y-8"
 		>
 			{isShowErrorSummary && Object.keys(errors).length > 0 && (
-				<FormErrorSummary errors={errors} />
+				<div ref={errorSummaryRef}>
+					<FormErrorSummary errors={errors} />
+				</div>
 			)}
 
 			<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
