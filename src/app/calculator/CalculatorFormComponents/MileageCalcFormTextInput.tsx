@@ -7,7 +7,6 @@
 
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
-import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import FormErrorMessage from "./FormErrorMessage";
 import { VehiclePATCHorPOST } from "./VehicleCreationForm";
 
@@ -35,7 +34,6 @@ const MileageCalcFormTextInput = ({
 	error,
 	path,
 	subSchema,
-	// TODO change this type when you're out of testing and using the real vehicle type
 }: MileageCalcFormTextInputProps<VehiclePATCHorPOST>) => {
 	const maxLength = subSchema.maxLength || undefined;
 	const minLength = subSchema.minLength || undefined;
@@ -54,32 +52,31 @@ const MileageCalcFormTextInput = ({
 	const testidLabel = `${id}-label`;
 
 	return (
-		<div>
+		<div className="mb-4">
 			<label
 				htmlFor={id}
 				data-testid={testidLabel}
-				className="text-sm font-medium text-neutral-text mr-1"
+				className="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1"
 			>
 				{label}
 				{isRequired && (
-					<span
-						className={tailWindClassNames.mileageCalcForm.REQUIRED_ASTERISK}
-					>
-						*
-					</span>
+					<span className="ml-1 text-red-500 dark:text-red-400">*</span>
 				)}
 			</label>
 			<input
 				id={id}
 				data-testid={testidInput}
-				className={`${tailWindClassNames.mileageCalcForm.FORM_TEXT_INPUT}`}
+				className={`block w-full px-3 py-2 sm:text-sm border-neutral-300 dark:border-neutral-600 rounded-md shadow-sm 
+				focus:ring-primary focus:border-primary dark:focus:ring-primary-500 dark:focus:border-primary-500
+				bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100
+				${error ? "border-red-300 dark:border-red-700 focus:ring-red-500 focus:border-red-500 dark:focus:ring-red-500 dark:focus:border-red-500" : ""}
+				disabled:bg-neutral-100 dark:disabled:bg-neutral-700 disabled:cursor-not-allowed`}
 				type="text"
 				{...registerFn(path)}
 				required={isRequired}
-				// TODO bob is just for testing, move back to undefined
-				// Not totally sure undefined is the right choice
 				maxLength={maxLength}
 				minLength={minLength}
+				aria-describedby={error ? `${id}-error` : undefined}
 			/>
 			{error && <FormErrorMessage errorMessage={error} path={path} />}
 		</div>
