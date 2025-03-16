@@ -48,82 +48,53 @@ const FormSection = ({
 	formNavOptions,
 }: FormSectionProps) => {
 	const { onNext, isLastSection, sectionIndex, totalSections } = formNavOptions;
+	const isExpanded = isCollapsed === "isNotCollapsed";
 
 	return (
 		<section
 			className="mb-6 rounded-lg border border-neutral-200 dark:border-neutral-700 shadow-sm overflow-hidden bg-white dark:bg-neutral-800 transition-all duration-200"
 			id={id}
 		>
-			<button
-				type="button"
-				onClick={onToggleCollapse}
-				className="w-full flex items-center justify-between p-4 bg-neutral-50 dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset"
-				aria-expanded={isCollapsed === "isNotCollapsed"}
-				aria-controls={`${id}-content`}
-			>
-				<div className="flex items-center flex-grow">
-					<h3 className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">
-						{title}
-					</h3>
-					{isCompleted && (
-						<span
-							className="ml-2 flex-shrink-0 text-green-500 dark:text-green-400"
-							aria-label="Section completed"
-						>
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								className="h-5 w-5"
-								viewBox="0 0 20 20"
-								fill="currentColor"
+			<h3>
+				<button
+					type="button"
+					onClick={onToggleCollapse}
+					className="w-full flex items-center justify-between p-4 bg-neutral-50 dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset text-left"
+					aria-expanded={isExpanded}
+					aria-controls={`${id}-content`}
+				>
+					<div className="flex items-center flex-grow">
+						<span className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">
+							{title}
+						</span>
+						{isCompleted && (
+							<span
+								className="ml-2 flex-shrink-0 text-green-500 dark:text-green-400"
+								aria-label="Section completed"
 							>
-								<path
-									fillRule="evenodd"
-									d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-									clipRule="evenodd"
-								/>
-							</svg>
-						</span>
-					)}
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									className="h-5 w-5"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
+									<path
+										fillRule="evenodd"
+										d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+										clipRule="evenodd"
+									/>
+								</svg>
+							</span>
+						)}
 
-					{sectionIndex !== undefined && totalSections && (
-						<span className="ml-3 px-2 py-1 text-xs rounded-full bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300">
-							{sectionIndex + 1} of {totalSections}
-						</span>
-					)}
-				</div>
-
-				<div className="flex-shrink-0 text-neutral-500 dark:text-neutral-400 ml-4">
-					{isCollapsed === "isCollapsed" ? (
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-5 w-5"
-							viewBox="0 0 20 20"
-							fill="currentColor"
-							aria-hidden="true"
-						>
-							<path
-								fillRule="evenodd"
-								d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-								clipRule="evenodd"
-							/>
-						</svg>
-					) : (
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="h-5 w-5"
-							viewBox="0 0 20 20"
-							fill="currentColor"
-							aria-hidden="true"
-						>
-							<path
-								fillRule="evenodd"
-								d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"
-								clipRule="evenodd"
-							/>
-						</svg>
-					)}
-				</div>
-			</button>
+						{sectionIndex !== undefined && totalSections && (
+							<span className="ml-3 px-2 py-1 text-xs rounded-full bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300">
+								{sectionIndex + 1} of {totalSections}
+							</span>
+						)}
+					</div>
+				</button>
+			</h3>
 
 			<div
 				id={`${id}-content`}
@@ -157,7 +128,7 @@ const FormSection = ({
 									>
 										<path
 											fillRule="evenodd"
-											d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+											d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 110-2h7.586l-2.293-2.293a1 1 010-1.414z"
 											clipRule="evenodd"
 										/>
 									</svg>
