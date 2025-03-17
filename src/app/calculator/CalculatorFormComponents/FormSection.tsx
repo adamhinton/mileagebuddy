@@ -52,19 +52,25 @@ const FormSection = ({
 
 	return (
 		<section
-			className="mb-6 rounded-lg border border-neutral-200 dark:border-neutral-700 shadow-sm overflow-hidden bg-white dark:bg-neutral-800 transition-all duration-200"
+			className={`mb-6 rounded-lg border transition-all duration-300 overflow-hidden bg-white dark:bg-neutral-800 shadow-sm
+			${isCollapsed === "isNotCollapsed" ? "border-primary-400 dark:border-primary-600 shadow-md" : "border-neutral-200 dark:border-neutral-700"}
+			${sectionIndex === 0 && isCollapsed === "isNotCollapsed" ? "ring-2 ring-primary-100 dark:ring-primary-900/30" : ""}`}
 			id={id}
 		>
 			<h3>
 				<button
 					type="button"
 					onClick={onToggleCollapse}
-					className="w-full flex items-center justify-between p-4 bg-neutral-50 dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset text-left"
-					aria-expanded={isExpanded}
+					className={`w-full flex items-center justify-between p-4
+					${isCollapsed === "isNotCollapsed" ? "bg-primary-50 dark:bg-primary-900/20 hover:bg-primary-100 dark:hover:bg-primary-900/30" : "bg-neutral-50 dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700"}
+					transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset text-left`}
+					aria-expanded={isCollapsed === "isNotCollapsed"}
 					aria-controls={`${id}-content`}
 				>
 					<div className="flex items-center flex-grow">
-						<span className="text-lg font-semibold text-neutral-800 dark:text-neutral-100">
+						<span
+							className={`text-lg font-semibold ${isCollapsed === "isNotCollapsed" ? "text-primary-700 dark:text-primary-300" : "text-neutral-800 dark:text-neutral-100"}`}
+						>
 							{title}
 						</span>
 						{isCompleted && (
@@ -88,10 +94,26 @@ const FormSection = ({
 						)}
 
 						{sectionIndex !== undefined && totalSections && (
-							<span className="ml-3 px-2 py-1 text-xs rounded-full bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300">
+							<span
+								className={`ml-3 px-2 py-1 text-xs rounded-full ${isCollapsed === "isNotCollapsed" ? "bg-primary-100 dark:bg-primary-800 text-primary-700 dark:text-primary-200" : "bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300"}`}
+							>
 								{sectionIndex + 1} of {totalSections}
 							</span>
 						)}
+					</div>
+					<div className="ml-4 flex-shrink-0">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className={`h-5 w-5 transform transition-transform duration-200 ${isCollapsed === "isNotCollapsed" ? "rotate-180" : ""}`}
+							viewBox="0 0 20 20"
+							fill="currentColor"
+						>
+							<path
+								fillRule="evenodd"
+								d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+								clipRule="evenodd"
+							/>
+						</svg>
 					</div>
 				</button>
 			</h3>
@@ -104,7 +126,7 @@ const FormSection = ({
 						: "max-h-0 opacity-0 overflow-hidden"
 				}`}
 			>
-				<div className="p-4 pt-5 space-y-4 bg-white dark:bg-neutral-800">
+				<div className="p-4 pt-5 space-y-4 bg-white dark:bg-neutral-800 border-t border-neutral-100 dark:border-neutral-700">
 					{children}
 				</div>
 
@@ -128,7 +150,7 @@ const FormSection = ({
 									>
 										<path
 											fillRule="evenodd"
-											d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 110-2h7.586l-2.293-2.293a1 1 010-1.414z"
+											d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 010 1.414l-4 4a1 1 01-1.414-1.414L12.586 11H5a1 1 110-2h7.586l-2.293-2.293a1 1 010-1.414z"
 											clipRule="evenodd"
 										/>
 									</svg>
