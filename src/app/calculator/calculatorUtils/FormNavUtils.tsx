@@ -1,3 +1,8 @@
+// _______________________________________________________
+// Form navigation utilities for the vehicle creation/edit form.
+// It's divided in to sub-sections that are collapsible.
+// _______________________________________________________
+
 import {
 	Electric_Vehicle_For_DB_POST,
 	Gas_Vehicle_For_DB_POST,

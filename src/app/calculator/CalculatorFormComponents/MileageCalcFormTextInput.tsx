@@ -4,6 +4,7 @@
 // TODO write tests for this once it's finalized
 // This has a <label> too, but MileageCalcFormTextInputAndLabel was an annoyingly long name
 // Confused about the subschema being passed in? See the jsdoc for subSchema param
+// Note, this is closely related to MileageCalcFormNumberInput.tsx, which is just different enough to warrant its own component
 
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
@@ -69,6 +70,7 @@ const MileageCalcFormTextInput = ({
 				className={`block w-full sm:w-80 md:w-64 px-3 py-2 sm:text-sm border-neutral-300 dark:border-neutral-600 rounded-md shadow-sm 
 				focus:ring-primary focus:border-primary dark:focus:ring-primary-500 dark:focus:border-primary-500
 				bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100
+				// Different styling if there's an error
 				${error ? "border-red-300 dark:border-red-700 focus:ring-red-500 focus:border-red-500 dark:focus:ring-red-500 dark:focus:border-red-500" : ""}
 				disabled:bg-neutral-100 dark:disabled:bg-neutral-700 disabled:cursor-not-allowed`}
 				type="text"

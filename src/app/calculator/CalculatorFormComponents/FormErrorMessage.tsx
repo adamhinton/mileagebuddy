@@ -9,7 +9,7 @@ import { VehiclePATCHorPOST } from "./VehicleCreationForm";
  */
 type ErrorMessageProps = {
 	errorMessage: string;
-	// To make testid. Only passed in if it's in the actual component; not needed when it's at top of main form
+	// To make testid. Only passed in if it's in the actual component; not needed when it's in FormErrorSummary at the top of the main form
 	path?: Path<VehiclePATCHorPOST>;
 };
 

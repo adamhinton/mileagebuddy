@@ -54,22 +54,21 @@ FRONTEND FEATURES PLANNED:
 -User saves trips, vehicles
 
 +Calculator:
--Miles per year
--Cost of gas, maintenance, insurance, depreciation
--New tires or any miscellanea
--Do the math, give cost per Mile
--Then, cost per additional mile feature
-
-+COMPARISON:
--Compare to biking, flying, walking, transit
--Have checkboxes for all the things if you may need if you don't drive, and let user fill in costs of those (biking, flying etc)
+-User can create and edit their Vehicles
+-User selects a vehicle's type (gas or electric) and the form then displays the relevant sections
+-Hitting submit calls the appropriate endpoint for edit/deletion
+-Validation by Zod
+-Form sections are collapsible and have appropriate buttons for navigation
+-When user hits Submit, the updates are saved to redux glboal state and the db. Redux state is only updated if db operation is successful.
+-See /src/app/calculator/page.tsx
 
 PAGES:
 <Dashboard/>
+Link: /dashboard
+-Displays all of a user's Vehicles
+-Has drag n'drop functionality to change the order
 -User is directed here on login, or on page load if they're already logged in
--Will list all a user's Vehicles
--Has functionality to do CRUD operations on vehicles
--Protected route, only accessible if logged in
+-Buttons on each vehicle to edit/delete
 
 <Login/>
 -For logging in (obviously)

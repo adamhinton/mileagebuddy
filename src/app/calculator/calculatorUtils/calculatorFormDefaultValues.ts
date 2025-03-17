@@ -14,8 +14,6 @@ import { Vehicle_For_db_PATCH } from "@/app/utils/server/types/VehicleTypes/PATC
 /** This file provides default values for the vehicle edit form and the vehicle creation form.
  *
  * Since most of those default values will be the same between those two, I'm defining those shared default values in this constant.
- *
- *
  */
 const baseDefaultVehicleValues: DeepPartial<DeepReadonly<VehiclePATCHorPOST>> =
 	{
@@ -88,6 +86,9 @@ export const defaultVehicleValuesPOST = (
 	};
 };
 
+/**Default values to pass in when editing a vehicle
+ * This ensures that the form is populated with a vehicle's relevant IDs etc
+ */
 export const defaultVehicleValuesPATCH = (
 	userId: string,
 	vehicleToEdit: Vehicle_For_db_PATCH
