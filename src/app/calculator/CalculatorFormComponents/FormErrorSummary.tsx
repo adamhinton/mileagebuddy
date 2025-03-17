@@ -81,12 +81,6 @@ const FormErrorSummary = (props: Props) => {
 										// Now handle the clicked error section
 										const element = document.getElementById(path);
 										if (element) {
-											element.focus();
-											element.scrollIntoView({
-												behavior: "smooth",
-												block: "center",
-											});
-
 											// If section is collapsed, let's open it
 											const button = element.querySelector("button");
 											if (
@@ -95,6 +89,19 @@ const FormErrorSummary = (props: Props) => {
 											) {
 												button.click(); // Expand this section
 											}
+
+											// Wait for section to expand before scrolling
+											setTimeout(() => {
+												const topOffset = 80; // Adjust based on your header height
+												const elementTop = element.getBoundingClientRect().top;
+												const offsetPosition =
+													elementTop + window.pageYOffset - topOffset;
+
+												window.scrollTo({
+													top: offsetPosition,
+													behavior: "smooth",
+												});
+											}, 100);
 										}
 									}}
 								>

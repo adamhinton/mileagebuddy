@@ -28,40 +28,36 @@ export const useFormNavigation = (
 	/**
 	 * Function to navigate to the next section.
 	 */
-	const goToNextSection = useCallback(
-		(currentSectionId: CollapsibleSectionTitles) => {
-			const currentIndex = formSectionOrder.indexOf(currentSectionId);
+	const goToNextSection = (sectionId: CollapsibleSectionTitles) => {
+		// Find the next section in order
+		const currentIndex = formSectionOrder.indexOf(sectionId);
+		const nextSectionId = formSectionOrder[currentIndex + 1];
 
-			// If the current section is not the last section
-			if (currentIndex < formSectionOrder.length - 1) {
-				const nextSectionId = formSectionOrder[currentIndex + 1];
-				// Expand next section and collapse current
-				setCollapsedSections((prev) => {
-					return {
-						...prev,
-						[currentSectionId]: "isCollapsed",
-						[nextSectionId]: "isNotCollapsed",
-					};
-				});
+		// If there's a next section, open it and scroll to it
+		if (nextSectionId) {
+			// First expand the section if it's collapsed
+			setCollapsedSections((prev) => ({
+				...prev,
+				[nextSectionId]: "isNotCollapsed",
+			}));
 
-				// Scroll to next section with better positioning
-				setTimeout(() => {
-					const element = document.getElementById(nextSectionId);
-					if (element) {
-						// Changed from "start" to "center" to ensure the section header is fully visible
-						element.scrollIntoView({ behavior: "smooth", block: "center" });
+			// Wait for the DOM to update before scrolling
+			setTimeout(() => {
+				const sectionElement = document.getElementById(nextSectionId);
+				if (sectionElement) {
+					// Add an offset to prevent cutoff under headers
+					const topOffset = 80; // Adjust this value based on your header height
+					const elementTop = sectionElement.getBoundingClientRect().top;
+					const offsetPosition = elementTop + window.pageYOffset - topOffset;
 
-						// For better user experience, ensure the section button gets focus
-						const sectionButton = element.querySelector("button");
-						if (sectionButton) {
-							sectionButton.focus();
-						}
-					}
-				}, 100);
-			}
-		},
-		[formSectionOrder, setCollapsedSections]
-	);
+					window.scrollTo({
+						top: offsetPosition,
+						behavior: "smooth",
+					});
+				}
+			}, 100); // Small delay to ensure DOM update completes
+		}
+	};
 
 	/**
 	 * Function to toggle the collapsed state of a section.
