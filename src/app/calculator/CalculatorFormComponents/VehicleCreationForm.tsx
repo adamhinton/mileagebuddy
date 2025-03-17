@@ -32,6 +32,7 @@ import {
 	defaultVehicleValuesPATCH,
 	defaultVehicleValuesPOST,
 } from "../calculatorUtils/calculatorFormDefaultValues";
+import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 
 /** Prevent typos by making sure localStorage persisted data is always accessed the same way */
 export const LOCAL_STORAGE_FORM_DATA_KEY = "mileageFormData";
@@ -250,12 +251,14 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 
 	const dispatch = useAppDispatch();
 
+	const styles = tailWindClassNames.mileageCalcForm;
+
 	return (
 		<form
 			onSubmit={handleSubmit((formData) => {
 				formSubmitLogic(formData, dispatch);
 			})}
-			className="max-w-3xl mx-auto my-6 space-y-8"
+			className={styles.FORM_CONTAINER}
 		>
 			{isShowErrorSummary && Object.keys(errors).length > 0 && (
 				<div ref={errorSummaryRef}>
@@ -263,8 +266,8 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 				</div>
 			)}
 
-			<div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
-				<h1 className="text-2xl font-bold text-neutral-800 dark:text-neutral-100">
+			<div className={styles.FORM_HEADER}>
+				<h1 className={styles.FORM_TITLE}>
 					{mode === "editVehicle"
 						? `Edit ${vehicleToEdit?.vehicleData?.vehicleName || "Vehicle"}`
 						: "Create New Vehicle"}
@@ -292,8 +295,12 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 
 				<div className="flex items-center gap-3 mb-2">
 					<label
-						className="flex flex-1 items-center gap-2 bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 rounded-md cursor-pointer border hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
-						${watchedVehicleType === 'gas' ? 'border-primary dark:border-primary-400' : 'border-neutral-200 dark:border-neutral-600'}"
+						className={`flex flex-1 items-center gap-2 bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 rounded-md cursor-pointer border hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
+						${
+							watchedVehicleType === "gas"
+								? "border-primary dark:border-primary-200"
+								: "border-neutral-200 dark:border-neutral-600"
+						}`}
 					>
 						<input
 							type="radio"
@@ -304,8 +311,12 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 						<span className="text-sm">Gas Vehicle</span>
 					</label>
 					<label
-						className="flex flex-1 items-center gap-2 bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 rounded-md cursor-pointer border hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
-						${watchedVehicleType === 'electric' ? 'border-primary dark:border-primary-400' : 'border-neutral-200 dark:border-neutral-600'}"
+						className={`flex flex-1 items-center gap-2 bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 rounded-md cursor-pointer border hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
+						${
+							watchedVehicleType === "electric"
+								? "border-primary dark:border-primary-200"
+								: "border-neutral-200 dark:border-neutral-600"
+						}`}
 					>
 						<input
 							type="radio"
@@ -335,7 +346,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 				watchedVehicleType={watchedVehicleType}
 			/>
 
-			<div className="flex justify-end pt-6 border-t border-neutral-200 dark:border-neutral-700">
+			<div className={styles.FORM_FOOTER}>
 				<Button
 					text={isSubmitting ? "Saving..." : "Save Vehicle"}
 					className="px-6 py-2.5"

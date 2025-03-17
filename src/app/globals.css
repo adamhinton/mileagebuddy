@@ -280,6 +280,23 @@
 	.mileage-calc-form-error-icon {
 		@apply flex-shrink-0 h-4 w-4 mt-0.5;
 	}
+
+	/* Vehicle Creation Form Styles; VehicleCreationForm.tsx. Also has edit functionality. */
+	.mileage-calc-form-container {
+		@apply max-w-3xl mx-auto my-6 space-y-8;
+	}
+
+	.mileage-calc-form-header {
+		@apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8;
+	}
+
+	.mileage-calc-form-title {
+		@apply text-2xl font-bold text-neutral-800 dark:text-neutral-100;
+	}
+
+	.mileage-calc-form-footer {
+		@apply flex justify-end pt-6 border-t border-neutral-200 dark:border-neutral-700;
+	}
 }
 
 @tailwind utilities;

@@ -21,6 +21,12 @@ type TailwindClassNames = {
 		FORM_TEXT_FIELD: "mileage-calc-form-text-field";
 		FORM_TEXT_FIELD_ERROR: "mileage-calc-form-text-field-error";
 		FORM_LABEL: "mileage-calc-form-label";
+		// Start VehicleCreationForm.tsx
+		FORM_CONTAINER: "mileage-calc-form-container";
+		FORM_HEADER: "mileage-calc-form-header";
+		FORM_TITLE: "mileage-calc-form-title";
+		FORM_FOOTER: "mileage-calc-form-footer";
+		// End VehicleCreationForm.tsx
 		SECTION: {
 			CONTAINER: "mileage-calc-form-section-container";
 			CONTAINER_ACTIVE: "mileage-calc-form-section-container-active";
@@ -74,6 +80,13 @@ const tailWindClassNames: TailwindClassNames = {
 		FORM_TEXT_FIELD: "mileage-calc-form-text-field",
 		FORM_TEXT_FIELD_ERROR: "mileage-calc-form-text-field-error",
 		FORM_LABEL: "mileage-calc-form-label",
+
+		// Main form layout
+		FORM_CONTAINER: "mileage-calc-form-container",
+		FORM_HEADER: "mileage-calc-form-header",
+		FORM_TITLE: "mileage-calc-form-title",
+		FORM_FOOTER: "mileage-calc-form-footer",
+
 		SECTION: {
 			CONTAINER: "mileage-calc-form-section-container",
 			CONTAINER_ACTIVE: "mileage-calc-form-section-container-active",
