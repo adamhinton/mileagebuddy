@@ -51,10 +51,10 @@ export const useFormNavigation = (
 			setTimeout(() => {
 				const sectionElement = document.getElementById(nextSectionId);
 				if (sectionElement) {
-					// Add an offset to prevent cutoff under headers
-					const topOffset = 80; // Adjust this value based on your header height
+					// Adjust this value to position the section better in viewport
+					const topOffset = 150; // Increased from 80 to push section higher
 					const elementTop = sectionElement.getBoundingClientRect().top;
-					const offsetPosition = elementTop + window.pageYOffset - topOffset;
+					const offsetPosition = elementTop + window.scrollY - topOffset;
 
 					// Scroll to next form section
 					window.scrollTo({
@@ -62,7 +62,7 @@ export const useFormNavigation = (
 						behavior: "smooth",
 					});
 				}
-			}, 100); // Small delay to ensure DOM update completes
+			}, 250); // Increased delay to ensure DOM update completes
 		}
 	};
 

@@ -95,16 +95,16 @@ const FormErrorSummary = (props: Props) => {
 
 											// Wait for section to expand before scrolling
 											setTimeout(() => {
-												const topOffset = 80; // Adjust based on your header height
+												const topOffset = 150; // Increased from 80 to position section higher
 												const elementTop = element.getBoundingClientRect().top;
 												const offsetPosition =
-													elementTop + window.pageYOffset - topOffset;
+													elementTop + window.scrollY - topOffset;
 
 												window.scrollTo({
 													top: offsetPosition,
 													behavior: "smooth",
 												});
-											}, 100);
+											}, 250); // Increased delay to ensure animations complete
 										}
 									}}
 								>
