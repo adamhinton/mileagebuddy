@@ -1,3 +1,7 @@
+/* README */
+/* Is this file big and unwieldy? I agree. TODO Figure out how to organize globals.css better */
+/* That said, tailWindClassNames.ts is a great place to look for a more readable organization system. */
+
 /* globals.css */
 @tailwind base;
 
