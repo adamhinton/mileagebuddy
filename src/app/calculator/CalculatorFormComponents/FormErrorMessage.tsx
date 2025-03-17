@@ -1,55 +1,26 @@
+import React from "react";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
-import { Path } from "react-hook-form";
-import { VehiclePATCHorPOST } from "./VehicleCreationForm";
 
-/**
- * This component goes in two places:
- * 1. At the top of the form, where it's used to display the error messages for the whole form
- * 2. Inside the form, where it's used to display the error messages for individual inputs
- */
-type ErrorMessageProps = {
+type FormErrorMessageProps = {
 	errorMessage: string;
-	// To make testid. Only passed in if it's in the actual component; not needed when it's in FormErrorSummary at the top of the main form
-	path?: Path<VehiclePATCHorPOST>;
+	path: string;
 };
 
-const FormErrorMessage = (props: ErrorMessageProps) => {
-	const { errorMessage, path } = props;
-
-	// Return just the icon if errorMessage is empty (used in FormErrorSummary header)
-	if (errorMessage === "") {
-		return (
-			<svg
-				xmlns="http://www.w3.org/2000/svg"
-				className="h-5 w-5 text-red-600 dark:text-red-400"
-				viewBox="0 0 20 20"
-				fill="currentColor"
-				aria-hidden="true"
-			>
-				<path
-					fillRule="evenodd"
-					d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-					clipRule="evenodd"
-				/>
-			</svg>
-		);
-	}
+const FormErrorMessage = ({ errorMessage, path }: FormErrorMessageProps) => {
+	const id = `${path}-error`;
+	const styles = tailWindClassNames.mileageCalcForm;
 
 	return (
-		<p
-			className="mt-1 text-sm text-red-600 dark:text-red-400 flex items-center"
-			data-testid={`${path}-error`}
-		>
+		<p id={id} data-testid={id} className={styles.FORM_ERROR_MESSAGE}>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
-				className="h-4 w-4 mr-1 inline-block flex-shrink-0"
 				viewBox="0 0 20 20"
 				fill="currentColor"
-				aria-hidden="true"
+				className={styles.FORM_ERROR_ICON}
 			>
 				<path
 					fillRule="evenodd"
-					d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+					d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
 					clipRule="evenodd"
 				/>
 			</svg>
