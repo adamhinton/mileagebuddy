@@ -3,6 +3,7 @@
 // Takes in the errors object from react-hook-form and displays the first three errors
 // It only shows up once user hits Submit
 // It just displays the name of the relevant form section; clicking on it scrolls the user to that section
+// If user clicks on an error, it collapses all other sections, opens the clicked section and scrolls to the clicked section
 
 // TODO dynamically update errors when they go away
 
@@ -49,10 +50,11 @@ const FormErrorSummary = (props: Props) => {
 										e.preventDefault();
 
 										// Get all section IDs
-										const allSectionIds = [
+										const allSectionIds: (keyof VehiclePATCHorPOST)[] = [
 											"vehicleData",
-											"gasVehicleData",
-											"electricVehicleData",
+											// VehiclePATCHorPOST is a union type; only one of the items in the union has these properties and I'm too lazy to type this better, hence the type assertion
+											"gasVehicleData" as keyof VehiclePATCHorPOST,
+											"electricVehicleData" as keyof VehiclePATCHorPOST,
 											"purchaseAndSales",
 											"usage",
 											"fixedCosts",
@@ -82,7 +84,7 @@ const FormErrorSummary = (props: Props) => {
 										// Now scroll to the clicked error section
 										const element = document.getElementById(path);
 										if (element) {
-											// If section is collapsed, let's open it
+											// If section is collapsed, open it
 											const button = element.querySelector("button");
 											if (
 												button &&

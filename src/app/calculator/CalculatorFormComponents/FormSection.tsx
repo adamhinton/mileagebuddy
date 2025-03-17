@@ -57,6 +57,7 @@ const FormSection = ({
 			id={id}
 		>
 			<h3>
+				{/* Clickin anywhere on this element expands/collapses this form section */}
 				<button
 					type="button"
 					onClick={onToggleCollapse}

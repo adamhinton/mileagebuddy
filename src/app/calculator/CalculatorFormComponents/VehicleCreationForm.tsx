@@ -6,7 +6,7 @@
 // Form validation will be done by Zod.
 // Errors: Form displays input errors next to each input (if there is an error), as well as a summary of the first three sections with errors at the top of the form.
 // Persistence: If user navigates away or exits the page before finishing the form, the form state is saved to localStorage and restored when user returns.
-// User can also clear the form with a button.
+// User can also clear the form with the Clear Form button.
 // EDIT MODE: This form can be used to either edit a vehicle or create a new one, depending on the props passed in. There is minimal UI difference between these mods.
 // Testing: Tested in VehicleCreationForm.test.tsx
 
@@ -117,17 +117,6 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 
 	// TODO validate local storage values before using them
 	const savedLocalStorageValues = getSavedFormValuesFromLocalStorage();
-
-	// const savedVehicleIsValidVehicle = () => {
-	// 	// Check if the saved form values are a valid vehicle object
-	// 	try {
-	// 		schema.parse(savedLocalStorageValues);
-	// 		return true;
-	// 	} catch (error) {
-	// 		console.error("Saved form values are not a valid vehicle object:", error);
-	// 		return false;
-	// 	}
-	// };
 
 	const [hasResetFormValues, setHasResetFormValues] = useState(false);
 
