@@ -10,6 +10,7 @@ import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
 import FormErrorMessage from "./FormErrorMessage";
 import { VehiclePATCHorPOST } from "./VehicleCreationForm";
+import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 
 type MileageCalcFormTextInputProps<TFieldValues extends FieldValues> = {
 	registerFn: UseFormRegister<TFieldValues>;
@@ -52,27 +53,22 @@ const MileageCalcFormTextInput = ({
 	const testidInput = `${id}-input`;
 	const testidLabel = `${id}-label`;
 
+	const styles = tailWindClassNames.mileageCalcForm;
+
 	return (
 		<div className="mb-4">
 			<label
 				htmlFor={id}
 				data-testid={testidLabel}
-				className="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1"
+				className={styles.FORM_LABEL}
 			>
 				{label}
-				{isRequired && (
-					<span className="ml-1 text-red-500 dark:text-red-400">*</span>
-				)}
+				{isRequired && <span className={styles.REQUIRED_ASTERISK}>*</span>}
 			</label>
 			<input
 				id={id}
 				data-testid={testidInput}
-				className={`block w-full sm:w-80 md:w-64 px-3 py-2 sm:text-sm border-neutral-300 dark:border-neutral-600 rounded-md shadow-sm 
-				focus:ring-primary focus:border-primary dark:focus:ring-primary-500 dark:focus:border-primary-500
-				bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100
-				// Different styling if there's an error
-				${error ? "border-red-300 dark:border-red-700 focus:ring-red-500 focus:border-red-500 dark:focus:ring-red-500 dark:focus:border-red-500" : ""}
-				disabled:bg-neutral-100 dark:disabled:bg-neutral-700 disabled:cursor-not-allowed`}
+				className={`${styles.FORM_TEXT_FIELD} ${error ? styles.FORM_TEXT_FIELD_ERROR : ""}`}
 				type="text"
 				{...registerFn(path)}
 				required={isRequired}
