@@ -19,6 +19,7 @@ const FormErrorSummary = (props: Props) => {
 
 	console.log("errors in FormErrorSummary:", errors);
 
+	// Component doens't render if there are no errors
 	if (!errors) return null;
 
 	const errorLinks = extractErrorMessages(errors);
@@ -78,7 +79,7 @@ const FormErrorSummary = (props: Props) => {
 											}
 										});
 
-										// Now handle the clicked error section
+										// Now scroll to the clicked error section
 										const element = document.getElementById(path);
 										if (element) {
 											// If section is collapsed, let's open it
