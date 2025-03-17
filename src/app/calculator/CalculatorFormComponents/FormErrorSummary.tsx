@@ -95,7 +95,7 @@ const FormErrorSummary = (props: Props) => {
 
 											// Wait for section to expand before scrolling
 											setTimeout(() => {
-												const topOffset = 150; // Increased from 80 to position section higher
+												const topOffset = 150;
 												const elementTop = element.getBoundingClientRect().top;
 												const offsetPosition =
 													elementTop + window.scrollY - topOffset;
