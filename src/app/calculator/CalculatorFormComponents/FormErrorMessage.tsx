@@ -15,6 +15,7 @@ const FormErrorMessage = (props: FormErrorMessageProps) => {
 
 	return (
 		<p id={id} data-testid={id} className={styles.FORM_ERROR_MESSAGE}>
+			{/* Aria stuff */}
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 20 20"
