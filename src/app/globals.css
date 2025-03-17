@@ -100,6 +100,91 @@
 		@apply text-red-500 ml-1;
 	}
 
+	/* FormSection component styles */
+	.mileage-calc-form-section-container {
+		@apply mb-6 rounded-lg border transition-all duration-300 overflow-hidden bg-white dark:bg-neutral-800 shadow-sm;
+	}
+
+	.mileage-calc-form-section-container-active {
+		@apply border-primary-200 dark:border-primary-200 shadow-md;
+	}
+
+	.mileage-calc-form-section-container-inactive {
+		@apply border-neutral-200 dark:border-neutral-700;
+	}
+
+	.mileage-calc-form-section-container-first-active {
+		@apply ring-2 ring-primary-100 dark:ring-primary-200/30;
+	}
+
+	.mileage-calc-form-section-button {
+		@apply w-full flex items-center justify-between p-4 transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset text-left;
+	}
+
+	.mileage-calc-form-section-button-active {
+		@apply bg-primary-50 dark:bg-primary-100/20 hover:bg-primary-100 dark:hover:bg-primary-100/30;
+	}
+
+	.mileage-calc-form-section-button-inactive {
+		@apply bg-neutral-50 dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700;
+	}
+
+	.mileage-calc-form-section-title {
+		@apply text-lg font-semibold;
+	}
+
+	.mileage-calc-form-section-title-active {
+		@apply text-primary dark:text-primary;
+	}
+
+	.mileage-calc-form-section-title-inactive {
+		@apply text-neutral-800 dark:text-neutral-100;
+	}
+
+	.mileage-calc-form-section-badge {
+		@apply ml-3 px-2 py-1 text-xs rounded-full;
+	}
+
+	.mileage-calc-form-section-badge-active {
+		@apply bg-primary-100 dark:bg-primary-100/30 text-primary dark:text-primary;
+	}
+
+	.mileage-calc-form-section-badge-inactive {
+		@apply bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300;
+	}
+
+	.mileage-calc-form-section-chevron {
+		@apply h-6 w-6 transform transition-transform duration-200;
+	}
+
+	.mileage-calc-form-section-chevron-active {
+		@apply rotate-180;
+	}
+
+	.mileage-calc-form-section-content-wrapper {
+		@apply transition-all duration-300 ease-in-out;
+	}
+
+	.mileage-calc-form-section-content-wrapper-active {
+		@apply max-h-[2000px] opacity-100;
+	}
+
+	.mileage-calc-form-section-content-wrapper-inactive {
+		@apply max-h-0 opacity-0 overflow-hidden;
+	}
+
+	.mileage-calc-form-section-content-inner {
+		@apply p-4 pt-5 space-y-4 bg-white dark:bg-neutral-800 border-t border-neutral-100 dark:border-neutral-700;
+	}
+
+	.mileage-calc-form-section-footer {
+		@apply flex justify-end bg-neutral-50 dark:bg-neutral-700/30 p-4 border-t border-neutral-200 dark:border-neutral-700;
+	}
+
+	.mileage-calc-form-next-button {
+		@apply px-4 py-2 rounded-md bg-primary hover:bg-primary text-white font-medium shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-neutral-900;
+	}
+
 	/* Navigation link styling */
 	.nav-link {
 		@apply px-3 py-2 rounded-md text-neutral-text hover:bg-background-highlight 
@@ -188,6 +273,7 @@
 	--background-highlight: 190, 30%, 97%; /* Subtle highlight areas */
 }
 
+/* Dark Mode */
 .dark {
 	/* Primary color: Soft blue */
 	--primary: 220, 40%, 70%;

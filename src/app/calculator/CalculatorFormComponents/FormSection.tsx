@@ -49,27 +49,30 @@ const FormSection = ({
 }: FormSectionProps) => {
 	const { onNext, isLastSection, sectionIndex, totalSections } = formNavOptions;
 
+	const styles = tailWindClassNames.mileageCalcForm.SECTION;
+	const isActive = isCollapsed === "isNotCollapsed";
+
 	return (
 		<section
-			className={`mb-6 rounded-lg border transition-all duration-300 overflow-hidden bg-white dark:bg-neutral-800 shadow-sm
-			${isCollapsed === "isNotCollapsed" ? "border-primary-400 dark:border-primary-600 shadow-md" : "border-neutral-200 dark:border-neutral-700"}
-			${sectionIndex === 0 && isCollapsed === "isNotCollapsed" ? "ring-2 ring-primary-100 dark:ring-primary-900/30" : ""}`}
+			className={`${styles.CONTAINER} 
+				${isActive ? styles.CONTAINER_ACTIVE : styles.CONTAINER_INACTIVE}
+				${sectionIndex === 0 && isActive ? styles.CONTAINER_FIRST_ACTIVE : ""}`}
 			id={id}
 		>
 			<h3>
-				{/* Clickin anywhere on this element expands/collapses this form section */}
+				{/* Clicking anywhere on this element expands/collapses this form section */}
 				<button
 					type="button"
 					onClick={onToggleCollapse}
-					className={`w-full flex items-center justify-between p-4
-					${isCollapsed === "isNotCollapsed" ? "bg-primary-50 dark:bg-primary-900/20 hover:bg-primary-100 dark:hover:bg-primary-900/30" : "bg-neutral-50 dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700"}
-					transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset text-left`}
-					aria-expanded={isCollapsed === "isNotCollapsed"}
+					className={`${styles.BUTTON} 
+						${isActive ? styles.BUTTON_ACTIVE : styles.BUTTON_INACTIVE}`}
+					aria-expanded={isActive}
 					aria-controls={`${id}-content`}
 				>
 					<div className="flex items-center flex-grow">
 						<span
-							className={`text-lg font-semibold ${isCollapsed === "isNotCollapsed" ? "text-primary-700 dark:text-primary-300" : "text-neutral-800 dark:text-neutral-100"}`}
+							className={`${styles.TITLE} 
+								${isActive ? styles.TITLE_ACTIVE : styles.TITLE_INACTIVE}`}
 						>
 							{title}
 						</span>
@@ -78,7 +81,6 @@ const FormSection = ({
 								className="ml-2 flex-shrink-0 text-green-500 dark:text-green-400"
 								aria-label="Section completed"
 							>
-								{/* Up/down chevron */}
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									className="h-5 w-5"
@@ -96,7 +98,8 @@ const FormSection = ({
 
 						{sectionIndex !== undefined && totalSections && (
 							<span
-								className={`ml-3 px-2 py-1 text-xs rounded-full ${isCollapsed === "isNotCollapsed" ? "bg-primary-100 dark:bg-primary-800 text-primary-700 dark:text-primary-200" : "bg-neutral-200 dark:bg-neutral-700 text-neutral-600 dark:text-neutral-300"}`}
+								className={`${styles.BADGE} 
+									${isActive ? styles.BADGE_ACTIVE : styles.BADGE_INACTIVE}`}
 							>
 								{sectionIndex + 1} of {totalSections}
 							</span>
@@ -106,7 +109,7 @@ const FormSection = ({
 						{/* Up/down chevron */}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
-							className={`h-5 w-5 transform transition-transform duration-200 ${isCollapsed === "isNotCollapsed" ? "rotate-180" : ""}`}
+							className={`${styles.CHEVRON} ${isActive ? styles.CHEVRON_ACTIVE : ""}`}
 							viewBox="0 0 20 20"
 							fill="currentColor"
 						>
@@ -122,24 +125,22 @@ const FormSection = ({
 
 			<div
 				id={`${id}-content`}
-				className={`transition-all duration-300 ease-in-out ${
-					isCollapsed === "isNotCollapsed"
-						? "max-h-[2000px] opacity-100"
-						: "max-h-0 opacity-0 overflow-hidden"
+				className={`${styles.CONTENT_WRAPPER} ${
+					isActive
+						? styles.CONTENT_WRAPPER_ACTIVE
+						: styles.CONTENT_WRAPPER_INACTIVE
 				}`}
 			>
-				<div className="p-4 pt-5 space-y-4 bg-white dark:bg-neutral-800 border-t border-neutral-100 dark:border-neutral-700">
-					{children}
-				</div>
+				<div className={styles.CONTENT_INNER}>{children}</div>
 
 				{/* Navigation controls at bottom */}
-				{isCollapsed === "isNotCollapsed" && (
-					<div className="flex justify-end bg-neutral-50 dark:bg-neutral-700/30 p-4 border-t border-neutral-200 dark:border-neutral-700">
+				{isActive && (
+					<div className={styles.FOOTER}>
 						{onNext && !isLastSection && (
 							<button
 								type="button"
 								onClick={onNext}
-								className="px-4 py-2 rounded-md bg-primary hover:bg-primary-600 text-white font-medium shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:focus:ring-offset-neutral-900"
+								className={styles.NEXT_BUTTON}
 							>
 								<span className="flex items-center">
 									<span>Next Section</span>
