@@ -10,7 +10,7 @@
 	}
 
 	.nav-link-primary {
-		@apply px-4 py-2 rounded-md  hover:bg-opacity-90 
+		@apply px-4 py-2 rounded-md bg-primary hover:bg-opacity-90 
     text-white text-sm font-medium transition-all shadow-sm 
     hover:shadow dark:bg-primary-200 dark:hover:bg-primary-100;
 	}

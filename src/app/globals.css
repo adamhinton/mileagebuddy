@@ -8,8 +8,16 @@
    - styles/themes.css: Theme variables and color definitions
 */
 
+/* Import base styles first */
 @import "./styles/base.css";
+
+/* Import all component style modules - each file now has its own @tailwind components directive */
 @import "./styles/forms.css";
 @import "./styles/navigation.css";
 @import "./styles/sections.css";
+
+/* Import theme variables */
 @import "./styles/themes.css";
+
+/* Add utilities layer last */
+@tailwind utilities;

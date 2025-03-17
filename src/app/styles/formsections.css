@@ -1,5 +1,3 @@
-@tailwind components;
-
 @layer components {
 	/* Each of these corresponds to a Vehicle sub-object. These sections are collapsible */
 	.mileage-calc-form-section {
