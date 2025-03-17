@@ -13,6 +13,7 @@ type TailwindClassNames = {
 		FORM_NUMBER_INPUT: "mileage-calc-form-input-base mileage-calc-form-number-input";
 		FORM_TEXT_INPUT: "mileage-calc-form-input-base mileage-calc-form-text-input";
 		FORM_ERROR_MESSAGE: "mileage-calc-form-error-message";
+		FORM_ERROR_ICON: "mileage-calc-form-error-icon";
 		FORM_INPUT_LABEL: "mileage-calc-form-input-label";
 		REQUIRED_ASTERISK: "mileage-calc-form-required-asterisk";
 		FORM_NUMBER_FIELD: "mileage-calc-form-number-field";
@@ -63,6 +64,7 @@ const tailWindClassNames: TailwindClassNames = {
 		FORM_TEXT_INPUT:
 			"mileage-calc-form-input-base mileage-calc-form-text-input",
 		FORM_ERROR_MESSAGE: "mileage-calc-form-error-message",
+		FORM_ERROR_ICON: "mileage-calc-form-error-icon",
 		FORM_INPUT_LABEL: "mileage-calc-form-input-label",
 		/**The asterisk indicating a field is required */
 		REQUIRED_ASTERISK: "mileage-calc-form-required-asterisk",
