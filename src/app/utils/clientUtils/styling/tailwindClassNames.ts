@@ -15,6 +15,11 @@ type TailwindClassNames = {
 		FORM_ERROR_MESSAGE: "mileage-calc-form-error-message";
 		FORM_INPUT_LABEL: "mileage-calc-form-input-label";
 		REQUIRED_ASTERISK: "mileage-calc-form-required-asterisk";
+		FORM_NUMBER_FIELD: "mileage-calc-form-number-field";
+		FORM_NUMBER_FIELD_ERROR: "mileage-calc-form-number-field-error";
+		FORM_TEXT_FIELD: "mileage-calc-form-text-field";
+		FORM_TEXT_FIELD_ERROR: "mileage-calc-form-text-field-error";
+		FORM_LABEL: "mileage-calc-form-label";
 		SECTION: {
 			CONTAINER: "mileage-calc-form-section-container";
 			CONTAINER_ACTIVE: "mileage-calc-form-section-container-active";
@@ -61,8 +66,13 @@ const tailWindClassNames: TailwindClassNames = {
 		FORM_INPUT_LABEL: "mileage-calc-form-input-label",
 		/**The asterisk indicating a field is required */
 		REQUIRED_ASTERISK: "mileage-calc-form-required-asterisk",
+		// Form input fields styling
+		FORM_NUMBER_FIELD: "mileage-calc-form-number-field",
+		FORM_NUMBER_FIELD_ERROR: "mileage-calc-form-number-field-error",
+		FORM_TEXT_FIELD: "mileage-calc-form-text-field",
+		FORM_TEXT_FIELD_ERROR: "mileage-calc-form-text-field-error",
+		FORM_LABEL: "mileage-calc-form-label",
 		SECTION: {
-			// FormSection.tsx component styling
 			CONTAINER: "mileage-calc-form-section-container",
 			CONTAINER_ACTIVE: "mileage-calc-form-section-container-active",
 			CONTAINER_INACTIVE: "mileage-calc-form-section-container-inactive",

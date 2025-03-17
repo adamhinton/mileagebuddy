@@ -238,6 +238,39 @@
       transition-colors focus:outline-none focus:ring-2 
       focus:ring-primary focus:ring-inset;
 	}
+
+	/* Form number input styling */
+	.mileage-calc-form-number-field {
+		@apply block w-full sm:w-40 md:w-32 px-3 py-2 sm:text-sm 
+		border-neutral-300 dark:border-neutral-600 rounded-md shadow-sm 
+		focus:ring-primary focus:border-primary 
+		bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100
+		disabled:bg-neutral-100 dark:disabled:bg-neutral-700 disabled:cursor-not-allowed;
+	}
+
+	.mileage-calc-form-number-field-error {
+		@apply border-red-300 dark:border-red-700 
+		focus:ring-red-500 focus:border-red-500;
+	}
+
+	/* Form label styling */
+	.mileage-calc-form-label {
+		@apply block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1;
+	}
+
+	/* Form text input styling */
+	.mileage-calc-form-text-field {
+		@apply block w-full sm:w-80 md:w-64 px-3 py-2 sm:text-sm 
+		border-neutral-300 dark:border-neutral-600 rounded-md shadow-sm 
+		focus:ring-primary focus:border-primary 
+		bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100
+		disabled:bg-neutral-100 dark:disabled:bg-neutral-700 disabled:cursor-not-allowed;
+	}
+
+	.mileage-calc-form-text-field-error {
+		@apply border-red-300 dark:border-red-700 
+		focus:ring-red-500 focus:border-red-500;
+	}
 }
 
 @tailwind utilities;
