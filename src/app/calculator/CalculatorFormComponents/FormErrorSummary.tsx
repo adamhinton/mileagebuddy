@@ -33,7 +33,8 @@ const FormErrorSummary = (props: Props) => {
 		<section className="mb-6 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 overflow-hidden transition-all">
 			<div className="p-4 flex items-start">
 				<div className="flex-shrink-0 mt-0.5">
-					<FormErrorMessage errorMessage="" />
+					{/* Not sure why this is requiring a path here; that's optional in FormErrorMessage props */}
+					<FormErrorMessage errorMessage="" path={undefined} />
 				</div>
 				<div className="ml-3 w-full">
 					<h2 className="text-sm font-medium text-red-800 dark:text-red-300">

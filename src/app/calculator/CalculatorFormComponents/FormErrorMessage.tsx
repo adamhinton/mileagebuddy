@@ -3,11 +3,14 @@ import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNam
 
 type FormErrorMessageProps = {
 	errorMessage: string;
-	path: string;
+	// Path is only needed when it's attached to an input, not when it's in FormErrrorSummary at top of form
+	path?: string;
 };
 
-const FormErrorMessage = ({ errorMessage, path }: FormErrorMessageProps) => {
-	const id = `${path}-error`;
+const FormErrorMessage = (props: FormErrorMessageProps) => {
+	const { errorMessage } = props;
+
+	const id = props.path ? `${props.path}-error` : undefined;
 	const styles = tailWindClassNames.mileageCalcForm;
 
 	return (
