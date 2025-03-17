@@ -26,7 +26,7 @@ export const useFormNavigation = (
 	>
 ) => {
 	/**
-	 * Function to navigate to the next section.
+	 * Function to navigate to the next section when user hits "Next".
 	 */
 	const goToNextSection = (sectionId: CollapsibleSectionTitles) => {
 		// Find the next section in order
@@ -35,10 +35,11 @@ export const useFormNavigation = (
 
 		// If there's a next section, open it and scroll to it
 		if (nextSectionId) {
-			// First expand the section if it's collapsed
+			// Update sections: collapse current section, expand next section
 			setCollapsedSections((prev) => ({
 				...prev,
-				[nextSectionId]: "isNotCollapsed",
+				[sectionId]: "isCollapsed", // Collapse the current section
+				[nextSectionId]: "isNotCollapsed", // Expand the next section
 			}));
 
 			// Wait for the DOM to update before scrolling
@@ -50,6 +51,7 @@ export const useFormNavigation = (
 					const elementTop = sectionElement.getBoundingClientRect().top;
 					const offsetPosition = elementTop + window.pageYOffset - topOffset;
 
+					// Scroll to next form section
 					window.scrollTo({
 						top: offsetPosition,
 						behavior: "smooth",
