@@ -48,7 +48,6 @@ const FormSection = ({
 	formNavOptions,
 }: FormSectionProps) => {
 	const { onNext, isLastSection, sectionIndex, totalSections } = formNavOptions;
-	const isExpanded = isCollapsed === "isNotCollapsed";
 
 	return (
 		<section
@@ -78,6 +77,7 @@ const FormSection = ({
 								className="ml-2 flex-shrink-0 text-green-500 dark:text-green-400"
 								aria-label="Section completed"
 							>
+								{/* Up/down chevron */}
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
 									className="h-5 w-5"
@@ -102,6 +102,7 @@ const FormSection = ({
 						)}
 					</div>
 					<div className="ml-4 flex-shrink-0">
+						{/* Up/down chevron */}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							className={`h-5 w-5 transform transition-transform duration-200 ${isCollapsed === "isNotCollapsed" ? "rotate-180" : ""}`}
