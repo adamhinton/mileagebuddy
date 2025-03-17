@@ -1,3 +1,5 @@
+@tailwind components;
+
 @layer components {
 	/* The base class for a text or num input in mileage calculator form
 	Do not use this class. It's meant to be combined with .mileage-calc-form-number-input or .mileage-calc-form-text-input */
