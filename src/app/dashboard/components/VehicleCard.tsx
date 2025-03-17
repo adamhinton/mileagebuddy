@@ -234,7 +234,6 @@ const VehicleCard = (props: VehicleCardProps) => {
 					</button>
 				</div>
 
-				{/* Confirmation Dialogs */}
 				<ConfirmationDialog
 					title="Edit Vehicle"
 					message={`Are you sure you want to edit ${vehicle.vehicleData.vehicleName}?`}

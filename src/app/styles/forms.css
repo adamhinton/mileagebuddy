@@ -1,0 +1,140 @@
+@layer components {
+	/* The base class for a text or num input in mileage calculator form
+	Do not use this class. It's meant to be combined with .mileage-calc-form-number-input or .mileage-calc-form-text-input */
+	.mileage-calc-form-input-base {
+		@apply h-6 rounded-md border border-primary-100 
+    bg-neutral-50 dark:bg-neutral-900
+    px-1 py-1 text-neutral-text
+    transition-colors
+    focus:outline-none 
+    focus:border-primary 
+    focus:ring-1 
+    focus:ring-primary
+    dark:border-primary-200
+    disabled:opacity-50
+    disabled:cursor-not-allowed;
+	}
+
+	/* Small number input (<5 digits) in Forms. See MileageCalcFormNumberInput.tsx
+	Do not use this class on its own. It's meant to be combined with .mileage-calc-form-input-base */
+	.mileage-calc-form-number-input {
+		@apply w-16 mileage-calc-form-input-base;
+
+		@apply sm:w-20 sm:h-6 sm:px-2 sm:py-3;
+		@apply md:w-24 md:h-8 md:p-4;
+	}
+
+	/* Small text input in Forms. See MileageCalcFormTextInput.tsx
+	Do not use this class on its own. It's meant to be combined with .mileage-calc-form-input-base */
+	.mileage-calc-form-text-input {
+		@apply w-32 mileage-calc-form-input-base text-sm;
+
+		@apply sm:w-40 sm:h-6 sm:px-2 sm:py-3;
+		@apply md:w-48 md:h-8 md:p-4;
+	}
+
+	.mileage-calc-form-error-message {
+		@apply text-red-500 text-xs mt-1;
+	}
+
+	.mileage-calc-form-input-label {
+		@apply text-sm font-medium text-neutral-text mr-1;
+	}
+
+	/*The asterisk indicating a field is required */
+	.mileage-calc-form-required-asterisk {
+		@apply text-red-500 ml-1;
+	}
+
+	/* Form number input styling */
+	.mileage-calc-form-number-field {
+		@apply block w-full sm:w-40 md:w-32 px-3 py-2 sm:text-sm 
+		border-neutral-300 dark:border-neutral-600 rounded-md shadow-sm 
+		focus:ring-primary focus:border-primary 
+		bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100
+		disabled:bg-neutral-100 dark:disabled:bg-neutral-700 disabled:cursor-not-allowed;
+	}
+
+	.mileage-calc-form-number-field-error {
+		@apply border-red-300 dark:border-red-700 
+		focus:ring-red-500 focus:border-red-500;
+	}
+
+	/* Form label styling */
+	.mileage-calc-form-label {
+		@apply block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1;
+	}
+
+	/* Form text input styling */
+	.mileage-calc-form-text-field {
+		@apply block w-full sm:w-80 md:w-64 px-3 py-2 sm:text-sm 
+		border-neutral-300 dark:border-neutral-600 rounded-md shadow-sm 
+		focus:ring-primary focus:border-primary 
+		bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100
+		disabled:bg-neutral-100 dark:disabled:bg-neutral-700 disabled:cursor-not-allowed;
+	}
+
+	.mileage-calc-form-text-field-error {
+		@apply border-red-300 dark:border-red-700 
+		focus:ring-red-500 focus:border-red-500;
+	}
+
+	/* Form error message styling. From FormErrorSummary/FormErrorMessage */
+	.mileage-calc-form-error-message {
+		@apply flex items-start text-red-600 dark:text-red-400 text-xs mt-1 gap-1.5;
+	}
+
+	.mileage-calc-form-error-icon {
+		@apply flex-shrink-0 h-4 w-4 mt-0.5;
+	}
+
+	/* Form components styling */
+	.form-input-base {
+		@apply block w-full px-3 py-2 bg-neutral-50 dark:bg-neutral-900 
+      border border-neutral-300 dark:border-neutral-600 rounded-md 
+      shadow-sm text-sm sm:text-sm text-neutral-900 dark:text-neutral-100
+      focus:ring-2 focus:ring-primary focus:border-primary 
+      dark:focus:ring-primary-500 dark:focus:border-primary-500
+      disabled:bg-neutral-100 dark:disabled:bg-neutral-700 disabled:cursor-not-allowed;
+	}
+
+	.form-input-error {
+		@apply border-red-300 dark:border-red-700 
+      focus:ring-red-500 focus:border-red-500 
+      dark:focus:ring-red-500 dark:focus:border-red-500;
+	}
+
+	.form-label {
+		@apply block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-1;
+	}
+
+	.form-section {
+		@apply mb-6 rounded-lg border border-neutral-200 dark:border-neutral-700 
+      shadow-sm overflow-hidden bg-white dark:bg-neutral-800 transition-all duration-200;
+	}
+
+	.form-section-header {
+		@apply w-full flex items-center justify-between p-4 
+      bg-neutral-50 dark:bg-neutral-800 
+      hover:bg-neutral-100 dark:hover:bg-neutral-700 
+      transition-colors focus:outline-none focus:ring-2 
+      focus:ring-primary focus:ring-inset;
+	}
+
+	/* Vehicle Creation Form Styles; VehicleCreationForm.tsx. Also has edit functionality. */
+	.mileage-calc-form-container {
+		@apply max-w-3xl mx-auto my-6 space-y-8;
+	}
+
+	.mileage-calc-form-header {
+		@apply flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8;
+	}
+
+	.mileage-calc-form-title {
+		@apply text-2xl font-bold text-neutral-800 dark:text-neutral-100;
+	}
+
+	.mileage-calc-form-footer {
+		@apply flex justify-end pt-6 border-t border-neutral-200 dark:border-neutral-700;
+	}
+}
