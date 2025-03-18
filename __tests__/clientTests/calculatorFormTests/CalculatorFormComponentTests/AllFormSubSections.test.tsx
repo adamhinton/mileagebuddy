@@ -80,4 +80,37 @@ describe("AllFormSubSections.tsx", () => {
 	it("renders with electric vehicle type", () => {
 		renderFormSubSections({ watchedVehicleType: "electric" });
 	});
+
+	it("renders correct sections with gas vehicle type", () => {
+		const { queryByText } = renderFormSubSections({
+			watchedVehicleType: "gas",
+		});
+		expect(queryByText("Gas Vehicle Data")).toBeInTheDocument();
+		expect(queryByText("Electric Vehicle Data")).not.toBeInTheDocument();
+		// Should show common sections
+		expect(queryByText("Vehicle Data")).toBeInTheDocument();
+	});
+
+	it("renders correct sections with electric vehicle type", () => {
+		const { queryByText } = renderFormSubSections({
+			watchedVehicleType: "electric",
+		});
+		// Should show electric form but not gas
+		expect(queryByText("Electric Vehicle Data")).toBeInTheDocument();
+		expect(queryByText("Gas Vehicle Data")).not.toBeInTheDocument();
+		// Should show common sections
+		expect(queryByText("Vehicle Data")).toBeInTheDocument();
+	});
+
+	it("calls toggleSectionCollapse when section is toggled", () => {
+		const toggleSectionCollapse = jest.fn();
+		const { getByText } = renderFormSubSections({
+			toggleSectionCollapse,
+			watchedVehicleType: "gas",
+		});
+
+		const sectionHeader = getByText("Gas Vehicle Data");
+		sectionHeader.click();
+		expect(toggleSectionCollapse).toHaveBeenCalledWith("gasVehicleData");
+	});
 });
