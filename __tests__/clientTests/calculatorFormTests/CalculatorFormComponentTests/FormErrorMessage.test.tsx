@@ -28,4 +28,52 @@ describe("FormErrorMessage.tsx", () => {
 		const errorMessage = screen.getByTestId("electricVehicleData-error");
 		expect(errorMessage).toBeVisible();
 	});
+
+	// Because testid is derived from the path
+	it("Does not have an id or testid when path is not provided", () => {
+		render(<FormErrorMessage errorMessage="Test Error Message" />);
+		// Get by text since there's no testid to query by
+		const errorMessage = screen.getByText("Test Error Message");
+		// The element should not have an id when path is not provided
+		expect(errorMessage).not.toHaveAttribute("id");
+		expect(errorMessage).not.toHaveAttribute("data-testid");
+	});
+
+	it("Creates correct testid from nested path", () => {
+		render(
+			<FormErrorMessage
+				errorMessage="Test Error Message"
+				path="vehicleData.model"
+			/>
+		);
+		expect(screen.getByTestId("vehicleData.model-error")).toBeInTheDocument();
+	});
+
+	it("Renders correctly without a path", () => {
+		render(<FormErrorMessage errorMessage="Test Error Message" />);
+		const errorMessage = screen.getByText("Test Error Message");
+		expect(errorMessage).toBeVisible();
+		expect(errorMessage).not.toHaveAttribute("id");
+		expect(errorMessage).not.toHaveAttribute("data-testid");
+	});
+
+	it("Updates error message dynamically", () => {
+		const { rerender } = render(
+			<FormErrorMessage
+				errorMessage="Initial Error Message"
+				path="vehicleData.model"
+			/>
+		);
+		let errorMessage = screen.getByText("Initial Error Message");
+		expect(errorMessage).toBeVisible();
+
+		rerender(
+			<FormErrorMessage
+				errorMessage="Updated Error Message"
+				path="vehicleData.model"
+			/>
+		);
+		errorMessage = screen.getByText("Updated Error Message");
+		expect(errorMessage).toBeVisible();
+	});
 });
