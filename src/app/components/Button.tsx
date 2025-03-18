@@ -59,7 +59,7 @@ type ButtonPropsWithoutConfirmationDialog = ButtonPropsBase & {
  *
  * TS types should only/always represent valid states. So, if isConfirmationRequired is true, confirmationDialogOptions must be provided. If it's false, confirmationDialogOptions must not be provided.
  */
-type ButtonProps =
+export type ButtonProps =
 	| ButtonPropsWithConfirmationDialog
 	| ButtonPropsWithoutConfirmationDialog;
 
