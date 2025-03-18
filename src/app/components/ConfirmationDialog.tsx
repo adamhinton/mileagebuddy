@@ -1,5 +1,6 @@
 // _______________________________________________________
 // This is a reusable confirmation dialog that can be shown in buttons, modals, or anywhere else in the app.
+// Tested in ConfirmationDialog.test.tsx
 // _______________________________________________________
 
 import { ReactNode } from "react";
