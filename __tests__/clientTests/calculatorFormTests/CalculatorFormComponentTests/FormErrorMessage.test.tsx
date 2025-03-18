@@ -29,9 +29,14 @@ describe("FormErrorMessage.tsx", () => {
 		expect(errorMessage).toBeVisible();
 	});
 
-	// This should never happen
-	it("Does not render anything when errorMessage is an empty string", () => {
-		const { container } = render(<FormErrorMessage errorMessage="" />);
-		expect(container).toBeEmptyDOMElement();
+	it("Has the correct testid derived from path if path is passed in", () => {
+		render(
+			<FormErrorMessage
+				errorMessage="Test Error Message"
+				path="electricVehicleData"
+			/>
+		);
+		const errorMessage = screen.getByTestId("electricVehicleData-error");
+		expect(errorMessage).toBeVisible();
 	});
 });

@@ -131,7 +131,8 @@ const FormSection = ({
 						: styles.CONTENT_WRAPPER_INACTIVE
 				}`}
 			>
-				<div className={styles.CONTENT_INNER}>{children}</div>
+				{/* Only display content when not collapsed */}
+				{isActive && <div className={styles.CONTENT_INNER}>{children}</div>}
 
 				{/* Navigation controls at bottom */}
 				{isActive && (
