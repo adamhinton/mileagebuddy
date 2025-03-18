@@ -102,7 +102,7 @@ describe("FormSection.tsx", () => {
 				totalSections: 1,
 			},
 		});
-		expect(screen.getByText("Next")).toBeVisible();
+		expect(screen.getByText("Next Section")).toBeVisible();
 	});
 
 	it("does not display the Next button when it is the last section", () => {
@@ -130,7 +130,7 @@ describe("FormSection.tsx", () => {
 				totalSections: 1,
 			},
 		});
-		fireEvent.click(screen.getByText("Next"));
+		fireEvent.click(screen.getByText("Next Section"));
 		expect(onNext).toHaveBeenCalled();
 	});
 });
