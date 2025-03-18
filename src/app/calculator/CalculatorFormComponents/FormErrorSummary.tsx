@@ -3,6 +3,7 @@
 // Takes in the errors object from react-hook-form and displays the first three errors
 // It only shows up once user hits Submit
 // It just displays the name of the relevant form section; clicking on it scrolls the user to that section
+// If user clicks on an error, it collapses all other sections, opens the clicked section and scrolls to the clicked section
 
 // TODO dynamically update errors when they go away
 
@@ -19,41 +20,103 @@ const FormErrorSummary = (props: Props) => {
 
 	console.log("errors in FormErrorSummary:", errors);
 
+	// Component doens't render if there are no errors
 	if (!errors) return null;
 
 	const errorLinks = extractErrorMessages(errors);
 
+	if (errorLinks.length === 0) return null;
+
 	// This displays the names of the first three sections that have errors
 	// Clicking on the name will scroll the user to that section
-	// TODO expand the relevant section on click (or on submit) --- WIP
 	return (
-		<section className="mb-4 p-2 border border-red-400 rounded-md bg-red-50 dark:bg-red-900/20 dark:border-red-800">
-			<h5 className="text-red-600 dark:text-red-400 mb-1">
-				Please correct the following errors:
-			</h5>
-			<ul className="list-disc pl-5 space-y-1">
-				{errorLinks.map(({ key, path, message }) => (
-					<li key={key} className="text-sm">
-						<a
-							href={`#${path}`}
-							className="text-primary hover:underline focus:outline-none focus:ring-1 focus:ring-primary"
-							onClick={(e) => {
-								e.preventDefault();
-								const element = document.getElementById(path);
-								if (element) {
-									element.focus();
-									element.scrollIntoView({
-										behavior: "smooth",
-										block: "center",
-									});
-								}
-							}}
-						>
-							<FormErrorMessage errorMessage={message} />
-						</a>
-					</li>
-				))}
-			</ul>
+		<section className="mb-6 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 overflow-hidden transition-all">
+			<div className="p-4 flex items-start">
+				<div className="flex-shrink-0 mt-0.5">
+					{/* Not sure why this is requiring a path here; that's optional in FormErrorMessage props */}
+					<FormErrorMessage errorMessage="" path={undefined} />
+				</div>
+				<div className="ml-3 w-full">
+					<h2 className="text-sm font-medium text-red-800 dark:text-red-300">
+						Please fix the following issues before continuing:
+					</h2>
+					<ul className="mt-2 text-sm text-red-700 dark:text-red-400 space-y-1 list-none">
+						{errorLinks.map(({ key, path, message }) => (
+							<li key={key} className="flex items-start">
+								<span className="mr-2">•</span>
+								<a
+									href={`#${path}`}
+									className="hover:text-red-800 dark:hover:text-red-300 hover:underline focus:outline-none focus:underline focus:text-red-800 dark:focus:text-red-300 transition-colors"
+									onClick={(e) => {
+										e.preventDefault();
+
+										// Get all section IDs
+										const allSectionIds: (keyof VehiclePATCHorPOST)[] = [
+											"vehicleData",
+											// VehiclePATCHorPOST is a union type; only one of the items in the union has these properties and I'm too lazy to type this better, hence the type assertion
+											"gasVehicleData" as keyof VehiclePATCHorPOST,
+											"electricVehicleData" as keyof VehiclePATCHorPOST,
+											"purchaseAndSales",
+											"usage",
+											"fixedCosts",
+											"yearlyMaintenanceCosts",
+											"variableCosts",
+										];
+
+										// Get error section IDs
+										const errorSectionIds = errorLinks.map((link) => link.path);
+
+										// First collapse all non-error sections
+										allSectionIds.forEach((id) => {
+											if (!errorSectionIds.includes(id)) {
+												const sectionElement = document.getElementById(id);
+												if (sectionElement) {
+													const button = sectionElement.querySelector("button");
+													if (
+														button &&
+														button.getAttribute("aria-expanded") === "true"
+													) {
+														button.click(); // Collapse this section
+													}
+												}
+											}
+										});
+
+										// Now scroll to the clicked error section
+										const element = document.getElementById(path);
+										if (element) {
+											// If section is collapsed, open it
+											const button = element.querySelector("button");
+											if (
+												button &&
+												button.getAttribute("aria-expanded") === "false"
+											) {
+												button.click(); // Expand this section
+											}
+
+											// Wait for section to expand before scrolling
+											setTimeout(() => {
+												const topOffset = 150;
+												const elementTop = element.getBoundingClientRect().top;
+												const offsetPosition =
+													elementTop + window.scrollY - topOffset;
+
+												window.scrollTo({
+													top: offsetPosition,
+													behavior: "smooth",
+												});
+											}, 250); // Increased delay to ensure animations complete
+										}
+									}}
+								>
+									<span className="font-medium">{message}</span> section has
+									errors
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+			</div>
 		</section>
 	);
 };

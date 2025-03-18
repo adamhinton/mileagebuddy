@@ -1,3 +1,8 @@
+// _______________________________________________________
+// Form navigation utilities for the vehicle creation/edit form.
+// It's divided in to sub-sections that are collapsible.
+// _______________________________________________________
+
 import {
 	Electric_Vehicle_For_DB_POST,
 	Gas_Vehicle_For_DB_POST,
@@ -26,35 +31,40 @@ export const useFormNavigation = (
 	>
 ) => {
 	/**
-	 * Function to navigate to the next section.
+	 * Function to navigate to the next section when user hits "Next".
 	 */
-	const goToNextSection = useCallback(
-		(currentSectionId: CollapsibleSectionTitles) => {
-			const currentIndex = formSectionOrder.indexOf(currentSectionId);
+	const goToNextSection = (sectionId: CollapsibleSectionTitles) => {
+		// Find the next section in order
+		const currentIndex = formSectionOrder.indexOf(sectionId);
+		const nextSectionId = formSectionOrder[currentIndex + 1];
 
-			// If the current section is not the last section
-			if (currentIndex < formSectionOrder.length - 1) {
-				const nextSectionId = formSectionOrder[currentIndex + 1];
-				// Expand next section and collapse current
-				setCollapsedSections((prev) => {
-					return {
-						...prev,
-						[currentSectionId]: "isCollapsed",
-						[nextSectionId]: "isNotCollapsed",
-					};
-				});
+		// If there's a next section, open it and scroll to it
+		if (nextSectionId) {
+			// Update sections: collapse current section, expand next section
+			setCollapsedSections((prev) => ({
+				...prev,
+				[sectionId]: "isCollapsed", // Collapse the current section
+				[nextSectionId]: "isNotCollapsed", // Expand the next section
+			}));
 
-				// Scroll to next section
-				setTimeout(() => {
-					const element = document.getElementById(nextSectionId);
-					if (element) {
-						element.scrollIntoView({ behavior: "smooth", block: "start" });
-					}
-				}, 100);
-			}
-		},
-		[formSectionOrder, setCollapsedSections]
-	);
+			// Wait for the DOM to update before scrolling
+			setTimeout(() => {
+				const sectionElement = document.getElementById(nextSectionId);
+				if (sectionElement) {
+					// Adjust this value to position the section better in viewport
+					const topOffset = 150; // Increased from 80 to push section higher
+					const elementTop = sectionElement.getBoundingClientRect().top;
+					const offsetPosition = elementTop + window.scrollY - topOffset;
+
+					// Scroll to next form section
+					window.scrollTo({
+						top: offsetPosition,
+						behavior: "smooth",
+					});
+				}
+			}, 250); // Increased delay to ensure DOM update completes
+		}
+	};
 
 	/**
 	 * Function to toggle the collapsed state of a section.

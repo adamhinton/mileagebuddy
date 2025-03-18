@@ -4,12 +4,13 @@
 // TODO write tests for this once it's finalized
 // This has a <label> too, but MileageCalcFormTextInputAndLabel was an annoyingly long name
 // Confused about the subschema being passed in? See the jsdoc for subSchema param
+// Note, this is closely related to MileageCalcFormNumberInput.tsx, which is just different enough to warrant its own component
 
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
-import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import FormErrorMessage from "./FormErrorMessage";
 import { VehiclePATCHorPOST } from "./VehicleCreationForm";
+import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 
 type MileageCalcFormTextInputProps<TFieldValues extends FieldValues> = {
 	registerFn: UseFormRegister<TFieldValues>;
@@ -35,7 +36,6 @@ const MileageCalcFormTextInput = ({
 	error,
 	path,
 	subSchema,
-	// TODO change this type when you're out of testing and using the real vehicle type
 }: MileageCalcFormTextInputProps<VehiclePATCHorPOST>) => {
 	const maxLength = subSchema.maxLength || undefined;
 	const minLength = subSchema.minLength || undefined;
@@ -53,33 +53,28 @@ const MileageCalcFormTextInput = ({
 	const testidInput = `${id}-input`;
 	const testidLabel = `${id}-label`;
 
+	const styles = tailWindClassNames.mileageCalcForm;
+
 	return (
-		<div>
+		<div className="mb-4">
 			<label
 				htmlFor={id}
 				data-testid={testidLabel}
-				className="text-sm font-medium text-neutral-text mr-1"
+				className={styles.FORM_LABEL}
 			>
 				{label}
-				{isRequired && (
-					<span
-						className={tailWindClassNames.mileageCalcForm.REQUIRED_ASTERISK}
-					>
-						*
-					</span>
-				)}
+				{isRequired && <span className={styles.REQUIRED_ASTERISK}>*</span>}
 			</label>
 			<input
 				id={id}
 				data-testid={testidInput}
-				className={`${tailWindClassNames.mileageCalcForm.FORM_TEXT_INPUT}`}
+				className={`${styles.FORM_TEXT_FIELD} ${error ? styles.FORM_TEXT_FIELD_ERROR : ""}`}
 				type="text"
 				{...registerFn(path)}
 				required={isRequired}
-				// TODO bob is just for testing, move back to undefined
-				// Not totally sure undefined is the right choice
 				maxLength={maxLength}
 				minLength={minLength}
+				aria-describedby={error ? `${id}-error` : undefined}
 			/>
 			{error && <FormErrorMessage errorMessage={error} path={path} />}
 		</div>

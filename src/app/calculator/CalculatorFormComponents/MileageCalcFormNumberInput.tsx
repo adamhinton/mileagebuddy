@@ -5,14 +5,15 @@
 // TODO write tests for this once it's finalized
 // This has a <label> too, but MileageCalcFormNumInputAndLabel was an annoyingly long name
 // Confused about the subschema being passed in? See the jsdoc for subSchema param
+// Note, this is closely related to MileageCalcFormTextInput.tsx, which is just different enough to warrant its own component
 
 // TODO: Fix num input leading zeroes
 
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
-import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import FormErrorMessage from "./FormErrorMessage";
 import { VehiclePATCHorPOST } from "./VehicleCreationForm";
+import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 
 type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
 	registerFn: UseFormRegister<TFieldValues>;
@@ -36,27 +37,16 @@ const MileageCalcFormNumInput = ({
 	error,
 	path,
 	subSchema,
-	// TODO change this type when you're out of testing and using the real vehicle type
 }: MileageCalcFormNumInputProps<VehiclePATCHorPOST>) => {
 	const maxValue = subSchema.maxValue || undefined;
-
-	// Can use input's register path as the id as well
+	const minValue =
+		subSchema.minValue || (subSchema.nonnegative() ? 0 : undefined);
 	const id = path;
-
-	// if isRequiredToBePositive, min is 0. otherwise it's schema.minValue. Otherwise it's undefined
-	const isRequiredToBePositive = subSchema.nonnegative();
-	const minValue = isRequiredToBePositive ? 0 : subSchema.minValue || undefined;
-
-	// I wrote all sub-schemas with a description
-	// If there's no description, this uses the key name as a backup
-	// The key name would look a little funny to the user (like "gasCostPerGallon" instead of "Gas Cost Per Gallon") but it would be human-readable at least
-	const label = subSchema.description || path.split(".").pop();
-
 	const isRequired = !subSchema.isOptional();
+	const label = subSchema.description || path.split(".").pop();
 
 	// Inputs can be as precise as two decimal places for gas cost or EV cost per charge purposes, but not more
 	// All other inputs are incremented by the dollar
-	// Note, I tried to add a step() attribute to the zod schema's gas cost and cost per charge, but couldn't figure out how to access it here. So we do it this way instead.
 	const step =
 		path === "gasVehicleData.gasCostPerGallon" ||
 		path === "electricVehicleData.costPerCharge"
@@ -66,36 +56,37 @@ const MileageCalcFormNumInput = ({
 	const testidInput = `${id}-input`;
 	const testidLabel = `${id}-label`;
 
+	const styles = tailWindClassNames.mileageCalcForm;
+
 	return (
-		<div>
+		<div className="mb-4">
 			<label
 				htmlFor={id}
-				datatype={testidLabel}
-				className={`${tailWindClassNames.mileageCalcForm.FORM_INPUT_LABEL}`}
+				data-testid={testidLabel}
+				className={styles.FORM_LABEL}
 			>
 				{label}
-				{isRequired && (
-					<span
-						className={tailWindClassNames.mileageCalcForm.REQUIRED_ASTERISK}
-					>
-						*
-					</span>
-				)}
+				{isRequired && <span className={styles.REQUIRED_ASTERISK}>*</span>}
 			</label>
-			<input
-				id={id}
-				data-testid={testidInput}
-				className={`${tailWindClassNames.mileageCalcForm.FORM_NUMBER_INPUT}`}
-				type="number"
-				{...registerFn(path, {
-					valueAsNumber: true,
-				})}
-				max={maxValue}
-				min={minValue}
-				required={isRequired}
-				step={step}
-			/>
-			{error && <FormErrorMessage errorMessage={error} path={path} />}{" "}
+
+			<div className="relative rounded-md shadow-sm">
+				<input
+					id={id}
+					data-testid={testidInput}
+					className={`${styles.FORM_NUMBER_FIELD} ${error ? styles.FORM_NUMBER_FIELD_ERROR : ""}`}
+					type="number"
+					{...registerFn(path, {
+						valueAsNumber: true,
+					})}
+					max={maxValue}
+					min={minValue}
+					required={isRequired}
+					step={step}
+					aria-describedby={error ? `${id}-error` : undefined}
+				/>
+			</div>
+
+			{error && <FormErrorMessage errorMessage={error} path={path} />}
 		</div>
 	);
 };

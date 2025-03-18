@@ -39,7 +39,9 @@ const FormSubSections = ({
 }: FormSubSectionsProps) => {
 	return (
 		<>
-			{/* If vehicle is gas, display gas vehicle questions. If electric, display EV questions */}
+			{/* If vehicle is gas, display gas vehicle questions. If electric, display EV questions 
+				The only difference in the form is that gas shows GasVehicleDataSubForm and electric shows ElectricVehicleDataSubForm, all other form sections are the same
+			*/}
 			{watchedVehicleType === "gas" ? (
 				<GasVehicleDataSubForm
 					register={register}

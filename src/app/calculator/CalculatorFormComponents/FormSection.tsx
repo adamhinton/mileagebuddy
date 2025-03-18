@@ -49,50 +49,107 @@ const FormSection = ({
 }: FormSectionProps) => {
 	const { onNext, isLastSection, sectionIndex, totalSections } = formNavOptions;
 
+	const styles = tailWindClassNames.mileageCalcForm.SECTION;
+	const isActive = isCollapsed === "isNotCollapsed";
+
 	return (
 		<section
-			className={`${tailWindClassNames.mileageCalcForm.FORM_SECTION}`}
+			className={`${styles.CONTAINER} 
+				${isActive ? styles.CONTAINER_ACTIVE : styles.CONTAINER_INACTIVE}
+				${sectionIndex === 0 && isActive ? styles.CONTAINER_FIRST_ACTIVE : ""}`}
 			id={id}
 		>
-			<button
-				type="button"
-				onClick={onToggleCollapse}
-				className="w-full flex items-center justify-between p-2 bg-background-elevated"
-			>
-				<div
-					className={`${tailWindClassNames.mileageCalcForm.FORM_SECTION_HEADER}`}
+			<h3>
+				{/* Clicking anywhere on this element expands/collapses this form section */}
+				<button
+					type="button"
+					onClick={onToggleCollapse}
+					className={`${styles.BUTTON} 
+						${isActive ? styles.BUTTON_ACTIVE : styles.BUTTON_INACTIVE}`}
+					aria-expanded={isActive}
+					aria-controls={`${id}-content`}
 				>
-					<h3 className="text-lg font-medium text-neutral-text">{title}</h3>
-					{sectionIndex !== undefined && totalSections && (
-						<span className="text-sm text-neutral-text ml-2">
-							{sectionIndex + 1} of {totalSections}
+					<div className="flex items-center flex-grow">
+						<span
+							className={`${styles.TITLE} 
+								${isActive ? styles.TITLE_ACTIVE : styles.TITLE_INACTIVE}`}
+						>
+							{title}
 						</span>
-					)}
-					{isCompleted && <span className="ml-2 text-accent">✓</span>}
-					{isCollapsed === "isCollapsed" ? <span>↓</span> : <span>↑</span>}
-				</div>
-				{/* TODO up/down chevron icons */}
-			</button>
+						{isCompleted && (
+							<span
+								className="ml-2 flex-shrink-0 text-green-500 dark:text-green-400"
+								aria-label="Section completed"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									className="h-5 w-5"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
+									<path
+										fillRule="evenodd"
+										d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+										clipRule="evenodd"
+									/>
+								</svg>
+							</span>
+						)}
 
-			{isCollapsed === "isNotCollapsed" && (
-				<div>
-					{children}
+						{sectionIndex !== undefined && totalSections && (
+							<span
+								className={`${styles.BADGE} 
+									${isActive ? styles.BADGE_ACTIVE : styles.BADGE_INACTIVE}`}
+							>
+								{sectionIndex + 1} of {totalSections}
+							</span>
+						)}
+					</div>
+					<div className="ml-4 flex-shrink-0">
+						{/* Up/down chevron */}
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className={`${styles.CHEVRON} ${isActive ? styles.CHEVRON_ACTIVE : ""}`}
+							viewBox="0 0 20 20"
+							fill="currentColor"
+						>
+							<path
+								fillRule="evenodd"
+								d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+								clipRule="evenodd"
+							/>
+						</svg>
+					</div>
+				</button>
+			</h3>
 
-					{/* Navigation controls at bottom */}
-					<div className="flex justify-end mt-4 space-x-2">
-						{/* Optional Previous button if needed */}
+			<div
+				id={`${id}-content`}
+				className={`${styles.CONTENT_WRAPPER} ${
+					isActive
+						? styles.CONTENT_WRAPPER_ACTIVE
+						: styles.CONTENT_WRAPPER_INACTIVE
+				}`}
+			>
+				<div className={styles.CONTENT_INNER}>{children}</div>
+
+				{/* Navigation controls at bottom */}
+				{isActive && (
+					<div className={styles.FOOTER}>
 						{onNext && !isLastSection && (
 							<button
 								type="button"
 								onClick={onNext}
-								className="px-4 py-2 bg-primary text-white rounded hover:bg-primary-600 focus:ring-2 focus:ring-primary focus:outline-none"
+								className={styles.NEXT_BUTTON}
 							>
-								Next
+								<span className="flex items-center">
+									<span>Next Section</span>
+								</span>
 							</button>
 						)}
 					</div>
-				</div>
-			)}
+				)}
+			</div>
 		</section>
 	);
 };

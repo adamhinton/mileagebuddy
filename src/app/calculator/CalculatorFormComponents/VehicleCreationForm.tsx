@@ -6,14 +6,16 @@
 // Form validation will be done by Zod.
 // Errors: Form displays input errors next to each input (if there is an error), as well as a summary of the first three sections with errors at the top of the form.
 // Persistence: If user navigates away or exits the page before finishing the form, the form state is saved to localStorage and restored when user returns.
-// User can also clear the form with a button.
+// User can also clear the form with the Clear Form button.
 // EDIT MODE: This form can be used to either edit a vehicle or create a new one, depending on the props passed in. There is minimal UI difference between these mods.
 // Testing: Tested in VehicleCreationForm.test.tsx
+
+// TODO: VCF isn't clearing on form submit (not on edit submit at least)
 
 import { Vehicle_For_db_PATCH } from "@/app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { z, ZodSchema } from "zod";
 import {
 	CollapsibleSectionTitles,
@@ -23,13 +25,14 @@ import getSavedFormValuesFromLocalStorage from "../calculatorUtils/getSavedFormV
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormErrorSummary from "./FormErrorSummary";
-import FormButton from "./FormButton";
+import Button from "../../components/Button";
 import FormSubSections from "./AllFormSubSections";
 import formSubmitLogic from "../calculatorUtils/formSubmitLogic";
 import {
 	defaultVehicleValuesPATCH,
 	defaultVehicleValuesPOST,
 } from "../calculatorUtils/calculatorFormDefaultValues";
+import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 
 /** Prevent typos by making sure localStorage persisted data is always accessed the same way */
 export const LOCAL_STORAGE_FORM_DATA_KEY = "mileageFormData";
@@ -54,28 +57,39 @@ type FormPropsBase = {
 };
 
 // Edit existing vehicle mode
+// How to call this:
+/* <VehicleCreationOrEditForm
+				mode="editVehicle"
+				schema={VehicleSchemaForPATCH}
+				vehicleToEdit={firstVehicle}
+			/> */
 type FormPropsEditMode = FormPropsBase & {
 	mode: "editVehicle";
-	// Vehicle to edit
 	vehicleToEdit: Vehicle_For_db_PATCH;
 	schema: ZodSchema<Vehicle_For_db_PATCH>;
 };
 
 // Add new vehicle mode
+// How to call this:
+/* <VehicleCreationOrEditForm
+				mode="newVehicle"
+				schema={VehicleToBePostedSchema}
+			/> */
+
 type FormPropsNewVehicleMode = FormPropsBase & {
 	mode: "newVehicle";
-	// No vehicle to edit
 	schema: ZodSchema<Vehicle_For_db_POST>;
 };
 
 // Edit mode or new vehicle creation mode
-type FormProps<T> = T extends Vehicle_For_db_PATCH
-	? FormPropsEditMode
-	: FormPropsNewVehicleMode;
-
-const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
-	props: FormProps<T>
-) => {
+// Not totally sure I structured this generic according to best practices, but it does the job.
+type FormProps = FormPropsEditMode | FormPropsNewVehicleMode;
+/** This has two slightly different props structures based on if it's in edit mode or new vehicle creation mode
+ *
+ * For edit mode, see FormPropsEditMode
+ * For new vehicle creation mode, see FormPropsNewVehicleMode
+ */
+const VehicleCreationOrEditForm = (props: FormProps) => {
 	const loggedInUser = useAppSelector((state) => state.user.value);
 	const userId = loggedInUser ? loggedInUser.id : "testid";
 	console.log("userId:", userId);
@@ -100,20 +114,10 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 
 	/**Shows bullet-pointed errors at top of form after user hits submit */
 	const [isShowErrorSummary, setisShowErrorSummary] = useState(false);
+	const errorSummaryRef = useRef<HTMLDivElement>(null);
 
 	// TODO validate local storage values before using them
 	const savedLocalStorageValues = getSavedFormValuesFromLocalStorage();
-
-	// const savedVehicleIsValidVehicle = () => {
-	// 	// Check if the saved form values are a valid vehicle object
-	// 	try {
-	// 		schema.parse(savedLocalStorageValues);
-	// 		return true;
-	// 	} catch (error) {
-	// 		console.error("Saved form values are not a valid vehicle object:", error);
-	// 		return false;
-	// 	}
-	// };
 
 	const [hasResetFormValues, setHasResetFormValues] = useState(false);
 
@@ -141,6 +145,20 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 		reset,
 		formState: { errors, isSubmitting },
 	} = form;
+
+	// When error summary becomes visible and has errors, scroll to it
+	useEffect(() => {
+		if (
+			isShowErrorSummary &&
+			Object.keys(errors).length > 0 &&
+			errorSummaryRef.current
+		) {
+			errorSummaryRef.current.scrollIntoView({
+				behavior: "smooth",
+				block: "start",
+			});
+		}
+	}, [isShowErrorSummary, errors]);
 
 	useEffect(() => {
 		if (hasResetFormValues) {
@@ -233,54 +251,91 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 
 	const dispatch = useAppDispatch();
 
+	const styles = tailWindClassNames.mileageCalcForm;
+
 	return (
 		<form
 			onSubmit={handleSubmit((formData) => {
 				formSubmitLogic(formData, dispatch);
 			})}
+			className={styles.FORM_CONTAINER}
 		>
 			{isShowErrorSummary && Object.keys(errors).length > 0 && (
-				<FormErrorSummary errors={errors} />
+				<div ref={errorSummaryRef}>
+					<FormErrorSummary errors={errors} />
+				</div>
 			)}
 
-			{/* User can click this to clear all form values */}
-			{/* TODO clear form button only seems to work the second time it's clicked */}
-			<FormButton
-				onClick={clearAllFormValues}
-				text="Clear Form"
-				variant="primary"
-				isConfirmationRequired={true}
-				confirmationDialogOptions={{
-					title: "Clear Form",
-					message: "Are you sure you want to clear the form?",
-					confirmButtonText: "Clear",
-					cancelButtonText: "Cancel",
-				}}
-			/>
+			<div className={styles.FORM_HEADER}>
+				<h1 className={styles.FORM_TITLE}>
+					{mode === "editVehicle"
+						? `Edit ${vehicleToEdit?.vehicleData?.vehicleName || "Vehicle"}`
+						: "Create New Vehicle"}
+				</h1>
 
-			<div className="ml-4">
-				<label className="mr-4">
-					<input
-						type="radio"
-						value="gas"
-						{...register("type", { required: true })}
-						className="mr-1"
-					/>
-					Gas
-				</label>
-				<label>
-					<input
-						type="radio"
-						value="electric"
-						{...register("type", { required: true })}
-						className="mr-1"
-					/>
-					Electric
-				</label>
+				<Button
+					onClick={clearAllFormValues}
+					text="Clear Form"
+					variant="secondary"
+					isConfirmationRequired={true}
+					confirmationDialogOptions={{
+						title: "Clear Form",
+						message: "Are you sure you want to clear all form data?",
+						confirmButtonText: "Clear",
+						cancelButtonText: "Cancel",
+					}}
+					className="self-start"
+				/>
 			</div>
 
-			{/* This part does a lot of heavy lifting
-			It's all the form sections, one for each sub-object of Vehicle */}
+			<div className="p-3 bg-white dark:bg-neutral-800 rounded-lg shadow-sm border border-neutral-200 dark:border-neutral-700 mb-6">
+				<h3 className="text-base font-medium text-neutral-800 dark:text-neutral-200 mb-2">
+					Vehicle Type
+				</h3>
+
+				<div className="flex items-center gap-3 mb-2">
+					<label
+						className={`flex flex-1 items-center gap-2 bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 rounded-md cursor-pointer border hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
+						${
+							watchedVehicleType === "gas"
+								? "border-primary dark:border-primary-200"
+								: "border-neutral-200 dark:border-neutral-600"
+						}`}
+					>
+						<input
+							type="radio"
+							value="gas"
+							{...register("type", { required: true })}
+							className="text-primary focus:ring-primary h-3.5 w-3.5"
+						/>
+						<span className="text-sm">Gas Vehicle</span>
+					</label>
+					<label
+						className={`flex flex-1 items-center gap-2 bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 rounded-md cursor-pointer border hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
+						${
+							watchedVehicleType === "electric"
+								? "border-primary dark:border-primary-200"
+								: "border-neutral-200 dark:border-neutral-600"
+						}`}
+					>
+						<input
+							type="radio"
+							value="electric"
+							{...register("type", { required: true })}
+							className="text-primary focus:ring-primary h-3.5 w-3.5"
+						/>
+						<span className="text-sm">Electric Vehicle</span>
+					</label>
+				</div>
+
+				{errors.type && (
+					<p className="text-xs text-red-600 dark:text-red-400">
+						Please select a vehicle type
+					</p>
+				)}
+			</div>
+
+			{/* All form sections */}
 			<FormSubSections
 				register={register}
 				errors={errors}
@@ -291,17 +346,19 @@ const VehicleCreationOrEditForm = <T extends VehiclePATCHorPOST>(
 				watchedVehicleType={watchedVehicleType}
 			/>
 
-			<FormButton
-				text={isSubmitting ? "Loading" : "Submit"}
-				className="submit"
-				isDisabled={isSubmitting}
-				onClick={() => {
-					setisShowErrorSummary(Object.keys(errors).length > 0);
-					console.log("isShowErrorSummary after submit:", isShowErrorSummary);
-				}}
-				isConfirmationRequired={false}
-				type={"submit"}
-			></FormButton>
+			<div className={styles.FORM_FOOTER}>
+				<Button
+					text={isSubmitting ? "Saving..." : "Save Vehicle"}
+					className="px-6 py-2.5"
+					isDisabled={isSubmitting}
+					onClick={() => {
+						setisShowErrorSummary(Object.keys(errors).length > 0);
+					}}
+					isConfirmationRequired={false}
+					type="submit"
+					variant="primary"
+				/>
+			</div>
 		</form>
 	);
 };
