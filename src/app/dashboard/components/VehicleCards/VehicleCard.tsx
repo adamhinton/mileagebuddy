@@ -1,8 +1,9 @@
-// "use client"
+"use client";
 
 // ____________________________________________________________________________
 // This is a component that displays a vehicle card with its calculated costs
-// It has drag and drop functionality for reordering vehicles
+// Also contains edit and delete buttons
+// In the dashboard it's wrapped in a SortableVehicleCard component that makes it drag n'droppable
 // TODO Drag and drop isn't working
 // TODO tests
 // ____________________________________________________________________________
@@ -63,9 +64,9 @@ const VehicleCard = (props: VehicleCardProps) => {
 	};
 
 	return (
-		<div className="bg-background-elevated rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg border border-primary-50">
+		<article className="bg-background-elevated rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg border border-primary-50">
 			{/* Drag handle */}
-			<div
+			<header
 				className="bg-background-header p-2 cursor-move flex items-center justify-center"
 				{...dragHandleProps}
 				aria-label="Drag to reorder"
@@ -83,12 +84,12 @@ const VehicleCard = (props: VehicleCardProps) => {
 						d="M8 9h8M8 15h8"
 					/>
 				</svg>
-			</div>
+			</header>
 
 			{/* Vehicle info */}
-			<div className="p-5">
-				<div className="flex justify-between items-start">
-					<div>
+			<section className="p-5">
+				<header className="flex justify-between items-start">
+					<hgroup>
 						<h2 className="text-xl font-bold">
 							{vehicle.vehicleData.vehicleName}
 						</h2>
@@ -96,9 +97,9 @@ const VehicleCard = (props: VehicleCardProps) => {
 							{vehicle.vehicleData.year} {vehicle.vehicleData.make}{" "}
 							{vehicle.vehicleData.model} {vehicle.vehicleData.trim}
 						</p>
-					</div>
+					</hgroup>
 
-					<div className="flex items-center">
+					<figure className="flex items-center">
 						{/* Type icon */}
 						{vehicleType === "electric" ? (
 							<span
@@ -139,32 +140,32 @@ const VehicleCard = (props: VehicleCardProps) => {
 								</svg>
 							</span>
 						)}
-					</div>
-				</div>
+					</figure>
+				</header>
 
 				{/* Costs */}
-				<div className="mt-5 mb-4">
-					<div className="bg-primary-50 rounded-lg p-4 mb-3">
-						<h3 className="text-sm font-medium text-neutral-text mb-1">
+				<section className="mt-5 mb-4">
+					<figure className="bg-primary-50 rounded-lg p-4 mb-3">
+						<figcaption className="text-sm font-medium text-neutral-text mb-1">
 							Cost Per Mile
-						</h3>
+						</figcaption>
 						<p className="text-3xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
 							${costPerMile.toFixed(2)}
 						</p>
-					</div>
+					</figure>
 
-					<div className="bg-secondary-50 rounded-lg p-4">
-						<h3 className="text-sm font-medium text-neutral-text mb-1">
+					<figure className="bg-secondary-50 rounded-lg p-4">
+						<figcaption className="text-sm font-medium text-neutral-text mb-1">
 							Extra Mile Cost
-						</h3>
+						</figcaption>
 						<p className="text-2xl font-bold text-secondary">
 							${costPerExtraMile.toFixed(2)}
 						</p>
-					</div>
-				</div>
+					</figure>
+				</section>
 
 				{/* Action buttons */}
-				<div className="flex justify-between mt-4">
+				<footer className="flex justify-between mt-4">
 					<button
 						onClick={handleEditClick}
 						className="nav-link-outline flex items-center"
@@ -232,8 +233,9 @@ const VehicleCard = (props: VehicleCardProps) => {
 						</svg>
 						Details
 					</button>
-				</div>
+				</footer>
 
+				{/* Only displays when user has clicked the edit button */}
 				<ConfirmationDialog
 					title="Edit Vehicle"
 					message={`Are you sure you want to edit ${vehicle.vehicleData.vehicleName}?`}
@@ -245,6 +247,7 @@ const VehicleCard = (props: VehicleCardProps) => {
 					confirmButtonClass="bg-primary text-white hover:bg-primary-600"
 				/>
 
+				{/* Only displays when user has clicked the delete button */}
 				<ConfirmationDialog
 					title="Delete Vehicle"
 					message={`Are you sure you want to delete ${vehicle.vehicleData.vehicleName}? This action cannot be undone.`}
@@ -255,8 +258,8 @@ const VehicleCard = (props: VehicleCardProps) => {
 					isOpen={showDeleteConfirmation}
 					confirmButtonClass="bg-red-600 text-white hover:bg-red-700"
 				/>
-			</div>
-		</div>
+			</section>
+		</article>
 	);
 };
 
