@@ -1,6 +1,8 @@
 // ________________________________________________________________
 // This is (obviously) tests for /dashboard/page.tsx
 // All components within this are thoroughly tested individually, so this is just a smoke test to make sure the page loads and the components are rendered correctly
+
+// Note: All this page does is render <Dashboard/>. So these tests are the same as the tests for Dashboard.tsx
 // ______________________________________________________________
 
 import DashboardPage from "@/app/dashboard/page";
