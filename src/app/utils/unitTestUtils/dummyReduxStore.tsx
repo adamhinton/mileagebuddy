@@ -9,6 +9,7 @@ import isDarkModeReducer from "@/redux/reducers/darkModeReducer";
 import { RootState } from "@/redux/store";
 import { User } from "@/app/zod/schemas/UserSchema";
 import testVehicles from "./fakeTestVehicles";
+import { Vehicle } from "../server/types/VehicleTypes/GetVehicleTypes";
 
 const fakeUser: User = {
 	id: "1",
@@ -16,30 +17,42 @@ const fakeUser: User = {
 	email: "testuser@example.com",
 };
 
-const preloadedState: RootState = {
-	user: {
-		value: fakeUser,
-	},
-	vehicles: testVehicles,
-	theme: {
-		isDarkMode: false,
-	},
+// Function to create a store with custom or default vehicles list
+const createTestStore = (customVehicles?: Vehicle[]) => {
+	const customPreloadedState: RootState = {
+		user: {
+			value: fakeUser,
+		},
+		// Either uses a vehicle list that is passed in, or the default test vehicles
+		vehicles: customVehicles || testVehicles,
+		theme: {
+			isDarkMode: false,
+		},
+	};
+
+	return configureStore({
+		reducer: {
+			user: userReducer,
+			vehicles: vehiclesReducer,
+			theme: isDarkModeReducer,
+		},
+		preloadedState: customPreloadedState,
+	});
 };
 
-const store = configureStore({
-	reducer: {
-		user: userReducer,
-		vehicles: vehiclesReducer,
-		theme: isDarkModeReducer,
-	},
-	preloadedState,
-});
+// Default store with test vehicles
+const defaultStore = createTestStore();
 
 interface Props {
 	children: ReactNode;
+	vehicles?: typeof testVehicles;
 }
 
-const TestReduxStore: React.FC<Props> = ({ children }) => {
+/**Dummy redux store for testing
+ * Either uses a vehicle list that is passed in, or the default test vehicles
+ */
+const TestReduxStore: React.FC<Props> = ({ children, vehicles }) => {
+	const store = vehicles ? createTestStore(vehicles) : defaultStore;
 	return <Provider store={store}>{children}</Provider>;
 };
 
