@@ -20,7 +20,8 @@ import { RootState } from "@/redux/store";
 // Will either edit ane xisting Vehicle in the DB or create a new one, depending on mode
 const formSubmitLogic = async (
 	formData: VehiclePATCHorPOST,
-	dispatch: ThunkDispatch<RootState, unknown, Action>
+	dispatch: ThunkDispatch<RootState, unknown, Action>,
+	clearAllFormValues: () => void
 ) => {
 	console.log("Submitting");
 
@@ -33,6 +34,8 @@ const formSubmitLogic = async (
 
 			// Set to redux state
 			dispatch(editVehicleById({ vehicle: updatedVehicle }));
+
+			clearAllFormValues();
 		} catch (error) {
 			console.error("Error updating vehicle:", error);
 		}
@@ -49,6 +52,8 @@ const formSubmitLogic = async (
 
 			// Set to redux state
 			dispatch(addVehicle(newVehicle));
+
+			clearAllFormValues();
 		} catch (error) {
 			console.error("Error inserting vehicle:", error);
 		}
