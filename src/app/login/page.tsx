@@ -6,28 +6,12 @@
 "use client";
 
 // AUTH TODO:
-
-// Users table:
-// Delete old users table
-// Hook up any relevant endpoints to new users table - probably delete this endpoint actually
 // Work darkmode in to auth user data
 
-// Users table migrations:
-
 // Vehicles table TODO:
-// Hook up new user id to vehicles
-// Nothing needs done in vehicle sub-objects
-// Hook up seeds to reconfigured user ids
-//  - I think this can just be done by changing seed to auth users id instead of regular users?
 
 // Auth UI TODO:
-// Update flow:
-// Flow when loading page and already logged in
-// Flow when loading page not logged in
-// Where to put signin/ log out buttons etc
-
-// State/Authwatcher TODO (related to Auth UI todo):
-// Figure out how to call functions on signup
+// If user isn't logged in, load any vehciles from local storage
 
 import { useState, useEffect } from "react";
 import { createClientCSROnly } from "../utils/server/supabase/client";

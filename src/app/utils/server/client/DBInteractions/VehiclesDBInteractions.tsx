@@ -100,7 +100,8 @@ export const insertVehicleClient = async (
 	vehicle: Vehicle_For_db_POST
 ): Promise<Vehicle> => {
 	// Validate vehicle (obviously)
-	// TODO: This POST vehicle validation may be redundant because the form hook in the UI will already do this
+	// This POST vehicle validation may be redundant because the form hook in the UI will already do this
+	// But, the validation is cheap and form logic could change
 	const isVehicle = VehicleToBePostedSchema.safeParse(vehicle);
 	if (!isVehicle.success) {
 		console.error(
@@ -181,7 +182,8 @@ export const updateVehicleInDBClient = async (
 	vehicle: Vehicle_For_db_PATCH
 ): Promise<Vehicle> => {
 	// Validate vehicle (obviously)
-	// TODO: This PATCH client vehicle validation may be redundant because the form hook in the UI will already do this
+	// This PATCH client vehicle validation may be redundant because the form hook in the UI will already do this
+	// But, the validation is cheap and form logic could change
 	const isVehicle = VehicleSchemaForPATCH.safeParse(vehicle);
 	if (!isVehicle.success) {
 		console.error(

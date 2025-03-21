@@ -112,10 +112,9 @@ const Dashboard = () => {
 		// Navigate to edit page or open modal
 	}, []);
 
+	// The component that calls this will show a confirmation dialog before calling onDeleteButtonClick
 	const onDeleteButtonClick = useCallback(
 		async (vehicleId: number, dispatch: Dispatch) => {
-			// TODO Show confirmation modal before deleting
-
 			// Remove vehicle from DB
 			const dbDeleteResults = await deleteVehicleByIDClient(vehicleId);
 			if ("error" in dbDeleteResults) {

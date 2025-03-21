@@ -5,7 +5,6 @@
 // Also contains edit and delete buttons
 // In the dashboard it's wrapped in a SortableVehicleCard component that makes it drag n'droppable
 // TODO Drag and drop isn't working
-// TODO tests
 // ____________________________________________________________________________
 
 import Button from "@/app/components/Button";

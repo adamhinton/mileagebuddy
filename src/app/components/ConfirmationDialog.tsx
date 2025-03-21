@@ -19,8 +19,6 @@ export type ConfirmationDialogProps = {
 	confirmButtonClass?: string;
 };
 
-// TODO write tests for this
-
 /**
  * Reusable confirmation dialog component
  *

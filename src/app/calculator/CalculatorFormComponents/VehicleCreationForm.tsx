@@ -116,7 +116,6 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 	const [isShowErrorSummary, setisShowErrorSummary] = useState(false);
 	const errorSummaryRef = useRef<HTMLDivElement>(null);
 
-	// TODO validate local storage values before using them
 	const savedLocalStorageValues = getSavedFormValuesFromLocalStorage();
 
 	const [hasResetFormValues, setHasResetFormValues] = useState(false);

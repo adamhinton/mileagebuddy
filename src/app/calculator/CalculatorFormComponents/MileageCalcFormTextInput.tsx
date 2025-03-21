@@ -1,7 +1,6 @@
 // MileageCalcFormTextInput.tsx
 // This is the basic text input for the form used in the car mileage cost calculator
 // It's based on MileageCalcFormNumberInput.tsx, more or less the same thing but with text, and it's wider to accommodate up to 30 characters
-// TODO write tests for this once it's finalized
 // This has a <label> too, but MileageCalcFormTextInputAndLabel was an annoyingly long name
 // Confused about the subschema being passed in? See the jsdoc for subSchema param
 // Note, this is closely related to MileageCalcFormNumberInput.tsx, which is just different enough to warrant its own component

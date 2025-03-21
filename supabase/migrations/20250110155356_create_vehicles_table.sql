@@ -21,7 +21,6 @@ CREATE TABLE vehicles (
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,
-    -- TODO: This may not associate correctly with userid
     CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES auth.users(id) ON DELETE CASCADE
 );
 

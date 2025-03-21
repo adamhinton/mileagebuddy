@@ -21,11 +21,6 @@ import { VehicleSchemaForPATCH } from "../utils/server/types/VehicleTypes/PATCHV
 // TODO:
 // Figure out how/where in the UI to toggle between testing and vehicle creation
 // Let non-authenticated users save vehicles to localStorage
-// Default values:
-// // Figure out where to save these
-// // Make input default values actually save to form values; right now user has to tab over input
-// General styling improvements. Animations, transitions etc
-// Make CollapsibleSectionTitles type a tuple of literals so as to be the one source of truth for the order
 // Trim string inputs and check if any other input sanitization is needed
 // Put edit form at /calculator/edit/:vehicleID or similar
 
