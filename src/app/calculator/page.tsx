@@ -21,7 +21,6 @@ import { VehicleSchemaForPATCH } from "../utils/server/types/VehicleTypes/PATCHV
 // TODO:
 // Figure out how/where in the UI to toggle between testing and vehicle creation
 // Let non-authenticated users save vehicles to localStorage
-// Trim string inputs and check if any other input sanitization is needed
 // Put edit form at /calculator/edit/:vehicleID or similar
 
 // Stretch: optimistic UI updates

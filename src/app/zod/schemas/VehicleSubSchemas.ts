@@ -13,11 +13,11 @@ import z from "zod";
 export const VehicleDataSchema = z
 	.object({
 		vehicleID: z.number().readonly(),
-		vehicleName: z.string().min(1).max(30).describe("Vehicle Nickname"),
+		vehicleName: z.string().min(1).max(30).trim().describe("Vehicle Nickname"),
 		year: z.number().min(1875).max(2100).describe("Year of Vehicle"),
-		make: z.string().min(1).max(30).describe("Vehicle Make"),
-		model: z.string().min(1).max(30).describe("Vehicle Model"),
-		trim: z.string().min(1).max(30).describe("Vehicle Trim"),
+		make: z.string().min(1).max(30).trim().describe("Vehicle Make"),
+		model: z.string().min(1).max(30).trim().describe("Vehicle Model"),
+		trim: z.string().min(1).max(30).trim().describe("Vehicle Trim"),
 		// TODO: Delete highwayMPG, this is redundant with a field used elsewhere.
 		highwayMPG: z.number().max(5000).nonnegative().nullable().optional(),
 	})
