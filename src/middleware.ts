@@ -8,10 +8,6 @@ import { VehicleSchemaForPATCH } from "./app/utils/server/types/VehicleTypes/PAT
 import { updateSession } from "./app/utils/server/supabase/middleware";
 import { createClientSSROnly } from "./app/utils/server/supabase/server";
 
-// TODO: User stuff, including:
-// Validate User
-// Validate that Vehicles etc match logged in user
-
 export async function middleware(request: NextRequest) {
 	const supabase = await createClientSSROnly();
 
