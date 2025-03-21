@@ -171,14 +171,7 @@ const VehicleCard = (props: VehicleCardProps) => {
 						}}
 					/>
 
-					<Button
-						onClick={() => {}}
-						text="Details"
-						variant="secondary"
-						className="flex items-center text-primary hover:text-primary-200"
-						ariaLabel={`View details for ${vehicle.vehicleData.vehicleName}`}
-						isConfirmationRequired={false}
-					/>
+					{/* TODO button to show further cost breakdown */}
 				</footer>
 
 				{/* We can remove these dialogs as they're now handled by the Button component */}
