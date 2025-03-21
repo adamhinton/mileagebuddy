@@ -8,12 +8,11 @@
 // TODO tests
 // ____________________________________________________________________________
 
-import ConfirmationDialog from "@/app/components/ConfirmationDialog";
+import Button from "@/app/components/Button";
 import { CarCostCalculationResults } from "@/app/utils/CarCostAlgorithm/calculateCarCostMain";
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { DraggableAttributes } from "@dnd-kit/core";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
-import { useState } from "react";
 
 type VehicleCardProps = {
 	vehicle: Vehicle;
@@ -27,10 +26,7 @@ type VehicleCardProps = {
 };
 
 const VehicleCard = (props: VehicleCardProps) => {
-	const { vehicle, vehicleCost, onEdit, onDelete, dragHandleProps } = props;
-
-	const [showEditConfirmation, setShowEditConfirmation] = useState(false);
-	const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+	const { vehicle, vehicleCost, onDelete, dragHandleProps } = props;
 
 	const costPerMile = vehicleCost?.costPerAverageDailyMile ?? 0;
 	const costPerExtraMile = vehicleCost?.costPerExtraMile ?? 0;
@@ -38,29 +34,8 @@ const VehicleCard = (props: VehicleCardProps) => {
 
 	// Handlers for the edit button
 	const handleEditClick = () => {
-		setShowEditConfirmation(true);
-	};
-
-	const handleEditConfirm = () => {
-		onEdit();
-		setShowEditConfirmation(false);
-	};
-
-	const handleEditCancel = () => {
-		setShowEditConfirmation(false);
-	};
-
-	const handleDeleteClick = () => {
-		setShowDeleteConfirmation(true);
-	};
-
-	const handleDeleteConfirm = () => {
-		onDelete();
-		setShowDeleteConfirmation(false);
-	};
-
-	const handleDeleteCancel = () => {
-		setShowDeleteConfirmation(false);
+		// TODO send user to edit vehicle page; the edit form is written, just haven't figured out where to put it yet
+		console.log("Edit vehicle clicked");
 	};
 
 	return (
@@ -166,98 +141,47 @@ const VehicleCard = (props: VehicleCardProps) => {
 
 				{/* Action buttons */}
 				<footer className="flex justify-between mt-4">
-					<button
+					<Button
 						onClick={handleEditClick}
-						className="nav-link-outline flex items-center"
-						aria-label={`Edit ${vehicle.vehicleData.vehicleName}`}
-					>
-						<svg
-							className="w-4 h-4 mr-1"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={2}
-								d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-							/>
-						</svg>
-						Edit
-					</button>
+						text="Edit"
+						variant="secondary"
+						className="flex items-center"
+						ariaLabel={`Edit ${vehicle.vehicleData.vehicleName}`}
+						isConfirmationRequired={true}
+						confirmationDialogOptions={{
+							title: "Edit Vehicle",
+							message: `Are you sure you want to edit ${vehicle.vehicleData.vehicleName}?`,
+							confirmButtonText: "Edit",
+							cancelButtonText: "Cancel",
+						}}
+					/>
 
-					<button
-						onClick={handleDeleteClick}
-						className="text-red-500 hover:text-red-700 flex items-center"
-						aria-label={`Delete ${vehicle.vehicleData.vehicleName}`}
-					>
-						<svg
-							className="w-4 h-4 mr-1"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={2}
-								d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-							/>
-						</svg>
-						Delete
-					</button>
+					<Button
+						onClick={onDelete}
+						text="Delete"
+						variant="danger"
+						className="flex items-center"
+						ariaLabel={`Delete ${vehicle.vehicleData.vehicleName}`}
+						isConfirmationRequired={true}
+						confirmationDialogOptions={{
+							title: "Delete Vehicle",
+							message: `Are you sure you want to delete ${vehicle.vehicleData.vehicleName}? This action cannot be undone.`,
+							confirmButtonText: "Delete",
+							cancelButtonText: "Cancel",
+						}}
+					/>
 
-					<button
-						className="text-primary hover:text-primary-200 flex items-center"
-						aria-label={`View details for ${vehicle.vehicleData.vehicleName}`}
-					>
-						<svg
-							className="w-4 h-4 mr-1"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={2}
-								d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-							/>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth={2}
-								d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-							/>
-						</svg>
-						Details
-					</button>
+					<Button
+						onClick={() => {}}
+						text="Details"
+						variant="secondary"
+						className="flex items-center text-primary hover:text-primary-200"
+						ariaLabel={`View details for ${vehicle.vehicleData.vehicleName}`}
+						isConfirmationRequired={false}
+					/>
 				</footer>
 
-				{/* Only displays when user has clicked the edit button */}
-				<ConfirmationDialog
-					title="Edit Vehicle"
-					message={`Are you sure you want to edit ${vehicle.vehicleData.vehicleName}?`}
-					confirmButtonText="Edit"
-					cancelButtonText="Cancel"
-					onConfirm={handleEditConfirm}
-					onCancel={handleEditCancel}
-					isOpen={showEditConfirmation}
-					confirmButtonClass="bg-primary text-white hover:bg-primary-600"
-				/>
-
-				{/* Only displays when user has clicked the delete button */}
-				<ConfirmationDialog
-					title="Delete Vehicle"
-					message={`Are you sure you want to delete ${vehicle.vehicleData.vehicleName}? This action cannot be undone.`}
-					confirmButtonText="Delete"
-					cancelButtonText="Cancel"
-					onConfirm={handleDeleteConfirm}
-					onCancel={handleDeleteCancel}
-					isOpen={showDeleteConfirmation}
-					confirmButtonClass="bg-red-600 text-white hover:bg-red-700"
-				/>
+				{/* We can remove these dialogs as they're now handled by the Button component */}
 			</section>
 		</article>
 	);
