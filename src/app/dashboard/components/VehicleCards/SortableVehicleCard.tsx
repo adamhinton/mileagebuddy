@@ -18,20 +18,33 @@ type SortableVehicleCardProps = {
 };
 
 // Sortable wrapper for VehicleCard
-export const SortableVehicleCard = (props: SortableVehicleCardProps) => {
+const SortableVehicleCard = (props: SortableVehicleCardProps) => {
 	const { vehicle, vehicleCost, onEdit, onDelete } = props;
 
-	const { attributes, listeners, setNodeRef, transform, transition } =
-		useSortable({ id: vehicle.id });
+	// Using useClient from @dnd-kit/sortable to enable drag-and-drop functionality
+	const {
+		attributes,
+		listeners,
+		setNodeRef,
+		transform,
+		transition,
+		isDragging,
+	} = useSortable({
+		id: vehicle.id,
+		data: { vehicle },
+	});
 
+	// Apply transform styles for drag animation
 	const style = {
 		transform: CSS.Transform.toString(transform),
 		transition,
+		// Adding opacity change when dragging to provide visual feedback
+		opacity: isDragging ? 0.8 : 1,
+		zIndex: isDragging ? 999 : "auto",
 	};
 
 	return (
-		// Wrapper around VehicleCard to make it drag and droppable
-		<div ref={setNodeRef} style={style}>
+		<article ref={setNodeRef} style={style} className="touch-manipulation">
 			<VehicleCard
 				vehicle={vehicle}
 				vehicleCost={vehicleCost}
@@ -39,7 +52,7 @@ export const SortableVehicleCard = (props: SortableVehicleCardProps) => {
 				onDelete={onDelete}
 				dragHandleProps={{ attributes, listeners }}
 			/>
-		</div>
+		</article>
 	);
 };
 

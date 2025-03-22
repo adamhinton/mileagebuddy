@@ -6,9 +6,6 @@
 // If user has no vehicles, it displays EmptyDashboardState.tsx
 // _____________________________________________
 
-// TODO  sidebar
-// TODO proper vehicle ordering
-
 import { deleteVehicleByIDClient } from "@/app/utils/server/client/DBInteractions/VehiclesDBInteractions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
@@ -20,9 +17,11 @@ import {
 	DndContext,
 	DragEndEvent,
 	KeyboardSensor,
-	PointerSensor,
 	useSensor,
 	useSensors,
+	MouseSensor,
+	TouchSensor,
+	DragStartEvent,
 } from "@dnd-kit/core";
 import {
 	arrayMove,
@@ -50,6 +49,8 @@ const Dashboard = () => {
 	const vehicles = useAppSelector((state) => state.vehicles);
 	/**Tracks the calculated costs per mile of each vehicle */
 	const [vehicleCosts, setVehicleCosts] = useState<AllCarCosts>({});
+
+	const [activeId, setActiveId] = useState<number | null>(null);
 
 	// Calculate costs for all vehicles when the component loads
 	useEffect(() => {
@@ -85,15 +86,35 @@ const Dashboard = () => {
 		calculateCosts();
 	}, [vehicles]);
 
+	// Configure more precise sensors for better drag detection
 	const sensors = useSensors(
-		useSensor(PointerSensor),
+		useSensor(MouseSensor, {
+			// Lower activationConstraint for easier dragging
+			activationConstraint: {
+				distance: 5, // 5px movement before drag starts
+			},
+		}),
+		useSensor(TouchSensor, {
+			// For mobile devices
+			activationConstraint: {
+				delay: 250, // Wait for 250ms before activating on touch
+				tolerance: 5, // Allow slight movement before activating
+			},
+		}),
 		useSensor(KeyboardSensor, {
 			coordinateGetter: sortableKeyboardCoordinates,
 		})
 	);
 
+	// Track when drag starts
+	const handleDragStart = (event: DragStartEvent) => {
+		const { active } = event;
+		setActiveId(active.id as number);
+	};
+
 	/**When the user is done dragging the item */
 	const handleDragEnd = (event: DragEndEvent) => {
+		setActiveId(null);
 		const { active, over } = event;
 
 		if (over && active.id !== over.id) {
@@ -106,6 +127,8 @@ const Dashboard = () => {
 
 			// Update Redux state with new order
 			dispatch(setVehicles(updatedVehicles));
+
+			// TODO persist updated DNd order in db
 		}
 	};
 
@@ -143,7 +166,9 @@ const Dashboard = () => {
 				<DndContext
 					sensors={sensors}
 					collisionDetection={closestCenter}
+					onDragStart={handleDragStart}
 					onDragEnd={handleDragEnd}
+					autoScroll={true}
 				>
 					{/* DnD wrapper */}
 					<SortableContext
