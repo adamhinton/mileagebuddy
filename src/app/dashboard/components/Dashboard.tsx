@@ -6,6 +6,9 @@
 // If user has no vehicles, it displays EmptyDashboardState.tsx
 // _____________________________________________
 
+// TODO  sidebar
+// TODO proper vehicle ordering
+
 import { deleteVehicleByIDClient } from "@/app/utils/server/client/DBInteractions/VehiclesDBInteractions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
