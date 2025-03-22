@@ -2,6 +2,7 @@
 
 // ________________________________
 // This is a wrapper around VehicleCard that makes it responsive to Drag and Drop events
+// Using @dnd-kit library for drag-and-drop functionality
 // ________________________________
 
 import { CarCostCalculationResults } from "@/app/utils/CarCostAlgorithm/calculateCarCostMain";
@@ -34,11 +35,11 @@ const SortableVehicleCard = (props: SortableVehicleCardProps) => {
 		data: { vehicle },
 	});
 
-	// Apply transform styles for drag animation
+	// Transform styles for drag animation
 	const style = {
 		transform: CSS.Transform.toString(transform),
 		transition,
-		// Adding opacity change when dragging to provide visual feedback
+		// Opacity change when dragging to provide visual feedback
 		opacity: isDragging ? 0.8 : 1,
 		zIndex: isDragging ? 999 : "auto",
 	};

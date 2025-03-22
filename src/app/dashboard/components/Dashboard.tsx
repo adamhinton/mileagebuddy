@@ -21,7 +21,6 @@ import {
 	useSensors,
 	MouseSensor,
 	TouchSensor,
-	DragStartEvent,
 } from "@dnd-kit/core";
 import {
 	arrayMove,
@@ -49,8 +48,6 @@ const Dashboard = () => {
 	const vehicles = useAppSelector((state) => state.vehicles);
 	/**Tracks the calculated costs per mile of each vehicle */
 	const [vehicleCosts, setVehicleCosts] = useState<AllCarCosts>({});
-
-	const [activeId, setActiveId] = useState<number | null>(null);
 
 	// Calculate costs for all vehicles when the component loads
 	useEffect(() => {
@@ -89,7 +86,6 @@ const Dashboard = () => {
 	// Configure more precise sensors for better drag detection
 	const sensors = useSensors(
 		useSensor(MouseSensor, {
-			// Lower activationConstraint for easier dragging
 			activationConstraint: {
 				distance: 5, // 5px movement before drag starts
 			},
@@ -106,15 +102,8 @@ const Dashboard = () => {
 		})
 	);
 
-	// Track when drag starts
-	const handleDragStart = (event: DragStartEvent) => {
-		const { active } = event;
-		setActiveId(active.id as number);
-	};
-
 	/**When the user is done dragging the item */
 	const handleDragEnd = (event: DragEndEvent) => {
-		setActiveId(null);
 		const { active, over } = event;
 
 		if (over && active.id !== over.id) {
@@ -138,7 +127,7 @@ const Dashboard = () => {
 		// Navigate to edit page or open modal
 	}, []);
 
-	// The component that calls this will show a confirmation dialog before calling onDeleteButtonClick
+	// The component that calls this (Button.tsx) will show a confirmation dialog before calling onDeleteButtonClick
 	const onDeleteButtonClick = useCallback(
 		async (vehicleId: number, dispatch: Dispatch) => {
 			// Remove vehicle from DB
@@ -166,7 +155,6 @@ const Dashboard = () => {
 				<DndContext
 					sensors={sensors}
 					collisionDetection={closestCenter}
-					onDragStart={handleDragStart}
 					onDragEnd={handleDragEnd}
 					autoScroll={true}
 				>
