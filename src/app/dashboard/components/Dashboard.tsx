@@ -6,7 +6,10 @@
 // If user has no vehicles, it displays EmptyDashboardState.tsx
 // _____________________________________________
 
-import { deleteVehicleByIDClient } from "@/app/utils/server/client/DBInteractions/VehiclesDBInteractions";
+import {
+	deleteVehicleByIDClient,
+	updateVehicleOrdersClient,
+} from "@/app/utils/server/client/DBInteractions/VehiclesDBInteractions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
 	removeVehicleById,
@@ -46,6 +49,7 @@ type AllCarCosts = {
 
 const Dashboard = () => {
 	const vehicles = useAppSelector((state) => state.vehicles);
+	const loggedInUser = useAppSelector((state) => state.user.value);
 	/**Tracks the calculated costs per mile of each vehicle */
 	const [vehicleCosts, setVehicleCosts] = useState<AllCarCosts>({});
 
@@ -106,7 +110,7 @@ const Dashboard = () => {
 	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
 
-		if (over && active.id !== over.id) {
+		if (over && active.id !== over.id && loggedInUser) {
 			const oldIndex = vehicles.findIndex((v) => v.id === active.id);
 			const newIndex = vehicles.findIndex((v) => v.id === over.id);
 
@@ -117,7 +121,15 @@ const Dashboard = () => {
 			// Update Redux state with new order
 			dispatch(setVehicles(updatedVehicles));
 
-			// TODO persist updated DNd order in db
+			// Now persist new order in db
+			const orderUpdates = updatedVehicles.map((vehicle) => ({
+				id: vehicle.id,
+				order: vehicle.vehiclesOrder,
+			}));
+
+			updateVehicleOrdersClient(loggedInUser.id, orderUpdates).catch((error) =>
+				console.error("Failed to update vehicle orders:", error)
+			);
 		}
 	};
 

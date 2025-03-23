@@ -118,31 +118,29 @@ const checkIfVehicleExistsInDB = async (
 
 	return vehicleArray.length > 0;
 };
-
 /** Attempts to delete a vehicle by its id
  *
  * The DELETE endpoint which calls it has already validated that vehicle exists and that vehicleID is valid
  *
  * Returns the deleted vehicle or an error message
+ *
+ * Also decrements the vehiclesOrder of all vehicles with a higher order than the deleted vehicle
  */
 const deleteDBVehicleByID = async (
-	vehicleID: number,
+	vehicle: Vehicle,
 	supabase: SupabaseClient
 ): Promise<NextResponse<Vehicle | { error: string }>> => {
 	try {
-		// Data will be an array of one vehicle
-		// This delete also deletes all sub tables due to ON DELETE CASCADE
 		const { data, error } = await supabase
 			.from("vehicles")
 			.delete()
-			.eq("id", Number(vehicleID))
-			// This causes the delete statement to return the deleted vehicle, including data from sub tables
+			.eq("id", vehicle.id)
 			.select(stringForJoiningVehicleTables);
-
+		// This causes the delete statement to return the deleted vehicle, including data from sub tables
 		// This should never happen since the endpoint has already checked that the vehicle exists, but TS needed to know data wouldn't be null
-		if (data === null || data.length === 0) {
+		if (!data || data.length === 0) {
 			return NextResponse.json(
-				{ error: `Vehicle with id ${vehicleID} not found` },
+				{ error: `Vehicle with id ${vehicle.id} not found` },
 				{ status: 404 }
 			);
 		}
@@ -150,14 +148,15 @@ const deleteDBVehicleByID = async (
 		const deletedVehicle: Vehicle = data[0] as unknown as Vehicle;
 
 		if (error) throw error;
-		return NextResponse.json(deletedVehicle, {
-			status: 200,
-			statusText: "Vehicle deleted successfully",
-		});
+
+		// Update the order of remaining vehicles
+		await updateVehicleOrdersAfterDelete(vehicle, supabase);
+
+		return NextResponse.json(deletedVehicle, { status: 200 });
 	} catch (error) {
-		console.error("Error deleting vehicle data:", error);
+		console.error("Error deleting vehicle:", error);
 		return NextResponse.json(
-			{ error: "Failed to delete vehicle data" },
+			{ error: "Failed to delete vehicle" },
 			{ status: 500 }
 		);
 	}
@@ -171,7 +170,27 @@ const deleteDBVehicleByID = async (
  *
  * Decrements the vehiclesOrder of all vehicles with a higher order than the deleted vehicle
  */
-const updateVehicleOrdersAfterDelete = () => {};
+const updateVehicleOrdersAfterDelete = async (
+	vehicle: Vehicle,
+	supabase: SupabaseClient
+): Promise<boolean> => {
+	try {
+		const { error } = await supabase
+			.from("vehicles")
+			.update({ vehiclesOrder: supabase.raw('"vehiclesOrder" - 1') })
+			.eq("userid", vehicle.userid)
+			.gt("vehiclesOrder", vehicle.vehiclesOrder);
+
+		if (error) {
+			console.error("Error updating vehicle orders after delete:", error);
+			return false;
+		}
+		return true;
+	} catch (error) {
+		console.error("Failed to update vehicle orders after delete:", error);
+		return false;
+	}
+};
 
 /** Attempts to add a new vehicle's data to DB
  *

@@ -219,3 +219,22 @@ export const updateVehicleInDBClient = async (
 		throw error;
 	}
 };
+
+/** Updates the order of vehicles after drag-and-drop reordering */
+export const updateVehicleOrdersClient = async (
+	userid: string,
+	orderUpdates: Array<{ id: number; order: number }>
+): Promise<{ success: boolean } | { error: string }> => {
+	try {
+		const res = await fetch("/api/vehicles", {
+			method: "PUT",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ userid, orderUpdates }),
+		});
+
+		return await res.json();
+	} catch (error) {
+		console.error("Error updating vehicle orders:", error);
+		return { error: "Failed to update vehicle orders" };
+	}
+};

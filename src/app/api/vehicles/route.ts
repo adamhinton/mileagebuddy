@@ -91,34 +91,27 @@ export async function DELETE(
 	request: Request
 ): Promise<NextResponse<Vehicle | { error: string }>> {
 	const supabase = await createClientSSROnly();
-
 	const url = new URL(request.url!);
 	const vehicleID = url.searchParams.get("vehicleid");
 
-	const isVehicleExistsInDB = await checkIfVehicleExistsInDB(
-		Number(vehicleID!),
-		supabase
-	);
+	if (!vehicleID) {
+		return NextResponse.json(
+			{ error: "vehicleid is required" },
+			{ status: 400 }
+		);
+	}
 
-	if (!isVehicleExistsInDB) {
+	const vehicleArray = await getSingleVehicleById(supabase, Number(vehicleID));
+	if (vehicleArray.length === 0) {
 		return NextResponse.json(
 			{ error: `Vehicle with id ${vehicleID} not found` },
 			{ status: 404 }
 		);
 	}
 
-	if (!vehicleID) {
-		return NextResponse.json(
-			{
-				error:
-					"vehicleid is required. Must be formatted like: /api/vehicles?vehicleid=2348",
-			},
-			{ status: 400 }
-		);
-	}
-
-	const response: NextResponse<Vehicle | { error: string }> =
-		await deleteDBVehicleByID(Number(vehicleID), supabase);
+	const vehicle = vehicleArray[0]!;
+	// TODO rename deleteDBVehicleByID because it now takes in a vehicle instead of just an id
+	const response = await deleteDBVehicleByID(vehicle, supabase);
 
 	return response;
 }
