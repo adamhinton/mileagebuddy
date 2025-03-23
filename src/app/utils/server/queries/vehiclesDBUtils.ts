@@ -175,19 +175,42 @@ const updateVehicleOrdersAfterDelete = async (
 	supabase: SupabaseClient
 ): Promise<boolean> => {
 	try {
-		const { error } = await supabase
+		// Fetch vehicles that should have their order decremented.
+		const { data: vehiclesToUpdate, error: selectError } = await supabase
 			.from("vehicles")
-			.update({ vehiclesOrder: supabase.raw('"vehiclesOrder" - 1') })
+			.select("id, vehiclesOrder")
 			.eq("userid", vehicle.userid)
+			// Greater than
 			.gt("vehiclesOrder", vehicle.vehiclesOrder);
 
-		if (error) {
-			console.error("Error updating vehicle orders after delete:", error);
+		if (selectError) {
+			console.error("Error selecting vehicles for order update:", selectError);
 			return false;
 		}
+
+		// If there are no vehicles to update, simply return true.
+		if (!vehiclesToUpdate || vehiclesToUpdate.length === 0) {
+			return true;
+		}
+
+		// Update each vehicle's vehiclesOrder by decrementing it by 1.
+		const updatePromises = vehiclesToUpdate.map(
+			async (v: { id: number; vehiclesOrder: number }) => {
+				const newOrder = v.vehiclesOrder - 1 > 0 ? v.vehiclesOrder - 1 : 1; // Ensure order is at least 1
+				const { error: updateError } = await supabase
+					.from("vehicles")
+					.update({ vehiclesOrder: newOrder })
+					.eq("id", v.id);
+				if (updateError) {
+					throw updateError;
+				}
+			}
+		);
+
+		await Promise.all(updatePromises);
 		return true;
-	} catch (error) {
-		console.error("Failed to update vehicle orders after delete:", error);
+	} catch (err) {
+		console.error("Error in updateVehicleOrdersAfterDelete:", err);
 		return false;
 	}
 };
