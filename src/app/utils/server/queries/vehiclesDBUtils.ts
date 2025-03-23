@@ -163,6 +163,16 @@ const deleteDBVehicleByID = async (
 	}
 };
 
+/** Updates the vehiclesOrder field in all vehicles
+ *
+ * This is called after a vehicle is deleted to update the order of the remaining vehicles
+ *
+ * vehiclesOrder determines the order of the vehicles in the UI, this ensures that they're always sequential and sensible
+ *
+ * Decrements the vehiclesOrder of all vehicles with a higher order than the deleted vehicle
+ */
+const updateVehicleOrdersAfterDelete = () => {};
+
 /** Attempts to add a new vehicle's data to DB
  *
  * Returns the vehicle if successful, and an error if unsuccessful
