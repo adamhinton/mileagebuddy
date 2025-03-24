@@ -8,12 +8,12 @@
 import { z } from "zod";
 
 export const VehicleOrderUpdateSchema = z.object({
-	id: z.string(),
+	id: z.number(),
 	order: z.number(),
 });
 
 export const UpdateVehicleOrderRequestSchema = z.object({
-	userid: z.string(),
+	userid: z.string().uuid(),
 	orderUpdates: z.array(VehicleOrderUpdateSchema),
 });
 
