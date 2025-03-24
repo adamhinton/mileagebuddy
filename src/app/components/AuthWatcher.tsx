@@ -31,7 +31,13 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 			try {
 				// These vehicles are Zod-Validated by this function
 				const vehicles = await getVehiclesByUserIDClient(userId);
-				dispatch(setVehicles(vehicles));
+
+				// sort by vehiclesOrder, starting at 1
+				const vehiclesInOrder = vehicles.sort(
+					(a, b) => a.vehiclesOrder - b.vehiclesOrder
+				);
+
+				dispatch(setVehicles(vehiclesInOrder));
 			} catch (error) {
 				console.error("Error fetching vehicles on sign in:", error);
 			}
