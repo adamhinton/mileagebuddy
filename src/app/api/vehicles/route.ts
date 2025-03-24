@@ -96,7 +96,10 @@ export async function DELETE(
 
 	if (!vehicleID) {
 		return NextResponse.json(
-			{ error: "vehicleid is required" },
+			{
+				error:
+					"vehicleid is required. Must be formatted like: /api/vehicles?vehicleid=2348",
+			},
 			{ status: 400 }
 		);
 	}
