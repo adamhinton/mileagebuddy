@@ -1,5 +1,6 @@
 "use client";
 
+import { UpdateVehicleOrderRequestSchema } from "@/app/api/vehicles/order/route";
 // README:
 // This is the Vehicle DB interactions meant to be called from the client
 // You call this from your CLIENT components and it hits the API endpoints for you
@@ -228,6 +229,23 @@ export const updateVehicleOrdersClient = async (
 	userid: string,
 	orderUpdates: Array<{ id: number; order: number }>
 ): Promise<{ success: boolean } | { error: string }> => {
+	const requestBody = {
+		userid,
+		orderUpdates,
+	};
+
+	const isSafe = UpdateVehicleOrderRequestSchema.safeParse(requestBody);
+
+	// This same validation also runs on the server in api/vehicles/order
+	// But this is a good sanity check to make sure the client isn't sending garbage
+	if (!isSafe.success) {
+		console.error(
+			"Invalid request body. Make sure you're sending the right format to api/vehicles/order:",
+			isSafe.error
+		);
+		return { error: "Invalid request body." };
+	}
+
 	try {
 		const res = await fetch("/api/vehicles/order", {
 			method: "PATCH",
