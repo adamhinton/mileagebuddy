@@ -25,7 +25,7 @@ export const getVehiclesByUserIDClient = async (
 	userID: string
 ): Promise<Vehicles> => {
 	try {
-		const res = await fetch(`api/vehicles?userid=${userID}`, {
+		const res = await fetch(`/api/vehicles?userid=${userID}`, {
 			method: "GET",
 			headers: { accept: "application/json" },
 		});
@@ -220,7 +220,10 @@ export const updateVehicleInDBClient = async (
 	}
 };
 
-/** Updates the order of vehicles after drag-and-drop reordering */
+/** Updates the order of vehicles after drag-and-drop reordering. This should be called from client components.
+ *
+ * This is currently the only place where api/vehicles/order endpoint is needed\
+ */
 export const updateVehicleOrdersClient = async (
 	userid: string,
 	orderUpdates: Array<{ id: number; order: number }>

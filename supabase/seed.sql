@@ -5,6 +5,8 @@
 
 -- NOTE. IMPORTANT: Some table names and column names are wrapped in double quotes. This is to make them case sensitive, otherwise all keys returned from the backend would be lowercase which would be extremely annoying when trying to convert them to camel case for frontend use.
 
+-- NOTE. IMPORTANT: User ids: I coded my test user id that's used when creating Vehicles. It's a stupid and hacky solution. The issue is that vehicles were being created with a randomly generated UUID, whereas my authenticated userid was staying the same.
+
 -- I used the file from https://gist.github.com/khattaksd/4e8f4c89f4e928a2ecaad56d4a17ecd1 as a template here, and tweaked to meet my needs
 -- This seeds a single user in to auth.users
 -- Seeding in to Supabase's auth table is complex, hence all this gibberish
@@ -32,7 +34,8 @@ WITH new_user AS (
   )
   VALUES (
     '00000000-0000-0000-0000-000000000000',
-    uuid_generate_v4(),
+    -- Note that this could be flaky, may need to change this if your google testing accounts change
+    '0488323f-5e5c-4bb2-b188-75bdaf6eb527',
     'authenticated',
     'authenticated',
     -- If you seed multiple users, need non-duplicate emails

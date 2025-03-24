@@ -29,6 +29,8 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 		/**Get user's vehicles from DB and set them to redux state */
 		const fetchAndSetVehicles = async (userId: string) => {
 			try {
+				console.log("userId:", userId);
+
 				// These vehicles are Zod-Validated by this function
 				const vehicles = await getVehiclesByUserIDClient(userId);
 
