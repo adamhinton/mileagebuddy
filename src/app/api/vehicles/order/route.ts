@@ -8,25 +8,10 @@
 
 import { NextResponse } from "next/server";
 import { createClientSSROnly } from "@/app/utils/server/supabase/server";
-import { z } from "zod";
-
-const VehiclesOrderUpdateSchema = z.object({
-	id: z.string(),
-	// Its new order in the UI
-	// corresponds to its vehiclesOrder property
-	order: z.number(),
-});
-
-export const UpdateVehicleOrderRequestSchema = z.object({
-	userid: z.string(),
-	orderUpdates: z.array(VehiclesOrderUpdateSchema),
-});
-
-export type UpdateVehicleOrdersRequest = z.infer<
-	typeof UpdateVehicleOrderRequestSchema
->;
-
-export type VehicleOrderUpdate = z.infer<typeof VehiclesOrderUpdateSchema>;
+import {
+	UpdateVehicleOrderRequestSchema,
+	UpdateVehicleOrdersRequest,
+} from "./utils/typesAndSchemas";
 
 export async function PATCH(
 	request: Request

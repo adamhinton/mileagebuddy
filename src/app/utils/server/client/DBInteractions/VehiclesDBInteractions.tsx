@@ -1,6 +1,6 @@
 "use client";
 
-import { UpdateVehicleOrderRequestSchema } from "@/app/api/vehicles/order/route";
+import { UpdateVehicleOrderRequestSchema } from "@/app/api/vehicles/order/utils/typesAndSchemas";
 // README:
 // This is the Vehicle DB interactions meant to be called from the client
 // You call this from your CLIENT components and it hits the API endpoints for you
