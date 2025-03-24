@@ -226,8 +226,8 @@ export const updateVehicleOrdersClient = async (
 	orderUpdates: Array<{ id: number; order: number }>
 ): Promise<{ success: boolean } | { error: string }> => {
 	try {
-		const res = await fetch("/api/vehicles", {
-			method: "PUT",
+		const res = await fetch("/api/vehicles/order", {
+			method: "PATCH",
 			headers: { "Content-Type": "application/json" },
 			body: JSON.stringify({ userid, orderUpdates }),
 		});
