@@ -1,6 +1,5 @@
 // ____________________________________________________________________________________________
 // This is what shows when user has no saved Vehicles in /dashboard
-// TODO unit tests
 // _____________________________________________________________________________________________
 
 /**What shows when user has no saved Vehicles */

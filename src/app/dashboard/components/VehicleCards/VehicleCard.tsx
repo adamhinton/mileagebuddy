@@ -171,7 +171,7 @@ const VehicleCard = (props: VehicleCardProps) => {
 						}}
 					/>
 
-					{/* TODO button to show further cost breakdown */}
+					{/* TODO STRETCH: button to show further cost breakdown */}
 				</footer>
 
 				{/* We can remove these dialogs as they're now handled by the Button component */}

@@ -1,7 +1,6 @@
 // README
 // I created this because the supabase auth docs said to
 // https://supabase.com/docs/guides/auth/server-side/nextjs
-// It's probably not necessary, TODO change this later if needed
 
 import { redirect } from "next/navigation";
 import { createClientSSROnly } from "../utils/server/supabase/server";

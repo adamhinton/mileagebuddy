@@ -8,8 +8,6 @@
 // AUTH TODO:
 // Work darkmode in to auth user data
 
-// Vehicles table TODO:
-
 // Auth UI TODO:
 // If user isn't logged in, load any vehciles from local storage
 
@@ -38,7 +36,6 @@ export default function LoginPage() {
 	}, [isLoggedIn]);
 
 	return (
-		// TODO Better styling and page and stuff here, esp when user is logged in
 		<main className="min-h-screen flex flex-col justify-center items-center p-4 transition-colors duration-200">
 			{isLoggedIn && <h1>Welcome, {loggedInUser?.email}!</h1>}
 			{!isLoggedIn && (
