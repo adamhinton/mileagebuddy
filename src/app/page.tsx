@@ -42,7 +42,7 @@ export default function Page() {
 						type: "gas",
 						id: 3,
 						userid: loggedInUser.id,
-						vehiclesOrder: 20,
+						vehiclesOrder: 1,
 						vehicleData: {
 							vehicleID: 1,
 							vehicleName: "Hooba Stank",
