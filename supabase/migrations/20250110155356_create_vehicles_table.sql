@@ -12,19 +12,16 @@
 -- As of 1.14.2025, deleting a vehicle will also delete its sub tables.
 -- Deleting a user also deletes all vehicles and all sub tables.
 
--- TODO: Total cost per year calculations
-
 CREATE TABLE vehicles (
     id SERIAL PRIMARY KEY,
-    userID bigint NOT NULL,
+    userID uuid NOT NULL,
     type VARCHAR(10) NOT NULL CHECK(type IN ('gas', 'electric')),
     -- The order a user's vehicles are listed in, for drag and drop purposes etc
     "vehiclesOrder" INT NOT NULL,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,
-    -- TODO: This may not associate correctly with userid
-    CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES users(id) ON DELETE CASCADE
+    CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES auth.users(id) ON DELETE CASCADE
 );
 
 CREATE TABLE "vehicleData" (
@@ -82,7 +79,6 @@ CREATE TABLE "purchaseAndSales" (
     CONSTRAINT fk_vehicle FOREIGN KEY ("vehicleID") REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
--- TODO: Total miles per year
 CREATE TABLE usage (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,
@@ -103,7 +99,6 @@ CREATE TABLE "fixedCosts" (
     "yearlyInsuranceCost" DECIMAL(10, 2),
     "yearlyRegistrationCost" DECIMAL(10, 2),
     "yearlyTaxes" INTEGER,
-    "yearlyParkingCost" DECIMAL(10, 2),
     "monthlyLoanPayment" INTEGER,
     "monthlyWarrantyCost" INTEGER,
     "inspectionCost" INTEGER,
@@ -122,7 +117,6 @@ CREATE TABLE "yearlyMaintenanceCosts" (
     batteries DECIMAL(10, 2),
     brakes DECIMAL(10, 2),
     other DECIMAL(10, 2),
-    depreciation DECIMAL(10, 2),
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,

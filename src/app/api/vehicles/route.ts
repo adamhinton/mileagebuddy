@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import VehiclesDBUtils from "@/app/utils/server/queries/vehiclesDBUtils";
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
-import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
+import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 
 const {
@@ -9,7 +9,7 @@ const {
 	getSingleVehicleById,
 	getVehiclesByUser,
 	checkIfVehicleExistsInDB,
-	deleteDBVehicleByID,
+	deleteDBVehicle,
 	updateVehicleInDB,
 } = VehiclesDBUtils;
 
@@ -25,7 +25,6 @@ export async function GET(request: Request) {
 		const userID = url.searchParams.get("userid");
 		const vehicleID = url.searchParams.get("vehicleid");
 
-		// Ensure that the user ID is provided
 		if (!userID) {
 			return NextResponse.json(
 				{
@@ -44,7 +43,6 @@ export async function GET(request: Request) {
 			 * Will be an array with one vehicle if vehicle exists in db, or empty array if vehicle isn't in db
 			 */
 			const arrayWithSingleVehicle = await getSingleVehicleById(
-				supabase,
 				Number(vehicleID)
 			);
 
@@ -57,8 +55,7 @@ export async function GET(request: Request) {
 
 			return NextResponse.json(arrayWithSingleVehicle, { status: 200 });
 		} else {
-			// Fetch all vehicles for the given user
-			const vehicles = await getVehiclesByUser(supabase, Number(userID));
+			const vehicles = await getVehiclesByUser(supabase, userID);
 			return NextResponse.json(vehicles, { status: 200 });
 		}
 	} catch (error) {
@@ -71,7 +68,6 @@ export async function GET(request: Request) {
 	}
 }
 
-// TODO: Vehicle validation middleware
 /** I wrote a DB function for this since it was complicated with all these different tables
  * See insert_vehicle_function.sql
  *
@@ -94,21 +90,8 @@ export async function DELETE(
 	request: Request
 ): Promise<NextResponse<Vehicle | { error: string }>> {
 	const supabase = await createClientSSROnly();
-
 	const url = new URL(request.url!);
 	const vehicleID = url.searchParams.get("vehicleid");
-
-	const isVehicleExistsInDB = await checkIfVehicleExistsInDB(
-		Number(vehicleID!),
-		supabase
-	);
-
-	if (!isVehicleExistsInDB) {
-		return NextResponse.json(
-			{ error: `Vehicle with id ${vehicleID} not found` },
-			{ status: 404 }
-		);
-	}
 
 	if (!vehicleID) {
 		return NextResponse.json(
@@ -120,13 +103,21 @@ export async function DELETE(
 		);
 	}
 
-	const response: NextResponse<Vehicle | { error: string }> =
-		await deleteDBVehicleByID(Number(vehicleID), supabase);
+	const vehicleArray = await getSingleVehicleById(Number(vehicleID));
+	if (vehicleArray.length === 0) {
+		return NextResponse.json(
+			{ error: `Vehicle with id ${vehicleID} not found` },
+			{ status: 404 }
+		);
+	}
+
+	const vehicle = vehicleArray[0]!;
+
+	const response = await deleteDBVehicle(vehicle, supabase);
 
 	return response;
 }
 
-// TODO: Vehicle validation
 /**
  * This takes in a Partial<Vehicle>
  * So you don't have to include all data, obviously
@@ -159,9 +150,8 @@ export async function PATCH(
 		type,
 		vehiclesOrder,
 		vehicleData,
-		gasVehicleData,
-		electricVehicleData,
 		purchaseAndSales,
+		// gasVehicleData and electricVehicleData are accounted for in the `if` block just below
 		usage,
 		fixedCosts,
 		yearlyMaintenanceCosts,
@@ -174,8 +164,8 @@ export async function PATCH(
 		!type &&
 		!vehiclesOrder &&
 		!vehicleData &&
-		!gasVehicleData &&
-		!electricVehicleData &&
+		!("gasVehicleData" in updatedPartialVehicle) &&
+		!("electricVehicleData" in updatedPartialVehicle) &&
 		!purchaseAndSales &&
 		!usage &&
 		!fixedCosts &&
@@ -188,10 +178,7 @@ export async function PATCH(
 		});
 	}
 
-	const isVehicleExistsInDB = await checkIfVehicleExistsInDB(
-		Number(vehicleID),
-		supabase
-	);
+	const isVehicleExistsInDB = await checkIfVehicleExistsInDB(Number(vehicleID));
 	if (!isVehicleExistsInDB) {
 		return NextResponse.json({
 			error: `Vehicle with id ${vehicleID} not found`,

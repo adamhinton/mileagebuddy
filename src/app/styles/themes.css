@@ -1,0 +1,62 @@
+/* Light Mode (default) */
+:root {
+	/* Primary color: Soft blue */
+	--primary: 220, 70%, 60%;
+	--primary-50: 220, 70%, 95%;
+	--primary-100: 220, 70%, 90%;
+	--primary-200: 220, 70%, 80%;
+
+	/* Secondary color: Soft orange */
+	--secondary: 40, 80%, 55%;
+	--secondary-50: 40, 80%, 95%;
+	--secondary-100: 40, 80%, 90%;
+	--secondary-200: 40, 80%, 80%;
+
+	/* Accent color: Soft green */
+	--accent: 150, 60%, 50%;
+	--accent-50: 150, 60%, 95%;
+	--accent-100: 150, 60%, 90%;
+	--accent-200: 150, 60%, 80%;
+
+	/* Neutral color: Light gray background */
+	--neutral: 0, 0%, 98%;
+	--neutral-text: 0, 0%, 20%;
+
+	--background-base: 210, 30%, 98%; /* Softest blue-gray */
+	--background-elevated: 200, 25%, 96%; /* Slightly deeper for cards */
+	--background-header: 220, 20%, 94%; /* Distinct but subtle for headers */
+	--background-sidebar: 200, 15%, 93%; /* Slightly different for sidebars */
+	--background-highlight: 190, 30%, 97%; /* Subtle highlight areas */
+}
+
+/* Dark Mode */
+.dark {
+	/* Primary color: Soft blue */
+	--primary: 220, 40%, 70%;
+	--primary-50: 220, 40%, 15%;
+	--primary-100: 220, 40%, 20%;
+	--primary-200: 220, 40%, 30%;
+
+	/* Secondary color: Soft orange */
+	--secondary: 40, 50%, 65%;
+	--secondary-50: 40, 50%, 15%;
+	--secondary-100: 40, 50%, 20%;
+	--secondary-200: 40, 50%, 30%;
+
+	/* Accent color: Soft green */
+	--accent: 150, 30%, 60%;
+	--accent-50: 150, 30%, 15%;
+	--accent-100: 150, 30%, 20%;
+	--accent-200: 150, 30%, 30%;
+
+	/* Neutral color: Dark gray background */
+	--neutral: 0, 0%, 15%;
+	--neutral-text: 0, 0%, 95%;
+
+	/* Background System - Dark Mode */
+	--background-base: 220, 20%, 13%; /* Deep blue-gray */
+	--background-elevated: 215, 25%, 15%; /* Slightly lighter for cards */
+	--background-header: 220, 20%, 17%; /* Distinct header areas */
+	--background-sidebar: 215, 15%, 16%; /* Subtle sidebar difference */
+	--background-highlight: 210, 30%, 18%; /* Subtle highlight areas */
+}

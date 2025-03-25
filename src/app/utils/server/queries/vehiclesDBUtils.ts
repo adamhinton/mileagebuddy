@@ -12,42 +12,42 @@ import { NextResponse } from "next/server";
 import { Vehicle_For_db_POST } from "../types/VehicleTypes/POSTVehicleTypes";
 
 /**The string we use in our select statement to get vehicles
- * It's longso we're saving it here to stay DRY
+ * It's long so we're saving it here to stay DRY
  * It just collects vehicle info from multiple tables in to one join
  */
 export const stringForJoiningVehicleTables = `
 		userid, type, id, "vehiclesOrder",
 
 		"vehicleData"(
-			"vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
+			"id", "vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
 		),
 
 		"gasVehicleData"(
-			"vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
+			"id", "vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
 		),
 
 		"electricVehicleData"(
-			"vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles"
+			"id", "vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles"
 		),
 
 		"purchaseAndSales"(
-			"vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", "willSellCarAtPrice"
+			"id", "vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", "willSellCarAtPrice"
 		),
 
 		usage(
-			"vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", "extraDistanceMiles", "extraDistancePercentHighway"
+			"id", "vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", "extraDistanceMiles", "extraDistancePercentHighway"
 		),
 
 		"fixedCosts"(
-			"vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts"
+			"id", "vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts"
 		),
 
 		"yearlyMaintenanceCosts"(
-			"vehicleID", "oilChanges", tires, batteries, brakes, other, depreciation
+			"id", "vehicleID", "oilChanges", tires, batteries, brakes, other
 		),
 
 		"variableCosts"(
-			"vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions"
+			"id", "vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions"
 		)
 
 		`;
@@ -60,7 +60,6 @@ type ArrayWithOneOrZeroVehicles = [Vehicle?];
  * Returns empty array if vehicle doesn't exist
  */
 async function getSingleVehicleById(
-	supabase: SupabaseClient,
 	vehicleId: number
 ): Promise<ArrayWithOneOrZeroVehicles> {
 	/**Vehicle data is stored in several different tables
@@ -94,7 +93,7 @@ async function getSingleVehicleById(
 /** Get all vehicles belonging to a user */
 async function getVehiclesByUser(
 	supabase: SupabaseClient,
-	userId: number
+	userId: string
 ): Promise<Vehicles> {
 	/** This is just the data from the vehicles table
 	 * There are several db tables that contain user data. Still need to aggregate all of them
@@ -110,39 +109,36 @@ async function getVehiclesByUser(
 }
 
 const checkIfVehicleExistsInDB = async (
-	vehicleID: number,
-	supabase: SupabaseClient
+	vehicleID: number
 ): Promise<boolean> => {
 	// Should be an array with one vehicle
-	const vehicleArray = await getSingleVehicleById(supabase, vehicleID);
+	const vehicleArray = await getSingleVehicleById(vehicleID);
 
 	return vehicleArray.length > 0;
 };
-
 /** Attempts to delete a vehicle by its id
  *
  * The DELETE endpoint which calls it has already validated that vehicle exists and that vehicleID is valid
  *
  * Returns the deleted vehicle or an error message
+ *
+ * Also decrements the vehiclesOrder of all vehicles with a higher order than the deleted vehicle
  */
-const deleteDBVehicleByID = async (
-	vehicleID: number,
+const deleteDBVehicle = async (
+	vehicle: Vehicle,
 	supabase: SupabaseClient
 ): Promise<NextResponse<Vehicle | { error: string }>> => {
 	try {
-		// Data will be an array of one vehicle
-		// This delete also deletes all sub tables due to ON DELETE CASCADE
 		const { data, error } = await supabase
 			.from("vehicles")
 			.delete()
-			.eq("id", Number(vehicleID))
-			// This causes the delete statement to return the deleted vehicle, including data from sub tables
+			.eq("id", vehicle.id)
 			.select(stringForJoiningVehicleTables);
-
+		// This causes the delete statement to return the deleted vehicle, including data from sub tables
 		// This should never happen since the endpoint has already checked that the vehicle exists, but TS needed to know data wouldn't be null
-		if (data === null || data.length === 0) {
+		if (!data || data.length === 0) {
 			return NextResponse.json(
-				{ error: `Vehicle with id ${vehicleID} not found` },
+				{ error: `Vehicle with id ${vehicle.id} not found` },
 				{ status: 404 }
 			);
 		}
@@ -150,22 +146,78 @@ const deleteDBVehicleByID = async (
 		const deletedVehicle: Vehicle = data[0] as unknown as Vehicle;
 
 		if (error) throw error;
-		return NextResponse.json(deletedVehicle, {
-			status: 200,
-			statusText: "Vehicle deleted successfully",
-		});
+
+		// Update the order of remaining vehicles
+		await updateVehicleOrdersAfterDelete(vehicle, supabase);
+
+		return NextResponse.json(deletedVehicle, { status: 200 });
 	} catch (error) {
-		console.error("Error deleting vehicle data:", error);
+		console.error("Error deleting vehicle:", error);
 		return NextResponse.json(
-			{ error: "Failed to delete vehicle data" },
+			{ error: "Failed to delete vehicle" },
 			{ status: 500 }
 		);
+	}
+};
+
+/** Updates the vehiclesOrder field in all vehicles
+ *
+ * This is called after a vehicle is deleted to update the order of the remaining vehicles
+ *
+ * vehiclesOrder determines the order of the vehicles in the UI, this ensures that they're always sequential and sensible
+ *
+ * Decrements the vehiclesOrder of all vehicles with a higher order than the deleted vehicle
+ */
+const updateVehicleOrdersAfterDelete = async (
+	vehicle: Vehicle,
+	supabase: SupabaseClient
+): Promise<boolean> => {
+	try {
+		// Fetch vehicles that should have their order decremented.
+		const { data: vehiclesToUpdate, error: selectError } = await supabase
+			.from("vehicles")
+			.select("id, vehiclesOrder")
+			.eq("userid", vehicle.userid)
+			// Greater than
+			.gt("vehiclesOrder", vehicle.vehiclesOrder);
+
+		if (selectError) {
+			console.error("Error selecting vehicles for order update:", selectError);
+			return false;
+		}
+
+		// If there are no vehicles to update, simply return true.
+		if (!vehiclesToUpdate || vehiclesToUpdate.length === 0) {
+			return true;
+		}
+
+		// Update each vehicle's vehiclesOrder by decrementing it by 1.
+		const updatePromises = vehiclesToUpdate.map(
+			async (v: { id: number; vehiclesOrder: number }) => {
+				const newOrder = v.vehiclesOrder - 1 > 0 ? v.vehiclesOrder - 1 : 1; // Ensure order is at least 1
+				const { error: updateError } = await supabase
+					.from("vehicles")
+					.update({ vehiclesOrder: newOrder })
+					.eq("id", v.id);
+				if (updateError) {
+					throw updateError;
+				}
+			}
+		);
+
+		await Promise.all(updatePromises);
+		return true;
+	} catch (err) {
+		console.error("Error in updateVehicleOrdersAfterDelete:", err);
+		return false;
 	}
 };
 
 /** Attempts to add a new vehicle's data to DB
  *
  * Returns the vehicle if successful, and an error if unsuccessful
+ *
+ * Zod validation has alraedy been done on both the client and server before this si called
  */
 const addNewVehicleToDB = async (
 	body: Vehicle_For_db_POST,
@@ -177,8 +229,6 @@ const addNewVehicleToDB = async (
 		type,
 		vehiclesOrder,
 		vehicleData,
-		gasVehicleData,
-		electricVehicleData,
 		purchaseAndSales,
 		usage,
 		fixedCosts,
@@ -187,19 +237,19 @@ const addNewVehicleToDB = async (
 	} = body;
 
 	try {
-		// const isSafe = VehicleToBePostedSchema.safeParse(body);
-		// console.log("isSafe in addNewVehicleToDB:", isSafe);
-
 		// Wrote db function insert_vehicle_function.sql for this
-		// The db function should do auto-validation to make sure fields exist and are correct, but --- TODO: More thorough new Vehicle validation
 		const { data, error } = await supabase.rpc("insert_vehicle", {
 			// These parameter names had to be all lower case to play nice with SQL
 			_userid: userid,
 			_type: type,
 			_vehiclesorder: vehiclesOrder,
 			_vehicledata: vehicleData,
-			_gasvehicledata: gasVehicleData,
-			_electricvehicledata: electricVehicleData,
+			_gasvehicledata:
+				body.type === "gas" && body.gasVehicleData ? body.gasVehicleData : null, // Always pass the parameter, even if null
+			_electricvehicledata:
+				body.type === "electric" && body.electricVehicleData
+					? body.electricVehicleData
+					: null, // Always pass the parameter, even if null
 			_purchaseandsales: purchaseAndSales,
 			_usage: usage,
 			_fixedcosts: fixedCosts,
@@ -210,9 +260,8 @@ const addNewVehicleToDB = async (
 		if (error) throw error;
 
 		const newVehicleID = data;
-
 		// getSingleVehicleById returns an array with one Vehicle
-		const newVehicleArray = await getSingleVehicleById(supabase, newVehicleID!);
+		const newVehicleArray = await getSingleVehicleById(newVehicleID!);
 		const newVehicle = newVehicleArray[0];
 
 		return NextResponse.json(newVehicle!, { status: 200 });
@@ -246,8 +295,7 @@ const updateVehicleInDB = async (
 		type,
 		vehiclesOrder,
 		vehicleData,
-		gasVehicleData,
-		electricVehicleData,
+
 		purchaseAndSales,
 		usage,
 		fixedCosts,
@@ -261,8 +309,10 @@ const updateVehicleInDB = async (
 		!type &&
 		!vehiclesOrder &&
 		!vehicleData &&
-		!gasVehicleData &&
-		!electricVehicleData &&
+		((updatedPartialVehicle.type === "gas" &&
+			!updatedPartialVehicle.gasVehicleData) ||
+			(updatedPartialVehicle.type === "electric" &&
+				!updatedPartialVehicle.electricVehicleData)) &&
 		!purchaseAndSales &&
 		!usage &&
 		!fixedCosts &&
@@ -285,10 +335,7 @@ const updateVehicleInDB = async (
 		if (error) throw error;
 
 		// An array with one vehicle
-		const fullUpdatedVehicle = await getSingleVehicleById(
-			supabase,
-			Number(vehicleID)
-		);
+		const fullUpdatedVehicle = await getSingleVehicleById(Number(vehicleID));
 
 		return NextResponse.json(fullUpdatedVehicle[0]!, { status: 200 });
 	} catch (error) {
@@ -302,7 +349,7 @@ const updateVehicleInDB = async (
 
 const VehiclesDBUtils = {
 	addNewVehicleToDB,
-	deleteDBVehicleByID,
+	deleteDBVehicle,
 	getSingleVehicleById,
 	getVehiclesByUser,
 	checkIfVehicleExistsInDB,

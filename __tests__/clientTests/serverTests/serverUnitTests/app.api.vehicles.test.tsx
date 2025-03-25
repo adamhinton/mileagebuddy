@@ -7,7 +7,7 @@ import {
 } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { NextRequest, NextResponse } from "next/server";
 import { DELETE, GET, PATCH, POST } from "@/app/api/vehicles/route";
-import { createClientSSROnly } from "@/app/utils/server/supabaseUtilsCustom/server";
+import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 import { stringForJoiningVehicleTables } from "@/app/utils/server/queries/vehiclesDBUtils";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 
@@ -19,12 +19,9 @@ import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTV
  * @jest-environment node
  */
 
-jest.mock(
-	"../../../../src/app/utils/server/supabaseUtilsCustom/server",
-	() => ({
-		createClientSSROnly: jest.fn(),
-	})
-);
+jest.mock("../../../../src/app/utils/server/supabase/server", () => ({
+	createClientSSROnly: jest.fn(),
+}));
 
 jest.mock("next/server", () => ({
 	NextResponse: {
@@ -64,7 +61,7 @@ describe("GET /api/vehicles", () => {
 	const mockVehicles: Vehicle[] = [
 		{
 			type: "gas",
-			userid: 1,
+			userid: "1",
 			id: 1,
 			vehiclesOrder: 1,
 			vehicleData: {
@@ -108,8 +105,6 @@ describe("GET /api/vehicles", () => {
 				monthlyLoanPayment: 300.0,
 				monthlyWarrantyCost: 30.0,
 				inspectionCost: 100.0,
-				// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
-				yearlyParkingCost: null,
 				otherYearlyCosts: 300.0,
 			},
 			yearlyMaintenanceCosts: {
@@ -119,7 +114,6 @@ describe("GET /api/vehicles", () => {
 				batteries: 300.0,
 				brakes: 100.0,
 				other: 100.0,
-				depreciation: 800.0,
 			},
 			variableCosts: {
 				vehicleID: 1,
@@ -129,7 +123,6 @@ describe("GET /api/vehicles", () => {
 				monthlyMiscellaneousCosts: 50.0,
 				monthlyCostDeductions: 80.0,
 			},
-			electricVehicleData: null,
 		},
 	];
 
@@ -270,7 +263,7 @@ describe("POST /api/vehicles", () => {
 	const mockVehicles: Vehicle_For_db_POST[] = [
 		{
 			type: "gas",
-			userid: 1,
+			userid: "1",
 			vehiclesOrder: 1,
 			vehicleData: {
 				vehicleName: "Tesla Model 3",
@@ -308,8 +301,6 @@ describe("POST /api/vehicles", () => {
 				monthlyLoanPayment: 300.0,
 				monthlyWarrantyCost: 30.0,
 				inspectionCost: 100.0,
-				// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
-				yearlyParkingCost: null,
 				otherYearlyCosts: 300.0,
 			},
 			yearlyMaintenanceCosts: {
@@ -318,7 +309,6 @@ describe("POST /api/vehicles", () => {
 				batteries: 300.0,
 				brakes: 100.0,
 				other: 100.0,
-				depreciation: 800.0,
 			},
 			variableCosts: {
 				monthlyParkingCosts: 100.0,
@@ -327,7 +317,6 @@ describe("POST /api/vehicles", () => {
 				monthlyMiscellaneousCosts: 50.0,
 				monthlyCostDeductions: 80.0,
 			},
-			electricVehicleData: null,
 		},
 	];
 
@@ -374,9 +363,9 @@ describe("POST /api/vehicles", () => {
 		const completeMockVehicle = mockVehicles[0];
 		// no type declaration for this because it doesn't fit the type on purpose
 		const mockInsertVehicleWithoutAllFields = {
-			userid: 1,
+			userid: "1",
 			type: "gas",
-			electricVehicleData: completeMockVehicle.electricVehicleData,
+			// @ts-expect-error - intentionally missing required fields
 			gasVehicleData: completeMockVehicle.gasVehicleData,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
 			usage: completeMockVehicle.usage,
@@ -414,16 +403,14 @@ describe("POST /api/vehicles", () => {
 	it("Should insert fine if electricVehicleData is null  but gasVehicleData isn't", async () => {
 		const completeMockVehicle = mockVehicles[0];
 		const vehicleWithNullElectricVehicleData: Vehicle_For_db_POST = {
-			userid: 1,
+			userid: "1",
 			type: "electric",
 			vehiclesOrder: 1,
 			vehicleData: completeMockVehicle.vehicleData,
 			electricVehicleData: {
 				costPerCharge: 15,
 				milesPerCharge: 200,
-				electricRangeMiles: 200,
 			},
-			gasVehicleData: null,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
 			usage: completeMockVehicle.usage,
 			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
@@ -461,16 +448,14 @@ describe("POST /api/vehicles", () => {
 	it("Should insert fine if gasVehicleData is null  but electricVehicleData isn't", async () => {
 		const completeMockVehicle = mockVehicles[0];
 		const vehicleWithNullGasVehicleData: Vehicle_For_db_POST = {
-			userid: 1,
+			userid: "1",
 			type: "electric",
 			vehiclesOrder: 1,
 			vehicleData: completeMockVehicle.vehicleData,
 			electricVehicleData: {
 				costPerCharge: 15,
 				milesPerCharge: 200,
-				electricRangeMiles: 200,
 			},
-			gasVehicleData: null,
 			purchaseAndSales: completeMockVehicle.purchaseAndSales,
 			usage: completeMockVehicle.usage,
 			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
@@ -510,7 +495,7 @@ describe("POST /api/vehicles", () => {
 		const completeMockVehicle = mockVehicles[0];
 		// No type label here beacuse this is deformed
 		const vehicleWithNullGasVehicleData = {
-			userid: 1,
+			userid: "1",
 			type: "gas",
 			vehiclesOrder: 1,
 			vehicleData: { ...completeMockVehicle.vehicleData },
@@ -535,11 +520,6 @@ describe("POST /api/vehicles", () => {
 		};
 		(createClientSSROnly as jest.Mock).mockReturnValue(supabase);
 
-		console.log(
-			"vehicleWithNullGasVehicleData:",
-			vehicleWithNullGasVehicleData
-		);
-
 		const request = {
 			json: jest.fn().mockResolvedValue(vehicleWithNullGasVehicleData),
 			body: vehicleWithNullGasVehicleData,
@@ -547,8 +527,6 @@ describe("POST /api/vehicles", () => {
 		} as unknown as NextRequest;
 
 		const response = await POST(request);
-
-		console.log("response in TEST:", response);
 
 		const responseData = await response.json();
 
@@ -561,7 +539,7 @@ describe("DELETE /api/vehicles", () => {
 	const mockVehicles: Vehicles = [
 		{
 			type: "gas",
-			userid: 1,
+			userid: "1",
 			id: 1,
 			vehiclesOrder: 1,
 			vehicleData: {
@@ -599,8 +577,6 @@ describe("DELETE /api/vehicles", () => {
 			},
 			fixedCosts: {
 				vehicleID: 1,
-				// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
-				yearlyParkingCost: null,
 				yearlyInsuranceCost: 1000.0,
 				yearlyRegistrationCost: 100.0,
 				yearlyTaxes: 100.0,
@@ -616,7 +592,6 @@ describe("DELETE /api/vehicles", () => {
 				batteries: 300.0,
 				brakes: 100.0,
 				other: 100.0,
-				depreciation: 800.0,
 			},
 			variableCosts: {
 				vehicleID: 1,
@@ -626,7 +601,6 @@ describe("DELETE /api/vehicles", () => {
 				monthlyMiscellaneousCosts: 50.0,
 				monthlyCostDeductions: 80.0,
 			},
-			electricVehicleData: null,
 		},
 	];
 
@@ -732,7 +706,7 @@ describe("PATCH api/vehicles", () => {
 
 	const mockVehicle: Vehicle = {
 		type: "gas",
-		userid: 1,
+		userid: "1",
 		id: 1,
 		vehiclesOrder: 1,
 		vehicleData: {
@@ -777,8 +751,6 @@ describe("PATCH api/vehicles", () => {
 			monthlyWarrantyCost: 30.0,
 			inspectionCost: 100.0,
 			otherYearlyCosts: 300.0,
-			// Deprecated, there's a todo item to delete yearlyParkingCost since it's duplicated elsewhere
-			yearlyParkingCost: null,
 		},
 		yearlyMaintenanceCosts: {
 			vehicleID: 1,
@@ -787,7 +759,6 @@ describe("PATCH api/vehicles", () => {
 			batteries: 300.0,
 			brakes: 100.0,
 			other: 100.0,
-			depreciation: 800.0,
 		},
 		variableCosts: {
 			vehicleID: 1,
@@ -797,12 +768,11 @@ describe("PATCH api/vehicles", () => {
 			monthlyMiscellaneousCosts: 50.0,
 			monthlyCostDeductions: 80.0,
 		},
-		electricVehicleData: null,
 	};
 
 	const partialMockVehicle: Partial<Vehicle> = {
 		type: "gas",
-		userid: 1,
+		userid: "1",
 		id: 1,
 		vehiclesOrder: 1,
 		vehicleData: {
