@@ -79,7 +79,6 @@ CREATE TABLE "purchaseAndSales" (
     CONSTRAINT fk_vehicle FOREIGN KEY ("vehicleID") REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
--- TODO: Total miles per year
 CREATE TABLE usage (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,

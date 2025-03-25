@@ -32,7 +32,6 @@ import {
 	YearlyMaintenanceCostsSchema,
 } from "../../../../zod/schemas/VehicleSubSchemas";
 
-// TODO: Make this only one field deep; right now the type definitions say every field in every object is readonly which isn't very reader-friendly
 /**Used to make all the sub-objects in a Vehicle readonly
  *
  * Just Readonly<Vehicle> would leave the sub-objects still mutable
@@ -152,8 +151,8 @@ export const refineZodVehicleValidation = (vehicleData) => {
 	return { isVehicleValid, error };
 };
 
-// For testing and verification, TODO delete later
-// Leaving this object has come in handy because it tells me when there's some type mismatch
+// For testing and verification
+// Leaving this object in the file has come in handy because it tells me when there's some type mismatch
 export const bob: Vehicle = {
 	type: "gas",
 	gasVehicleData: {
