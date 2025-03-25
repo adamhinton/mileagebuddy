@@ -21,7 +21,6 @@ CREATE TABLE vehicles (
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,
-    -- TODO: This may not associate correctly with userid
     CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES auth.users(id) ON DELETE CASCADE
 );
 
@@ -80,7 +79,6 @@ CREATE TABLE "purchaseAndSales" (
     CONSTRAINT fk_vehicle FOREIGN KEY ("vehicleID") REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
--- TODO: Total miles per year
 CREATE TABLE usage (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,

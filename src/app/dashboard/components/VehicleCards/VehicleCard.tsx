@@ -4,8 +4,6 @@
 // This is a component that displays a vehicle card with its calculated costs
 // Also contains edit and delete buttons
 // In the dashboard it's wrapped in a SortableVehicleCard component that makes it drag n'droppable
-// TODO Drag and drop isn't working
-// TODO tests
 // ____________________________________________________________________________
 
 import Button from "@/app/components/Button";
@@ -26,25 +24,27 @@ type VehicleCardProps = {
 };
 
 const VehicleCard = (props: VehicleCardProps) => {
-	const { vehicle, vehicleCost, onDelete, dragHandleProps } = props;
+	const { vehicle, vehicleCost, onEdit, onDelete, dragHandleProps } = props;
 
 	const costPerMile = vehicleCost?.costPerAverageDailyMile ?? 0;
 	const costPerExtraMile = vehicleCost?.costPerExtraMile ?? 0;
 	const vehicleType = vehicle.type;
 
-	// Handlers for the edit button
 	const handleEditClick = () => {
-		// TODO send user to edit vehicle page; the edit form is written, just haven't figured out where to put it yet
-		console.log("Edit vehicle clicked");
+		// Use the onEdit prop passed from parent
+		onEdit();
 	};
 
 	return (
 		<article className="bg-background-elevated rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg border border-primary-50">
-			{/* Drag handle */}
+			{/* Drag handle  */}
 			<header
-				className="bg-background-header p-2 cursor-move flex items-center justify-center"
-				{...dragHandleProps}
+				className="bg-background-header p-2 cursor-move flex items-center justify-center touch-manipulation"
+				{...dragHandleProps.attributes}
+				{...dragHandleProps.listeners}
 				aria-label="Drag to reorder"
+				role="button"
+				tabIndex={0}
 			>
 				<svg
 					className="w-6 h-6 text-primary-100"
@@ -171,7 +171,7 @@ const VehicleCard = (props: VehicleCardProps) => {
 						}}
 					/>
 
-					{/* TODO button to show further cost breakdown */}
+					{/* TODO STRETCH: button to show further cost breakdown */}
 				</footer>
 
 				{/* We can remove these dialogs as they're now handled by the Button component */}

@@ -2,20 +2,53 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import Button from "@/app/components/Button";
 
+const mockOnClick = jest.fn();
+
+const testConfirmationDialogOptions = {
+	title: "Test Confirmation",
+	message: "Are you sure?",
+	confirmButtonText: "Yes",
+	cancelButtonText: "No",
+};
+
 describe("Button.tsx", () => {
 	describe("Basic rendering tests", () => {
-		it("renders without errors", () => {
-			const mockOnClick = jest.fn();
-			render(<Button text="Test Button" onClick={mockOnClick} />);
+		it("renders without errors when confirmation isn't required", () => {
+			render(
+				<Button
+					text="Test Button"
+					onClick={mockOnClick}
+					isConfirmationRequired={false}
+				/>
+			);
+
+			const button = screen.getByRole("button", { name: /test button/i });
+			expect(button).toBeInTheDocument();
+		});
+
+		it("renders without errors when confirmation is required", () => {
+			render(
+				<Button
+					text="Test Button"
+					onClick={mockOnClick}
+					isConfirmationRequired={true}
+					confirmationDialogOptions={testConfirmationDialogOptions}
+				/>
+			);
 
 			const button = screen.getByRole("button", { name: /test button/i });
 			expect(button).toBeInTheDocument();
 		});
 
 		it("displays the provided text", () => {
-			const mockOnClick = jest.fn();
 			const buttonText = "Click Me";
-			render(<Button text={buttonText} onClick={mockOnClick} />);
+			render(
+				<Button
+					text={buttonText}
+					onClick={mockOnClick}
+					isConfirmationRequired={false}
+				/>
+			);
 
 			const button = screen.getByRole("button", { name: /click me/i });
 			expect(button).toHaveTextContent(buttonText);
@@ -23,10 +56,14 @@ describe("Button.tsx", () => {
 	});
 
 	describe("Button variants", () => {
-		it("renders primary variant", () => {
-			const mockOnClick = jest.fn();
+		it("renders primary variant without errors", () => {
 			render(
-				<Button text="Primary Button" onClick={mockOnClick} variant="primary" />
+				<Button
+					text="Primary Button"
+					onClick={mockOnClick}
+					variant="primary"
+					isConfirmationRequired={false}
+				/>
 			);
 
 			const button = screen.getByRole("button", { name: /primary button/i });
@@ -34,10 +71,14 @@ describe("Button.tsx", () => {
 			expect(button).toHaveClass("text-white");
 		});
 
-		it("renders danger variant", () => {
-			const mockOnClick = jest.fn();
+		it("renders danger variant without errors", () => {
 			render(
-				<Button text="Danger Button" onClick={mockOnClick} variant="danger" />
+				<Button
+					text="Danger Button"
+					onClick={mockOnClick}
+					variant="danger"
+					isConfirmationRequired={false}
+				/>
 			);
 
 			const button = screen.getByRole("button", { name: /danger button/i });
@@ -45,13 +86,13 @@ describe("Button.tsx", () => {
 			expect(button).toHaveClass("text-white");
 		});
 
-		it("renders secondary variant", () => {
-			const mockOnClick = jest.fn();
+		it("renders secondary variant without errors", () => {
 			render(
 				<Button
 					text="Secondary Button"
 					onClick={mockOnClick}
 					variant="secondary"
+					isConfirmationRequired={false}
 				/>
 			);
 
@@ -64,8 +105,13 @@ describe("Button.tsx", () => {
 
 	describe("Button functionality", () => {
 		it("calls onClick handler when clicked", () => {
-			const mockOnClick = jest.fn();
-			render(<Button text="Click Me" onClick={mockOnClick} />);
+			render(
+				<Button
+					text="Click Me"
+					onClick={mockOnClick}
+					isConfirmationRequired={false}
+				/>
+			);
 
 			const button = screen.getByRole("button", {
 				name: /click me/i,
@@ -76,12 +122,12 @@ describe("Button.tsx", () => {
 		});
 
 		it("is disabled when isDisabled prop is true", () => {
-			const mockOnClick = jest.fn();
 			render(
 				<Button
 					text="Disabled Button"
 					onClick={mockOnClick}
 					isDisabled={true}
+					isConfirmationRequired={false}
 				/>
 			);
 
@@ -96,13 +142,13 @@ describe("Button.tsx", () => {
 		});
 
 		it("applies custom className when provided", () => {
-			const mockOnClick = jest.fn();
 			const customClass = "test-custom-class";
 			render(
 				<Button
 					text="Custom Class"
 					onClick={mockOnClick}
 					className={customClass}
+					isConfirmationRequired={false}
 				/>
 			);
 
@@ -113,9 +159,13 @@ describe("Button.tsx", () => {
 		});
 
 		it("uses provided type attribute", () => {
-			const mockOnClick = jest.fn();
 			render(
-				<Button text="Submit Button" onClick={mockOnClick} type="submit" />
+				<Button
+					text="Submit Button"
+					onClick={mockOnClick}
+					type="submit"
+					isConfirmationRequired={false}
+				/>
 			);
 
 			const button = screen.getByRole("button", {
@@ -125,14 +175,13 @@ describe("Button.tsx", () => {
 		});
 
 		it("uses provided aria-label or falls back to text", () => {
-			const mockOnClick = jest.fn();
-
 			// With custom aria-label
 			render(
 				<Button
 					text="Button Text"
 					onClick={mockOnClick}
 					ariaLabel="Custom Aria Label"
+					isConfirmationRequired={false}
 				/>
 			);
 			const buttonWithAriaLabel = screen.getByRole("button", {
@@ -144,7 +193,13 @@ describe("Button.tsx", () => {
 			);
 
 			// Fallback to text when no aria-label provided
-			render(<Button text="Fallback Text" onClick={mockOnClick} />);
+			render(
+				<Button
+					text="Fallback Text"
+					onClick={mockOnClick}
+					isConfirmationRequired={false}
+				/>
+			);
 			const buttonWithoutAriaLabel = screen.getByRole("button", {
 				name: /fallback text/i,
 			});
@@ -158,7 +213,6 @@ describe("Button.tsx", () => {
 	// The actual confirmation dialog component is tested in ConfirmationDialog.test.tsx
 	describe("Confirmation dialog", () => {
 		it("shows confirmation dialog when isConfirmationRequired is true", () => {
-			const mockOnClick = jest.fn();
 			render(
 				<Button
 					text="Delete Item"
@@ -185,7 +239,6 @@ describe("Button.tsx", () => {
 		});
 
 		it("does not show confirmation dialog when isConfirmationRequired is false", () => {
-			const mockOnClick = jest.fn();
 			render(
 				<Button
 					text="Save Item"
@@ -199,11 +252,11 @@ describe("Button.tsx", () => {
 
 			expect(mockOnClick).toHaveBeenCalledTimes(1);
 
+			// "Confirm Action" is the default text for the confirmation dialog title
 			expect(screen.queryByText("Confirm Action")).not.toBeInTheDocument();
 		});
 
 		it("calls onClick handler after confirming in dialog", () => {
-			const mockOnClick = jest.fn();
 			render(
 				<Button
 					text="Delete Item"
@@ -224,13 +277,15 @@ describe("Button.tsx", () => {
 			const confirmButton = screen.getByRole("button", {
 				name: /yes, delete/i,
 			});
+
+			expect(mockOnClick).not.toHaveBeenCalled();
+
 			fireEvent.click(confirmButton);
 
 			expect(mockOnClick).toHaveBeenCalledTimes(1);
 		});
 
 		it("does not call onClick handler when canceling in dialog", () => {
-			const mockOnClick = jest.fn();
 			render(
 				<Button
 					text="Delete Item"
@@ -257,7 +312,6 @@ describe("Button.tsx", () => {
 		});
 
 		it("shows custom dialog text when confirmationDialogOptions are provided", () => {
-			const mockOnClick = jest.fn();
 			const customTitle = "Custom Dialog Title";
 			const customMessage = "This is a custom confirmation message";
 			const customConfirmText = "Proceed";

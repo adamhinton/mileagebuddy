@@ -25,7 +25,7 @@ import {
 
 export type CarCostCalculationResults = {
 	// Breakdown of cost per mile? In gas, maintenance etc.
-	// That's a stretch goal maybe (TODO)
+	// That's a stretch goal maybe (TODO Stretch)
 	costPerAverageDailyMile: number;
 	costPerExtraMile: number;
 	// Not sure this is needed

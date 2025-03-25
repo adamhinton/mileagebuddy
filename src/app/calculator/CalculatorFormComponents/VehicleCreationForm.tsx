@@ -116,7 +116,6 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 	const [isShowErrorSummary, setisShowErrorSummary] = useState(false);
 	const errorSummaryRef = useRef<HTMLDivElement>(null);
 
-	// TODO validate local storage values before using them
 	const savedLocalStorageValues = getSavedFormValuesFromLocalStorage();
 
 	const [hasResetFormValues, setHasResetFormValues] = useState(false);
@@ -132,8 +131,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 				? hasResetFormValues
 					? defaultVehicleValuesPATCH(userId, vehicleToEdit!)
 					: vehicleToEdit!
-				: // TODO localStorage items not populating on page load. Or more specifically, I think they're getting overwritten by the default values
-					savedLocalStorageValues || defaultVehicleValuesPOST(userId),
+				: savedLocalStorageValues || defaultVehicleValuesPOST(userId),
 	});
 
 	const {
@@ -256,7 +254,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 	return (
 		<form
 			onSubmit={handleSubmit((formData) => {
-				formSubmitLogic(formData, dispatch);
+				formSubmitLogic(formData, dispatch, clearAllFormValues);
 			})}
 			className={styles.FORM_CONTAINER}
 		>

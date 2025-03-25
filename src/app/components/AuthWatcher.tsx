@@ -29,9 +29,17 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 		/**Get user's vehicles from DB and set them to redux state */
 		const fetchAndSetVehicles = async (userId: string) => {
 			try {
+				console.log("userId:", userId);
+
 				// These vehicles are Zod-Validated by this function
 				const vehicles = await getVehiclesByUserIDClient(userId);
-				dispatch(setVehicles(vehicles));
+
+				// sort by vehiclesOrder, starting at 1
+				const vehiclesInOrder = vehicles.sort(
+					(a, b) => a.vehiclesOrder - b.vehiclesOrder
+				);
+
+				dispatch(setVehicles(vehiclesInOrder));
 			} catch (error) {
 				console.error("Error fetching vehicles on sign in:", error);
 			}

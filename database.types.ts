@@ -450,7 +450,7 @@ export type Database = {
     Functions: {
       insert_vehicle: {
         Args: {
-          _userid: number
+          _userid: string
           _type: string
           _vehiclesorder: number
           _vehicledata: Json
@@ -468,6 +468,13 @@ export type Database = {
         Args: {
           _vehicleid: number
           _partialdata: Json
+        }
+        Returns: undefined
+      }
+      update_vehicles_order: {
+        Args: {
+          _userid: string
+          _vehicle_orders: Json
         }
         Returns: undefined
       }

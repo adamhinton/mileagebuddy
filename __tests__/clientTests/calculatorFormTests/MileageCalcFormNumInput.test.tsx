@@ -172,7 +172,6 @@ describe("Number Input Specific", () => {
 	});
 
 	// Increments by 1 for all other fields besides gas/charging cost
-	// TODO just realized there's a step option for zod numbers; add that to the schemas
 	it('uses step="1" for other number fields', () => {
 		render(
 			<MileageInputNumTestWrapper

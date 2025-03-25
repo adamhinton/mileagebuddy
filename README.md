@@ -198,6 +198,11 @@ DELETE api/vehicles
 -Takes in a vehicle id and deletes that vehicle
 -Returns the deleted Vehicle object
 
+api/vehicles/order route:
+-Has a single endpoint, PATCH
+-Is called when a user changes the order of their vehicles using the Dashboard/Sidebar's DnD functionality
+-Will re-order the user's Vehicles in the DB
+
 MIGRATIONS:
 -To run migrations, cd in to root of project
 To create new migration:

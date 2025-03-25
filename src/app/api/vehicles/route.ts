@@ -9,7 +9,7 @@ const {
 	getSingleVehicleById,
 	getVehiclesByUser,
 	checkIfVehicleExistsInDB,
-	deleteDBVehicleByID,
+	deleteDBVehicle,
 	updateVehicleInDB,
 } = VehiclesDBUtils;
 
@@ -43,7 +43,6 @@ export async function GET(request: Request) {
 			 * Will be an array with one vehicle if vehicle exists in db, or empty array if vehicle isn't in db
 			 */
 			const arrayWithSingleVehicle = await getSingleVehicleById(
-				supabase,
 				Number(vehicleID)
 			);
 
@@ -91,21 +90,8 @@ export async function DELETE(
 	request: Request
 ): Promise<NextResponse<Vehicle | { error: string }>> {
 	const supabase = await createClientSSROnly();
-
 	const url = new URL(request.url!);
 	const vehicleID = url.searchParams.get("vehicleid");
-
-	const isVehicleExistsInDB = await checkIfVehicleExistsInDB(
-		Number(vehicleID!),
-		supabase
-	);
-
-	if (!isVehicleExistsInDB) {
-		return NextResponse.json(
-			{ error: `Vehicle with id ${vehicleID} not found` },
-			{ status: 404 }
-		);
-	}
 
 	if (!vehicleID) {
 		return NextResponse.json(
@@ -117,8 +103,17 @@ export async function DELETE(
 		);
 	}
 
-	const response: NextResponse<Vehicle | { error: string }> =
-		await deleteDBVehicleByID(Number(vehicleID), supabase);
+	const vehicleArray = await getSingleVehicleById(Number(vehicleID));
+	if (vehicleArray.length === 0) {
+		return NextResponse.json(
+			{ error: `Vehicle with id ${vehicleID} not found` },
+			{ status: 404 }
+		);
+	}
+
+	const vehicle = vehicleArray[0]!;
+
+	const response = await deleteDBVehicle(vehicle, supabase);
 
 	return response;
 }
@@ -183,10 +178,7 @@ export async function PATCH(
 		});
 	}
 
-	const isVehicleExistsInDB = await checkIfVehicleExistsInDB(
-		Number(vehicleID),
-		supabase
-	);
+	const isVehicleExistsInDB = await checkIfVehicleExistsInDB(Number(vehicleID));
 	if (!isVehicleExistsInDB) {
 		return NextResponse.json({
 			error: `Vehicle with id ${vehicleID} not found`,

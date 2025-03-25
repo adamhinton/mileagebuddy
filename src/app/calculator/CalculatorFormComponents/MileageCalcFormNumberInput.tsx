@@ -2,12 +2,9 @@
 // This is the basic number input for the form used in the car mileage cost calculator
 // Most of the inputs in that form will be numbers, and all of those numbers (so far) are compatible with this component
 // So I hope this thing works because I'll be using it a lot.
-// TODO write tests for this once it's finalized
 // This has a <label> too, but MileageCalcFormNumInputAndLabel was an annoyingly long name
 // Confused about the subschema being passed in? See the jsdoc for subSchema param
 // Note, this is closely related to MileageCalcFormTextInput.tsx, which is just different enough to warrant its own component
-
-// TODO: Fix num input leading zeroes
 
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { z } from "zod";

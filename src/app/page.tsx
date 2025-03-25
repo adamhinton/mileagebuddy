@@ -20,65 +20,6 @@ import { useAppSelector } from "@/redux/hooks";
 // TODO: Add this to app
 //supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd/settings/api?showConnect=true
 
-// const mockVehicle: Vehicle_For_db_POST = {
-// 	type: "gas",
-// 	userid: 1,
-// 	vehiclesOrder: 1,
-// 	vehicleData: {
-// 		vehicleName: "Tesla Model 3",
-// 		year: 2020,
-// 		make: "Tesla",
-// 		model: "Model 3",
-// 		trim: "Base",
-// 		highwayMPG: 35.5,
-// 	},
-// 	gasVehicleData: {
-// 		gasCostPerGallon: 3.5,
-// 		milesPerGallonHighway: 35.5,
-// 		milesPerGallonCity: 35.5,
-// 	},
-// 	purchaseAndSales: {
-// 		yearPurchased: 2020,
-// 		purchasePrice: 22000.0,
-// 		downPaymentAmount: 2000.0,
-// 		willSellCarAfterYears: 5,
-// 		milesBoughtAt: 70000,
-// 		willSellCarAtMiles: 80000,
-// 		willSellCarAtPrice: 12000.0,
-// 	},
-// 	usage: {
-// 		averageDailyMiles: 100,
-// 		weeksPerYear: 52,
-// 		percentHighway: 0.5,
-// 		extraDistanceMiles: 0,
-// 		extraDistancePercentHighway: 4,
-// 	},
-// 	fixedCosts: {
-// 		yearlyInsuranceCost: 1000.0,
-// 		yearlyRegistrationCost: 100.0,
-// 		yearlyTaxes: 100.0,
-// 		monthlyLoanPayment: 300.0,
-// 		monthlyWarrantyCost: 30.0,
-// 		inspectionCost: 100.0,
-// 		otherYearlyCosts: 300.0,
-// 	},
-// 	yearlyMaintenanceCosts: {
-// 		oilChanges: 100.0,
-// 		tires: 200.0,
-// 		batteries: 300.0,
-// 		brakes: 100.0,
-// 		other: 100.0,
-// 	},
-// 	variableCosts: {
-// 		monthlyParkingCosts: 100.0,
-// 		monthlyTolls: 50.0,
-// 		monthlyCarWashCost: 20.0,
-// 		monthlyMiscellaneousCosts: 50.0,
-// 		monthlyCostDeductions: 80.0,
-// 	},
-// 	electricVehicleData: null,
-// };
-
 export default function Page() {
 	const loggedInUser = useAppSelector((state) => state.user.value);
 
@@ -101,7 +42,7 @@ export default function Page() {
 						type: "gas",
 						id: 3,
 						userid: loggedInUser.id,
-						vehiclesOrder: 20,
+						vehiclesOrder: 1,
 						vehicleData: {
 							vehicleID: 1,
 							vehicleName: "Hooba Stank",
@@ -273,23 +214,6 @@ export default function Page() {
 						electricVehicleData: null,
 					};
 
-					// const vehicleWithNullGasVehicleData = {
-					// 	userid: 1,
-					// 	type: "gas",
-					// 	vehiclesOrder: 1,
-					// 	vehicleData: { ...completeMockVehicle.vehicleData },
-					// 	electricVehicleData: null,
-					// 	gasVehicleData: null,
-					// 	purchaseAndSales: { ...completeMockVehicle.purchaseAndSales },
-					// 	usage: { ...completeMockVehicle.usage },
-					// 	yearlyMaintenanceCosts: {
-					// 		...completeMockVehicle.yearlyMaintenanceCosts,
-					// 	},
-					// 	variableCosts: { ...completeMockVehicle.variableCosts },
-					// 	fixedCosts: { ...completeMockVehicle.fixedCosts },
-					// };
-
-					// checkZodClient(mockVehicle);
 					const data = await insertVehicleClient(completeMockVehicle);
 					console.log("data from POST vehicles:", data);
 				}}
@@ -320,48 +244,6 @@ export default function Page() {
 				}}
 			>
 				Get Vehicles
-			</button>
-			{/* TODO: User dbinteractions file */}
-			<button
-				// Deprecated. TODO transition to auth
-				onClick={async () => {
-					const res = await fetch("/api/user?id=1", {
-						method: "DELETE",
-					});
-					const data = await res.json();
-					console.log("data from delete:", data);
-				}}
-			>
-				Delete User
-			</button>
-
-			<button
-				onClick={() => {
-					// Deprecated. TODO transition to auth
-					fetch("/api/user?id=3", {
-						method: "PUT",
-						body: JSON.stringify({
-							email: "random_email" + Math.random() + "@gmail.com",
-							isDarkMode: Math.random() < 0.5,
-						}),
-					})
-						.then((res) => {
-							if (!res.ok) {
-								throw new Error(
-									`HTTP error! Status: ${(res.status, res.statusText)}`
-								);
-							}
-							return res.json();
-						})
-						.then((data) => {
-							console.log("Response data:", data);
-						})
-						.catch((error) => {
-							console.error("Error during PUT request:", error);
-						});
-				}}
-			>
-				Update User
 			</button>
 
 			<button
@@ -396,40 +278,6 @@ export default function Page() {
 				}}
 			>
 				Get User
-			</button>
-
-			<button
-				onClick={async () => {
-					// Deprecated. TODO transition to auth
-					fetch("/api/user", {
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({
-							email: "random_email" + Math.random() + "@gmail.com",
-							isDarkMode: Math.random() < 0.5,
-						}),
-					})
-						.then((res) => {
-							if (!res.ok) {
-								console.log("!res.ok:", !res.ok);
-								console.log("POST res:", res);
-								throw new Error(
-									`HTTP error! Status: ${(res.status, res.statusText)}`
-								);
-							}
-							return res.json();
-						})
-						.then((data) => {
-							console.log("POST Response data:", data);
-						})
-						.catch((error) => {
-							console.error("Error during POST request:", error);
-						});
-				}}
-			>
-				Create User
 			</button>
 
 			<header className="bg-blue-600 w-full py-4 text-white text-center">

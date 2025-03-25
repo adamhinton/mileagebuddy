@@ -20,7 +20,8 @@ import { RootState } from "@/redux/store";
 // Will either edit ane xisting Vehicle in the DB or create a new one, depending on mode
 const formSubmitLogic = async (
 	formData: VehiclePATCHorPOST,
-	dispatch: ThunkDispatch<RootState, unknown, Action>
+	dispatch: ThunkDispatch<RootState, unknown, Action>,
+	clearAllFormValues: () => void
 ) => {
 	console.log("Submitting");
 
@@ -33,6 +34,8 @@ const formSubmitLogic = async (
 
 			// Set to redux state
 			dispatch(editVehicleById({ vehicle: updatedVehicle }));
+
+			clearAllFormValues();
 		} catch (error) {
 			console.error("Error updating vehicle:", error);
 		}
@@ -41,14 +44,14 @@ const formSubmitLogic = async (
 	// type is Vehicle_For_db_POST
 	// Doesn't have an id because it hasn't been assigned one in the db yet
 	else if (!("id" in formData)) {
-		// TODO flesh this out
 		try {
-			console.log("new vehicle mode submitting");
 			const newVehicle = await insertVehicleClient(formData);
 			console.log("newVehicle:", newVehicle);
 
 			// Set to redux state
 			dispatch(addVehicle(newVehicle));
+
+			clearAllFormValues();
 		} catch (error) {
 			console.error("Error inserting vehicle:", error);
 		}
@@ -59,10 +62,6 @@ const formSubmitLogic = async (
 			"Invalid mode passed to form submit. How did you even do that?"
 		);
 	}
-
-	// Note to self: When you write the code to send the form data to the server, make sure to call clearAllFormValues() AFTER the server responds with a success
-	// Commenting this out for now because it's annoying to have to re-enter all the form data every time I want to test the form submission
-	// clearAllFormValues();
 };
 
 export default formSubmitLogic;

@@ -14,7 +14,6 @@ export default function ReduxStoreProvider({
 	children: React.ReactNode;
 }) {
 	// Redux docs don't include the `undefined` bit, but I got an error saying it expected 1 argument but got 0.
-	// TODO: Check this out. Maybe fix it once we have our initial store type set up.
 	const storeRef = useRef<AppStore | undefined>(undefined);
 	if (!storeRef.current) {
 		// Create the store instance the first time this renders

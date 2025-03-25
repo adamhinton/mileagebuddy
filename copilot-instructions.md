@@ -10,6 +10,10 @@ Code:
 -Booleans should start with `is` or similar
 -DRY; I would much prefer to abstract big code blocks out to smaller functions
 -I care more about readability and maintainability than hyper-optimization
+-I like to start all or most files with a sort of readme, like:
+// ******\*\*\*\*******\_******\*\*\*\*******
+// Explanation of file
+// ******\*\*\*\*******\_******\*\*\*\*******
 
 Testing:
 -Generally, each unit test should start with a `runs without crashing`

@@ -11,8 +11,6 @@
 
 import Dashboard from "./components/Dashboard";
 
-// TODO use the pre-existing Button component here instead of making our own
-
 const DashboardPage = () => {
 	return <Dashboard />;
 };

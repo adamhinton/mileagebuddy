@@ -7,6 +7,7 @@
 -- Note that vehicles are complicated objects, so there are eight different tables containing vehicle data
 -- This function only returns the new vehicle's id, then the POST fetches that vehicle and returns the full vehicle data
 -- That isn't totally efficient, but it does separate concerns. If this project gets a lot of traffic, it'll be easy to streamline later.
+-- vehiclesOrder: This also increments the order of all other vehicles for the user, so that the new vehicle is always first in the lists
 
 CREATE OR REPLACE FUNCTION insert_vehicle(
         _userID UUID,
@@ -26,8 +27,14 @@ DECLARE
     new_vehicle_id INTEGER;
 BEGIN
     BEGIN
+        -- Increment vehiclesOrder for all existing vehicles of the user
+        UPDATE vehicles
+        SET "vehiclesOrder" = "vehiclesOrder" + 1
+        WHERE "userid" = _userID;
+
+        -- Insert the new vehicle with order 1
         INSERT INTO vehicles("userid", "type", "vehiclesOrder")
-        VALUES (_userID, _type, _vehiclesOrder)
+        VALUES (_userID, _type, 1)
         RETURNING id INTO new_vehicle_id;
 
         INSERT INTO "vehicleData" ("vehicleID", "vehicleName", "year", "make", "model", "trim", "highwayMPG")

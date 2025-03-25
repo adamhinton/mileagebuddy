@@ -114,7 +114,6 @@ export type Electric_Vehicle_For_DB_POST = z.infer<
 // Vehicle schema for POST requests
 // NOTE: Since VehicleSchema is a union type, I can't just do VehicleSchema.omit
 // So I have to do this sort of clunky solution, which is to make a union of the two types without ids
-// TODO: Try to find a better way than this
 export const VehicleToBePostedSchema = z
 	.discriminatedUnion("type", [
 		GasVehicleSchemaForPOST,

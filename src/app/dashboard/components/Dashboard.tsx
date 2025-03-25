@@ -6,7 +6,10 @@
 // If user has no vehicles, it displays EmptyDashboardState.tsx
 // _____________________________________________
 
-import { deleteVehicleByIDClient } from "@/app/utils/server/client/DBInteractions/VehiclesDBInteractions";
+import {
+	deleteVehicleByIDClient,
+	updateVehicleOrdersClient,
+} from "@/app/utils/server/client/DBInteractions/VehiclesDBInteractions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
 	removeVehicleById,
@@ -17,9 +20,10 @@ import {
 	DndContext,
 	DragEndEvent,
 	KeyboardSensor,
-	PointerSensor,
 	useSensor,
 	useSensors,
+	MouseSensor,
+	TouchSensor,
 } from "@dnd-kit/core";
 import {
 	arrayMove,
@@ -45,6 +49,7 @@ type AllCarCosts = {
 
 const Dashboard = () => {
 	const vehicles = useAppSelector((state) => state.vehicles);
+	const loggedInUser = useAppSelector((state) => state.user.value);
 	/**Tracks the calculated costs per mile of each vehicle */
 	const [vehicleCosts, setVehicleCosts] = useState<AllCarCosts>({});
 
@@ -82,8 +87,20 @@ const Dashboard = () => {
 		calculateCosts();
 	}, [vehicles]);
 
+	// Configure more precise sensors for better drag detection
 	const sensors = useSensors(
-		useSensor(PointerSensor),
+		useSensor(MouseSensor, {
+			activationConstraint: {
+				distance: 5, // 5px movement before drag starts
+			},
+		}),
+		useSensor(TouchSensor, {
+			// For mobile devices
+			activationConstraint: {
+				delay: 250, // Wait for 250ms before activating on touch
+				tolerance: 5, // Allow slight movement before activating
+			},
+		}),
 		useSensor(KeyboardSensor, {
 			coordinateGetter: sortableKeyboardCoordinates,
 		})
@@ -93,7 +110,7 @@ const Dashboard = () => {
 	const handleDragEnd = (event: DragEndEvent) => {
 		const { active, over } = event;
 
-		if (over && active.id !== over.id) {
+		if (over && active.id !== over.id && loggedInUser) {
 			const oldIndex = vehicles.findIndex((v) => v.id === active.id);
 			const newIndex = vehicles.findIndex((v) => v.id === over.id);
 
@@ -103,6 +120,16 @@ const Dashboard = () => {
 
 			// Update Redux state with new order
 			dispatch(setVehicles(updatedVehicles));
+
+			// Now persist new order in db
+			const orderUpdates = updatedVehicles.map((vehicle) => ({
+				id: vehicle.id,
+				order: vehicle.vehiclesOrder,
+			}));
+
+			updateVehicleOrdersClient(loggedInUser.id, orderUpdates).catch((error) =>
+				console.error("Failed to update vehicle orders:", error)
+			);
 		}
 	};
 
@@ -112,10 +139,9 @@ const Dashboard = () => {
 		// Navigate to edit page or open modal
 	}, []);
 
+	// The component that calls this (Button.tsx) will show a confirmation dialog before calling onDeleteButtonClick
 	const onDeleteButtonClick = useCallback(
 		async (vehicleId: number, dispatch: Dispatch) => {
-			// TODO Show confirmation modal before deleting
-
 			// Remove vehicle from DB
 			const dbDeleteResults = await deleteVehicleByIDClient(vehicleId);
 			if ("error" in dbDeleteResults) {
@@ -142,6 +168,7 @@ const Dashboard = () => {
 					sensors={sensors}
 					collisionDetection={closestCenter}
 					onDragEnd={handleDragEnd}
+					autoScroll={true}
 				>
 					{/* DnD wrapper */}
 					<SortableContext

@@ -1,5 +1,6 @@
 "use client";
 
+import { UpdateVehicleOrderRequestSchema } from "@/app/api/vehicles/order/utils/typesAndSchemas";
 // README:
 // This is the Vehicle DB interactions meant to be called from the client
 // You call this from your CLIENT components and it hits the API endpoints for you
@@ -25,7 +26,7 @@ export const getVehiclesByUserIDClient = async (
 	userID: string
 ): Promise<Vehicles> => {
 	try {
-		const res = await fetch(`api/vehicles?userid=${userID}`, {
+		const res = await fetch(`/api/vehicles?userid=${userID}`, {
 			method: "GET",
 			headers: { accept: "application/json" },
 		});
@@ -100,7 +101,8 @@ export const insertVehicleClient = async (
 	vehicle: Vehicle_For_db_POST
 ): Promise<Vehicle> => {
 	// Validate vehicle (obviously)
-	// TODO: This POST vehicle validation may be redundant because the form hook in the UI will already do this
+	// This POST vehicle validation may be redundant because the form hook in the UI will already do this
+	// But, the validation is cheap and form logic could change
 	const isVehicle = VehicleToBePostedSchema.safeParse(vehicle);
 	if (!isVehicle.success) {
 		console.error(
@@ -181,7 +183,8 @@ export const updateVehicleInDBClient = async (
 	vehicle: Vehicle_For_db_PATCH
 ): Promise<Vehicle> => {
 	// Validate vehicle (obviously)
-	// TODO: This PATCH client vehicle validation may be redundant because the form hook in the UI will already do this
+	// This PATCH client vehicle validation may be redundant because the form hook in the UI will already do this
+	// But, the validation is cheap and form logic could change
 	const isVehicle = VehicleSchemaForPATCH.safeParse(vehicle);
 	if (!isVehicle.success) {
 		console.error(
@@ -215,5 +218,44 @@ export const updateVehicleInDBClient = async (
 	} catch (error) {
 		console.error("Error updating vehicle:", error);
 		throw error;
+	}
+};
+
+/** Updates the order of vehicles after drag-and-drop reordering. This should be called from client components.
+ *
+ * This is currently the only place where api/vehicles/order endpoint is needed\
+ */
+export const updateVehicleOrdersClient = async (
+	userid: string,
+	orderUpdates: Array<{ id: number; order: number }>
+): Promise<{ success: boolean } | { error: string }> => {
+	const requestBody = {
+		userid,
+		orderUpdates,
+	};
+
+	const isSafe = UpdateVehicleOrderRequestSchema.safeParse(requestBody);
+
+	// This same validation also runs on the server in api/vehicles/order
+	// But this is a good sanity check to make sure the client isn't sending garbage
+	if (!isSafe.success) {
+		console.error(
+			"Invalid request body. Make sure you're sending the right format to api/vehicles/order:",
+			isSafe.error
+		);
+		return { error: "Invalid request body." };
+	}
+
+	try {
+		const res = await fetch("/api/vehicles/order", {
+			method: "PATCH",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({ userid, orderUpdates }),
+		});
+
+		return await res.json();
+	} catch (error) {
+		console.error("Error updating vehicle orders:", error);
+		return { error: "Failed to update vehicle orders" };
 	}
 };
