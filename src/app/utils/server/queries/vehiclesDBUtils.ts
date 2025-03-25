@@ -60,7 +60,6 @@ type ArrayWithOneOrZeroVehicles = [Vehicle?];
  * Returns empty array if vehicle doesn't exist
  */
 async function getSingleVehicleById(
-	supabase: SupabaseClient,
 	vehicleId: number
 ): Promise<ArrayWithOneOrZeroVehicles> {
 	/**Vehicle data is stored in several different tables
@@ -110,11 +109,10 @@ async function getVehiclesByUser(
 }
 
 const checkIfVehicleExistsInDB = async (
-	vehicleID: number,
-	supabase: SupabaseClient
+	vehicleID: number
 ): Promise<boolean> => {
 	// Should be an array with one vehicle
-	const vehicleArray = await getSingleVehicleById(supabase, vehicleID);
+	const vehicleArray = await getSingleVehicleById(vehicleID);
 
 	return vehicleArray.length > 0;
 };
@@ -262,9 +260,8 @@ const addNewVehicleToDB = async (
 		if (error) throw error;
 
 		const newVehicleID = data;
-
 		// getSingleVehicleById returns an array with one Vehicle
-		const newVehicleArray = await getSingleVehicleById(supabase, newVehicleID!);
+		const newVehicleArray = await getSingleVehicleById(newVehicleID!);
 		const newVehicle = newVehicleArray[0];
 
 		return NextResponse.json(newVehicle!, { status: 200 });
@@ -338,10 +335,7 @@ const updateVehicleInDB = async (
 		if (error) throw error;
 
 		// An array with one vehicle
-		const fullUpdatedVehicle = await getSingleVehicleById(
-			supabase,
-			Number(vehicleID)
-		);
+		const fullUpdatedVehicle = await getSingleVehicleById(Number(vehicleID));
 
 		return NextResponse.json(fullUpdatedVehicle[0]!, { status: 200 });
 	} catch (error) {

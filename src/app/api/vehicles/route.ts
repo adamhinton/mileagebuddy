@@ -43,7 +43,6 @@ export async function GET(request: Request) {
 			 * Will be an array with one vehicle if vehicle exists in db, or empty array if vehicle isn't in db
 			 */
 			const arrayWithSingleVehicle = await getSingleVehicleById(
-				supabase,
 				Number(vehicleID)
 			);
 
@@ -104,7 +103,7 @@ export async function DELETE(
 		);
 	}
 
-	const vehicleArray = await getSingleVehicleById(supabase, Number(vehicleID));
+	const vehicleArray = await getSingleVehicleById(Number(vehicleID));
 	if (vehicleArray.length === 0) {
 		return NextResponse.json(
 			{ error: `Vehicle with id ${vehicleID} not found` },
@@ -179,10 +178,7 @@ export async function PATCH(
 		});
 	}
 
-	const isVehicleExistsInDB = await checkIfVehicleExistsInDB(
-		Number(vehicleID),
-		supabase
-	);
+	const isVehicleExistsInDB = await checkIfVehicleExistsInDB(Number(vehicleID));
 	if (!isVehicleExistsInDB) {
 		return NextResponse.json({
 			error: `Vehicle with id ${vehicleID} not found`,
