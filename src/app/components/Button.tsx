@@ -4,6 +4,8 @@
 // The confirmation dialog is optional and configurable
 // _______________________________________________________
 
+// TODO write tests for this
+
 import { ButtonHTMLAttributes, useState } from "react";
 import ConfirmationDialog from "./ConfirmationDialog";
 
@@ -70,6 +72,7 @@ const Button = ({
 	onClick,
 	text,
 	isConfirmationRequired = false,
+	// TODO not sure if this will make conf dialog show up when that's not intended
 	confirmationDialogOptions = {
 		title: "Confirm Action",
 		message: "Are you sure you want to proceed? This action cannot be undone.",
