@@ -12,7 +12,7 @@ import { NextResponse } from "next/server";
 import { Vehicle_For_db_POST } from "../types/VehicleTypes/POSTVehicleTypes";
 
 /**The string we use in our select statement to get vehicles
- * It's longso we're saving it here to stay DRY
+ * It's long so we're saving it here to stay DRY
  * It just collects vehicle info from multiple tables in to one join
  */
 export const stringForJoiningVehicleTables = `
@@ -126,7 +126,7 @@ const checkIfVehicleExistsInDB = async (
  *
  * Also decrements the vehiclesOrder of all vehicles with a higher order than the deleted vehicle
  */
-const deleteDBVehicleByID = async (
+const deleteDBVehicle = async (
 	vehicle: Vehicle,
 	supabase: SupabaseClient
 ): Promise<NextResponse<Vehicle | { error: string }>> => {
@@ -355,7 +355,7 @@ const updateVehicleInDB = async (
 
 const VehiclesDBUtils = {
 	addNewVehicleToDB,
-	deleteDBVehicleByID,
+	deleteDBVehicle,
 	getSingleVehicleById,
 	getVehiclesByUser,
 	checkIfVehicleExistsInDB,

@@ -9,7 +9,7 @@ const {
 	getSingleVehicleById,
 	getVehiclesByUser,
 	checkIfVehicleExistsInDB,
-	deleteDBVehicleByID,
+	deleteDBVehicle,
 	updateVehicleInDB,
 } = VehiclesDBUtils;
 
@@ -113,8 +113,8 @@ export async function DELETE(
 	}
 
 	const vehicle = vehicleArray[0]!;
-	// TODO rename deleteDBVehicleByID because it now takes in a vehicle instead of just an id
-	const response = await deleteDBVehicleByID(vehicle, supabase);
+
+	const response = await deleteDBVehicle(vehicle, supabase);
 
 	return response;
 }
