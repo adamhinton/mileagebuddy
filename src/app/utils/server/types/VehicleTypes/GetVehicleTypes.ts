@@ -133,22 +133,28 @@ export const VehicleSchema = z.discriminatedUnion("type", [
  * @param vehicleData a Vehicle
  * @returns boolean
  */
-export const refineZodVehicleValidation = (vehicleData: Vehicle) => {
-	let isVehicleValid = true;
-	let error = "";
+export const refineZodVehicleValidation =
+	// not sure how to type vehicleData; it's a Vehicle_For_DB_POST,
+	// but annotating that here would make its type definition circularly reference itself
+	// This function is short enough that it's not a big deal, but if you expand this, make sure to find a way to strongly type vehicleData
+	(vehicleData: unknown) => {
+		let isVehicleValid = true;
+		let error = "";
 
-	const milesBoughtAt = vehicleData.purchaseAndSales.milesBoughtAt;
-	const willSellCarAtMiles = vehicleData.purchaseAndSales.willSellCarAtMiles;
+		// @ts-expect-error see notes on vehicleData above
+		const milesBoughtAt = vehicleData.purchaseAndSales.milesBoughtAt;
+		// @ts-expect-error see notes on vehicleData above
+		const willSellCarAtMiles = vehicleData.purchaseAndSales.willSellCarAtMiles;
 
-	// Right now this is the only refinement we need.
-	if (milesBoughtAt > willSellCarAtMiles) {
-		isVehicleValid = false;
+		// Right now this is the only refinement we need.
+		if (milesBoughtAt > willSellCarAtMiles) {
+			isVehicleValid = false;
 
-		error = "milesBoughtAt must be less than or equal to willSellCarAtMiles";
-	}
+			error = "milesBoughtAt must be less than or equal to willSellCarAtMiles";
+		}
 
-	return { isVehicleValid, error };
-};
+		return { isVehicleValid, error };
+	};
 
 // For testing and verification
 // Leaving this object in the file has come in handy because it tells me when there's some type mismatch
