@@ -136,7 +136,7 @@ export type PurchaseAndSales = Readonly<z.infer<typeof PurchaseAndSalesSchema>>;
 export const UsageSchema = z
 	.object({
 		vehicleID: z.number().readonly(),
-		// TODO: This is including non-commute days. It's in a SEVEN DAY WEEK, enforce that and make sure user understands it
+		// TODO Stretch: This is including non-commute days. It's in a SEVEN DAY WEEK, enforce that and make sure user understands it
 		averageDailyMiles: z
 			.number()
 			.max(5_000)
@@ -153,7 +153,7 @@ export const UsageSchema = z
 			.nonnegative()
 			.max(100)
 			.describe("% highway driving"),
-		// extraDistanceMiles isn't actually used in the calcs. TODO delete this?
+		// extraDistanceMiles isn't actually used in the calcs. TODO Stretch: delete this?
 		extraDistanceMiles: z
 			.number()
 			.nonnegative()
