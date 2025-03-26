@@ -133,8 +133,7 @@ export const VehicleSchema = z.discriminatedUnion("type", [
  * @param vehicleData a Vehicle
  * @returns boolean
  */
-// @ts-expect-error vehicleData is untyped because the type Vehicle hasn't been created yet
-export const refineZodVehicleValidation = (vehicleData) => {
+export const refineZodVehicleValidation = (vehicleData: Vehicle) => {
 	let isVehicleValid = true;
 	let error = "";
 
