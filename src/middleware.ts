@@ -3,8 +3,14 @@
 // Note that Zod validation runs both here (on the server) as well as on the client. It's lightweight enough that it's fine to run it twice, and it's a good idea to have it in both places to prevent any potential security issues.
 
 import { NextResponse, type NextRequest } from "next/server";
-import { VehicleToBePostedSchema } from "./app/utils/server/types/VehicleTypes/POSTVehicleTypes";
-import { VehicleSchemaForPATCH } from "./app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
+import {
+	Vehicle_For_db_POST,
+	VehicleToBePostedSchema,
+} from "./app/utils/server/types/VehicleTypes/POSTVehicleTypes";
+import {
+	Vehicle_For_db_PATCH,
+	VehicleSchemaForPATCH,
+} from "./app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import { updateSession } from "./app/utils/server/supabase/middleware";
 import { createClientSSROnly } from "./app/utils/server/supabase/server";
 
@@ -30,14 +36,18 @@ export async function middleware(request: NextRequest) {
 
 		try {
 			const body = await clonedRequest.json();
-			const isSafe = VehicleToBePostedSchema.safeParse(body);
+			// Validate the request body using Zod schema
+			// Now we know vehicle can be inserted in DB
+			const isBodyValid = isValidVehiclePost(body);
 
-			if (!isSafe.success) {
+			if (!isBodyValid) {
 				return NextResponse.json(
-					{ error: "Invalid POST vehicle input", details: isSafe.error.errors },
+					{ error: "Invalid POST vehicle input" },
 					{ status: 400 }
 				);
 			}
+
+			// The actual db POST will be done in the api/vehicles/route.ts file
 		} catch (error) {
 			console.error("Error parsing JSON:", error);
 			return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
@@ -52,18 +62,15 @@ export async function middleware(request: NextRequest) {
 
 		try {
 			const body = await clonedRequest.json();
-			const isSafe = VehicleSchemaForPATCH.safeParse(body);
 
-			if (!isSafe.success) {
+			const isBodyValid = isValidVehiclePatch(body);
+			if (!isBodyValid) {
 				return NextResponse.json(
-					{
-						error: "Invalid PATCH vehicle input",
-						details: isSafe.error.errors,
-					},
+					{ error: "Invalid PATCH vehicle input" },
 					{ status: 400 }
 				);
 			}
-			// Your validation logic here
+			// The actual db PATCH will be done in the api/vehicles/route.ts file
 		} catch (error) {
 			console.error("Error parsing JSON:", error);
 			return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
@@ -87,4 +94,26 @@ export const config = {
 		 */
 		"/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
 	],
+};
+
+/**Validates that request body matches type Vehicle_For_DB_POST
+ *
+ * If true, vehicle is ready to be inserted into DB
+ */
+const isValidVehiclePost = (
+	vehicle: unknown
+): vehicle is Vehicle_For_db_POST => {
+	const isSafe = VehicleToBePostedSchema.safeParse(vehicle);
+	return isSafe.success;
+};
+
+/**Validates that request body matches type Vehicle_For_DB_PATCH
+ *
+ * If true, vehicle is ready to be inserted into DB
+ */
+const isValidVehiclePatch = (
+	vehicle: unknown
+): vehicle is Vehicle_For_db_PATCH => {
+	const isSafe = VehicleSchemaForPATCH.safeParse(vehicle);
+	return isSafe.success;
 };
