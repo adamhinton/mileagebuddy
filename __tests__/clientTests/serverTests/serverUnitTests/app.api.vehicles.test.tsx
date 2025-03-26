@@ -132,7 +132,7 @@ describe("GET /api/vehicles", () => {
 		} as NextRequest;
 
 		const response = await GET(request);
-		const responseData = await response.json();
+		const responseData: Vehicle[] = await response.json();
 
 		expect(responseData).toEqual(mockVehicles);
 	});
@@ -162,7 +162,7 @@ describe("GET /api/vehicles", () => {
 			env: {},
 		} as unknown as NextRequest);
 
-		const responseData = await response.json();
+		const responseData: Vehicles = await response.json();
 
 		expect(responseData).toEqual([mockVehicles[0]]);
 		expect(mockSupabase).toHaveBeenCalledWith("vehicles");

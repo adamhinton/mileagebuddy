@@ -16,7 +16,7 @@ import "@testing-library/jest-dom";
 
 // Create mock default props
 const createMockProps = () => {
-	const mockRegister = jest.fn().mockImplementation((name) => ({
+	const mockRegister = jest.fn().mockImplementation((name: string) => ({
 		name,
 		onChange: jest.fn(),
 		onBlur: jest.fn(),
