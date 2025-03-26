@@ -39,6 +39,7 @@ import {
 } from "@/app/utils/CarCostAlgorithm/calculateCarCostMain";
 import EmptyDashboardState from "./EmptyDashboardState";
 import SortableVehicleCard from "./VehicleCards/SortableVehicleCard";
+import Error from "next/error";
 
 /**
  * Contains this key value pair for each vehicle
@@ -127,8 +128,10 @@ const Dashboard = () => {
 				order: vehicle.vehiclesOrder,
 			}));
 
-			updateVehicleOrdersClient(loggedInUser.id, orderUpdates).catch((error) =>
-				console.error("Failed to update vehicle orders:", error)
+			updateVehicleOrdersClient(loggedInUser.id, orderUpdates).catch(
+				// Not sure this is the right type
+				(error: Error) =>
+					console.error("Failed to update vehicle orders:", error)
 			);
 		}
 	};
