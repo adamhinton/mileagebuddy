@@ -5,8 +5,6 @@
 // It just displays the name of the relevant form section; clicking on it scrolls the user to that section
 // If user clicks on an error, it collapses all other sections, opens the clicked section and scrolls to the clicked section
 
-// TODO dynamically update errors when they go away
-
 import { FieldErrors } from "react-hook-form";
 import FormErrorMessage from "./FormErrorMessage";
 import { VehiclePATCHorPOST } from "./VehicleCreationForm";

@@ -195,7 +195,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 	 */
 	const clearAllFormValues = () => {
 		// set all form sections 	to be collapsed first because for some reason this wasn't working if they weren't collapsed
-		// @ts-expect-error - I'm tired and don't want to deal with typing this. TODO loop around to this
+		// @ts-expect-error - I'm tired and don't want to deal with typing this. TODO Stretch loop around to this
 		collapseAllSections(setCollapsedSections);
 
 		// Remove persisted form data
@@ -363,12 +363,12 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 
 export default VehicleCreationOrEditForm;
 
-// I typed this out when I was tired and frustrated. It's technical debt. TODO type this better when you have a chance.
+// I typed this out when I was tired and frustrated. It's technical debt.  Stretch type this better when you have a chance.
 const collapseAllSections = (
 	setCollapsedSections: (myObj: unknown) => void
 ) => {
 	setCollapsedSections({
-		// ts-expect-error - I'm tired and don't want to deal with typing this. TODO loop around to this
+		// ts-expect-error - I'm tired and don't want to deal with typing this. TODO Stretch loop around to this
 		gasVehicleData: "isCollapsed",
 		vehicleData: "isCollapsed",
 		electricVehicleData: "isCollapsed",
