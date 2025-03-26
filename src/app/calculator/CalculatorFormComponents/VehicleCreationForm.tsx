@@ -22,7 +22,7 @@ import {
 	useFormNavigation,
 } from "../calculatorUtils/FormNavUtils";
 import getSavedFormValuesFromLocalStorage from "../calculatorUtils/getSavedFormValuesFromLocalStorage";
-import { useForm } from "react-hook-form";
+import { DeepPartial, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import FormErrorSummary from "./FormErrorSummary";
 import Button from "../../components/Button";
@@ -33,6 +33,7 @@ import {
 	defaultVehicleValuesPOST,
 } from "../calculatorUtils/calculatorFormDefaultValues";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
+import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 
 /** Prevent typos by making sure localStorage persisted data is always accessed the same way */
 export const LOCAL_STORAGE_FORM_DATA_KEY = "mileageFormData";
@@ -116,7 +117,8 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 	const [isShowErrorSummary, setisShowErrorSummary] = useState(false);
 	const errorSummaryRef = useRef<HTMLDivElement>(null);
 
-	const savedLocalStorageValues = getSavedFormValuesFromLocalStorage();
+	const savedLocalStorageValues: DeepPartial<Vehicle> =
+		getSavedFormValuesFromLocalStorage();
 
 	const [hasResetFormValues, setHasResetFormValues] = useState(false);
 

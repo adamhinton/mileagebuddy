@@ -1,7 +1,5 @@
 "use client";
 
-// TODO run npx type-coverage --detail and fix any issues
-
 import { Vehicle_For_db_PATCH } from "./utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import {
 	deleteVehicleByIDClient,

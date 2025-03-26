@@ -3,6 +3,7 @@ import VehiclesDBUtils from "@/app/utils/server/queries/vehiclesDBUtils";
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
+import { Vehicle_For_db_PATCH } from "@/app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 
 const {
 	addNewVehicleToDB,
@@ -141,8 +142,9 @@ export async function PATCH(
 		});
 	}
 
+	// Middleware has already validated that this is a valid Vehicle_For_db_PATCH
 	const body = await request.json();
-	const updatedPartialVehicle: Partial<Vehicle> = body;
+	const updatedPartialVehicle: Vehicle_For_db_PATCH = body;
 
 	// Should only include the fields that need to be updated
 	const {

@@ -140,7 +140,7 @@ const extractErrorMessages = (errors: FieldErrors<VehiclePATCHorPOST>) => {
 			let sectionName = key;
 
 			// Map the camelCase keys to more readable names
-			// TODO hacky solution, get these names in a better way. They are already defined in the zod schema
+			// TODO Stretch: hacky solution, get these names in a better way. They are already defined in the zod schema
 			switch (key) {
 				case "vehicleData":
 					sectionName = "Vehicle Data";
