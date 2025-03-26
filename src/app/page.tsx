@@ -17,9 +17,6 @@ import { useAppSelector } from "@/redux/hooks";
 // README:
 // This is a dummy HTML setup written by Copilot to give me something to bounce off of early in dev, will be replaced with my own design later.
 
-// TODO: Add this to app
-//supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd/settings/api?showConnect=true
-
 export default function Page() {
 	const loggedInUser = useAppSelector((state) => state.user.value);
 

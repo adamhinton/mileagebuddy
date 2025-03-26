@@ -1,4 +1,4 @@
-// TODO: Clean up this file
+// TODO Stretch: Clean up this file. I did some already, can do better
 
 // README:
 // Here we define types for Vehicle (obviously)

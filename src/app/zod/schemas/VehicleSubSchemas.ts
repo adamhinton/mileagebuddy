@@ -18,7 +18,7 @@ export const VehicleDataSchema = z
 		make: z.string().min(1).max(30).trim().describe("Vehicle Make"),
 		model: z.string().min(1).max(30).trim().describe("Vehicle Model"),
 		trim: z.string().min(1).max(30).trim().describe("Vehicle Trim"),
-		// TODO: Delete highwayMPG, this is redundant with a field used elsewhere.
+		// TODO Stretch: Delete highwayMPG, this is redundant with a field used elsewhere.
 		highwayMPG: z.number().max(5000).nonnegative().nullable().optional(),
 	})
 	.describe("Gas Vehicle Data");
@@ -160,9 +160,9 @@ export const UsageSchema = z
 			.max(500_000)
 			.nullable()
 			.optional()
-			// TODO Describe this better
+			// TODO Stretch: Describe this better, or delete this field because we're not actually using it
 			.describe("How many extra miles per year should we add on?"),
-		// TODO Delete this as well as extraDistanceMiles?
+		// TODO Stretch: Delete this as well as extraDistanceMiles?
 		extraDistancePercentHighway: z
 			.number()
 			.nonnegative()
