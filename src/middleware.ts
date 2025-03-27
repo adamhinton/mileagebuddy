@@ -12,14 +12,25 @@ import {
 	VehicleSchemaForPATCH,
 } from "./app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import { updateSession } from "./app/utils/server/supabase/middleware";
-import { createClientSSROnly } from "./app/utils/server/supabase/server";
 import { getSingleVehicleById } from "./app/utils/server/queries/vehiclesDBUtils";
+import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {
-	const supabase = await createClientSSROnly();
-
+	const supabase = createServerClient(
+		process.env.NEXT_PUBLIC_SUPABASE_URL!,
+		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+		{
+			cookies: {
+				get(name) {
+					return request.cookies.get(name)?.value;
+				},
+			},
+		}
+	);
 	const loggedInUser = await supabase.auth.getUser();
 	const userId = loggedInUser.data.user?.id;
+
+	console.log("loggedInUser:", loggedInUser);
 
 	/**Checking if the user is logged in */
 	const isLoggedIn = (await supabase.auth.getSession()).data.session
@@ -38,8 +49,17 @@ export async function middleware(request: NextRequest) {
 		const vehicleId = request.nextUrl.pathname.split("/").pop()!;
 		const vehicleIdNum = Number(vehicleId);
 
+		// console.log("vehicleIdNum:", vehicleIdNum);
+
 		// This returns an array with one vehicle
 		const vehicle = await getSingleVehicleById(vehicleIdNum);
+
+		// console.log("vehicle from db:", vehicle);
+
+		// console.log("vehicle[0].userid:", vehicle[0]!.userid);
+
+		// console.log("userId for loggedInUser:", userId);
+
 		if (vehicle.length === 0 || vehicle[0]?.userid !== userId) {
 			// throw error
 			return NextResponse.json(
