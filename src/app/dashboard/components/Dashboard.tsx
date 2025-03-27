@@ -138,7 +138,6 @@ const Dashboard = () => {
 		}
 	};
 
-	// TODO flesh this out, just take user to edit form
 	const onEditButtonClick = useCallback(
 		(vehicleId: number, router: AppRouterInstance) => {
 			console.log("vehicleId in onEditButtonClick:", vehicleId);
