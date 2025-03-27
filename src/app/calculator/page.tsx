@@ -19,9 +19,7 @@ import { VehicleSchemaForPATCH } from "../utils/server/types/VehicleTypes/PATCHV
 // Note: VehicleToBePostedSchema is a union of GasVehicleSchemaForPOST and ElectricVehicleSchemaForPOST. Will have to do validation on one or the other based on user input, you can't do zod validation on a union type. but that shouldn't be too hard.
 
 // TODO:
-// Figure out how/where in the UI to toggle between testing and vehicle creation
 // Let non-authenticated users save vehicles to localStorage
-// Put edit form at /calculator/edit/:vehicleID or similar
 
 // Stretch: optimistic UI updates
 
