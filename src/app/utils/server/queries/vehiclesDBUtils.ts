@@ -59,7 +59,7 @@ type ArrayWithOneOrZeroVehicles = [Vehicle?];
  *
  * Returns empty array if vehicle doesn't exist
  */
-async function getSingleVehicleById(
+export async function getSingleVehicleById(
 	vehicleId: number
 ): Promise<ArrayWithOneOrZeroVehicles> {
 	/**Vehicle data is stored in several different tables

@@ -40,6 +40,8 @@ import {
 import EmptyDashboardState from "./EmptyDashboardState";
 import SortableVehicleCard from "./VehicleCards/SortableVehicleCard";
 import Error from "next/error";
+import { useRouter } from "next/navigation";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 /**
  * Contains this key value pair for each vehicle
@@ -137,10 +139,14 @@ const Dashboard = () => {
 	};
 
 	// TODO flesh this out, just take user to edit form
-	const onEditButtonClick = useCallback((vehicleId: number) => {
-		console.log(`Edit vehicle with ID: ${vehicleId}`);
-		// Navigate to edit page or open modal
-	}, []);
+	const onEditButtonClick = useCallback(
+		(vehicleId: number, router: AppRouterInstance) => {
+			console.log("vehicleId in onEditButtonClick:", vehicleId);
+
+			router.push(`/calculator/edit/${vehicleId}`);
+		},
+		[]
+	);
 
 	// The component that calls this (Button.tsx) will show a confirmation dialog before calling onDeleteButtonClick
 	const onDeleteButtonClick = useCallback(
@@ -159,6 +165,8 @@ const Dashboard = () => {
 	);
 
 	const dispatch = useAppDispatch();
+
+	const router = useRouter();
 
 	return (
 		<div className="min-h-screen bg-background-base p-4 md:p-6 lg:p-8">
@@ -185,7 +193,7 @@ const Dashboard = () => {
 										key={vehicle.id}
 										vehicle={vehicle}
 										vehicleCost={vehicleCosts[vehicle.id]}
-										onEdit={() => onEditButtonClick(vehicle.id)}
+										onEdit={() => onEditButtonClick(vehicle.id, router)}
 										onDelete={() => onDeleteButtonClick(vehicle.id, dispatch)}
 									/>
 								);
