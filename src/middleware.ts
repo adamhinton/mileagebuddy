@@ -13,9 +13,13 @@ import {
 } from "./app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import { updateSession } from "./app/utils/server/supabase/middleware";
 import { createClientSSROnly } from "./app/utils/server/supabase/server";
+import { getSingleVehicleById } from "./app/utils/server/queries/vehiclesDBUtils";
 
 export async function middleware(request: NextRequest) {
 	const supabase = await createClientSSROnly();
+
+	const loggedInUser = await supabase.auth.getUser();
+	const userId = loggedInUser.data.user?.id;
 
 	/**Checking if the user is logged in */
 	const isLoggedIn = (await supabase.auth.getSession()).data.session
@@ -26,6 +30,23 @@ export async function middleware(request: NextRequest) {
 	// Check if user is not signed in and trying to access /dashboard, then redirect to /login
 	if (!isLoggedIn && request.nextUrl.pathname === "/dashboard") {
 		return NextResponse.redirect(new URL("/login", request.url));
+	}
+
+	// On "edit vehicle" page (calculator/vehicle/{vehicleId}), if user is logged in, ensure that the vehicle belongs to the logged in user
+	// Non-loggedin users get their vehicles from localStorage here
+	if (request.nextUrl.pathname.match(/\/calculator\/edit\/[0-9]+/)) {
+		const vehicleId = request.nextUrl.pathname.split("/").pop()!;
+		const vehicleIdNum = Number(vehicleId);
+
+		// This returns an array with one vehicle
+		const vehicle = await getSingleVehicleById(vehicleIdNum);
+		if (vehicle.length === 0 || vehicle[0]?.userid !== userId) {
+			// throw error
+			return NextResponse.json(
+				{ error: `Vehicle with id ${vehicleId} not found for logged in user` },
+				{ status: 404 }
+			);
+		}
 	}
 
 	if (
@@ -43,6 +64,14 @@ export async function middleware(request: NextRequest) {
 			if (!isBodyValid) {
 				return NextResponse.json(
 					{ error: "Invalid POST vehicle input" },
+					{ status: 400 }
+				);
+			}
+
+			// Make sure logged in user's id matches vehicle's userId
+			if (userId !== body.userid) {
+				return NextResponse.json(
+					{ error: "Logged in user's id does not match vehicle's userId" },
 					{ status: 400 }
 				);
 			}
@@ -70,6 +99,15 @@ export async function middleware(request: NextRequest) {
 					{ status: 400 }
 				);
 			}
+
+			// Make sure logged in user's id matches vehicle's userId
+			if (userId !== body.userid) {
+				return NextResponse.json(
+					{ error: "Logged in user's id does not match vehicle's userId" },
+					{ status: 400 }
+				);
+			}
+
 			// The actual db PATCH will be done in the api/vehicles/route.ts file
 		} catch (error) {
 			console.error("Error parsing JSON:", error);
