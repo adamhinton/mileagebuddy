@@ -9,6 +9,21 @@ import Dashboard from "@/app/dashboard/components/Dashboard";
 import TestReduxStore from "@/app/utils/unitTestUtils/dummyReduxStore";
 import { render } from "@testing-library/react";
 
+// Added this because Dashboard uses router for navigation, and the test renders were getting errors without it
+jest.mock("next/navigation", () => ({
+	useRouter: jest.fn(() => ({
+		push: jest.fn(),
+		replace: jest.fn(),
+		prefetch: jest.fn(),
+		back: jest.fn(),
+		forward: jest.fn(),
+		refresh: jest.fn(),
+		// Add other router properties or methods as needed for your tests
+	})),
+	usePathname: jest.fn(() => "/"),
+	useSearchParams: jest.fn(() => new URLSearchParams()),
+}));
+
 describe("Dashboard.tsx", () => {
 	describe("Renders without crashing", () => {
 		it("Renders without crashing when passed a list of vehicles", () => {
