@@ -5,6 +5,7 @@ import ReduxStoreProvider from "@/redux/StoreProvider";
 import { ThemeWrapper } from "../../providers";
 import { Header } from "@/components/Header/Header";
 import AuthWatcher from "./components/AuthWatcher";
+import Tabs from "@/components/Tabs";
 
 // TODO: "You just made an account. I see you have vehicles saved locally. Do you want to import them to your account, or delete them?"
 // TODO:
@@ -43,6 +44,8 @@ export default function RootLayout({
 							{/* AuthWatcher is a component that watches for auth events and updates the Redux store */}
 							<AuthWatcher>
 								<Header />
+								{/* Internal navigation tabs. Dashboard login etc */}
+								<Tabs />
 								{children}
 							</AuthWatcher>
 						</ReduxStoreProvider>
