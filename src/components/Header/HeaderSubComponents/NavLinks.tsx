@@ -5,18 +5,16 @@
 
 import Link from "next/link";
 
-type NavLinksProps = {
-	isLoggedIn: boolean;
-};
-
 /**Navigation links in Header.tsx */
-const NavLinks = (props: NavLinksProps) => {
-	const { isLoggedIn } = props;
-
+const NavLinks = () => {
 	return (
 		<nav className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 space-x-0 sm:space-x-2 w-full sm:w-auto">
-			<Link href="/dashboard" className="nav-link w-full sm:w-auto text-center">
-				Dashboard
+			<Link
+				href="https://www.linkedin.com/in/adam-hinton/"
+				className="nav-link w-full sm:w-auto text-center"
+				target="_blank"
+			>
+				LinkedIn
 			</Link>
 			<Link
 				href="/calculator"
@@ -24,14 +22,12 @@ const NavLinks = (props: NavLinksProps) => {
 			>
 				Calculator
 			</Link>
-			{!isLoggedIn && (
-				<Link
-					href="/login"
-					className="nav-link-primary w-full sm:w-auto text-center"
-				>
-					Login
-				</Link>
-			)}
+			<Link
+				href="https://github.com/adamhinton/mileagebuddy/"
+				className="nav-link-primary w-full sm:w-auto text-center"
+			>
+				Source
+			</Link>
 		</nav>
 	);
 };

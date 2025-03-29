@@ -16,6 +16,7 @@ import { useAppSelector } from "@/redux/hooks";
 import ProfileDropdown from "./HeaderSubComponents/ProfileDropdown";
 import NavLinks from "./HeaderSubComponents/NavLinks";
 import MobileHamburgerMenu from "./HeaderSubComponents/MobileHamburgerMenu";
+import Tabs from "./HeaderSubComponents/Tabs";
 // TODO header.test
 
 export const Header: React.FC = () => {
@@ -89,8 +90,8 @@ export const Header: React.FC = () => {
 						/>
 					)}
 
-					{/* Main navigation.  */}
-					<NavLinks isLoggedIn={isLoggedIn} />
+					{/* Main navigation*/}
+					<NavLinks />
 
 					{/* Dark/light mode toggle icon */}
 					<div className="hidden sm:block">
@@ -98,6 +99,8 @@ export const Header: React.FC = () => {
 					</div>
 				</div>
 			</div>
+
+			<Tabs />
 		</header>
 	);
 };
