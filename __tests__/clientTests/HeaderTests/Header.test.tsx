@@ -3,7 +3,7 @@
 // _______________________________________________________________
 
 import TestReduxStore from "@/app/utils/unitTestUtils/dummyReduxStore";
-import { Header } from "@/components/Header";
+import { Header } from "@/components/Header/Header";
 import { render } from "@testing-library/react";
 
 // TODO hopefully I didn't forget to write these tests

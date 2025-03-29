@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import ThemeSwitch from "./ThemeSwitch";
+import ThemeSwitch from "../ThemeSwitch";
 import { createClientCSROnly } from "@/app/utils/server/supabase/client";
 import { useAppSelector } from "@/redux/hooks";
 // TODO header.test
