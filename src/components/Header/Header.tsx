@@ -1,3 +1,11 @@
+// ______________________________________________________________________________
+// This is (obviously) the main Header.
+// // It contains the logo, title, navigation links, dark mode toggle (ThemeSwitch) and auth buttons (login/logout)
+// It's split up in to several sub-components
+// TODO tabs for internal navigation
+// TODO stretch: Put these class names in tailwindClassNames.ts
+// ______________________________________________________________________________
+
 "use client";
 
 import React, { useState, useRef, useEffect, RefObject } from "react";
