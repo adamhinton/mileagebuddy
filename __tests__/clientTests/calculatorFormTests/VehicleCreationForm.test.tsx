@@ -11,6 +11,20 @@ import { VehicleSchemaForPATCH } from "@/app/utils/server/types/VehicleTypes/PAT
 import testVehicles from "@/app/utils/unitTestUtils/fakeTestVehicles";
 import { VehicleToBePostedSchema } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 
+// Added this because form submit logic uses router to push to /dashboard on success, and the test renders were getting errors without it
+jest.mock("next/navigation", () => ({
+	useRouter: jest.fn(() => ({
+		push: jest.fn(),
+		replace: jest.fn(),
+		prefetch: jest.fn(),
+		back: jest.fn(),
+		forward: jest.fn(),
+		refresh: jest.fn(),
+	})),
+	usePathname: jest.fn(() => "/"),
+	useSearchParams: jest.fn(() => new URLSearchParams()),
+}));
+
 describe("VehicleCreationOrEditForm", () => {
 	it("renders without errors in edit mode", () => {
 		renderVehicleForm("editVehicle");
