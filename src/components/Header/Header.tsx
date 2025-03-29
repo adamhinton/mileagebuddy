@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, RefObject } from "react";
 import Link from "next/link";
 import ThemeSwitch from "../ThemeSwitch";
 import { createClientCSROnly } from "@/app/utils/server/supabase/client";
 import { useAppSelector } from "@/redux/hooks";
+import ProfileDropdown from "./HeaderSubComponents/ProfileDropdown";
 // TODO header.test
 
 export const Header: React.FC = () => {
@@ -103,54 +104,17 @@ export const Header: React.FC = () => {
 				<div
 					className={`${isMobileMenuOpen ? "flex" : "hidden"} sm:flex flex-col sm:flex-row items-center mt-4 sm:mt-0 space-y-3 sm:space-y-0 sm:space-x-6`}
 				>
-					{/* User status */}
 					{isLoggedIn && (
-						<div className="relative" ref={profileDropdownRef}>
-							{/* Profile button - Icon on small screens, full text on md+ screens */}
-							<button
-								onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-								className="flex items-center px-3 py-1 bg-background-elevated rounded-full text-sm text-neutral-text border border-primary-50 dark:border-primary-200 hover:bg-background-highlight transition-colors"
-							>
-								{/* Always visible profile icon */}
-								<div className="w-2 h-2 rounded-full bg-accent mr-2 animate-pulse"></div>
-
-								{/* TODO replace with profile icon */}
-								<span className="hidden sm:inline">Profile</span>
-
-								{/* Dropdown indicator */}
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									className="h-4 w-4 ml-2"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M19 9l-7 7-7-7"
-									/>
-								</svg>
-							</button>
-
-							{/* Profile dropdown menu */}
-							{isProfileDropdownOpen && (
-								<div className="absolute right-0 mt-2 w-48 bg-background-elevated rounded-md shadow-lg border border-primary-50 dark:border-primary-200 z-10">
-									<div className="p-2">
-										<div className="text-sm font-medium text-neutral-text mb-2 border-b border-primary-50 dark:border-primary-200 pb-2">
-											{user?.email}
-										</div>
-										<button
-											onClick={handleSignOut}
-											className="w-full text-left px-3 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
-										>
-											Sign Out
-										</button>
-									</div>
-								</div>
-							)}
-						</div>
+						// Simple Profile dropdown (obviously) that shows user's email and a signout button
+						<ProfileDropdown
+							user={user!}
+							isProfileDropdownOpen={isProfileDropdownOpen}
+							setIsProfileDropdownOpen={setIsProfileDropdownOpen}
+							handleSignOut={handleSignOut}
+							profileDropdownRef={
+								profileDropdownRef as unknown as RefObject<HTMLDivElement>
+							}
+						/>
 					)}
 
 					{/* Main navigation */}
