@@ -8,11 +8,14 @@
 import { z } from "zod";
 
 export const VehicleOrderUpdateSchema = z.object({
+	// Vehicle's ID in the db
 	id: z.number(),
+	// Order of the vehicle in the UI. Starts from 1 sequentially
 	order: z.number(),
 });
 
 export const UpdateVehicleOrderRequestSchema = z.object({
+	// Middleware checks that the vehicles in question belong to this user
 	userid: z.string().uuid(),
 	orderUpdates: z.array(VehicleOrderUpdateSchema),
 });
