@@ -89,7 +89,7 @@ export const Header: React.FC = () => {
 						/>
 					)}
 
-					{/* Main navigation */}
+					{/* Main navigation.  */}
 					<NavLinks isLoggedIn={isLoggedIn} />
 
 					{/* Dark/light mode toggle icon */}
