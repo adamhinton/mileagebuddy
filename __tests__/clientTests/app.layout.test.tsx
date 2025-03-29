@@ -1,3 +1,7 @@
+// README
+// This test gets environment variables from jest.setup.ts
+// Look there if those vars are undefined.
+
 import RootLayout from "@/app/layout";
 
 import "@testing-library/jest-dom";
