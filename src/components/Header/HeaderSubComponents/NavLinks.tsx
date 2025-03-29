@@ -14,7 +14,7 @@ const NavLinks = () => {
 				className="nav-link w-full sm:w-auto text-center"
 				target="_blank"
 			>
-				LinkedIn
+				Adam Hinton
 			</Link>
 			<Link
 				href="/calculator"
