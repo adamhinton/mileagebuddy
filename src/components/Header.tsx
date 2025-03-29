@@ -10,8 +10,8 @@ import { useAppSelector } from "@/redux/hooks";
 export const Header: React.FC = () => {
 	const user = useAppSelector((state) => state.user.value);
 	const isLoggedIn = user?.id ? true : false;
-	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-	const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 	const profileDropdownRef = useRef<HTMLDivElement>(null);
 
 	const handleSignOut = async () => {
@@ -30,7 +30,7 @@ export const Header: React.FC = () => {
 				profileDropdownRef.current &&
 				!profileDropdownRef.current.contains(event.target as Node)
 			) {
-				setProfileDropdownOpen(false);
+				setIsProfileDropdownOpen(false);
 			}
 		};
 
@@ -58,11 +58,11 @@ export const Header: React.FC = () => {
 					<div className="sm:hidden flex items-center space-x-3">
 						<ThemeSwitch />
 						<button
-							onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+							onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
 							className="p-2 rounded-md text-neutral-text hover:bg-background-highlight"
 							aria-label="Toggle mobile menu"
 						>
-							{mobileMenuOpen ? (
+							{isMobileMenuOpen ? (
 								// X icon for close
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -101,14 +101,14 @@ export const Header: React.FC = () => {
 
 				{/* Navigation and auth section - visible on larger screens or when mobile menu is open */}
 				<div
-					className={`${mobileMenuOpen ? "flex" : "hidden"} sm:flex flex-col sm:flex-row items-center mt-4 sm:mt-0 space-y-3 sm:space-y-0 sm:space-x-6`}
+					className={`${isMobileMenuOpen ? "flex" : "hidden"} sm:flex flex-col sm:flex-row items-center mt-4 sm:mt-0 space-y-3 sm:space-y-0 sm:space-x-6`}
 				>
 					{/* User status */}
 					{isLoggedIn && (
 						<div className="relative" ref={profileDropdownRef}>
 							{/* Profile button - Icon on small screens, full text on md+ screens */}
 							<button
-								onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
+								onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
 								className="flex items-center px-3 py-1 bg-background-elevated rounded-full text-sm text-neutral-text border border-primary-50 dark:border-primary-200 hover:bg-background-highlight transition-colors"
 							>
 								{/* Always visible profile icon */}
@@ -135,7 +135,7 @@ export const Header: React.FC = () => {
 							</button>
 
 							{/* Profile dropdown menu */}
-							{profileDropdownOpen && (
+							{isProfileDropdownOpen && (
 								<div className="absolute right-0 mt-2 w-48 bg-background-elevated rounded-md shadow-lg border border-primary-50 dark:border-primary-200 z-10">
 									<div className="p-2">
 										<div className="text-sm font-medium text-neutral-text mb-2 border-b border-primary-50 dark:border-primary-200 pb-2">
