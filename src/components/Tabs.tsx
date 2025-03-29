@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 // ________________________________________________________________________
 // This is tabs that handle internal navigation
 // Has links to all internal pages
@@ -9,54 +7,59 @@ import Link from "next/link";
 // https://flowbite.com/docs/components/tabs/
 // This is toggleable. It's also collapsed by default on mobile
 // It's sticky to the top of the page except on mobile
+// Active tabs: It knows which tab the user is currently on; that tab is more visually distinct, and nothing happens when user clicks it.
 
 // TODO tabs:
-// -- Delineate this visually from Header.tsx
 // -- Organize styling
 // -- Unit tests
-// -- Make it know which tab it's on (active tab)
-// -- Don't refresh or do anything when clicking currently active tab
-// Toggleable on mobile
+// -- Toggleable; collapsed by default on mobile
 // ________________________________________________________________________
 
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
 const Tabs = () => {
+	const pathname = usePathname();
+
+	const isActiveTab = (path: string): boolean => {
+		return pathname === path;
+	};
+
 	return (
-		<section className="md: sticky md:top-0 md:z-30 bg-background-elevated py-2 shadow-sm">
+		// Sticky to top of page, except on mobile
+		<section className="md:sticky md:top-0 md:z-30 bg-background-header shadow-md">
 			<div className="container mx-auto px-4">
-				<ul className="flex flex-wrap text-sm font-medium text-center text-neutral-text border-b border-primary-50 dark:border-primary-100/30">
-					<li className="me-2">
-						<Link
-							href="/login"
-							aria-current="page"
-							className="inline-block p-3 bg-primary-50 text-primary rounded-t-lg border-b-2 border-primary dark:bg-primary-100/20 dark:border-primary-200"
-						>
-							Login
-						</Link>
-					</li>
-					<li className="me-2">
-						<Link
-							href="/dashboard"
-							className="inline-block p-3 rounded-t-lg hover:bg-background-highlight hover:text-primary transition-colors"
-						>
-							Dashboard
-						</Link>
-					</li>
-					<li className="me-2">
-						<Link
-							href="/calculator"
-							className="inline-block p-3 rounded-t-lg hover:bg-background-highlight hover:text-primary transition-colors"
-						>
-							Calculator
-						</Link>
-					</li>
-					<li className="me-2">
-						<Link
-							href="/"
-							className="inline-block p-3 rounded-t-lg hover:bg-background-highlight hover:text-primary transition-colors"
-						>
-							About
-						</Link>
-					</li>
+				<ul className="flex flex-wrap text-sm font-medium text-center text-neutral-text border-b-2 border-primary-50 dark:border-primary-100/30">
+					{[
+						{ path: "/login", label: "Login" },
+						{ path: "/dashboard", label: "Dashboard" },
+						{ path: "/calculator", label: "Calculator" },
+						{ path: "/", label: "About" },
+					].map((tab) => {
+						// Active tab is more visually distinct, and nothing happens when user clicks it
+						const active = isActiveTab(tab.path);
+						return (
+							<li key={tab.path} className="me-2">
+								<Link
+									href={tab.path}
+									aria-current={active ? "page" : undefined}
+									className={`inline-block p-4 rounded-t-lg ${
+										active
+											? "bg-primary-50 text-primary font-semibold border-b-2 border-primary dark:bg-primary-100/20 dark:border-primary-200"
+											: "hover:bg-background-highlight hover:text-primary transition-colors"
+									}`}
+									onClick={(e) => {
+										if (active) {
+											// Nothing happens because user is already on the active tab
+											e.preventDefault();
+										}
+									}}
+								>
+									{tab.label}
+								</Link>
+							</li>
+						);
+					})}
 				</ul>
 			</div>
 		</section>
