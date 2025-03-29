@@ -32,6 +32,7 @@ import {
 } from "../calculatorUtils/calculatorFormDefaultValues";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
+import { useRouter } from "next/navigation";
 
 /** Prevent typos by making sure localStorage persisted data is always accessed the same way */
 export const LOCAL_STORAGE_FORM_DATA_KEY = "mileageFormData";
@@ -251,10 +252,13 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 
 	const styles = tailWindClassNames.mileageCalcForm;
 
+	// Submit logic uses this to redirect to /dashboard after form submission
+	const router = useRouter();
+
 	return (
 		<form
 			onSubmit={handleSubmit((formData) => {
-				formSubmitLogic(formData, dispatch, clearAllFormValues);
+				formSubmitLogic(formData, dispatch, clearAllFormValues, router);
 			})}
 			className={styles.FORM_CONTAINER}
 		>

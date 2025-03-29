@@ -2,6 +2,8 @@
 // This is (obviously) the logic taht runs when user hits Submit
 // react-hook-form validates the form data against the zod schema before this can run, so we can safely assume all data is valid
 // The middleware also validates the data on the server using zod before sending to the db, so form data is validated on both server and client
+// Redirects to /dashboard after successful submission
+// TODO stretch: Optimistic updates
 // ____________________________________________
 
 "use client";
@@ -13,15 +15,17 @@ import {
 } from "@/app/utils/server/client/DBInteractions/VehiclesDBInteractions";
 import { addVehicle, editVehicleById } from "@/redux/reducers/vehiclesReducer";
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
-import { RootState } from "@/redux/store";
+import { type RootState } from "@/redux/store";
+import { type AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 // Note: r-h-f does Zod validation automatically so we don't need to instate that manually. The patch/post endpoints also do zod validation on the server before sending to db.
 // This runs after form validation has succeeded so we're safe to clear form values
-// Will either edit ane xisting Vehicle in the DB or create a new one, depending on mode
+// Will either edit an existing Vehicle in the DB or create a new one, depending on mode
 const formSubmitLogic = async (
 	formData: VehiclePATCHorPOST,
 	dispatch: ThunkDispatch<RootState, unknown, Action>,
-	clearAllFormValues: () => void
+	clearAllFormValues: () => void,
+	router: AppRouterInstance
 ) => {
 	console.log("Submitting");
 
@@ -30,7 +34,6 @@ const formSubmitLogic = async (
 	if ("id" in formData) {
 		try {
 			const updatedVehicle = await updateVehicleInDBClient(formData);
-			console.log("updatedVehicle:", updatedVehicle);
 
 			// Set to redux state
 			dispatch(editVehicleById({ vehicle: updatedVehicle }));
@@ -62,6 +65,8 @@ const formSubmitLogic = async (
 			"Invalid mode passed to form submit. How did you even do that?"
 		);
 	}
+
+	router.push("/dashboard");
 };
 
 export default formSubmitLogic;
