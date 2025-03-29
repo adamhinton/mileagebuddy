@@ -5,6 +5,8 @@ import Link from "next/link";
 // ________________________________________________________________________
 // This is tabs that handle internal navigation
 // Has links to all internal pages
+// Thanks to Flowbite, whom I shamelessly ripped this off from:
+// https://flowbite.com/docs/components/tabs/
 
 // TODO tabs:
 // -- Delineate this visually from Header.tsx
