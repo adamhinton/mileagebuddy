@@ -7,9 +7,8 @@ import { createClientCSROnly } from "@/app/utils/server/supabase/client";
 import { useAppSelector } from "@/redux/hooks";
 import ProfileDropdown from "./HeaderSubComponents/ProfileDropdown";
 import NavLinks from "./HeaderSubComponents/NavLinks";
+import MobileHamburgerMenu from "./HeaderSubComponents/MobileHamburgerMenu";
 // TODO header.test
-
-// WIP todo: Componentizing Header in to subcomponents
 
 export const Header: React.FC = () => {
 	const user = useAppSelector((state) => state.user.value);
@@ -58,49 +57,11 @@ export const Header: React.FC = () => {
 						</span>
 					</Link>
 
-					{/* Mobile menu hamburger button */}
-					<div className="sm:hidden flex items-center space-x-3">
-						<ThemeSwitch />
-						<button
-							onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-							className="p-2 rounded-md text-neutral-text hover:bg-background-highlight"
-							aria-label="Toggle mobile menu"
-						>
-							{isMobileMenuOpen ? (
-								// X icon for close
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									className="h-6 w-6"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M6 18L18 6M6 6l12 12"
-									/>
-								</svg>
-							) : (
-								// Hamburger icon
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									className="h-6 w-6"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										strokeWidth={2}
-										d="M4 6h16M4 12h16M4 18h16"
-									/>
-								</svg>
-							)}
-						</button>
-					</div>
+					{/* Mobile menu hamburger button. Hidden on large screen sizes */}
+					<MobileHamburgerMenu
+						isMobileMenuOpen={isMobileMenuOpen}
+						setIsMobileMenuOpen={setIsMobileMenuOpen}
+					/>
 				</div>
 
 				{/* Navigation and auth section - visible on larger screens or when mobile menu is open */}
