@@ -7,6 +7,7 @@
 // https://flowbite.com/docs/components/tabs/
 // It's sticky to the top of the page except on mobile
 // Active tabs: It knows which tab the user is currently on; that tab is more visually distinct, and nothing happens when user clicks it.
+// Testing: See Tabs.test.tsx
 
 // TODO tabs:
 // -- Organize styling
