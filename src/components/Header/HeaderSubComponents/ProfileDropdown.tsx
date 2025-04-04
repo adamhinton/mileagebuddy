@@ -5,7 +5,6 @@
 import { type User } from "@/app/zod/schemas/UserSchema";
 
 type ProfileDropdownProps = {
-	// TODO figure out type of user
 	user: User;
 	isProfileDropdownOpen: boolean;
 	setIsProfileDropdownOpen: (isOpen: boolean) => void;
