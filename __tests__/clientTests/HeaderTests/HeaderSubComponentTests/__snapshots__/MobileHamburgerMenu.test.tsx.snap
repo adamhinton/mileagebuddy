@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MobileHamburgerMenu.tsx MobileHamburgerMenu Screenshots matches snapshot when closed 1`] = `
+<DocumentFragment>
+  <div
+    class="sm:hidden flex items-center space-x-3"
+  >
+    <button
+      aria-label="Toggle mobile menu"
+      class="p-2 rounded-md text-neutral-text hover:bg-background-highlight"
+    >
+      <svg
+        class="h-6 w-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M4 6h16M4 12h16M4 18h16"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`MobileHamburgerMenu.tsx MobileHamburgerMenu Screenshots matches snapshot when open 1`] = `
+<DocumentFragment>
+  <div
+    class="sm:hidden flex items-center space-x-3"
+  >
+    <button
+      aria-label="Toggle mobile menu"
+      class="p-2 rounded-md text-neutral-text hover:bg-background-highlight"
+    >
+      <svg
+        class="h-6 w-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M6 18L18 6M6 6l12 12"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`MobileHamburgerMenu.tsx matches snapshot when closed 1`] = `
+<DocumentFragment>
+  <div
+    class="sm:hidden flex items-center space-x-3"
+  >
+    <button
+      aria-label="Toggle mobile menu"
+      class="p-2 rounded-md text-neutral-text hover:bg-background-highlight"
+    >
+      <svg
+        class="h-6 w-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M4 6h16M4 12h16M4 18h16"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+    </button>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`MobileHamburgerMenu.tsx matches snapshot when open 1`] = `
+<DocumentFragment>
+  <div
+    class="sm:hidden flex items-center space-x-3"
+  >
+    <button
+      aria-label="Toggle mobile menu"
+      class="p-2 rounded-md text-neutral-text hover:bg-background-highlight"
+    >
+      <svg
+        class="h-6 w-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M6 18L18 6M6 6l12 12"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+    </button>
+  </div>
+</DocumentFragment>
+`;

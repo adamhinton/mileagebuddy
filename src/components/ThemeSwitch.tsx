@@ -33,10 +33,14 @@ export default function ThemeSwitch() {
 		);
 
 	if (resolvedTheme === "dark") {
-		return <FiSun onClick={() => setTheme("light")} />;
+		return (
+			<FiSun onClick={() => setTheme("light")} data-testid="theme-switch" />
+		);
 	}
 
 	if (resolvedTheme === "light") {
-		return <FiMoon onClick={() => setTheme("dark")} />;
+		return (
+			<FiMoon onClick={() => setTheme("dark")} data-testid="theme-switch" />
+		);
 	}
 }
