@@ -32,7 +32,9 @@ const ProfileDropdown = (props: ProfileDropdownProps) => {
 				<div className="w-2 h-2 rounded-full bg-accent mr-2 animate-pulse"></div>
 
 				{/* TODO replace with profile icon */}
-				<span className="hidden sm:inline">Profile</span>
+				<span className="hidden sm:inline" data-testid="profile-icon">
+					Profile
+				</span>
 
 				{/* Dropdown indicator */}
 				<svg
