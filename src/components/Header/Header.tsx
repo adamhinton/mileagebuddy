@@ -2,7 +2,6 @@
 // This is (obviously) the main Header.
 // // It contains the logo, title, navigation links, dark mode toggle (ThemeSwitch) and auth buttons (login/logout)
 // It's split up in to several sub-components
-// TODO tabs for internal navigation
 // TODO stretch: Put these class names in tailwindClassNames.ts
 // ______________________________________________________________________________
 
@@ -16,7 +15,6 @@ import { useAppSelector } from "@/redux/hooks";
 import ProfileDropdown from "./HeaderSubComponents/ProfileDropdown";
 import NavLinks from "./HeaderSubComponents/NavLinks";
 import MobileHamburgerMenu from "./HeaderSubComponents/MobileHamburgerMenu";
-// TODO header.test
 
 export const Header: React.FC = () => {
 	const user = useAppSelector((state) => state.user.value);

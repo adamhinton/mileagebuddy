@@ -1,6 +1,5 @@
 // _______________________________________________________________
 // This is (obviously) tests for Header.tsx
-// TODO flesh out tests
 // _______________________________________________________________
 
 import TestReduxStore from "@/app/utils/unitTestUtils/dummyReduxStore";
