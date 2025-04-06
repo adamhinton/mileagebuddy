@@ -9,9 +9,8 @@
 // Active tabs: It knows which tab the user is currently on; that tab is more visually distinct, and nothing happens when user clicks it.
 // Testing: See Tabs.test.tsx
 
-// TODO tabs:
+// TODO Stretch tabs:
 // -- Organize styling
-// -- Unit tests
 // ________________________________________________________________________
 
 import Link from "next/link";
