@@ -150,6 +150,11 @@ AUTH UI FLOW SCENARIOS:
 -User loads page, has no persisted session: Directed to /login
 -User loads page, has previous session: Directed to /dashboard
 -User can use the calculator without being logged in, will save one (three? Not sure) vehicle(s) to localstorage
+Non authenticated users:
+-Without an account, user can make up to three vehicles
+-There are gentle prompts throughout the app advising to make an account, but I don't really care if they do or not so the app doesn't try that hard to convince them
+-Non authenticated users' vehicles are stored in localStorage, there's nothing on them in the DB at all
+-They have full CRUD functionality
 
 DB:
 -hosting DB on Supabase
