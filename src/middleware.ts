@@ -49,16 +49,8 @@ export async function middleware(request: NextRequest) {
 		const vehicleId = request.nextUrl.pathname.split("/").pop()!;
 		const vehicleIdNum = Number(vehicleId);
 
-		// console.log("vehicleIdNum:", vehicleIdNum);
-
 		// This returns an array with one vehicle
 		const vehicle = await getSingleVehicleById(vehicleIdNum);
-
-		// console.log("vehicle from db:", vehicle);
-
-		// console.log("vehicle[0].userid:", vehicle[0]!.userid);
-
-		// console.log("userId for loggedInUser:", userId);
 
 		if (vehicle.length === 0 || vehicle[0]?.userid !== userId) {
 			// throw error
