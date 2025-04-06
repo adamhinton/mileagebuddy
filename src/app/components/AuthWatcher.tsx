@@ -110,6 +110,10 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 				// INITIAL_SESSION is page first loading, among other things
 				console.log("INITIAL SESSION");
 
+				if (!session) {
+					return;
+				}
+
 				dispatch(
 					setUser({
 						id: session!.user.id,

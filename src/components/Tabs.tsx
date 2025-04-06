@@ -8,6 +8,7 @@
 // It's sticky to the top of the page except on mobile
 // Active tabs: It knows which tab the user is currently on; that tab is more visually distinct, and nothing happens when user clicks it.
 // Testing: See Tabs.test.tsx
+// Doesn't show Dashboard tab if user isn't logged in
 
 // TODO Stretch tabs:
 // -- Organize styling
@@ -15,6 +16,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAppSelector } from "../redux/hooks";
 
 type Tab = {
 	path: string;
@@ -31,6 +33,9 @@ const myTabs: Tab[] = [
 
 const Tabs = () => {
 	const pathname = usePathname();
+	// We don't show the Dashboard tab if user isn't logged in
+	const user = useAppSelector((state) => state.user.value);
+	const isLoggedIn = !!user?.id;
 
 	/**Determine whether a given tab is the page the user is currently on */
 	const isActiveTab = (path: string): boolean => {
@@ -43,6 +48,11 @@ const Tabs = () => {
 			<div className="container mx-auto px-2 sm:px-4">
 				<ul className="flex flex-wrap text-xs sm:text-sm font-medium text-center text-neutral-text border-b-2 border-primary-50 dark:border-primary-100/30">
 					{myTabs.map((tab) => {
+						// Hide the Dashboard tab for non-authenticated users
+						if (tab.path === "/dashboard" && !isLoggedIn) {
+							return null;
+						}
+
 						// Active tab is more visually distinct, and nothing happens when user clicks it
 						const isActive = isActiveTab(tab.path);
 						return (

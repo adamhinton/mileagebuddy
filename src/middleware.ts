@@ -30,16 +30,9 @@ export async function middleware(request: NextRequest) {
 	const loggedInUser = await supabase.auth.getUser();
 	const userId = loggedInUser.data.user?.id;
 
-	console.log("loggedInUser:", loggedInUser);
-
-	/**Checking if the user is logged in */
-	const isLoggedIn = (await supabase.auth.getSession()).data.session
-		? true
-		: false;
-	console.log("isLoggedIn", isLoggedIn);
-
-	// Check if user is not signed in and trying to access /dashboard, then redirect to /login
-	if (!isLoggedIn && request.nextUrl.pathname === "/dashboard") {
+	// Ensure non-authenticated users cannot access /dashboard
+	// Dashboard doesn't show up in Tabs either if user isn't logged in, so this is just a backup
+	if (request.nextUrl.pathname === "/dashboard" && !userId) {
 		return NextResponse.redirect(new URL("/login", request.url));
 	}
 
