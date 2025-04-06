@@ -51,6 +51,17 @@ export const Header: React.FC = () => {
 
 	return (
 		<header className="bg-background-header border-b border-primary-100 dark:border-primary-200 shadow-sm">
+			{/* Banner for non-authenticated users */}
+			{!isLoggedIn && (
+				<div className="bg-accent text-white text-center py-2">
+					<p>
+						<a href="/signup" className="underline font-bold">
+							Create a free account
+						</a>{" "}
+						to calculate true vehicle costs.
+					</p>
+				</div>
+			)}
 			<div className="container mx-auto px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between">
 				{/* Logo and title section */}
 				<div className="flex items-center justify-between">
