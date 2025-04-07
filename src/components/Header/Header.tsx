@@ -102,9 +102,7 @@ export const Header: React.FC = () => {
 					<NavLinks />
 
 					{/* Dark/light mode toggle icon */}
-					<div className="hidden sm:block">
-						<ThemeSwitch />
-					</div>
+					<ThemeSwitch />
 				</div>
 			</div>
 		</header>
