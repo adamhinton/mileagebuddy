@@ -55,7 +55,7 @@ export const Header: React.FC = () => {
 			{!isLoggedIn && (
 				<div className="bg-accent text-white text-center py-2">
 					<p>
-						<a href="/signup" className="underline font-bold">
+						<a href="/login" className="underline font-bold">
 							Create a free account
 						</a>{" "}
 						to calculate true vehicle costs.

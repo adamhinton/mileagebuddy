@@ -30,7 +30,7 @@ export default function Page() {
 					<div className="bg-accent text-white text-center py-2 mb-4">
 						<p>
 							Calculate your true car cost!{" "}
-							<a href="/signup" className="underline font-bold">
+							<a href="/login" className="underline font-bold">
 								Create a free account
 							</a>
 						</p>
