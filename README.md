@@ -36,7 +36,7 @@ STYLING:
 
 STATE MANAGEMENT
 -Redux for global state management
--Four reducers: userReducer, tripReducer, vehicleReducer, darkModeReducer
+-Three reducers: userReducer, vehicleReducer, darkModeReducer
 -Logging in will populate user's info to these three states
 
 FRONTEND FEATURES PLANNED:
@@ -47,12 +47,6 @@ FRONTEND FEATURES PLANNED:
 -Relevant files: providers.tsx, ThemeSwitch.tsx
 -Thanks to Dave's video for help with this: https://www.youtube.com/watch?v=7zqI4qMDdg8&t=223s
 
-+Users without accounts can use Calculator
--Need to make account to save it
-
-+SAVED:
--User saves trips, vehicles
-
 +Calculator:
 -User can create and edit their Vehicles
 -User selects a vehicle's type (gas or electric) and the form then displays the relevant sections
@@ -61,6 +55,7 @@ FRONTEND FEATURES PLANNED:
 -Form sections are collapsible and have appropriate buttons for navigation
 -When user hits Submit, the updates are saved to redux glboal state and the db. Redux state is only updated if db operation is successful.
 -See /src/app/calculator/page.tsx
+-Non-authenticated users can't use this
 
 PAGES:
 <Dashboard/>
@@ -130,10 +125,7 @@ https://supabase.com/dashboard/project/kqnhzwgaypywymhqfbgd/settings/api
 -Seeding and migrations
 -Postgres
 -TS
--Knex
--Docker container
 -Zod talking to FE and BE
--NGINX
 
 BACKEND ENDPOINTS:
 -Using nextJS's api/route/route.js structure
@@ -174,10 +166,7 @@ VEHICLES TABLES:
 -So, since they have so many fields, I've separated them in to eight different tables.
 
 API ENDPOINTS:
-api/user(finished)
--PUT, POST, DELETE and GET live in src/app/api/user/route.ts
--These are (obviously) used to perform CRUD operations on a single user
--They're called with a URL like so: api/user?id=1
+Note, there is no users endpoint because we use Supabase's built in private auth.users.
 api/vehicles
 -This assembles/reads/writes etc vehicle data from eight different tables
 -Vehicles are complicated objects in this project so they are separated in to these eight tables
