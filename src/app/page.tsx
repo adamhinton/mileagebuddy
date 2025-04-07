@@ -29,11 +29,10 @@ export default function Page() {
 				{!isLoggedIn && (
 					<div className="bg-accent text-white text-center py-2 mb-4">
 						<p>
-							Save your calculations and access them anytime!{" "}
+							Calculate your true car cost!{" "}
 							<a href="/signup" className="underline font-bold">
-								Create an account
-							</a>{" "}
-							for free.
+								Create a free account
+							</a>
 						</p>
 					</div>
 				)}
