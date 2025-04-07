@@ -22,7 +22,7 @@ const CreateAccountNudge = () => {
 			<p className="text-sm sm:text-base">
 				Save your calculations!{" "}
 				<a
-					href="/signup"
+					href="/login"
 					className="underline font-bold hover:text-accent-200 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-accent"
 				>
 					Create a free account
