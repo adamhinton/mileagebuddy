@@ -35,99 +35,253 @@
 
 # Introduction
 
-- Project logo and acknowledgments.
+![Project Logo](/public/favicon.ico)
+
+- MileageBuddy promotes financial literacy by calculating the true cost per mile of owning a car - including maintenance, depreciation, fuel, insurance, and much more.
 
 # Getting Started
 
 ## To Start Project Locally
 
-- Steps to set up the local frontend and backend.
+Follow these steps to set up the project for local development:
 
-## Environment Variables
+1. **Clone the Repository**  
+   Clone this repository to your local machine:
 
-- Required variables for local development.
+   ```bash
+   git clone https://github.com/your-username/mileagebuddy.git
+   cd mileagebuddy
+   ```
+
+2. **Install Dependencies**  
+   Run the following command to install all required dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. **Ensure Docker is Running**
+
+   - Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) if you haven't already.
+   - Make sure Docker is **running** (not just installed) before proceeding. The local database runs inside Docker.
+
+4. **Set Up Supabase**
+
+   - You need a Supabase project to host the database.
+     - If you're a collaborator on this project, request authorization to access the existing Supabase project.
+     - Otherwise, create your own Supabase project by following the [Supabase CLI setup guide](https://supabase.com/docs/guides/local-development/cli/getting-started).
+   - Link the project to Supabase:
+     ```bash
+     npx supabase link
+     ```
+     - Follow the prompts.
+   - Pull the database schema:
+     ```bash
+     npx supabase db pull
+     ```
+
+5. **Set Up Google Cloud Platform (GCP) OAuth**
+
+   - Create a GCP project and configure OAuth credentials.
+   - Add the URI of the environment where you're running this project (e.g., `localhost`) to the list of **Authorized Redirect URIs** in the GCP console.
+   - Obtain the `GOOGLE_OAUTH_SECRET` and add it to your `.env.local` file.
+
+6. **Environment Variables**  
+   Create a `.env.local` file in the root of the project and populate it with the following variables:
+
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<your-supabase-anon-key>
+   NEXT_JWT_SECRET=<your-jwt-secret>
+   GOOGLE_OAUTH_SECRET=<your-google-oauth-secret>
+   ```
+
+7. **Run the Setup Script**  
+   Use the custom setup script to initialize both the frontend and backend:
+
+   ```bash
+   npm run dev:setup
+   ```
+
+   - This script sets up the local database, and starts both the frontend and backend.
+
+8. **Troubleshooting**
+   - If you encounter issues, ensure Docker is running and the Supabase CLI is installed.
+   - Refer to the "Backend Local Development Debugging" section for additional troubleshooting steps.
 
 # Frontend
 
 ## Styling
 
-- Tailwind CSS and dynamic styling logic.
+- Tailwind CSS ; see globals.css, tailwindconfig.ts and tailWindClassNames.ts
 
 ## State Management
 
-- Redux reducers for global state management.
+- Redux reducers for global state management. See /src/redux
 
-## Frontend Features Planned
+## Frontend Features
 
-- Dark mode and calculator functionality.
+- Car Cost Calculator - user inputs their vehicle details at /calculator
+
+- Dashboard - user reviews their vehicles and the calculated costs per mile
+
+- Dark mode
 
 ## Pages
 
-- Overview of key pages like Dashboard and Login.
+- /dashboard - user can review their saved vehicles and the calculated costs per mile
+
+- /login
+
+- /calculator - Here the user inputs their vehicle details.
 
 # Car Cost Calculation Utility Overview
 
+- See /src/utils/CarCostAlgorithm
+
 ## Purpose & Intention
 
-- Goals of the utility.
+- To calculate a comprehensive breakdown of the cost per mile of driving a vehicle
 
 ## Key Aspects
 
-- Depreciation, fuel cost, fixed costs, and variable costs.
-
-## Overall Calculation
-
-- Main function and its components.
+- Depreciation, fuel cost, maintenance, fixed costs (monthly fees such as insurance and warranty) and variable costs (such as gas, tolls etc)
 
 ## Intended Use & User Benefit
 
-- Planning, insights, and long-term estimation.
+- Financial literacy
+
+-Understanding the true cost of owning a car
 
 # Backend
 
 ## Database
 
-- Supabase setup and table structure.
+- This project uses Supabase as the database provider
 
 ## Backend Endpoints
 
-- Overview of API endpoints.
+The backend uses Next.js API routes to handle CRUD operations for vehicles. Below is a quick overview:
+
+- **GET /api/vehicles**  
+  Fetches vehicle data.
+
+  - Combines data from the eight relevant Vehicle tables (fixedCosts, vehicles, variableCosts etc)
+
+- **POST /api/vehicles**  
+  Adds a new vehicle to the database.
+
+- **PATCH /api/vehicles**  
+  Updates an existing vehicle.
+
+  - Accepts a partial vehicle object and updates only the provided fields.
+  - Calls the `update_vehicle` database function.
+
+- **DELETE /api/vehicles**  
+  Deletes a vehicle by its ID.
+
+  - Returns the deleted vehicle object.
+
+- **PATCH /api/vehicles/order**  
+  Updates the display order of vehicles.
+
+  - Used for drag-and-drop reordering in the dashboard.
+
+- **Users**
+
+  -There is no user endpoint. This project uses Supabase's auth.users built in functionality.
 
 ## Authentication
 
 - Supabase Auth and Google Sign-In.
 
-# API Endpoints
-
-- Details of GET, POST, PATCH, and DELETE endpoints.
-
 # Migrations and Seeds
 
 ## Migrations
 
-- Steps to create and run migrations.
+Migrations are used to modify the database schema. Follow these steps to create and run migrations:
+
+1. **Create a New Migration**  
+   Run the following command to create a new migration file:
+
+   ```bash
+   npx supabase migration new <migration_name>
+   ```
+
+   Replace `<migration_name>` with a descriptive name for your migration.
+
+2. **Run Migrations Locally**  
+   Apply the migrations to your local database:
+
+   ```bash
+   npx supabase migration up
+   ```
+
+3. **Push Migrations to Remote**  
+   Push the migrations to the remote database (be cautious to avoid overwriting production data):
+
+   ```bash
+   npx supabase db push
+   ```
+
+4. **Reset the Database**  
+   To reapply all migrations and populate the database with seed data:
+   ```bash
+   npx supabase db reset
+   ```
 
 ## Seeds
 
-- Seed script for populating the database.
+The seed script populates the database with initial data for testing or development purposes. The seed file is located at `supabase/seed.sql`.
+
+1. **Run the Seed Script Locally**  
+   Reset the database and run seed and migration files:
+
+   ```bash
+   npx supabase db reset
+   ```
+
+2. **Seed Data Structure**
+   - The seed script creates a single user in the `auth.users` table.
+   - It populates six vehicles (three gas and three electric) and their associated sub-tables (`vehicleData`, `gasVehicleData`, `electricVehicleData`, etc.).
 
 ## Reset Database
 
-- Instructions for resetting the database.
+To completely reset the database, including reapplying migrations and running the seed script:
+
+```bash
+npx supabase db reset
+```
+
+**Note:** Ensure Docker Desktop is running before executing any Supabase commands locally. See the Backend Local Development Debugging section if you have issues.
 
 # Testing
 
 ## Frontend Testing
 
-- Current state and plans for frontend tests.
+- Lives in /**tests**/clientTests
+
+- Comprehensive unit test suite for most frontend components
+
+- Ensures confidence in UI stability
+
+- Stretch goal: E2E tests
 
 ## Backend Testing
 
-- Unit and integration testing for backend.
+- Lives in /**tests**/servertests
+
+- Unit testing for server endpoints
+
+- Doesn't test API calls themselves; instead tests the logic of the endpoints while mocking server calls
 
 # Hosting
 
-- Hosting setup for frontend and backend.
+- Frontend: Vercel
+
+- Server: Also Vercel, through full stack Next.js App Router
+
+- Database: Supabase
 
 # Backend Local Development Debugging
 
