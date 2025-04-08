@@ -1,8 +1,4 @@
-![Project Logo](/public/favicon.ico)
-
 # Introduction
-
-![Project Logo](/public/favicon.ico)
 
 - MileageBuddy promotes financial literacy by calculating the true cost per mile of owning a car - including maintenance, depreciation, fuel, insurance, and much more.
 
