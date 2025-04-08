@@ -7,6 +7,7 @@
 
 "use client";
 
+import ProjectLogo from "@/app/projectLogo.png";
 import React, { useState, useRef, useEffect, RefObject } from "react";
 import Link from "next/link";
 import ThemeSwitch from "../ThemeSwitch";
@@ -15,6 +16,7 @@ import { useAppSelector } from "@/redux/hooks";
 import ProfileDropdown from "./HeaderSubComponents/ProfileDropdown";
 import NavLinks from "./HeaderSubComponents/NavLinks";
 import MobileHamburgerMenu from "./HeaderSubComponents/MobileHamburgerMenu";
+import Image from "next/image";
 
 export const Header: React.FC = () => {
 	const user = useAppSelector((state) => state.user.value);
@@ -69,9 +71,17 @@ export const Header: React.FC = () => {
 						<span className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
 							MileageBuddy
 						</span>
-						<span className="hidden md:inline-block text-sm text-neutral-text opacity-70 group-hover:opacity-100 transition-opacity">
-							True car cost calculator
+						<span className="hidden md:inline-block ">
+							<Image
+								src={ProjectLogo}
+								alt="Project Logo"
+								className="h-8 w-8"
+								width={8}
+								height={8}
+								unoptimized
+							/>
 						</span>
+						{/* Project logo */}
 					</Link>
 
 					{/* Mobile menu hamburger button. Hidden on large screen sizes */}

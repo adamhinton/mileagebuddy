@@ -21,14 +21,11 @@ describe("Header.tsx", () => {
 			renderHeader();
 		});
 
-		it("Renders the logo and title", () => {
+		it("Renders the title", () => {
 			renderHeader();
 
 			const logoText = screen.getByText("MileageBuddy");
 			expect(logoText).toBeVisible();
-
-			const tagline = screen.getByText("True car cost calculator");
-			expect(tagline).toBeVisible();
 		});
 	});
 
