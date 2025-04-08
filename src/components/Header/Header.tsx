@@ -64,7 +64,6 @@ export const Header: React.FC = () => {
 					</p>
 				</div>
 			)}
-
 			<div className="container mx-auto px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between">
 				{/* Logo and title section */}
 				<div className="flex items-center justify-between">
