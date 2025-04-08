@@ -1,3 +1,5 @@
+![Project Logo](/public/favicon.ico)
+
 Thanks to this Tailwind cheatsheet:
 https://nerdcave.com/tailwind-cheat-sheet
 https://www.youtube.com/watch?v=DenUCuq4G04&t=46s
