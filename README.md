@@ -1,5 +1,138 @@
 ![Project Logo](/public/favicon.ico)
 
+# Table of Contents
+
+1. [Introduction](#introduction)
+2. [Getting Started](#getting-started)
+   - [To Start Project Locally](#to-start-project-locally)
+   - [Environment Variables](#environment-variables)
+3. [Frontend](#frontend)
+   - [Styling](#styling)
+   - [State Management](#state-management)
+   - [Frontend Features Planned](#frontend-features-planned)
+   - [Pages](#pages)
+4. [Car Cost Calculation Utility Overview](#car-cost-calculation-utility-overview)
+   - [Purpose & Intention](#purpose--intention)
+   - [Key Aspects](#key-aspects)
+   - [Overall Calculation](#overall-calculation)
+   - [Intended Use & User Benefit](#intended-use--user-benefit)
+5. [Backend](#backend)
+   - [Database](#database)
+   - [Backend Endpoints](#backend-endpoints)
+   - [Authentication](#authentication)
+6. [API Endpoints](#api-endpoints)
+7. [Migrations and Seeds](#migrations-and-seeds)
+   - [Migrations](#migrations)
+   - [Seeds](#seeds)
+   - [Reset Database](#reset-database)
+8. [Testing](#testing)
+   - [Frontend Testing](#frontend-testing)
+   - [Backend Testing](#backend-testing)
+9. [Hosting](#hosting)
+10. [Backend Local Development Debugging](#backend-local-development-debugging)
+
+---
+
+# Introduction
+
+- Project logo and acknowledgments.
+
+# Getting Started
+
+## To Start Project Locally
+
+- Steps to set up the local frontend and backend.
+
+## Environment Variables
+
+- Required variables for local development.
+
+# Frontend
+
+## Styling
+
+- Tailwind CSS and dynamic styling logic.
+
+## State Management
+
+- Redux reducers for global state management.
+
+## Frontend Features Planned
+
+- Dark mode and calculator functionality.
+
+## Pages
+
+- Overview of key pages like Dashboard and Login.
+
+# Car Cost Calculation Utility Overview
+
+## Purpose & Intention
+
+- Goals of the utility.
+
+## Key Aspects
+
+- Depreciation, fuel cost, fixed costs, and variable costs.
+
+## Overall Calculation
+
+- Main function and its components.
+
+## Intended Use & User Benefit
+
+- Planning, insights, and long-term estimation.
+
+# Backend
+
+## Database
+
+- Supabase setup and table structure.
+
+## Backend Endpoints
+
+- Overview of API endpoints.
+
+## Authentication
+
+- Supabase Auth and Google Sign-In.
+
+# API Endpoints
+
+- Details of GET, POST, PATCH, and DELETE endpoints.
+
+# Migrations and Seeds
+
+## Migrations
+
+- Steps to create and run migrations.
+
+## Seeds
+
+- Seed script for populating the database.
+
+## Reset Database
+
+- Instructions for resetting the database.
+
+# Testing
+
+## Frontend Testing
+
+- Current state and plans for frontend tests.
+
+## Backend Testing
+
+- Unit and integration testing for backend.
+
+# Hosting
+
+- Hosting setup for frontend and backend.
+
+# Backend Local Development Debugging
+
+- Steps for debugging backend issues.
+
 Thanks to this Tailwind cheatsheet:
 https://nerdcave.com/tailwind-cheat-sheet
 https://www.youtube.com/watch?v=DenUCuq4G04&t=46s
