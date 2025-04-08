@@ -1,5 +1,13 @@
 ![Project Logo](/public/favicon.ico)
 
+# Introduction
+
+![Project Logo](/public/favicon.ico)
+
+- MileageBuddy promotes financial literacy by calculating the true cost per mile of owning a car - including maintenance, depreciation, fuel, insurance, and much more.
+
+- Users input information about vehicles they own, and MileageBuddy calculates the true cost per mile of operating that vehicle including maintenance, fuel, depreciation, insurance and more.
+
 # Table of Contents
 
 1. [Introduction](#introduction)
@@ -32,12 +40,6 @@
 10. [Backend Local Development Debugging](#backend-local-development-debugging)
 
 ---
-
-# Introduction
-
-![Project Logo](/public/favicon.ico)
-
-- MileageBuddy promotes financial literacy by calculating the true cost per mile of owning a car - including maintenance, depreciation, fuel, insurance, and much more.
 
 # Getting Started
 
