@@ -29,7 +29,7 @@ const CreateAccountNudge = () => {
 				</a>
 			</p>
 			<a
-				href="/signup"
+				href="/login"
 				className="mt-2 sm:mt-0 sm:ml-4 inline-block bg-white text-accent font-bold py-2 px-4 rounded-md hover:bg-accent-100 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-white transition-all"
 			>
 				Sign Up
