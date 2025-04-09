@@ -3,19 +3,14 @@
 // Includes a table of contents, app description, benefits, and a quick how-to guide
 // _____________________________________________________________________________
 
+import TableOfContents from "./AboutPageComponents/TableOfContents";
+
 export default function AboutPage() {
 	return (
-		<section className="min-h-screen bg-background-base text-neutral-text p-6 sm:p-8 md:p-12">
+		<main className="min-h-screen bg-background-base text-neutral-text p-6 sm:p-8 md:p-12">
 			<div className="max-w-5xl mx-auto space-y-12">
 				{/* Table of Contents */}
-				<nav id="table-of-contents" className="mb-8">
-					{/* Placeholder for ToC */}
-					<div className="bg-background-elevated p-4 rounded-lg shadow-sm">
-						<p className="text-sm text-neutral-600 dark:text-neutral-400">
-							Table of Contents Placeholder
-						</p>
-					</div>
-				</nav>
+				<TableOfContents />
 
 				{/* Introduction Section */}
 				<section id="introduction" className="space-y-4">
@@ -68,6 +63,6 @@ export default function AboutPage() {
 					</ol>
 				</section>
 			</div>
-		</section>
+		</main>
 	);
 }

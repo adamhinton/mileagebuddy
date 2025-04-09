@@ -122,19 +122,27 @@ const VehicleCard = (props: VehicleCardProps) => {
 				<section className="mt-5 mb-4">
 					<figure className="bg-primary-50 rounded-lg p-4 mb-3">
 						<figcaption className="text-sm font-medium text-neutral-text mb-1">
-							Cost Per Mile
+							True Cost Per Mile (Average Daily Use)
 						</figcaption>
 						<p className="text-3xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
 							${costPerMile.toFixed(2)}
+						</p>
+						<p className="text-xs text-neutral-text mt-1">
+							Includes fixed costs like insurance, loan payments, and regular
+							maintenance.
 						</p>
 					</figure>
 
 					<figure className="bg-secondary-50 rounded-lg p-4">
 						<figcaption className="text-sm font-medium text-neutral-text mb-1">
-							Extra Mile Cost
+							Cost Per Additional Mile
 						</figcaption>
 						<p className="text-2xl font-bold text-secondary">
 							${costPerExtraMile.toFixed(2)}
+						</p>
+						<p className="text-xs text-neutral-text mt-1">
+							Includes variable costs like fuel, wear and tear, and
+							depreciation.
 						</p>
 					</figure>
 				</section>
