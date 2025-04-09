@@ -7,6 +7,8 @@ import { Header } from "@/components/Header/Header";
 import AuthWatcher from "./components/AuthWatcher";
 import Tabs from "@/components/Tabs";
 
+// TODO stretch: Sidebar
+
 const geistSans = Geist({
 	variable: "--font-geist-sans",
 	subsets: ["latin"],
