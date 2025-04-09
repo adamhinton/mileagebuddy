@@ -8,11 +8,13 @@ import { PATCH } from "@/app/api/vehicles/order/route";
 import { type UpdateVehicleOrdersRequest } from "@/app/api/vehicles/order/utils/typesAndSchemas";
 import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 
+// Have to set jest-environment manually on all backend tests because it's different from the client tests
+// In the client tests it's jsdom, and since we have more client tests than server tests, jsdom is the default in jest.config.ts
 /**
  * @jest-environment node
  */
 
-jest.mock("../../../../src/app/utils/server/supabase/server", () => ({
+jest.mock("../../src/app/utils/server/supabase/server", () => ({
 	createClientSSROnly: jest.fn(),
 }));
 

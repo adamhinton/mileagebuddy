@@ -7,19 +7,20 @@ import {
 } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { NextRequest, NextResponse } from "next/server";
 import { DELETE, GET, PATCH, POST } from "@/app/api/vehicles/route";
-import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 import { stringForJoiningVehicleTables } from "@/app/utils/server/queries/vehiclesDBUtils";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
+import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 
 // This file is for UNIT tests. It tests API endpoint logic with dummy data, doesn't interact with an actual DB.
 // See README in servertests/serverunit tests for more info.
 
-// IMPORTANT: All backend tests must have this jest-environment flag at the top of the file, because their jest-environment is different from the one specified in our jest config (since it's different for client vs server tests)
+// Have to set jest-environment manually on all backend tests because it's different from the client tests
+// In the client tests it's jsdom, and since we have more client tests than server tests, jsdom is the default in jest.config.ts
 /**
  * @jest-environment node
  */
 
-jest.mock("../../../../src/app/utils/server/supabase/server", () => ({
+jest.mock("../../src/app/utils/server/supabase/server", () => ({
 	createClientSSROnly: jest.fn(),
 }));
 
