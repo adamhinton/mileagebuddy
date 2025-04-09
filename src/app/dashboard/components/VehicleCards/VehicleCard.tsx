@@ -7,6 +7,7 @@
 // ____________________________________________________________________________
 
 import Button from "@/app/components/Button";
+import ToolTip from "@/app/components/ToolTip";
 import { CarCostCalculationResults } from "@/app/utils/CarCostAlgorithm/calculateCarCostMain";
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { DraggableAttributes } from "@dnd-kit/core";
@@ -24,6 +25,8 @@ type VehicleCardProps = {
 };
 
 const VehicleCard = (props: VehicleCardProps) => {
+	const averageDailyMiles = props.vehicle.usage.averageDailyMiles;
+
 	const { vehicle, vehicleCost, onEdit, onDelete, dragHandleProps } = props;
 
 	const costPerMile = vehicleCost?.costPerAverageDailyMile ?? 0;
@@ -122,27 +125,53 @@ const VehicleCard = (props: VehicleCardProps) => {
 				<section className="mt-5 mb-4">
 					<figure className="bg-primary-50 rounded-lg p-4 mb-3">
 						<figcaption className="text-sm font-medium text-neutral-text mb-1">
-							True Cost Per Mile (Average Daily Use)
+							{`Cost Per Mile: ${averageDailyMiles} miles/day`}
+							<ToolTip
+								text={`Includes maintenance, fuel, depreciation, fixed costs like insurance, loan payments, and more.`}
+							>
+								<svg
+									className="w-4 h-4 inline-block ml-1 text-neutral-500 cursor-help"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+									/>
+								</svg>
+							</ToolTip>
 						</figcaption>
 						<p className="text-3xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
 							${costPerMile.toFixed(2)}
-						</p>
-						<p className="text-xs text-neutral-text mt-1">
-							Includes fixed costs like insurance, loan payments, and regular
-							maintenance.
 						</p>
 					</figure>
 
 					<figure className="bg-secondary-50 rounded-lg p-4">
 						<figcaption className="text-sm font-medium text-neutral-text mb-1">
 							Cost Per Additional Mile
+							<ToolTip
+								text={`Includes maintenance, depreciation, fuel, and other variable costs, but not fixed costs like insurance.`}
+							>
+								<svg
+									className="w-4 h-4 inline-block ml-1 text-neutral-500 cursor-help"
+									fill="none"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+								>
+									<path
+										strokeLinecap="round"
+										strokeLinejoin="round"
+										strokeWidth={2}
+										d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+									/>
+								</svg>
+							</ToolTip>
 						</figcaption>
 						<p className="text-2xl font-bold text-secondary">
 							${costPerExtraMile.toFixed(2)}
-						</p>
-						<p className="text-xs text-neutral-text mt-1">
-							Includes variable costs like fuel, wear and tear, and
-							depreciation.
 						</p>
 					</figure>
 				</section>
