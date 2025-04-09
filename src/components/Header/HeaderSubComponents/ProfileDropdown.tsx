@@ -55,7 +55,7 @@ const ProfileDropdown = (props: ProfileDropdownProps) => {
 
 			{/* Profile dropdown menu */}
 			{isProfileDropdownOpen && (
-				<div className="absolute right-0 mt-2 w-48 bg-background-elevated rounded-md shadow-lg border border-primary-50 dark:border-primary-200 z-10">
+				<div className="absolute right-0 mt-2 w-48 bg-background-elevated rounded-md shadow-lg border border-primary-50 dark:border-primary-200 z-40">
 					<div className="p-2">
 						<div className="text-sm font-medium text-neutral-text mb-2 border-b border-primary-50 dark:border-primary-200 pb-2">
 							{user?.email}

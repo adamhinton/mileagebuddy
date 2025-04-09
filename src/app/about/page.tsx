@@ -1,6 +1,7 @@
 // _____________________________________________________________________________
 // This is the About page
 // Includes a table of contents, app description, benefits, and a quick how-to guide
+// TODO stretch: Basic tests for this page
 // _____________________________________________________________________________
 
 "use client";
