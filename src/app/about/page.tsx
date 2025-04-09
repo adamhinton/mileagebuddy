@@ -44,17 +44,14 @@ export default function AboutPage() {
 
 					{/* Dashboard Screenshot */}
 					<div className="mt-6 mb-8">
-						<h3 className="text-xl font-semibold mb-3 text-neutral-text">
-							Dashboard Example
-						</h3>
-						<div className="overflow-hidden rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700">
+						<div className="overflow-hidden rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700 max-w-3xl mx-auto">
 							{mounted && (
 								<Image
 									src={dashboardImage}
 									alt="MileageBuddy Dashboard Example"
-									width={500}
-									height={300}
-									className="w-full"
+									width={600}
+									height={338}
+									className="w-full h-auto object-contain"
 									priority
 								/>
 							)}
