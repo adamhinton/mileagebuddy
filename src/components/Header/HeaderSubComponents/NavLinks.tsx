@@ -23,7 +23,7 @@ const NavLinks = () => {
 			</Link>
 			<Link
 				href="https://github.com/adamhinton/mileagebuddy/"
-				className="nav-link-primary w-full sm:w-auto text-center"
+				className="nav-link w-full sm:w-auto text-center"
 			>
 				Source
 			</Link>
