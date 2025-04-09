@@ -28,7 +28,7 @@ const myTabs: Tab[] = [
 	{ path: "/login", label: "Login" },
 	{ path: "/dashboard", label: "Dashboard" },
 	{ path: "/calculator", label: "Calculator" },
-	{ path: "/", label: "About" },
+	{ path: "/about", label: "About" },
 ];
 
 const Tabs = () => {
