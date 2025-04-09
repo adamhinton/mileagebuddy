@@ -3,9 +3,28 @@
 // Includes a table of contents, app description, benefits, and a quick how-to guide
 // _____________________________________________________________________________
 
+"use client";
+
 import TableOfContents from "./AboutPageComponents/TableOfContents";
+import { useTheme } from "next-themes";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function AboutPage() {
+	const { resolvedTheme } = useTheme();
+	const [mounted, setMounted] = useState(false);
+
+	// Ensure component is mounted before accessing theme
+	useEffect(() => {
+		setMounted(true);
+	}, []);
+
+	// Use the appropriate image based on the theme
+	const dashboardImage =
+		mounted && resolvedTheme === "dark"
+			? "/images/dashboardExample-DarkMode.png"
+			: "/images/dashboardExample-Lightmode.png";
+
 	return (
 		<main className="min-h-screen bg-background-base text-neutral-text p-6 sm:p-8 md:p-12">
 			<div className="max-w-5xl mx-auto space-y-12">
@@ -22,6 +41,29 @@ export default function AboutPage() {
 						car, including expenses like fuel, maintenance, depreciation,
 						insurance, and more.
 					</p>
+
+					{/* Dashboard Screenshot */}
+					<div className="mt-6 mb-8">
+						<h3 className="text-xl font-semibold mb-3 text-neutral-text">
+							Dashboard Example
+						</h3>
+						<div className="overflow-hidden rounded-lg shadow-lg border border-neutral-200 dark:border-neutral-700">
+							{mounted && (
+								<Image
+									src={dashboardImage}
+									alt="MileageBuddy Dashboard Example"
+									width={500}
+									height={300}
+									className="w-full"
+									priority
+								/>
+							)}
+						</div>
+						<p className="text-sm text-center mt-2 text-neutral-500 dark:text-neutral-400">
+							Track your vehicles and their calculated costs per mile in one
+							place
+						</p>
+					</div>
 				</section>
 
 				{/* Benefits Section */}
