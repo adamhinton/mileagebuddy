@@ -91,8 +91,6 @@ export const HybridVehicleDataSchema = z
 		milesPerGallonCity: z.number().max(1000).nonnegative().describe("MPG City"),
 
 		// Electric components
-		// Should always be true. The other kind is a standard hybrid, which would just go under GasVehicle for our purposes
-		isPlugInHybrid: z.literal(true),
 		costPerCharge: z
 			.number()
 			.nonnegative()
