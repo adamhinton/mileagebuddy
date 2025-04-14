@@ -40,6 +40,7 @@ const createMockProps = () => {
 	> = {
 		gasVehicleData: "isCollapsed",
 		electricVehicleData: "isCollapsed",
+		hybridVehicleData: "isCollapsed",
 		vehicleData: "isCollapsed",
 		purchaseAndSales: "isCollapsed",
 		usage: "isCollapsed",
@@ -98,6 +99,18 @@ describe("AllFormSubSections.tsx", () => {
 		// Should show electric form but not gas
 		expect(queryByText("Electric Vehicle Data")).toBeInTheDocument();
 		expect(queryByText("Gas Vehicle Data")).not.toBeInTheDocument();
+		expect(queryByText("Hybrid Vehicle Data")).not.toBeInTheDocument();
+		// Should show common sections
+		expect(queryByText("Vehicle Data")).toBeInTheDocument();
+	});
+
+	it("renders correct sections with hybrid vehicle type", () => {
+		const { queryByText } = renderFormSubSections({
+			watchedVehicleType: "hybrid",
+		});
+		expect(queryByText("Hybrid Vehicle Data")).toBeInTheDocument();
+		expect(queryByText("Gas Vehicle Data")).not.toBeInTheDocument();
+		expect(queryByText("Electric Vehicle Data")).not.toBeInTheDocument();
 		// Should show common sections
 		expect(queryByText("Vehicle Data")).toBeInTheDocument();
 	});

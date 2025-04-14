@@ -6,6 +6,7 @@
 
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import {
+	type Hybrid_Vehicle_For_DB_POST,
 	type Electric_Vehicle_For_DB_POST,
 	type Gas_Vehicle_For_DB_POST,
 } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
@@ -19,7 +20,10 @@ export type FormSectionProps = {
 	isCompleted?: boolean;
 	isCollapsed: CollapsedOrNot;
 	onToggleCollapse: () => void;
-	id: keyof Gas_Vehicle_For_DB_POST | keyof Electric_Vehicle_For_DB_POST;
+	id:
+		| keyof Gas_Vehicle_For_DB_POST
+		| keyof Electric_Vehicle_For_DB_POST
+		| keyof Hybrid_Vehicle_For_DB_POST;
 	formNavOptions: FormNavigationOptions;
 };
 
