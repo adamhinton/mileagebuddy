@@ -10,6 +10,7 @@ import {
 	DeepReadonly,
 	ElectricVehicleSchema,
 	GasVehicleSchema,
+	HybridVehicleSchema,
 	refineZodVehicleValidation,
 } from "./GetVehicleTypes";
 import { boughtAtLessThanSoldAtError } from "@/app/zod/schemas/VehicleSubSchemas";
@@ -108,6 +109,46 @@ export type Electric_Vehicle_For_DB_POST = z.infer<
 	typeof ElectricVehicleSchemaForPOST
 >;
 
+// same thing with hybrid
+export const HybridVehicleSchemaForPOST = HybridVehicleSchema.omit({
+	id: true,
+}).extend({
+	vehicleData: HybridVehicleSchema.shape.vehicleData.omit({ vehicleID: true }),
+	hybridVehicleData: HybridVehicleSchema.shape.hybridVehicleData.omit({
+		vehicleID: true,
+	}),
+	fixedCosts: HybridVehicleSchema.shape.fixedCosts.omit({ vehicleID: true }),
+	yearlyMaintenanceCosts: HybridVehicleSchema.shape.yearlyMaintenanceCosts.omit(
+		{
+			vehicleID: true,
+		}
+	),
+	variableCosts: HybridVehicleSchema.shape.variableCosts.omit({
+		vehicleID: true,
+	}),
+	// Need innerType here because it has a describe and refine block
+	// Don't ask me why, that's what Google says
+	purchaseAndSales: HybridVehicleSchema.shape.purchaseAndSales
+		.innerType()
+		.omit({
+			vehicleID: true,
+		})
+		.refine(
+			(data) => {
+				return data.milesBoughtAt <= data.willSellCarAtMiles;
+			},
+			{
+				message: boughtAtLessThanSoldAtError,
+				path: ["purchaseAndSales"],
+			}
+		),
+	usage: HybridVehicleSchema.shape.usage.omit({ vehicleID: true }),
+});
+
+export type Hybrid_Vehicle_For_DB_POST = z.infer<
+	typeof HybridVehicleSchemaForPOST
+>;
+
 // Vehicle without any ids except userid, because it hasn't been sent to db yet
 // This is for POST requests
 // I wasn't sure how to make it only exclude vehicleIDs, this looks clunky but does the job
@@ -118,6 +159,7 @@ export const VehicleToBePostedSchema = z
 	.discriminatedUnion("type", [
 		GasVehicleSchemaForPOST,
 		ElectricVehicleSchemaForPOST,
+		HybridVehicleSchemaForPOST,
 	])
 	.refine(
 		(data) => {

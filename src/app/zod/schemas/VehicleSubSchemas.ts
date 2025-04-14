@@ -66,6 +66,52 @@ export type ElectricVehicleData = Readonly<
 	z.infer<typeof ElectricVehicleDataSchema>
 >;
 
+/** This is a SUB OBJECT of BaseVehicleSchema
+ * This is NOT a vehicle, it just has some basic data
+ *
+ * This property will only appear on Hybrid vehicles
+ */
+export const HybridVehicleDataSchema = z
+	.object({
+		vehicleID: z.number().readonly(),
+		// Gas components
+		gasCostPerGallon: z
+			.number()
+			.max(1000)
+			.nonnegative()
+			.describe("Gas Cost $/gal"),
+		milesPerGallonHighway: z
+			.number()
+			.max(1000)
+			.nonnegative()
+			.describe("MPG Highway"),
+		milesPerGallonCity: z.number().max(1000).nonnegative().describe("MPG City"),
+
+		// Electric components
+		isPlugInHybrid: z.boolean().describe("Is this a plug-in hybrid?"),
+		costPerCharge: z
+			.number()
+			.nonnegative()
+			.max(1000)
+			.describe("Cost Per Charge $"),
+		electricRangeMiles: z
+			.number()
+			.max(10_000)
+			.describe("Pure Electric Range Miles"),
+
+		// Usage pattern
+		percentElectricDriving: z
+			.number()
+			.nonnegative()
+			.max(100)
+			.describe("% Driving on Electric Power"),
+	})
+	.describe("Hybrid Vehicle Data");
+
+export type HybridVehicleData = Readonly<
+	z.infer<typeof HybridVehicleDataSchema>
+>;
+
 // This error string is also used in the PurchaseAndSalesSubForm.tsx file so I'm defining it here for consistency
 export const boughtAtLessThanSoldAtError =
 	"Miles bought at must be less than miles you'll sell at";

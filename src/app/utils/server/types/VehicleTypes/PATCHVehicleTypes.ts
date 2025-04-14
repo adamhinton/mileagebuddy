@@ -11,11 +11,13 @@ import {
 	DeepReadonly,
 	ElectricVehicleSchema,
 	GasVehicleSchema,
+	HybridVehicleSchema,
 } from "./GetVehicleTypes";
 import {
 	ElectricVehicleDataSchema,
 	FixedCostsSchema,
 	GasVehicleDataSchema,
+	HybridVehicleDataSchema,
 	PurchaseAndSalesSchema,
 	UsageSchema,
 	VariableCostsSchema,
@@ -23,13 +25,12 @@ import {
 	YearlyMaintenanceCostsSchema,
 } from "../../../../zod/schemas/VehicleSubSchemas";
 
-// Really dumb that I have to do this twice then make a union of this and ElectricVehicleSchemaForPATCH
+// Really dumb that I have to do this three times then make a union of this and ElectricVehicleSchemaForPATCH
 export const GasVehicleSchemaForPATCH = GasVehicleSchema.extend({
 	// Other fields won't be changed, like userid and id
 	type: z.literal("gas"),
 	vehicleData: VehicleDataSchema.optional(),
 	gasVehicleData: GasVehicleDataSchema.optional(),
-	// This will always be null anyway
 	purchaseAndSales: PurchaseAndSalesSchema.optional(),
 	usage: UsageSchema.optional(),
 	fixedCosts: FixedCostsSchema.optional(),
@@ -37,12 +38,11 @@ export const GasVehicleSchemaForPATCH = GasVehicleSchema.extend({
 	variableCosts: VariableCostsSchema.optional(),
 });
 
-// Really dumb that I have to do this twice then make a union of this and GasVehicleSchemaForPATCH
+// Really dumb that I have to do this three times then make a union of this and GasVehicleSchemaForPATCH
 export const ElectricVehicleSchemaForPATCH = ElectricVehicleSchema.extend({
 	// Other fields won't be changed, like userid and id
 	type: z.literal("electric"),
 	vehicleData: VehicleDataSchema.optional(),
-	// This will always be null anyway
 	electricVehicleData: ElectricVehicleDataSchema.optional(),
 	purchaseAndSales: PurchaseAndSalesSchema.innerType().optional(),
 	usage: UsageSchema.optional(),
@@ -51,6 +51,20 @@ export const ElectricVehicleSchemaForPATCH = ElectricVehicleSchema.extend({
 	variableCosts: VariableCostsSchema.optional(),
 });
 
+export const HybridVehicleSchemaForPATCH = HybridVehicleSchema.extend({
+	// Other fields won't be changed, like userid and id
+	type: z.literal("hybrid"),
+	vehicleData: VehicleDataSchema.optional(),
+	hybridVehicleData: HybridVehicleDataSchema.optional(),
+	purchaseAndSales: PurchaseAndSalesSchema.innerType().optional(),
+	usage: UsageSchema.optional(),
+	fixedCosts: FixedCostsSchema.optional(),
+	yearlyMaintenanceCosts: YearlyMaintenanceCostsSchema.optional(),
+	variableCosts: VariableCostsSchema.optional(),
+});
+
+//
+
 /** Use for validating Vehicles being sent in PATCH requests
  *
  * All sub-fields are optional; if a field isn't included, it won't be updated in the db
@@ -58,6 +72,7 @@ export const ElectricVehicleSchemaForPATCH = ElectricVehicleSchema.extend({
 export const VehicleSchemaForPATCH = z.discriminatedUnion("type", [
 	GasVehicleSchemaForPATCH,
 	ElectricVehicleSchemaForPATCH,
+	HybridVehicleSchemaForPATCH,
 ]);
 
 /**
