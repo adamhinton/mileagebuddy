@@ -93,7 +93,6 @@ type FormProps = FormPropsEditMode | FormPropsNewVehicleMode;
 const VehicleCreationOrEditForm = (props: FormProps) => {
 	const loggedInUser = useAppSelector((state) => state.user.value);
 	const userId = loggedInUser ? loggedInUser.id : "testid";
-	console.log("userId:", userId);
 
 	const { mode, vehicleToEdit, schema } = props;
 
