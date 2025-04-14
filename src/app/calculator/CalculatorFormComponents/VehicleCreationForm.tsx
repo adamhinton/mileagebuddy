@@ -105,6 +105,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 		gasVehicleData: "isNotCollapsed",
 		vehicleData: "isCollapsed",
 		electricVehicleData: "isCollapsed",
+		hybridVehicleData: "isCollapsed",
 		purchaseAndSales: "isCollapsed",
 		usage: "isCollapsed",
 		fixedCosts: "isCollapsed",
@@ -223,7 +224,11 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 	 */
 	const formSectionOrder = useMemo(() => {
 		const formSectionOrder: Readonly<CollapsibleSectionTitles[]> = [
-			watchedVehicleType === "gas" ? "gasVehicleData" : "electricVehicleData",
+			watchedVehicleType === "gas"
+				? "gasVehicleData"
+				: watchedVehicleType === "electric"
+					? "electricVehicleData"
+					: "hybridVehicleData",
 			"vehicleData",
 			"purchaseAndSales",
 			"usage",
@@ -295,6 +300,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 				/>
 			</div>
 
+			{/* TODO make this look better at smaller screen sizes */}
 			<div className="p-3 bg-white dark:bg-neutral-800 rounded-lg shadow-sm border border-neutral-200 dark:border-neutral-700 mb-6">
 				<h3 className="text-base font-medium text-neutral-800 dark:text-neutral-200 mb-2">
 					Vehicle Type
@@ -315,7 +321,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 							{...register("type", { required: true })}
 							className="text-primary focus:ring-primary h-3.5 w-3.5"
 						/>
-						<span className="text-sm">Gas Vehicle</span>
+						<span className="text-sm">Gas / Standard Hybrid</span>
 					</label>
 					<label
 						className={`flex flex-1 items-center gap-2 bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 rounded-md cursor-pointer border hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
@@ -331,7 +337,24 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 							{...register("type", { required: true })}
 							className="text-primary focus:ring-primary h-3.5 w-3.5"
 						/>
-						<span className="text-sm">Electric Vehicle</span>
+						<span className="text-sm">Electric</span>
+					</label>
+					{/* Same thing for plug-in hybrid */}
+					<label
+						className={`flex flex-1 items-center gap-2 bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 rounded-md cursor-pointer border hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
+						${
+							watchedVehicleType === "hybrid"
+								? "border-primary dark:border-primary-200"
+								: "border-neutral-200 dark:border-neutral-600"
+						}`}
+					>
+						<input
+							type="radio"
+							value="hybrid"
+							{...register("type", { required: true })}
+							className="text-primary focus:ring-primary h-3.5 w-3.5"
+						/>
+						<span className="text-sm">Plug-in Hybrid</span>
 					</label>
 				</div>
 
@@ -381,6 +404,7 @@ const collapseAllSections = (
 		gasVehicleData: "isCollapsed",
 		vehicleData: "isCollapsed",
 		electricVehicleData: "isCollapsed",
+		hybridVehicleData: "isCollapsed",
 		purchaseAndSales: "isCollapsed",
 		usage: "isCollapsed",
 		fixedCosts: "isCollapsed",
