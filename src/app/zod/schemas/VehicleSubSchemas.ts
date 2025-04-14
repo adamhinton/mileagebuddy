@@ -27,6 +27,8 @@ export type VehicleData = Readonly<z.infer<typeof VehicleDataSchema>>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
+ *
+ * Standard hybrids will also be treated as gas vehicles. For our calculation purposes, they're just gas vehicles with better mpg
  */
 export const GasVehicleDataSchema = z
 	.object({
@@ -69,7 +71,8 @@ export type ElectricVehicleData = Readonly<
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
  *
- * This property will only appear on Hybrid vehicles
+ * This property will only appear on Hybrid vehicles that are of type "plugin"
+ * Standard hybrids will not have this property, and will be treated as a gas vehicle
  */
 export const HybridVehicleDataSchema = z
 	.object({
@@ -88,7 +91,8 @@ export const HybridVehicleDataSchema = z
 		milesPerGallonCity: z.number().max(1000).nonnegative().describe("MPG City"),
 
 		// Electric components
-		isPlugInHybrid: z.boolean().describe("Is this a plug-in hybrid?"),
+		// Should always be true. The other kind is a standard hybrid, which would just go under GasVehicle for our purposes
+		isPlugInHybrid: z.literal(true),
 		costPerCharge: z
 			.number()
 			.nonnegative()
@@ -100,6 +104,7 @@ export const HybridVehicleDataSchema = z
 			.describe("Pure Electric Range Miles"),
 
 		// Usage pattern
+		// percentGasDriving will be derived from this so we don't need a separate field for it
 		percentElectricDriving: z
 			.number()
 			.nonnegative()
