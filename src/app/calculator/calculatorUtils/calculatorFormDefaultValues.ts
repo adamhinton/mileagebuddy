@@ -34,6 +34,14 @@ const baseDefaultVehicleValues: DeepPartial<DeepReadonly<VehiclePATCHorPOST>> =
 			costPerCharge: 0,
 			milesPerCharge: 0,
 		},
+		hybridVehicleData: {
+			gasCostPerGallon: 0,
+			milesPerGallonHighway: 0,
+			milesPerGallonCity: 0,
+			costPerCharge: 0,
+			electricRangeMiles: 0,
+			percentElectricDriving: 0,
+		},
 		purchaseAndSales: {
 			yearPurchased: 0,
 			purchasePrice: 0,
@@ -135,6 +143,14 @@ export const defaultVehicleValuesPATCH = (
 			? {
 					electricVehicleData: {
 						vehicleID: vehicleToEdit.electricVehicleData?.vehicleID,
+					},
+				}
+			: 0),
+
+		...(vehicleToEdit.type === "hybrid"
+			? {
+					hybridVehicleData: {
+						vehicleID: vehicleToEdit.hybridVehicleData?.vehicleID,
 					},
 				}
 			: 0),
