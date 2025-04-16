@@ -51,6 +51,8 @@ export type GasVehicleData = Readonly<z.infer<typeof GasVehicleDataSchema>>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
+ *
+ * TODO stretch: These fields are different from the fields for hybridVehicle. Standardize the fields.
  */
 export const ElectricVehicleDataSchema = z
 	.object({
@@ -91,15 +93,21 @@ export const HybridVehicleDataSchema = z
 		milesPerGallonCity: z.number().max(1000).nonnegative().describe("MPG City"),
 
 		// Electric components
-		costPerCharge: z
+		electricityCostPerKWh: z
 			.number()
 			.nonnegative()
-			.max(1000)
-			.describe("Cost Per Charge $"),
-		electricRangeMiles: z
+			.max(100)
+			.describe("Electricity cost per kWh $"),
+		milesPerKWhHighway: z
 			.number()
-			.max(10_000)
-			.describe("Pure Electric Range Miles"),
+			.positive()
+			.max(100)
+			.describe("Miles per kWh highway"),
+		milesPerKWhCity: z
+			.number()
+			.positive()
+			.max(100)
+			.describe("Miles per kWh city"),
 
 		// Usage pattern
 		// percentGasDriving will be derived from this so we don't need a separate field for it
@@ -107,7 +115,7 @@ export const HybridVehicleDataSchema = z
 			.number()
 			.nonnegative()
 			.max(100)
-			.describe("% Driving on Electric Power"),
+			.describe("% Driving on Electric"),
 	})
 	.describe("Hybrid Vehicle Data");
 
