@@ -72,20 +72,29 @@ const HybridVehicleDataSubForm = (props: Props) => {
 			{/* Electric components */}
 			<MileageCalcFormNumInput
 				registerFn={register}
-				path="hybridVehicleData.costPerCharge"
+				path="hybridVehicleData.electricityCostPerKWh"
 				subSchema={
-					BaseVehicleSchema.shape.hybridVehicleData.shape.costPerCharge
+					BaseVehicleSchema.shape.hybridVehicleData.shape.electricityCostPerKWh
 				}
-				error={errors.hybridVehicleData?.costPerCharge?.message}
+				error={errors.hybridVehicleData?.electricityCostPerKWh?.message}
 			/>
 
 			<MileageCalcFormNumInput
 				registerFn={register}
-				path="hybridVehicleData.electricRangeMiles"
+				path="hybridVehicleData.milesPerKWhHighway"
 				subSchema={
-					BaseVehicleSchema.shape.hybridVehicleData.shape.electricRangeMiles
+					BaseVehicleSchema.shape.hybridVehicleData.shape.milesPerKWhHighway
 				}
-				error={errors.hybridVehicleData?.electricRangeMiles?.message}
+				error={errors.hybridVehicleData?.milesPerKWhHighway?.message}
+			/>
+
+			<MileageCalcFormNumInput
+				registerFn={register}
+				path="hybridVehicleData.milesPerKWhCity"
+				subSchema={
+					BaseVehicleSchema.shape.hybridVehicleData.shape.milesPerKWhCity
+				}
+				error={errors.hybridVehicleData?.milesPerKWhCity?.message}
 			/>
 
 			{/* Usage pattern */}
