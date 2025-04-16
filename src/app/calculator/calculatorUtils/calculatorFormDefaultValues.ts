@@ -38,8 +38,9 @@ const baseDefaultVehicleValues: DeepPartial<DeepReadonly<VehiclePATCHorPOST>> =
 			gasCostPerGallon: 0,
 			milesPerGallonHighway: 0,
 			milesPerGallonCity: 0,
-			costPerCharge: 0,
-			electricRangeMiles: 0,
+			electricityCostPerKWh: 0,
+			milesPerKWhHighway: 0,
+			milesPerKWhCity: 0,
 			percentElectricDriving: 0,
 		},
 		purchaseAndSales: {
