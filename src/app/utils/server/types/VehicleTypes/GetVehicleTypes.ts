@@ -41,8 +41,8 @@ export type DeepReadonly<T> = {
 	readonly [P in keyof T]: T[P] extends object ? DeepReadonly<T[P]> : T[P];
 };
 
-/**This will be either an ElectricVehicle type or GasVehicle type
- * depending on the "type" field ("type": "gas" or "type":  "electric").
+/**This will be either an ElectricVehicle type, HybridVehicle type or GasVehicle type
+ * depending on the "type" field ("type": "gas" or "type":  "electric" or "type": "hybrid").
  * This matches what you will receive from a GET request to the db.
  * There are other types for vehicles you haven't POSTed yet, or PATCH vehicles.
  */
