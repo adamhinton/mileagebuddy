@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import VehiclesDBUtils from "@/app/utils/server/queries/vehiclesDBUtils";
-import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
+import {
+	Vehicle,
+	VehicleSchema,
+} from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
 import { Vehicle_For_db_PATCH } from "@/app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
@@ -194,6 +197,23 @@ export async function PATCH(
 		supabase,
 		Number(vehicleID)
 	);
+
+	// // if response error, handle error
+	// if (response.) {
+	// 	return NextResponse.json({
+	// 		error: response.error,
+	// 		status: 500,
+	// 	});
+	// }
+
+	// safe parse the response to make sure it's a Vehicle
+	// const isSafe = VehicleSchema.safeParse(response);
+	// if (!isSafe.success) {
+	// 	return NextResponse.json({
+	// 		error: "Failed to update vehicle" + isSafe.error,
+	// 		status: 500,
+	// 	});
+	// }
 
 	return response;
 }
