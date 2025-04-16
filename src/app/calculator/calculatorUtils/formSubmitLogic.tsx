@@ -35,10 +35,12 @@ const formSubmitLogic = async (
 		try {
 			const updatedVehicle = await updateVehicleInDBClient(formData);
 
+			console.log("updatedVehicle:", updatedVehicle);
 			// Set to redux state
 			dispatch(editVehicleById({ vehicle: updatedVehicle }));
 
-			clearAllFormValues();
+			// TODO reinstate this, jus commented for testing
+			// clearAllFormValues();
 		} catch (error) {
 			console.error("Error updating vehicle:", error);
 		}
@@ -54,7 +56,8 @@ const formSubmitLogic = async (
 			// Set to redux state
 			dispatch(addVehicle(newVehicle));
 
-			clearAllFormValues();
+			// TODO reinstate this, jus commented for testing
+			// clearAllFormValues();
 		} catch (error) {
 			console.error("Error inserting vehicle:", error);
 		}
