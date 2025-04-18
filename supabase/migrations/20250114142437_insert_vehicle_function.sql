@@ -4,7 +4,7 @@
 -- Takes in a Vehicle (defined at GetVehicleTypes.ts)
 -- Should just be able to pass in the Vehicle and the function will do the rest
 -- This only updates any table if all updates are successful, otherwise it rolls back
--- Note that vehicles are complicated objects, so there are eight different tables containing vehicle data
+-- Note that vehicles are complicated objects, so there are nine different tables containing vehicle data
 -- This function only returns the new vehicle's id, then the POST fetches that vehicle and returns the full vehicle data
 -- That isn't totally efficient, but it does separate concerns. If this project gets a lot of traffic, it'll be easy to streamline later.
 -- vehiclesOrder: This also increments the order of all other vehicles for the user, so that the new vehicle is always first in the lists
@@ -16,6 +16,7 @@ CREATE OR REPLACE FUNCTION insert_vehicle(
         _vehicleData jsonb,
         _gasVehicleData jsonb,  -- Optional, depending on the vehicle type
         _electricVehicleData jsonb, -- Optional, depending on the vehicle type
+        _hybridVehicleData jsonb, -- Optional, depending on the vehicle type
         _purchaseAndSales jsonb,
         _usage jsonb,
         _fixedCosts jsonb,
@@ -42,6 +43,7 @@ BEGIN
                 _vehicleData->>'model', _vehicleData->>'trim', (_vehicleData->>'highwayMPG')::DECIMAL);
 
         -- Insert into gasVehicleData only for 'gas' type vehicles
+        -- Standard hybrids (ones that don't plug in) are also counted in this category
         IF _type = 'gas' THEN
             INSERT INTO "gasVehicleData" ("vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity")
             VALUES (new_vehicle_id, (_gasVehicleData->>'gasCostPerGallon')::DECIMAL, 
@@ -56,6 +58,32 @@ BEGIN
                     (_electricVehicleData->>'milesPerCharge')::DECIMAL,
                     (_electricVehicleData->>'electricRangeMiles')::DECIMAL);
         END IF;
+
+                -- Insert into electricVehicleData only for 'electric' type vehicles
+        IF _type = 'electric' THEN
+            INSERT INTO "electricVehicleData" ("vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles")
+            VALUES (new_vehicle_id, (_electricVehicleData->>'costPerCharge')::DECIMAL,
+                    (_electricVehicleData->>'milesPerCharge')::DECIMAL,
+                    (_electricVehicleData->>'electricRangeMiles')::DECIMAL);
+        END IF;
+
+        -- Insert into hybridVehicleData only for 'hybrid' type vehicles
+        -- This is only for PLUGIN hybrids; standard hybrids are counted as gasVehicles for our calculation purposes
+        IF _type = 'hybrid' THEN
+            INSERT INTO "hybridVehicleData" ("vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity",
+                                             "electricityCostPerKWh", "milesPerKWhHighway", "milesPerKWhCity", "percentElectricDriving")
+            VALUES (new_vehicle_id, (_hybridVehicleData->>'gasCostPerGallon')::DECIMAL,
+                    (_hybridVehicleData->>'milesPerGallonHighway')::DECIMAL,
+                    (_hybridVehicleData->>'milesPerGallonCity')::DECIMAL,
+                    (_hybridVehicleData->>'electricityCostPerKWh')::DECIMAL,
+                    (_hybridVehicleData->>'milesPerKWhHighway')::DECIMAL,
+                    (_hybridVehicleData->>'milesPerKWhCity')::DECIMAL,
+                    (_hybridVehicleData->>'percentElectricDriving')::DECIMAL);
+        END IF;
+
+        INSERT INTO "purchaseAndSales" ("vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount",
+                                        "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles",
+                                        "willSellCarAtPrice")
 
         INSERT INTO "purchaseAndSales" ("vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", 
                                         "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", 
