@@ -81,10 +81,6 @@ BEGIN
                     (_hybridVehicleData->>'percentElectricDriving')::DECIMAL);
         END IF;
 
-        INSERT INTO "purchaseAndSales" ("vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount",
-                                        "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles",
-                                        "willSellCarAtPrice")
-
         INSERT INTO "purchaseAndSales" ("vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", 
                                         "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", 
                                         "willSellCarAtPrice")
