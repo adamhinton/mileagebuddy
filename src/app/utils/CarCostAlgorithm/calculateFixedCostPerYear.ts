@@ -23,7 +23,6 @@ export const calculateFixedCostPerYear = async (vehicle: Vehicle) => {
 		yearlyInsuranceCost,
 		yearlyRegistrationCost,
 		yearlyTaxes,
-		// Deprecated, there's a todo Stretch item to delete this since it's duplicated elsewhere
 		monthlyLoanPayment,
 		monthlyWarrantyCost,
 		inspectionCost,
