@@ -1,6 +1,6 @@
 // ______________________________________________________________________________
 // This is (obviously) the main Header.
-// // It contains the logo, title, navigation links, dark mode toggle (ThemeSwitch) and auth buttons (login/logout)
+// 		It contains the logo, title, navigation links, dark mode toggle (ThemeSwitch) and auth buttons (login/logout)
 // It's split up in to several sub-components
 
 // A note on styling: I attempted to re-organize this using my styling system in tailwindClassNames.ts, but my nav links kept disappearing when I did that and I couldn't figure out why. So I left most styles in-line in Header and its related sub-components.
