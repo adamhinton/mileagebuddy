@@ -2,7 +2,9 @@
 // This is (obviously) a test file for calcAvgFuelCostPerMile.ts
 // It takes in a Vehicle that is either type GasVehicle or ElectricVehicle and calculates either the cost per mile of gas or electricity
 
-// TODO stretch organize the order of these tests a bit better
+// TODO Thoroughly test and verify hybrid fuel cost calculations
+// TODO add hybrid vehicle fuel cost to automated tests
+// TODO add hybrid vehicle fuel cost to overall cost calculation tests
 
 import { calcAvgFuelCostPerMileDollars } from "@/app/utils/CarCostAlgorithm/calcAvgFuelCostPerMileDollars";
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
