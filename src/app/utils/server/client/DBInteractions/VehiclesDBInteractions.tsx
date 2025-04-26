@@ -125,6 +125,8 @@ export const insertVehicleClient = async (
 		});
 		const newVehicle: Vehicle = await res.json();
 
+		console.log("newVehicle:", newVehicle);
+
 		// validate new vehicle received from db
 		const isNewVehicle = VehicleSchema.safeParse(newVehicle);
 

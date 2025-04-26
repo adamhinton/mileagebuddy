@@ -45,6 +45,19 @@ describe("VehicleCreationOrEditForm", () => {
 		expect(queryByText("Electric Vehicle Data")).toBeInTheDocument();
 		expect(queryByText("Gas Vehicle Data")).not.toBeInTheDocument();
 	});
+
+	it("shows hybrid vehicle form section when hybrid type is selected", () => {
+		const { getByLabelText, queryByText } = renderVehicleForm("newVehicle");
+
+		// Select hybrid vehicle
+		const hybridRadio = getByLabelText("Plug-in Hybrid");
+		fireEvent.click(hybridRadio);
+
+		// Verify hybrid vehicle form section is visible
+		expect(queryByText("Hybrid Vehicle Data")).toBeInTheDocument();
+		expect(queryByText("Gas Vehicle Data")).not.toBeInTheDocument();
+		expect(queryByText("Electric Vehicle Data")).not.toBeInTheDocument();
+	});
 });
 
 /**Simple wrapper to pass in props and redux state */

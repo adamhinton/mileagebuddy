@@ -11,6 +11,7 @@ import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import {
 	ElectricVehicleData,
 	GasVehicleData,
+	HybridVehicleData,
 	Usage,
 } from "@/app/zod/schemas/VehicleSubSchemas";
 
@@ -49,6 +50,23 @@ const dummyElectricVehicle = {
 	electricVehicleData: dummyElectricVehicleData,
 };
 
+const dummyHybridVehicleData: HybridVehicleData = {
+	vehicleID: 1,
+	gasCostPerGallon: 3.5,
+	milesPerGallonHighway: 50,
+	milesPerGallonCity: 55,
+	electricityCostPerKWh: 0.14,
+	milesPerKWhHighway: 4.5,
+	milesPerKWhCity: 3.8,
+	percentElectricDriving: 60,
+};
+
+const dummyHybridVehicle = {
+	type: "hybrid",
+	usage: { percentHighway: 40 } as unknown as Usage,
+	hybridVehicleData: dummyHybridVehicleData,
+};
+
 describe("Sanity check", () => {
 	it("[1] Reality is still real. If this fails you have bigger problems than this test", async () => {
 		expect(1).toBe(1);
@@ -74,6 +92,12 @@ describe("calcAvgFuelCostPerMile", () => {
 		expect(result).toBe(0.152);
 	});
 
+	it("Runs without errors with a hybrid vehicle", async () => {
+		await calcAvgFuelCostPerMileDollars(
+			dummyHybridVehicle as unknown as Vehicle
+		);
+	});
+
 	it("[4] Returns the correct value for an electric vehicle", async () => {
 		const result = await calcAvgFuelCostPerMileDollars(
 			dummyElectricVehicle as unknown as Vehicle
@@ -82,8 +106,17 @@ describe("calcAvgFuelCostPerMile", () => {
 		expect(result).toBe(0.029);
 	});
 
+	it("Returns the correct value for a hybrid vehicle", async () => {
+		const result = await calcAvgFuelCostPerMileDollars(
+			dummyHybridVehicle as unknown as Vehicle
+		);
+
+		// Adjust expected value based on your hybrid cost calculation logic
+		expect(result).toBe(0.047);
+	});
+
 	// This should never happen because TS will prevent it, but doesn't hurt to check
-	it("[5] Throws an error if the vehicle type is neither gas nor electric", async () => {
+	it("[5] Throws an error if the vehicle type is neither gas nor electric or hybrid", async () => {
 		const dummyVehicle = {
 			type: "neither",
 			usage: { percentHighway: 30, percentCity: 70 } as unknown as Usage,
@@ -163,5 +196,69 @@ describe("calcAvgFuelCostPerMile", () => {
 		await expect(
 			calcAvgFuelCostPerMileDollars(invalidUsageVehicle as Vehicle)
 		).rejects.toThrow();
+	});
+
+	it("[11] Returns the correct value for a hybrid vehicle with 100% city driving", async () => {
+		const dummyHybridVehicle100City = {
+			type: "hybrid",
+			usage: { percentHighway: 0, percentCity: 100 } as unknown as Usage,
+			hybridVehicleData: dummyHybridVehicleData,
+		};
+
+		const result = await calcAvgFuelCostPerMileDollars(
+			dummyHybridVehicle100City as unknown as Vehicle
+		);
+
+		expect(result).toBe(0.048);
+	});
+
+	it("[12] Returns the correct value for a hybrid vehicle with 100% highway driving", async () => {
+		const dummyHybridVehicle100Highway = {
+			type: "hybrid",
+			usage: { percentHighway: 100, percentCity: 0 } as unknown as Usage,
+			hybridVehicleData: dummyHybridVehicleData,
+		};
+
+		const result = await calcAvgFuelCostPerMileDollars(
+			dummyHybridVehicle100Highway as unknown as Vehicle
+		);
+
+		expect(result).toBe(0.047);
+	});
+
+	it("[13] Returns the correct value for a hybrid vehicle with 100% electric driving", async () => {
+		const dummyHybridVehicle100Electric = {
+			type: "hybrid",
+			usage: { percentHighway: 40 } as unknown as Usage,
+			hybridVehicleData: {
+				...dummyHybridVehicleData,
+				percentElectricDriving: 100,
+			},
+		};
+
+		const result = await calcAvgFuelCostPerMileDollars(
+			dummyHybridVehicle100Electric as unknown as Vehicle
+		);
+
+		// When 100% electric, only the electric portion is used
+		expect(result).toBe(0.034);
+	});
+
+	it("[14] Returns the correct value for a hybrid vehicle with 0% electric driving", async () => {
+		const dummyHybridVehicle0Electric = {
+			type: "hybrid",
+			usage: { percentHighway: 40 } as unknown as Usage,
+			hybridVehicleData: {
+				...dummyHybridVehicleData,
+				percentElectricDriving: 0,
+			},
+		};
+
+		const result = await calcAvgFuelCostPerMileDollars(
+			dummyHybridVehicle0Electric as unknown as Vehicle
+		);
+
+		// When 0% electric, only the gas portion is used
+		expect(result).toBe(0.066);
 	});
 });
