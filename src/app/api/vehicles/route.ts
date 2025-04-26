@@ -168,6 +168,7 @@ export async function PATCH(
 		!vehicleData &&
 		!("gasVehicleData" in updatedPartialVehicle) &&
 		!("electricVehicleData" in updatedPartialVehicle) &&
+		!("hybridVehicleData" in updatedPartialVehicle) && // Added this check
 		!purchaseAndSales &&
 		!usage &&
 		!fixedCosts &&

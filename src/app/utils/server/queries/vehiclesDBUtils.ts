@@ -249,17 +249,20 @@ const addNewVehicleToDB = async (
 		// Wrote db function insert_vehicle_function.sql for this
 		// `data` is the new vehicle's id
 		const { data, error } = await supabase.rpc("insert_vehicle", {
-			// These parameter names had to be all lower case to play nice with SQL
 			_userid: userid,
 			_type: type,
 			_vehiclesorder: vehiclesOrder,
 			_vehicledata: vehicleData,
 			_gasvehicledata:
-				body.type === "gas" && body.gasVehicleData ? body.gasVehicleData : null, // Always pass the parameter, even if null
+				body.type === "gas" && body.gasVehicleData ? body.gasVehicleData : null,
 			_electricvehicledata:
 				body.type === "electric" && body.electricVehicleData
 					? body.electricVehicleData
-					: null, // Always pass the parameter, even if null
+					: null,
+			_hybridvehicledata:
+				body.type === "hybrid" && body.hybridVehicleData
+					? body.hybridVehicleData
+					: null,
 			_purchaseandsales: purchaseAndSales,
 			_usage: usage,
 			_fixedcosts: fixedCosts,
@@ -322,7 +325,9 @@ const updateVehicleInDB = async (
 		((updatedPartialVehicle.type === "gas" &&
 			!updatedPartialVehicle.gasVehicleData) ||
 			(updatedPartialVehicle.type === "electric" &&
-				!updatedPartialVehicle.electricVehicleData)) &&
+				!updatedPartialVehicle.electricVehicleData) ||
+			(updatedPartialVehicle.type === "hybrid" &&
+				!updatedPartialVehicle.hybridVehicleData)) && // Added this check
 		!purchaseAndSales &&
 		!usage &&
 		!fixedCosts &&
@@ -334,7 +339,6 @@ const updateVehicleInDB = async (
 			status: 400,
 		});
 	}
-
 	try {
 		// Not getting data because it would be only a partial Vehicle
 		// Will fetch the full vehicle momentarily and return that
