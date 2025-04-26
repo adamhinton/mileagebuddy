@@ -38,6 +38,10 @@ const basicElectricVehicle = testVehicles.find(
 	(v) => v.type === "electric"
 ) as unknown as Vehicle;
 
+const basicHybridVehicle = testVehicles.find(
+	(v) => v.type === "hybrid"
+) as unknown as Vehicle;
+
 const mockDragHandleAttributes = {
 	attributes: [] as unknown as DraggableAttributes,
 	listeners: [] as unknown as SyntheticListenerMap,
@@ -64,6 +68,10 @@ describe("VehicleCard.tsx", () => {
 
 		it("renders without errors with electric vehicle", () => {
 			setupVehicleCardTest(basicElectricVehicle);
+		});
+
+		it("renders without errors with hybrid vehicle", () => {
+			setupVehicleCardTest(basicHybridVehicle);
 		});
 	});
 
