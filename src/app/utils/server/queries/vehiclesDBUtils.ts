@@ -11,9 +11,14 @@ import {
 import { NextResponse } from "next/server";
 import { Vehicle_For_db_POST } from "../types/VehicleTypes/POSTVehicleTypes";
 
-/**The string we use in our select statement to get vehicles
+/**
+ * The string we use in our select statement to get vehicles
+ *
  * It's long so we're saving it here to stay DRY
+ *
  * It just collects vehicle info from multiple tables in to one join
+ *
+ * It retrieves hybridVehicleData, gasVehicleData, and electricVehicleData even though each vehicle only has one of those, bc we don't know which one it is until we get the data
  */
 export const stringForJoiningVehicleTables = `
 		userid, type, id, "vehiclesOrder",
@@ -21,10 +26,6 @@ export const stringForJoiningVehicleTables = `
 		"vehicleData"(
 			"id", "vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
 		),
-
-		// Note, this still returns all three of the following fields even though two of them will be null
-
-		// That's because I would have to change the Zod schema otherwise, and I'm incredibly lazy and stupid so there's zero chance of that happening
 
 		"gasVehicleData"(
 			"id", "vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
