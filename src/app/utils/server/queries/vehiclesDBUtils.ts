@@ -22,12 +22,20 @@ export const stringForJoiningVehicleTables = `
 			"id", "vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
 		),
 
+		// Note, this still returns all three of the following fields even though two of them will be null
+
+		// That's because I would have to change the Zod schema otherwise, and I'm incredibly lazy and stupid so there's zero chance of that happening
+
 		"gasVehicleData"(
 			"id", "vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity"
 		),
 
 		"electricVehicleData"(
 			"id", "vehicleID", "costPerCharge", "milesPerCharge", "electricRangeMiles"
+		),
+
+		"hybridVehicleData"(
+    		"id", "vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity", "electricityCostPerKWh", "milesPerKWhHighway", "milesPerKWhCity", "percentElectricDriving"  
 		),
 
 		"purchaseAndSales"(

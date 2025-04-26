@@ -14,7 +14,8 @@ import {
 } from "../VehicleCreationForm";
 
 type Props = {
-	register: UseFormRegister<VehiclePATCHorPOST>; // The form uses a union between EV and gas vehicle for testing, but this component will only be called if it's specified as a gas vehicle, so we pass in a more specific type here
+	register: UseFormRegister<VehiclePATCHorPOST>;
+	// The form uses a union between EV, hybrid and gas vehicle for testing, but this component will only be called if it's specified as a gas vehicle, so we pass in a more specific type here
 	errors: FieldErrors<Gas_Vehicle_For_DB_POST>;
 	isCollapsed: CollapsedOrNot;
 	onToggleCollapse: () => void;

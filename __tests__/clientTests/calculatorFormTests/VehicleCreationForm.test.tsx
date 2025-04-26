@@ -38,7 +38,7 @@ describe("VehicleCreationOrEditForm", () => {
 		const { getByLabelText, queryByText } = renderVehicleForm("newVehicle");
 
 		// Select electric vehicle
-		const electricRadio = getByLabelText("Electric Vehicle");
+		const electricRadio = getByLabelText("Electric");
 		fireEvent.click(electricRadio);
 
 		// Verify electric vehicle form section is visible and gas is not

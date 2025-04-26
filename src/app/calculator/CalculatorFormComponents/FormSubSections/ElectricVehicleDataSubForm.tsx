@@ -1,7 +1,7 @@
 // README
 // This is one section of the vehicle creation/edit form
 // It deals with creation of the ElectricVehicleData sub-object
-// Obviously, user will only see this if they're creating an electric vehicle. If it's gas they'll see the GasVehicleDataSubForm
+// Obviously, user will only see this if they're creating an electric vehicle. If it's gas they'll see the GasVehicleDataSubForm. If hybrid they'll see the HybridVehicleDataSubForm.
 // All other sub-forms are the same between vehicle types.
 // See VehicleSubSchemas for the corresponding structure
 
@@ -17,7 +17,7 @@ import {
 
 type Props = {
 	register: UseFormRegister<VehiclePATCHorPOST>;
-	// The form uses a union between EV and gas vehicle for testing, but this component will only be called if it's specified as an electric vehicle, so we pass in a more specific type here
+	// The form uses a union between EV, hybrid and gas vehicle for testing, but this component will only be called if it's specified as an electric vehicle, so we pass in a more specific type here
 	errors: FieldErrors<Electric_Vehicle_For_DB_POST>;
 	isCollapsed: CollapsedOrNot;
 	onToggleCollapse: () => void;

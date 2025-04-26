@@ -38,6 +38,7 @@ BEGIN
     END IF;
 
         -- Update gasVehicleData if present and vehicle type is 'gas'
+        -- This also counts standard hybrids (ones that don't plug in), which for our purposes are just gas vehicles with good mileage
     IF _partialData ? 'gasVehicleData' AND (_partialData->>'type' = 'gas' OR NOT (_partialData ? 'type')) THEN
         UPDATE "gasVehicleData"
         SET 
@@ -56,6 +57,22 @@ BEGIN
             "milesPerCharge" = (_partialData->'electricVehicleData'->>'milesPerCharge')::DECIMAL,
             "electricRangeMiles" = (_partialData->'electricVehicleData'->>'electricRangeMiles')::DECIMAL
         WHERE 
+            "vehicleID" = _vehicleID;
+    END IF;
+
+        -- Update hybridVehicleData if present and vehicle type is 'hybrid'
+        -- This only counts PLUGIN hybrids; standard hybrids (ones that don't plug in) are counted as gas vehicles for our purposes -- see gasVehicleData
+    IF _partialData ? 'hybridVehicleData' AND (_partialData->>'type' = 'hybrid' OR NOT (_partialData ? 'type')) THEN
+        UPDATE "hybridVehicleData"
+        SET
+            "gasCostPerGallon" = (_partialData->'hybridVehicleData'->>'gasCostPerGallon')::DECIMAL,
+            "milesPerGallonHighway" = (_partialData->'hybridVehicleData'->>'milesPerGallonHighway')::DECIMAL,
+            "milesPerGallonCity" = (_partialData->'hybridVehicleData'->>'milesPerGallonCity')::DECIMAL,
+            "electricityCostPerKWh" = (_partialData->'hybridVehicleData'->>'electricityCostPerKWh')::DECIMAL,
+            "milesPerKWhHighway" = (_partialData->'hybridVehicleData'->>'milesPerKWhHighway')::DECIMAL,
+            "milesPerKWhCity" = (_partialData->'hybridVehicleData'->>'milesPerKWhCity')::DECIMAL,
+            "percentElectricDriving" = (_partialData->'hybridVehicleData'->>'percentElectricDriving')::DECIMAL
+        WHERE
             "vehicleID" = _vehicleID;
     END IF;
 
