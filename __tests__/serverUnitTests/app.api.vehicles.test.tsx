@@ -401,7 +401,7 @@ describe("POST /api/vehicles", () => {
 		});
 	});
 
-	it("Should insert fine if electricVehicleData is null  but gasVehicleData isn't", async () => {
+	it("Should insert gas vehicle without errors", async () => {
 		const completeMockVehicle = mockVehicles[0];
 		const vehicleWithNullElectricVehicleData: Vehicle_For_db_POST = {
 			userid: "1",
@@ -446,7 +446,7 @@ describe("POST /api/vehicles", () => {
 		expect(responseData).toEqual(vehicleWithNullElectricVehicleData);
 	});
 
-	it("Should insert fine if gasVehicleData is null  but electricVehicleData isn't", async () => {
+	it("Should insert electric vehicle without errors", async () => {
 		const completeMockVehicle = mockVehicles[0];
 		const vehicleWithNullGasVehicleData: Vehicle_For_db_POST = {
 			userid: "1",
@@ -492,7 +492,57 @@ describe("POST /api/vehicles", () => {
 		expect(responseData).toEqual(vehicleWithNullGasVehicleData);
 	});
 
-	it("Should throw error if both gasVehicleData and electricVehicleData are null", async () => {
+	it("Should insert hybrid vehicle without errors", async () => {
+		const completeMockVehicle = mockVehicles[0];
+		const vehicleWithNullHybridVehicleData: Vehicle_For_db_POST = {
+			userid: "1",
+			type: "hybrid",
+			vehiclesOrder: 1,
+			vehicleData: completeMockVehicle.vehicleData,
+			hybridVehicleData: {
+				gasCostPerGallon: 3.5,
+				milesPerGallonHighway: 35.5,
+				milesPerGallonCity: 35.5,
+				electricityCostPerKWh: 0.13,
+				milesPerKWhCity: 4,
+				milesPerKWhHighway: 5,
+				percentElectricDriving: 50,
+			},
+			purchaseAndSales: completeMockVehicle.purchaseAndSales,
+			usage: completeMockVehicle.usage,
+			yearlyMaintenanceCosts: completeMockVehicle.yearlyMaintenanceCosts,
+			variableCosts: completeMockVehicle.variableCosts,
+			fixedCosts: completeMockVehicle.fixedCosts,
+		};
+
+		const supabase = {
+			rpc: jest.fn().mockResolvedValue({ data: 1 }),
+			from: jest.fn().mockReturnValue({
+				select: jest.fn().mockReturnThis(),
+				eq: jest.fn().mockReturnThis(),
+				then: jest
+					.fn()
+					.mockImplementation((cb) =>
+						cb({ data: [vehicleWithNullHybridVehicleData], error: null })
+					),
+			}),
+		};
+		(createClientSSROnly as jest.Mock).mockReturnValue(supabase);
+
+		const request = {
+			json: jest.fn().mockResolvedValue(vehicleWithNullHybridVehicleData),
+			body: vehicleWithNullHybridVehicleData,
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await POST(request);
+		const responseData = await response.json();
+
+		expect(response.status).toBe(200);
+		expect(responseData).toEqual(vehicleWithNullHybridVehicleData);
+	});
+
+	it("Should throw error if hybridVehicleData, gasVehicleData and electricVehicleData are null", async () => {
 		const completeMockVehicle = mockVehicles[0];
 		// No type label here beacuse this is deformed
 		const vehicleWithNullGasVehicleData = {
@@ -502,6 +552,7 @@ describe("POST /api/vehicles", () => {
 			vehicleData: { ...completeMockVehicle.vehicleData },
 			electricVehicleData: null,
 			gasVehicleData: null,
+			hybridVehicleData: null,
 			purchaseAndSales: { ...completeMockVehicle.purchaseAndSales },
 			usage: { ...completeMockVehicle.usage },
 			yearlyMaintenanceCosts: { ...completeMockVehicle.yearlyMaintenanceCosts },
