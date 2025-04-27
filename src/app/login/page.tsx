@@ -8,9 +8,6 @@
 // AUTH TODO:
 // Work darkmode in to auth user data
 
-// Auth UI TODO:
-// If user isn't logged in, load any vehciles from local storage
-
 import { useState, useEffect } from "react";
 import { createClientCSROnly } from "../utils/server/supabase/client";
 import { useAppSelector } from "@/redux/hooks";

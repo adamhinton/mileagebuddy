@@ -39,8 +39,7 @@ const formSubmitLogic = async (
 			// Set to redux state
 			dispatch(editVehicleById({ vehicle: updatedVehicle }));
 
-			// TODO reinstate this, jus commented for testing
-			// clearAllFormValues();
+			clearAllFormValues();
 		} catch (error) {
 			console.error("Error updating vehicle:", error);
 		}
@@ -56,8 +55,7 @@ const formSubmitLogic = async (
 			// Set to redux state
 			dispatch(addVehicle(newVehicle));
 
-			// TODO reinstate this, jus commented for testing
-			// clearAllFormValues();
+			clearAllFormValues();
 		} catch (error) {
 			console.error("Error inserting vehicle:", error);
 		}
