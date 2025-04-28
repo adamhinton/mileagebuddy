@@ -44,6 +44,14 @@ type TailwindClassNames = {
 		FORM_HEADER: "mileage-calc-form-header";
 		FORM_TITLE: "mileage-calc-form-title";
 		FORM_FOOTER: "mileage-calc-form-footer";
+		RADIO_GROUP_CONTAINER: "mileage-calc-form-radio-group-container";
+		RADIO_GROUP_TITLE: "mileage-calc-form-radio-group-title";
+		RADIO_GROUP: "mileage-calc-form-radio-group";
+		RADIO_LABEL: "mileage-calc-form-radio-label";
+		RADIO_LABEL_SELECTED: "mileage-calc-form-radio-label--selected";
+		RADIO_INPUT: "mileage-calc-form-radio-input";
+		RADIO_TEXT: "mileage-calc-form-radio-text";
+		RADIO_ERROR: "mileage-calc-form-radio-error";
 		SECTION: {
 			CONTAINER: "mileage-calc-form-section-container";
 			CONTAINER_ACTIVE: "mileage-calc-form-section-container-active";
@@ -130,6 +138,14 @@ const tailWindClassNames: TailwindClassNames = {
 		FORM_HEADER: "mileage-calc-form-header",
 		FORM_TITLE: "mileage-calc-form-title",
 		FORM_FOOTER: "mileage-calc-form-footer",
+		RADIO_GROUP_CONTAINER: "mileage-calc-form-radio-group-container",
+		RADIO_GROUP_TITLE: "mileage-calc-form-radio-group-title",
+		RADIO_GROUP: "mileage-calc-form-radio-group",
+		RADIO_LABEL: "mileage-calc-form-radio-label",
+		RADIO_LABEL_SELECTED: "mileage-calc-form-radio-label--selected",
+		RADIO_INPUT: "mileage-calc-form-radio-input",
+		RADIO_TEXT: "mileage-calc-form-radio-text",
+		RADIO_ERROR: "mileage-calc-form-radio-error",
 		SECTION: {
 			CONTAINER: "mileage-calc-form-section-container",
 			CONTAINER_ACTIVE: "mileage-calc-form-section-container-active",
