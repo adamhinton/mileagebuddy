@@ -303,9 +303,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 
 			{/* TODO make this look better at smaller screen sizes */}
 			<div className={formStyles.RADIO_GROUP_CONTAINER}>
-				<h3 className={formStyles.RADIO_GROUP_TITLE}>
-					Vehicle Type
-				</h3>
+				<h3 className={formStyles.RADIO_GROUP_TITLE}>Vehicle Type</h3>
 
 				<div className={formStyles.RADIO_GROUP}>
 					<label
@@ -357,9 +355,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 				</div>
 
 				{errors.type && (
-					<p className={formStyles.RADIO_ERROR}>
-						Please select a vehicle type
-					</p>
+					<p className={formStyles.RADIO_ERROR}>Please select a vehicle type</p>
 				)}
 			</div>
 
