@@ -52,12 +52,16 @@ type TailwindClassNames = {
 			BUTTON: "mileage-calc-form-section-button";
 			BUTTON_ACTIVE: "mileage-calc-form-section-button-active";
 			BUTTON_INACTIVE: "mileage-calc-form-section-button-inactive";
+			BUTTON_INNER: "mileage-calc-form-section-button-inner";
 			TITLE: "mileage-calc-form-section-title";
 			TITLE_ACTIVE: "mileage-calc-form-section-title-active";
 			TITLE_INACTIVE: "mileage-calc-form-section-title-inactive";
 			BADGE: "mileage-calc-form-section-badge";
 			BADGE_ACTIVE: "mileage-calc-form-section-badge-active";
 			BADGE_INACTIVE: "mileage-calc-form-section-badge-inactive";
+			COMPLETE_ICON_WRAPPER: "mileage-calc-form-section-complete-icon-wrapper";
+			COMPLETE_ICON: "mileage-calc-form-section-complete-icon";
+			CHEVRON_WRAPPER: "mileage-calc-form-section-chevron-wrapper";
 			CHEVRON: "mileage-calc-form-section-chevron";
 			CHEVRON_ACTIVE: "mileage-calc-form-section-chevron-active";
 			CONTENT_WRAPPER: "mileage-calc-form-section-content-wrapper";
@@ -66,6 +70,17 @@ type TailwindClassNames = {
 			CONTENT_INNER: "mileage-calc-form-section-content-inner";
 			FOOTER: "mileage-calc-form-section-footer";
 			NEXT_BUTTON: "mileage-calc-form-next-button";
+			NEXT_BUTTON_INNER: "mileage-calc-form-next-button-inner";
+		};
+		TYPE_SELECTOR: {
+			CONTAINER: "mileage-calc-form-type-selector-container";
+			HEADING: "mileage-calc-form-type-selector-heading";
+			OPTIONS: "mileage-calc-form-type-selector-options";
+			LABEL: "mileage-calc-form-type-selector-label";
+			LABEL_ACTIVE: "mileage-calc-form-type-selector-label--active";
+			LABEL_INACTIVE: "mileage-calc-form-type-selector-label--inactive";
+			INPUT: "mileage-calc-form-type-selector-input";
+			TEXT: "mileage-calc-form-type-selector-text";
 		};
 	};
 };
@@ -99,8 +114,10 @@ const tailWindClassNames: TailwindClassNames = {
 		FORM_SECTION: "mileage-calc-form-section",
 		FORM_SECTION_HEADER: "mileage-calc-form-section-header",
 		FORM_SECTION_CONTENT: "mileage-calc-form-section-content",
-		FORM_NUMBER_INPUT: "mileage-calc-form-input-base mileage-calc-form-number-input",
-		FORM_TEXT_INPUT: "mileage-calc-form-input-base mileage-calc-form-text-input",
+		FORM_NUMBER_INPUT:
+			"mileage-calc-form-input-base mileage-calc-form-number-input",
+		FORM_TEXT_INPUT:
+			"mileage-calc-form-input-base mileage-calc-form-text-input",
 		FORM_ERROR_MESSAGE: "mileage-calc-form-error-message",
 		FORM_ERROR_ICON: "mileage-calc-form-error-icon",
 		FORM_INPUT_LABEL: "mileage-calc-form-input-label",
@@ -117,24 +134,42 @@ const tailWindClassNames: TailwindClassNames = {
 			CONTAINER: "mileage-calc-form-section-container",
 			CONTAINER_ACTIVE: "mileage-calc-form-section-container-active",
 			CONTAINER_INACTIVE: "mileage-calc-form-section-container-inactive",
-			CONTAINER_FIRST_ACTIVE: "mileage-calc-form-section-container-first-active",
+			CONTAINER_FIRST_ACTIVE:
+				"mileage-calc-form-section-container-first-active",
 			BUTTON: "mileage-calc-form-section-button",
 			BUTTON_ACTIVE: "mileage-calc-form-section-button-active",
 			BUTTON_INACTIVE: "mileage-calc-form-section-button-inactive",
+			BUTTON_INNER: "mileage-calc-form-section-button-inner",
 			TITLE: "mileage-calc-form-section-title",
 			TITLE_ACTIVE: "mileage-calc-form-section-title-active",
 			TITLE_INACTIVE: "mileage-calc-form-section-title-inactive",
 			BADGE: "mileage-calc-form-section-badge",
 			BADGE_ACTIVE: "mileage-calc-form-section-badge-active",
 			BADGE_INACTIVE: "mileage-calc-form-section-badge-inactive",
+			COMPLETE_ICON_WRAPPER: "mileage-calc-form-section-complete-icon-wrapper",
+			COMPLETE_ICON: "mileage-calc-form-section-complete-icon",
+			CHEVRON_WRAPPER: "mileage-calc-form-section-chevron-wrapper",
 			CHEVRON: "mileage-calc-form-section-chevron",
 			CHEVRON_ACTIVE: "mileage-calc-form-section-chevron-active",
 			CONTENT_WRAPPER: "mileage-calc-form-section-content-wrapper",
-			CONTENT_WRAPPER_ACTIVE: "mileage-calc-form-section-content-wrapper-active",
-			CONTENT_WRAPPER_INACTIVE: "mileage-calc-form-section-content-wrapper-inactive",
+			CONTENT_WRAPPER_ACTIVE:
+				"mileage-calc-form-section-content-wrapper-active",
+			CONTENT_WRAPPER_INACTIVE:
+				"mileage-calc-form-section-content-wrapper-inactive",
 			CONTENT_INNER: "mileage-calc-form-section-content-inner",
 			FOOTER: "mileage-calc-form-section-footer",
 			NEXT_BUTTON: "mileage-calc-form-next-button",
+			NEXT_BUTTON_INNER: "mileage-calc-form-next-button-inner",
+		},
+		TYPE_SELECTOR: {
+			CONTAINER: "mileage-calc-form-type-selector-container",
+			HEADING: "mileage-calc-form-type-selector-heading",
+			OPTIONS: "mileage-calc-form-type-selector-options",
+			LABEL: "mileage-calc-form-type-selector-label",
+			LABEL_ACTIVE: "mileage-calc-form-type-selector-label--active",
+			LABEL_INACTIVE: "mileage-calc-form-type-selector-label--inactive",
+			INPUT: "mileage-calc-form-type-selector-input",
+			TEXT: "mileage-calc-form-type-selector-text",
 		},
 	},
 };

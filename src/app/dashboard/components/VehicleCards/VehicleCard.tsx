@@ -128,7 +128,9 @@ const VehicleCard = (props: VehicleCardProps) => {
 
 				{/* Costs */}
 				<section className="mt-5 mb-4">
-					<figure className={`${componentClasses.COST_FIGURE} ${componentClasses.COST_FIGURE_PRIMARY}`}>
+					<figure
+						className={`${componentClasses.COST_FIGURE} ${componentClasses.COST_FIGURE_PRIMARY}`}
+					>
 						<figcaption className={componentClasses.COST_CAPTION}>
 							{`Cost Per Mile: ${averageDailyMiles} miles/day`}
 							<ToolTip
@@ -149,12 +151,16 @@ const VehicleCard = (props: VehicleCardProps) => {
 								</svg>
 							</ToolTip>
 						</figcaption>
-						<p className={`${componentClasses.COST_VALUE} ${componentClasses.COST_VALUE_PRIMARY}`}>
+						<p
+							className={`${componentClasses.COST_VALUE} ${componentClasses.COST_VALUE_PRIMARY}`}
+						>
 							${costPerMile.toFixed(2)}
 						</p>
 					</figure>
 
-					<figure className={`${componentClasses.COST_FIGURE} ${componentClasses.COST_FIGURE_SECONDARY}`}>
+					<figure
+						className={`${componentClasses.COST_FIGURE} ${componentClasses.COST_FIGURE_SECONDARY}`}
+					>
 						<figcaption className={componentClasses.COST_CAPTION}>
 							Cost Per Additional Mile
 							<ToolTip
@@ -175,7 +181,9 @@ const VehicleCard = (props: VehicleCardProps) => {
 								</svg>
 							</ToolTip>
 						</figcaption>
-						<p className={`${componentClasses.COST_VALUE} ${componentClasses.COST_VALUE_SECONDARY}`}>
+						<p
+							className={`${componentClasses.COST_VALUE} ${componentClasses.COST_VALUE_SECONDARY}`}
+						>
 							${costPerExtraMile.toFixed(2)}
 						</p>
 					</figure>
