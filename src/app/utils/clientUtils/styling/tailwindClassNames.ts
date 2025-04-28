@@ -6,6 +6,26 @@
 
 /**I made the type TailwindClassNames use string literal types because it makes intellisense better. You can see the class names just by hovering, without having to go back to globals.css */
 type TailwindClassNames = {
+	layout: {
+		CONTAINER: "mileage-calc-container";
+		CARD: "mileage-calc-card";
+	};
+	components: {
+		DRAG_HANDLE: "mileage-calc-drag-handle";
+		DRAG_HANDLE_ICON: "mileage-calc-drag-handle-icon";
+		VEHICLE_ICON: "mileage-calc-vehicle-icon";
+		VEHICLE_ICON_ELECTRIC: "mileage-calc-vehicle-icon--electric";
+		VEHICLE_ICON_GAS: "mileage-calc-vehicle-icon--gas";
+		VEHICLE_ICON_SVG: "mileage-calc-vehicle-icon-svg";
+		COST_FIGURE: "mileage-calc-cost-figure";
+		COST_FIGURE_PRIMARY: "mileage-calc-cost-figure--primary";
+		COST_FIGURE_SECONDARY: "mileage-calc-cost-figure--secondary";
+		COST_CAPTION: "mileage-calc-cost-caption";
+		TOOLTIP_ICON: "mileage-calc-tooltip-icon";
+		COST_VALUE: "mileage-calc-cost-value";
+		COST_VALUE_PRIMARY: "mileage-calc-cost-value--primary";
+		COST_VALUE_SECONDARY: "mileage-calc-cost-value--secondary";
+	};
 	mileageCalcForm: {
 		FORM_SECTION: "mileage-calc-form-section";
 		FORM_SECTION_HEADER: "mileage-calc-form-section-header";
@@ -21,12 +41,9 @@ type TailwindClassNames = {
 		FORM_TEXT_FIELD: "mileage-calc-form-text-field";
 		FORM_TEXT_FIELD_ERROR: "mileage-calc-form-text-field-error";
 		FORM_LABEL: "mileage-calc-form-label";
-		// Start VehicleCreationForm.tsx
-		FORM_CONTAINER: "mileage-calc-form-container";
 		FORM_HEADER: "mileage-calc-form-header";
 		FORM_TITLE: "mileage-calc-form-title";
 		FORM_FOOTER: "mileage-calc-form-footer";
-		// End VehicleCreationForm.tsx
 		SECTION: {
 			CONTAINER: "mileage-calc-form-section-container";
 			CONTAINER_ACTIVE: "mileage-calc-form-section-container-active";
@@ -58,41 +75,49 @@ type TailwindClassNames = {
  * Is this giving you errors? This class doesn't exist or styling doesn't show up? Make sure the class name corresponds with the custom component defined in globals.css
  */
 const tailWindClassNames: TailwindClassNames = {
+	layout: {
+		CONTAINER: "mileage-calc-container",
+		CARD: "mileage-calc-card",
+	},
+	components: {
+		DRAG_HANDLE: "mileage-calc-drag-handle",
+		DRAG_HANDLE_ICON: "mileage-calc-drag-handle-icon",
+		VEHICLE_ICON: "mileage-calc-vehicle-icon",
+		VEHICLE_ICON_ELECTRIC: "mileage-calc-vehicle-icon--electric",
+		VEHICLE_ICON_GAS: "mileage-calc-vehicle-icon--gas",
+		VEHICLE_ICON_SVG: "mileage-calc-vehicle-icon-svg",
+		COST_FIGURE: "mileage-calc-cost-figure",
+		COST_FIGURE_PRIMARY: "mileage-calc-cost-figure--primary",
+		COST_FIGURE_SECONDARY: "mileage-calc-cost-figure--secondary",
+		COST_CAPTION: "mileage-calc-cost-caption",
+		TOOLTIP_ICON: "mileage-calc-tooltip-icon",
+		COST_VALUE: "mileage-calc-cost-value",
+		COST_VALUE_PRIMARY: "mileage-calc-cost-value--primary",
+		COST_VALUE_SECONDARY: "mileage-calc-cost-value--secondary",
+	},
 	mileageCalcForm: {
-		// /calculator/page.tsx and its associated components/utils
 		FORM_SECTION: "mileage-calc-form-section",
 		FORM_SECTION_HEADER: "mileage-calc-form-section-header",
 		FORM_SECTION_CONTENT: "mileage-calc-form-section-content",
-		// Combines two components from globals.css
-		FORM_NUMBER_INPUT:
-			"mileage-calc-form-input-base mileage-calc-form-number-input",
-		// Combines two components from globals.css
-		FORM_TEXT_INPUT:
-			"mileage-calc-form-input-base mileage-calc-form-text-input",
+		FORM_NUMBER_INPUT: "mileage-calc-form-input-base mileage-calc-form-number-input",
+		FORM_TEXT_INPUT: "mileage-calc-form-input-base mileage-calc-form-text-input",
 		FORM_ERROR_MESSAGE: "mileage-calc-form-error-message",
 		FORM_ERROR_ICON: "mileage-calc-form-error-icon",
 		FORM_INPUT_LABEL: "mileage-calc-form-input-label",
-		/**The asterisk indicating a field is required */
 		REQUIRED_ASTERISK: "mileage-calc-form-required-asterisk",
-		// Form input fields styling
 		FORM_NUMBER_FIELD: "mileage-calc-form-number-field",
 		FORM_NUMBER_FIELD_ERROR: "mileage-calc-form-number-field-error",
 		FORM_TEXT_FIELD: "mileage-calc-form-text-field",
 		FORM_TEXT_FIELD_ERROR: "mileage-calc-form-text-field-error",
 		FORM_LABEL: "mileage-calc-form-label",
-
-		// Main form layout
-		FORM_CONTAINER: "mileage-calc-form-container",
 		FORM_HEADER: "mileage-calc-form-header",
 		FORM_TITLE: "mileage-calc-form-title",
 		FORM_FOOTER: "mileage-calc-form-footer",
-
 		SECTION: {
 			CONTAINER: "mileage-calc-form-section-container",
 			CONTAINER_ACTIVE: "mileage-calc-form-section-container-active",
 			CONTAINER_INACTIVE: "mileage-calc-form-section-container-inactive",
-			CONTAINER_FIRST_ACTIVE:
-				"mileage-calc-form-section-container-first-active",
+			CONTAINER_FIRST_ACTIVE: "mileage-calc-form-section-container-first-active",
 			BUTTON: "mileage-calc-form-section-button",
 			BUTTON_ACTIVE: "mileage-calc-form-section-button-active",
 			BUTTON_INACTIVE: "mileage-calc-form-section-button-inactive",
@@ -105,10 +130,8 @@ const tailWindClassNames: TailwindClassNames = {
 			CHEVRON: "mileage-calc-form-section-chevron",
 			CHEVRON_ACTIVE: "mileage-calc-form-section-chevron-active",
 			CONTENT_WRAPPER: "mileage-calc-form-section-content-wrapper",
-			CONTENT_WRAPPER_ACTIVE:
-				"mileage-calc-form-section-content-wrapper-active",
-			CONTENT_WRAPPER_INACTIVE:
-				"mileage-calc-form-section-content-wrapper-inactive",
+			CONTENT_WRAPPER_ACTIVE: "mileage-calc-form-section-content-wrapper-active",
+			CONTENT_WRAPPER_INACTIVE: "mileage-calc-form-section-content-wrapper-inactive",
 			CONTENT_INNER: "mileage-calc-form-section-content-inner",
 			FOOTER: "mileage-calc-form-section-footer",
 			NEXT_BUTTON: "mileage-calc-form-next-button",
