@@ -1,0 +1,58 @@
+@tailwind components;
+
+@layer components {
+  /* General reusable component styles will go here */
+  /* Example: .mileage-calc-button, .mileage-calc-badge */
+
+  /* Drag handle for sortable items */
+  .mileage-calc-drag-handle {
+    @apply bg-background-header p-2 cursor-move flex items-center justify-center touch-manipulation;
+  }
+
+  .mileage-calc-drag-handle-icon {
+    @apply w-6 h-6 text-primary-100;
+  }
+
+  /* Vehicle type icon (badge-like) */
+  .mileage-calc-vehicle-icon {
+    @apply p-1 rounded-md;
+  }
+  .mileage-calc-vehicle-icon--electric {
+    @apply text-accent bg-accent-50;
+  }
+  .mileage-calc-vehicle-icon--gas {
+    @apply text-secondary bg-secondary-50;
+  }
+  .mileage-calc-vehicle-icon-svg {
+    @apply w-5 h-5;
+  }
+
+  /* Cost display figures within cards */
+  .mileage-calc-cost-figure {
+    @apply rounded-lg p-4 mb-3;
+  }
+  .mileage-calc-cost-figure--primary {
+    @apply bg-primary-50;
+  }
+  .mileage-calc-cost-figure--secondary {
+    @apply bg-secondary-50;
+  }
+
+  .mileage-calc-cost-caption {
+    @apply text-sm font-medium text-neutral-text mb-1;
+  }
+
+  .mileage-calc-tooltip-icon {
+     @apply w-4 h-4 inline-block ml-1 text-neutral-500 cursor-help;
+  }
+
+  .mileage-calc-cost-value {
+    @apply font-bold;
+  }
+  .mileage-calc-cost-value--primary {
+     @apply text-3xl bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent;
+  }
+  .mileage-calc-cost-value--secondary {
+    @apply text-2xl text-secondary;
+  }
+}
