@@ -134,4 +134,37 @@
 	.mileage-calc-form-type-selector-text {
 		@apply text-sm;
 	}
+
+	/* Vehicle Type Radio Button Group in VehicleCreationForm */
+	.mileage-calc-form-radio-group-container {
+		@apply p-3 bg-white dark:bg-neutral-800 rounded-lg shadow-sm border border-neutral-200 dark:border-neutral-700 mb-6;
+	}
+
+	.mileage-calc-form-radio-group-title {
+		@apply text-base font-medium text-neutral-800 dark:text-neutral-200 mb-2;
+	}
+
+	.mileage-calc-form-radio-group {
+		@apply flex items-center gap-3 mb-2;
+	}
+
+	.mileage-calc-form-radio-label {
+		@apply flex flex-1 items-center gap-2 bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 rounded-md cursor-pointer border hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors border-neutral-200 dark:border-neutral-600;
+	}
+
+	.mileage-calc-form-radio-label--selected {
+		@apply border-primary dark:border-primary-200;
+	}
+
+	.mileage-calc-form-radio-input {
+		@apply text-primary focus:ring-primary h-3.5 w-3.5;
+	}
+
+	.mileage-calc-form-radio-text {
+		@apply text-sm;
+	}
+
+	.mileage-calc-form-radio-error {
+		@apply text-xs text-red-600 dark:text-red-400;
+	}
 }
