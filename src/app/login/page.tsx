@@ -87,7 +87,7 @@ export default function LoginPage() {
 						className="mt-6 w-full bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 text-white py-3 px-4 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
 						aria-label="Log out"
 					>
-						Log Out (Test)
+						Log Out
 					</button>
 				</div>
 			)}
