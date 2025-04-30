@@ -15,7 +15,7 @@
 CREATE TABLE vehicles (
     id SERIAL PRIMARY KEY,
     userID uuid NOT NULL,
-    type VARCHAR(10) NOT NULL CHECK(type IN ('gas', 'electric')),
+    type VARCHAR(10) NOT NULL CHECK(type IN ('gas', 'electric', 'hybrid')),
     -- The order a user's vehicles are listed in, for drag and drop purposes etc
     "vehiclesOrder" INT NOT NULL,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -39,6 +39,7 @@ CREATE TABLE "vehicleData" (
     CONSTRAINT fk_vehicle FOREIGN KEY ("vehicleID") REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
+-- Only exists on gas vehicles and STANDARD hybrid vehicles - ones that don't plug in
 CREATE TABLE "gasVehicleData" (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,
@@ -51,12 +52,30 @@ CREATE TABLE "gasVehicleData" (
     CONSTRAINT fk_vehicle FOREIGN KEY ("vehicleID") REFERENCES vehicles(id) ON DELETE CASCADE
 );
 
+-- Only exists on electric vehicles (obviously)
 CREATE TABLE "electricVehicleData" (
     id SERIAL PRIMARY KEY,
     "vehicleID" INTEGER NOT NULL UNIQUE,
     "costPerCharge" DECIMAL(10, 2) NOT NULL,
     "milesPerCharge" DECIMAL(5, 2) NOT NULL,
     "electricRangeMiles" DECIMAL(5, 2) NOT NULL,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "deletedAt" TIMESTAMP DEFAULT NULL,
+    CONSTRAINT fk_vehicle FOREIGN KEY ("vehicleID") REFERENCES vehicles(id) ON DELETE CASCADE
+);
+
+-- Only exists on PLUGIN hybrid vehicles --- standard hybrids are counted as gas vehicles for our purposes; see gasVehicleData
+CREATE TABLE "hybridVehicleData" (
+    id SERIAL PRIMARY KEY,
+    "vehicleID" INTEGER NOT NULL UNIQUE,
+    "gasCostPerGallon" DECIMAL(10, 2) NOT NULL,
+    "milesPerGallonHighway" DECIMAL(5, 2) NOT NULL,
+    "milesPerGallonCity" DECIMAL(5, 2) NOT NULL,
+    "electricityCostPerKWh" DECIMAL(10, 2) NOT NULL,
+    "milesPerKWhHighway" DECIMAL(5, 2) NOT NULL,
+    "milesPerKWhCity" DECIMAL(5, 2) NOT NULL,
+    "percentElectricDriving" DECIMAL(5, 2) NOT NULL,
     "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     "deletedAt" TIMESTAMP DEFAULT NULL,

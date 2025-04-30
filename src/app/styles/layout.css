@@ -1,0 +1,16 @@
+@tailwind components;
+
+@layer components {
+	/* Layout-related styles will go here */
+	/* Example: .mileage-calc-container, .mileage-calc-card */
+
+	/* Container for main content areas */
+	.mileage-calc-container {
+		@apply max-w-3xl mx-auto my-6 space-y-8;
+	}
+
+	/* Base card style */
+	.mileage-calc-card {
+		@apply bg-background-elevated rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg border border-primary-50;
+	}
+}

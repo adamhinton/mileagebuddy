@@ -12,6 +12,7 @@ import { CarCostCalculationResults } from "@/app/utils/CarCostAlgorithm/calculat
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { DraggableAttributes } from "@dnd-kit/core";
 import { SyntheticListenerMap } from "@dnd-kit/core/dist/hooks/utilities";
+import tailwindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames"; // Import the class names
 
 type VehicleCardProps = {
 	vehicle: Vehicle;
@@ -38,11 +39,15 @@ const VehicleCard = (props: VehicleCardProps) => {
 		onEdit();
 	};
 
+	// Use class names from tailwindClassNames
+	const layoutClasses = tailwindClassNames.layout;
+	const componentClasses = tailwindClassNames.components;
+
 	return (
-		<article className="bg-background-elevated rounded-lg shadow-md overflow-hidden transition-all hover:shadow-lg border border-primary-50">
+		<article className={layoutClasses.CARD}>
 			{/* Drag handle  */}
 			<header
-				className="bg-background-header p-2 cursor-move flex items-center justify-center touch-manipulation"
+				className={componentClasses.DRAG_HANDLE}
 				{...dragHandleProps.attributes}
 				{...dragHandleProps.listeners}
 				aria-label="Drag to reorder"
@@ -50,7 +55,7 @@ const VehicleCard = (props: VehicleCardProps) => {
 				tabIndex={0}
 			>
 				<svg
-					className="w-6 h-6 text-primary-100"
+					className={componentClasses.DRAG_HANDLE_ICON}
 					fill="none"
 					stroke="currentColor"
 					viewBox="0 0 24 24"
@@ -81,11 +86,11 @@ const VehicleCard = (props: VehicleCardProps) => {
 						{/* Type icon */}
 						{vehicleType === "electric" ? (
 							<span
-								className="text-accent p-1 bg-accent-50 rounded-md"
+								className={`${componentClasses.VEHICLE_ICON} ${componentClasses.VEHICLE_ICON_ELECTRIC}`}
 								title="Electric Vehicle"
 							>
 								<svg
-									className="w-5 h-5"
+									className={componentClasses.VEHICLE_ICON_SVG}
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -100,11 +105,11 @@ const VehicleCard = (props: VehicleCardProps) => {
 							</span>
 						) : (
 							<span
-								className="text-secondary p-1 bg-secondary-50 rounded-md"
+								className={`${componentClasses.VEHICLE_ICON} ${componentClasses.VEHICLE_ICON_GAS}`}
 								title="Gas Vehicle"
 							>
 								<svg
-									className="w-5 h-5"
+									className={componentClasses.VEHICLE_ICON_SVG}
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -123,14 +128,16 @@ const VehicleCard = (props: VehicleCardProps) => {
 
 				{/* Costs */}
 				<section className="mt-5 mb-4">
-					<figure className="bg-primary-50 rounded-lg p-4 mb-3">
-						<figcaption className="text-sm font-medium text-neutral-text mb-1">
+					<figure
+						className={`${componentClasses.COST_FIGURE} ${componentClasses.COST_FIGURE_PRIMARY}`}
+					>
+						<figcaption className={componentClasses.COST_CAPTION}>
 							{`Cost Per Mile: ${averageDailyMiles} miles/day`}
 							<ToolTip
 								text={`Includes maintenance, fuel, depreciation, fixed costs like insurance, loan payments, and more.`}
 							>
 								<svg
-									className="w-4 h-4 inline-block ml-1 text-neutral-500 cursor-help"
+									className={componentClasses.TOOLTIP_ICON}
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -144,19 +151,23 @@ const VehicleCard = (props: VehicleCardProps) => {
 								</svg>
 							</ToolTip>
 						</figcaption>
-						<p className="text-3xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+						<p
+							className={`${componentClasses.COST_VALUE} ${componentClasses.COST_VALUE_PRIMARY}`}
+						>
 							${costPerMile.toFixed(2)}
 						</p>
 					</figure>
 
-					<figure className="bg-secondary-50 rounded-lg p-4">
-						<figcaption className="text-sm font-medium text-neutral-text mb-1">
+					<figure
+						className={`${componentClasses.COST_FIGURE} ${componentClasses.COST_FIGURE_SECONDARY}`}
+					>
+						<figcaption className={componentClasses.COST_CAPTION}>
 							Cost Per Additional Mile
 							<ToolTip
 								text={`Includes maintenance, depreciation, fuel, and other variable costs, but not fixed costs like insurance.`}
 							>
 								<svg
-									className="w-4 h-4 inline-block ml-1 text-neutral-500 cursor-help"
+									className={componentClasses.TOOLTIP_ICON}
 									fill="none"
 									stroke="currentColor"
 									viewBox="0 0 24 24"
@@ -170,7 +181,9 @@ const VehicleCard = (props: VehicleCardProps) => {
 								</svg>
 							</ToolTip>
 						</figcaption>
-						<p className="text-2xl font-bold text-secondary">
+						<p
+							className={`${componentClasses.COST_VALUE} ${componentClasses.COST_VALUE_SECONDARY}`}
+						>
 							${costPerExtraMile.toFixed(2)}
 						</p>
 					</figure>

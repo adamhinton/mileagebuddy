@@ -18,6 +18,7 @@ import GasVehicleDataSubForm from "../CalculatorFormComponents/FormSubSections/G
 import ElectricVehicleDataSubForm from "../CalculatorFormComponents/FormSubSections/ElectricVehicleDataSubForm";
 import { CollapsibleSectionTitles } from "../calculatorUtils/FormNavUtils";
 import { CollapsedOrNot, VehiclePATCHorPOST } from "./VehicleCreationForm";
+import HybridVehicleDataSubForm from "./FormSubSections/HybridVehicleDataSubForm";
 
 type FormSubSectionsProps = {
 	register: UseFormRegister<VehiclePATCHorPOST>;
@@ -40,9 +41,6 @@ const FormSubSections = ({
 }: FormSubSectionsProps) => {
 	return (
 		<>
-			{/* If vehicle is gas, display gas vehicle questions. If electric, display EV questions 
-				The only difference in the form is that gas shows GasVehicleDataSubForm and electric shows ElectricVehicleDataSubForm, all other form sections are the same
-			*/}
 			{watchedVehicleType === "gas" ? (
 				<GasVehicleDataSubForm
 					register={register}
@@ -68,6 +66,19 @@ const FormSubSections = ({
 						onNext: () => goToNextSection("electricVehicleData"),
 						isLastSection: false,
 						sectionIndex: formSectionOrder.indexOf("electricVehicleData"),
+						totalSections: formSectionOrder.length,
+					}}
+				/>
+			) : watchedVehicleType === "hybrid" ? (
+				<HybridVehicleDataSubForm
+					register={register}
+					errors={errors}
+					isCollapsed={collapsedSections.hybridVehicleData}
+					onToggleCollapse={() => toggleSectionCollapse("hybridVehicleData")}
+					formNavOptions={{
+						onNext: () => goToNextSection("hybridVehicleData"),
+						isLastSection: false,
+						sectionIndex: formSectionOrder.indexOf("hybridVehicleData"),
 						totalSections: formSectionOrder.length,
 					}}
 				/>

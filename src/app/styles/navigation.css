@@ -1,3 +1,5 @@
+/* Styling for Header and its related components, including Tabs.tsx */
+
 @tailwind components;
 
 @layer components {
@@ -20,5 +22,34 @@
     hover:bg-primary hover:bg-opacity-10 text-sm font-medium transition-all
     dark:border-primary-200 dark:text-primary-100 dark:hover:bg-primary-50 
     dark:hover:bg-opacity-20 dark:bg-background-elevated;
+	}
+
+	/* Tabs component styles */
+	.mileage-calc-tabs-container {
+		@apply md:sticky md:top-0 md:z-30 bg-background-header shadow-md;
+	}
+
+	.mileage-calc-tabs-inner {
+		@apply container mx-auto px-2 sm:px-4;
+	}
+
+	.mileage-calc-tabs-list {
+		@apply flex flex-wrap text-xs sm:text-sm font-medium text-center text-neutral-text border-b-2 border-primary-50 dark:border-primary-100/30;
+	}
+
+	.mileage-calc-tabs-item {
+		@apply me-1 sm:me-2;
+	}
+
+	.mileage-calc-tabs-link {
+		@apply inline-block p-2 sm:p-3 md:p-4 rounded-t-lg;
+	}
+
+	.mileage-calc-tabs-link--active {
+		@apply bg-primary-50 text-primary font-semibold border-b-2 border-primary dark:bg-primary-100/20 dark:border-primary-200;
+	}
+
+	.mileage-calc-tabs-link--inactive {
+		@apply hover:bg-background-highlight hover:text-primary transition-colors;
 	}
 }

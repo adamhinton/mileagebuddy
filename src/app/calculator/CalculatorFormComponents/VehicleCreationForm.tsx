@@ -100,7 +100,6 @@ type FormProps = FormPropsEditMode | FormPropsNewVehicleMode;
 const VehicleCreationOrEditForm = (props: FormProps) => {
 	const loggedInUser = useAppSelector((state) => state.user.value);
 	const userId = loggedInUser ? loggedInUser.id : "testid";
-	console.log("userId:", userId);
 
 	const { mode, vehicleToEdit, schema } = props;
 
@@ -113,6 +112,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 		gasVehicleData: "isNotCollapsed",
 		vehicleData: "isCollapsed",
 		electricVehicleData: "isCollapsed",
+		hybridVehicleData: "isCollapsed",
 		purchaseAndSales: "isCollapsed",
 		usage: "isCollapsed",
 		fixedCosts: "isCollapsed",
@@ -230,7 +230,11 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 	 */
 	const formSectionOrder = useMemo(() => {
 		const formSectionOrder: Readonly<CollapsibleSectionTitles[]> = [
-			watchedVehicleType === "gas" ? "gasVehicleData" : "electricVehicleData",
+			watchedVehicleType === "gas"
+				? "gasVehicleData"
+				: watchedVehicleType === "electric"
+					? "electricVehicleData"
+					: "hybridVehicleData",
 			"vehicleData",
 			"purchaseAndSales",
 			"usage",
@@ -257,7 +261,8 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 
 	const dispatch = useAppDispatch();
 
-	const styles = tailWindClassNames.mileageCalcForm;
+	const formStyles = tailWindClassNames.mileageCalcForm; // Renamed from styles
+	const layoutStyles = tailWindClassNames.layout; // Added for layout classes
 
 	// Submit logic uses this to redirect to /dashboard after form submission
 	const router = useRouter();
@@ -272,7 +277,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 			onSubmit={handleSubmit((formData) => {
 				formSubmitLogic(formData, dispatch, clearAllFormValues, router);
 			})}
-			className={styles.FORM_CONTAINER}
+			className={layoutStyles.CONTAINER} // Changed from styles.FORM_CONTAINER
 		>
 			{isShowErrorSummary && Object.keys(errors).length > 0 && (
 				<div ref={errorSummaryRef}>
@@ -280,8 +285,8 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 				</div>
 			)}
 
-			<div className={styles.FORM_HEADER}>
-				<h1 className={styles.FORM_TITLE}>
+			<div className={formStyles.FORM_HEADER}>
+				<h1 className={formStyles.FORM_TITLE}>
 					{mode === "editVehicle"
 						? `Edit ${vehicleToEdit?.vehicleData?.vehicleName || "Vehicle"}`
 						: "Create New Vehicle"}
@@ -302,50 +307,61 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 				/>
 			</div>
 
-			<div className="p-3 bg-white dark:bg-neutral-800 rounded-lg shadow-sm border border-neutral-200 dark:border-neutral-700 mb-6">
-				<h3 className="text-base font-medium text-neutral-800 dark:text-neutral-200 mb-2">
-					Vehicle Type
-				</h3>
+			{/* TODO make this look better at smaller screen sizes */}
+			<div className={formStyles.RADIO_GROUP_CONTAINER}>
+				<h3 className={formStyles.RADIO_GROUP_TITLE}>Vehicle Type</h3>
 
-				<div className="flex items-center gap-3 mb-2">
+				<div className={formStyles.RADIO_GROUP}>
 					<label
-						className={`flex flex-1 items-center gap-2 bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 rounded-md cursor-pointer border hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
-						${
+						className={`${formStyles.RADIO_LABEL} ${
 							watchedVehicleType === "gas"
-								? "border-primary dark:border-primary-200"
-								: "border-neutral-200 dark:border-neutral-600"
+								? formStyles.RADIO_LABEL_SELECTED
+								: ""
 						}`}
 					>
 						<input
 							type="radio"
 							value="gas"
 							{...register("type", { required: true })}
-							className="text-primary focus:ring-primary h-3.5 w-3.5"
+							className={formStyles.RADIO_INPUT}
 						/>
-						<span className="text-sm">Gas Vehicle</span>
+						<span className={formStyles.RADIO_TEXT}>Gas / Standard Hybrid</span>
 					</label>
 					<label
-						className={`flex flex-1 items-center gap-2 bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 rounded-md cursor-pointer border hover:bg-neutral-200 dark:hover:bg-neutral-600 transition-colors
-						${
+						className={`${formStyles.RADIO_LABEL} ${
 							watchedVehicleType === "electric"
-								? "border-primary dark:border-primary-200"
-								: "border-neutral-200 dark:border-neutral-600"
+								? formStyles.RADIO_LABEL_SELECTED
+								: ""
 						}`}
 					>
 						<input
 							type="radio"
 							value="electric"
 							{...register("type", { required: true })}
-							className="text-primary focus:ring-primary h-3.5 w-3.5"
+							className={formStyles.RADIO_INPUT}
 						/>
-						<span className="text-sm">Electric Vehicle</span>
+						<span className={formStyles.RADIO_TEXT}>Electric</span>
+					</label>
+					{/* Same thing for plug-in hybrid */}
+					<label
+						className={`${formStyles.RADIO_LABEL} ${
+							watchedVehicleType === "hybrid"
+								? formStyles.RADIO_LABEL_SELECTED
+								: ""
+						}`}
+					>
+						<input
+							type="radio"
+							value="hybrid"
+							{...register("type", { required: true })}
+							className={formStyles.RADIO_INPUT}
+						/>
+						<span className={formStyles.RADIO_TEXT}>Plug-in Hybrid</span>
 					</label>
 				</div>
 
 				{errors.type && (
-					<p className="text-xs text-red-600 dark:text-red-400">
-						Please select a vehicle type
-					</p>
+					<p className={formStyles.RADIO_ERROR}>Please select a vehicle type</p>
 				)}
 			</div>
 
@@ -360,7 +376,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 				watchedVehicleType={watchedVehicleType}
 			/>
 
-			<div className={styles.FORM_FOOTER}>
+			<div className={formStyles.FORM_FOOTER}>
 				<Button
 					text={isSubmitting ? "Saving..." : "Save Vehicle"}
 					className="px-6 py-2.5"
@@ -388,6 +404,7 @@ const collapseAllSections = (
 		gasVehicleData: "isCollapsed",
 		vehicleData: "isCollapsed",
 		electricVehicleData: "isCollapsed",
+		hybridVehicleData: "isCollapsed",
 		purchaseAndSales: "isCollapsed",
 		usage: "isCollapsed",
 		fixedCosts: "isCollapsed",

@@ -64,6 +64,49 @@ export const calcAvgFuelCostPerMileDollars = async (vehicle: Vehicle) => {
 
 		// return it rounded to three decimal places
 		return Math.round(averagefuelCostPerMile * 1000) / 1000;
+	}
+
+	// Vehicle type is HybridVehicle
+	else if (vehicle.type === "hybrid") {
+		const { hybridVehicleData } = vehicle;
+		const {
+			gasCostPerGallon,
+			milesPerGallonHighway,
+			milesPerGallonCity,
+			electricityCostPerKWh,
+			milesPerKWhHighway,
+			milesPerKWhCity,
+			percentElectricDriving,
+		} = hybridVehicleData;
+
+		// Calculate average MPG for gas based on highway/city split
+		const averageMilesPerGallon =
+			(milesPerGallonCity * averagePercentCityOutOf100 +
+				milesPerGallonHighway * averagePercentHighwayOutOf100) /
+			100;
+
+		// Calculate average miles/kWh for electric based on highway/city split
+		const averageMilesPerKWh =
+			(milesPerKWhCity * averagePercentCityOutOf100 +
+				milesPerKWhHighway * averagePercentHighwayOutOf100) /
+			100;
+
+		// Calculate cost per mile for gas portion
+		const gasPortionCostPerMile = gasCostPerGallon / averageMilesPerGallon;
+
+		// Calculate cost per mile for electric portion
+		const electricPortionCostPerMile =
+			electricityCostPerKWh / averageMilesPerKWh;
+
+		// Calculate combined cost per mile based on percent of electric driving
+		const percentGasDriving = 100 - percentElectricDriving;
+		const averageFuelCostPerMile =
+			(electricPortionCostPerMile * percentElectricDriving +
+				gasPortionCostPerMile * percentGasDriving) /
+			100;
+
+		// Return rounded to three decimal places
+		return Math.round(averageFuelCostPerMile * 1000) / 1000;
 	} else {
 		// This should never ever happen, vehicle will always have either type "gas" or type "electric"
 		// TS should really be smart enough not to make me do this, actually

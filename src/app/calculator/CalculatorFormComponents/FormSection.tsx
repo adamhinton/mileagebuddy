@@ -6,6 +6,7 @@
 
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 import {
+	type Hybrid_Vehicle_For_DB_POST,
 	type Electric_Vehicle_For_DB_POST,
 	type Gas_Vehicle_For_DB_POST,
 } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
@@ -19,7 +20,10 @@ export type FormSectionProps = {
 	isCompleted?: boolean;
 	isCollapsed: CollapsedOrNot;
 	onToggleCollapse: () => void;
-	id: keyof Gas_Vehicle_For_DB_POST | keyof Electric_Vehicle_For_DB_POST;
+	id:
+		| keyof Gas_Vehicle_For_DB_POST
+		| keyof Electric_Vehicle_For_DB_POST
+		| keyof Hybrid_Vehicle_For_DB_POST;
 	formNavOptions: FormNavigationOptions;
 };
 
@@ -68,7 +72,7 @@ const FormSection = ({
 					aria-expanded={isActive}
 					aria-controls={`${id}-content`}
 				>
-					<div className="flex items-center flex-grow">
+					<div className={styles.BUTTON_INNER}>
 						<span
 							className={`${styles.TITLE} 
 								${isActive ? styles.TITLE_ACTIVE : styles.TITLE_INACTIVE}`}
@@ -77,18 +81,18 @@ const FormSection = ({
 						</span>
 						{isCompleted && (
 							<span
-								className="ml-2 flex-shrink-0 text-green-500 dark:text-green-400"
+								className={styles.COMPLETE_ICON_WRAPPER}
 								aria-label="Section completed"
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
-									className="h-5 w-5"
+									className={styles.COMPLETE_ICON}
 									viewBox="0 0 20 20"
 									fill="currentColor"
 								>
 									<path
 										fillRule="evenodd"
-										d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+										d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 001.414 0l4-4z"
 										clipRule="evenodd"
 									/>
 								</svg>
@@ -104,7 +108,7 @@ const FormSection = ({
 							</span>
 						)}
 					</div>
-					<div className="ml-4 flex-shrink-0">
+					<div className={styles.CHEVRON_WRAPPER}>
 						{/* Up/down chevron */}
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +118,7 @@ const FormSection = ({
 						>
 							<path
 								fillRule="evenodd"
-								d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+								d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
 								clipRule="evenodd"
 							/>
 						</svg>
@@ -142,7 +146,7 @@ const FormSection = ({
 								onClick={onNext}
 								className={styles.NEXT_BUTTON}
 							>
-								<span className="flex items-center">
+								<span className={styles.NEXT_BUTTON_INNER}>
 									<span>Next Section</span>
 								</span>
 							</button>

@@ -27,6 +27,8 @@ export type VehicleData = Readonly<z.infer<typeof VehicleDataSchema>>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
+ *
+ * Standard hybrids will also be treated as gas vehicles. For our calculation purposes, they're just gas vehicles with better mpg
  */
 export const GasVehicleDataSchema = z
 	.object({
@@ -49,6 +51,8 @@ export type GasVehicleData = Readonly<z.infer<typeof GasVehicleDataSchema>>;
 
 /** This is a SUB OBJECT of BaseVehicleSchema
  * This is NOT a vehicle, it just has some basic data
+ *
+ * TODO stretch: These fields are different from the fields for hybridVehicle. Standardize the fields.
  */
 export const ElectricVehicleDataSchema = z
 	.object({
@@ -64,6 +68,59 @@ export const ElectricVehicleDataSchema = z
 
 export type ElectricVehicleData = Readonly<
 	z.infer<typeof ElectricVehicleDataSchema>
+>;
+
+/** This is a SUB OBJECT of BaseVehicleSchema
+ * This is NOT a vehicle, it just has some basic data
+ *
+ * This property will only appear on Hybrid vehicles that are of type "plugin"
+ * Standard hybrids will not have this property, and will be treated as a gas vehicle
+ */
+export const HybridVehicleDataSchema = z
+	.object({
+		vehicleID: z.number().readonly(),
+		// Gas components
+		gasCostPerGallon: z
+			.number()
+			.max(1000)
+			.nonnegative()
+			.describe("Gas Cost $/gal"),
+		milesPerGallonHighway: z
+			.number()
+			.max(1000)
+			.nonnegative()
+			.describe("MPG Highway"),
+		milesPerGallonCity: z.number().max(1000).nonnegative().describe("MPG City"),
+
+		// Electric components
+		electricityCostPerKWh: z
+			.number()
+			.nonnegative()
+			.max(100)
+			.describe("Electricity cost per kWh $"),
+		milesPerKWhHighway: z
+			.number()
+			.positive()
+			.max(100)
+			.describe("Miles per kWh highway"),
+		milesPerKWhCity: z
+			.number()
+			.positive()
+			.max(100)
+			.describe("Miles per kWh city"),
+
+		// Usage pattern
+		// percentGasDriving will be derived from this so we don't need a separate field for it
+		percentElectricDriving: z
+			.number()
+			.nonnegative()
+			.max(100)
+			.describe("% Driving on Electric"),
+	})
+	.describe("Hybrid Vehicle Data");
+
+export type HybridVehicleData = Readonly<
+	z.infer<typeof HybridVehicleDataSchema>
 >;
 
 // This error string is also used in the PurchaseAndSalesSubForm.tsx file so I'm defining it here for consistency

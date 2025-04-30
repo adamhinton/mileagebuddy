@@ -104,6 +104,9 @@ export const insertVehicleClient = async (
 	// This POST vehicle validation may be redundant because the form hook in the UI will already do this
 	// But, the validation is cheap and form logic could change
 	const isVehicle = VehicleToBePostedSchema.safeParse(vehicle);
+
+	console.log("isVehicle:", isVehicle);
+
 	if (!isVehicle.success) {
 		console.error(
 			"Vehicle for POST failed validation. ",
@@ -121,6 +124,8 @@ export const insertVehicleClient = async (
 			body: JSON.stringify(vehicle),
 		});
 		const newVehicle: Vehicle = await res.json();
+
+		console.log("newVehicle:", newVehicle);
 
 		// validate new vehicle received from db
 		const isNewVehicle = VehicleSchema.safeParse(newVehicle);

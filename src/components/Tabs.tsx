@@ -17,6 +17,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAppSelector } from "../redux/hooks";
+import tailwindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 
 type Tab = {
 	path: string;
@@ -42,11 +43,13 @@ const Tabs = () => {
 		return pathname === path;
 	};
 
+	const navStyles = tailwindClassNames.navigation;
+
 	return (
 		// Sticky to top of page, except on mobile
-		<section className="md:sticky md:top-0 md:z-30 bg-background-header shadow-md">
-			<div className="container mx-auto px-2 sm:px-4">
-				<ul className="flex flex-wrap text-xs sm:text-sm font-medium text-center text-neutral-text border-b-2 border-primary-50 dark:border-primary-100/30">
+		<section className={navStyles.TABS_CONTAINER}>
+			<div className={navStyles.TABS_INNER}>
+				<ul className={navStyles.TABS_LIST}>
 					{myTabs.map((tab) => {
 						// Hide the Dashboard tab for non-authenticated users
 						if (tab.path === "/dashboard" && !isLoggedIn) {
@@ -56,14 +59,14 @@ const Tabs = () => {
 						// Active tab is more visually distinct, and nothing happens when user clicks it
 						const isActive = isActiveTab(tab.path);
 						return (
-							<li key={tab.path} className="me-1 sm:me-2">
+							<li key={tab.path} className={navStyles.TABS_ITEM}>
 								<Link
 									href={tab.path}
 									aria-current={isActive ? "page" : undefined}
-									className={`inline-block p-2 sm:p-3 md:p-4 rounded-t-lg ${
-										isActive
-											? "bg-primary-50 text-primary font-semibold border-b-2 border-primary dark:bg-primary-100/20 dark:border-primary-200"
-											: "hover:bg-background-highlight hover:text-primary transition-colors"
+									className={`${navStyles.TABS_LINK} ${
+										isActive 
+											? navStyles.TABS_LINK_ACTIVE 
+											: navStyles.TABS_LINK_INACTIVE
 									}`}
 									onClick={(e) => {
 										if (isActive) {

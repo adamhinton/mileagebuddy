@@ -4,8 +4,8 @@
 // Here we define types for Vehicle (obviously)
 // IMPORTANT: VehicleSchema is the daddy type that all these other types are based on. VehicleSchema is MANUALLLY WRITTEN by me, which means that any time you change your db schema, you have to update this type manually.
 // A number of sub types are defined:
-// GasVehicle and ElectricVehicle:
-// --> These are, respectively, vehicles where "type" = "gas" and electricVehicleData is null, and where "type" = "electric" and gasVehicleData is null
+// GasVehicle, HybridVehicle and ElectricVehicle:
+// --> These are, respectively, vehicles where "type" = "gas" and electricVehicleData is null and it has gasVehicleData, or where "type" = "electric" and it has electricVehicleData and gasVehicleData/hybridVehicleData is null, or where "type" = "hybrid" and both gasVehicleData and electricVehicleData are null and it has HybridVehicleData
 // --> They form a union called Vehicle
 // VehicleSchema: The schema for a Vehicle, with all fields included
 // Vehicles type: An array of Vehicle
@@ -25,6 +25,7 @@ import {
 	ElectricVehicleDataSchema,
 	FixedCostsSchema,
 	GasVehicleDataSchema,
+	HybridVehicleDataSchema,
 	PurchaseAndSalesSchema,
 	UsageSchema,
 	VariableCostsSchema,
@@ -40,8 +41,8 @@ export type DeepReadonly<T> = {
 	readonly [P in keyof T]: T[P] extends object ? DeepReadonly<T[P]> : T[P];
 };
 
-/**This will be either an ElectricVehicle type or GasVehicle type
- * depending on the "type" field ("type": "gas" or "type":  "electric").
+/**This will be either an ElectricVehicle type, HybridVehicle type or GasVehicle type
+ * depending on the "type" field ("type": "gas" or "type":  "electric" or "type": "hybrid").
  * This matches what you will receive from a GET request to the db.
  * There are other types for vehicles you haven't POSTed yet, or PATCH vehicles.
  */
@@ -64,7 +65,7 @@ export type Vehicles = Vehicle[];
  *
  * This is the grandaddy schema that Vehicles are inferred from.
  *
- * This is broken down further in to GasVehicleSchema and ElectricVehicleSchema, which are then combined in to VehicleSchema.
+ * This is broken down further in to GasVehicleSchema, HybridVehicleSchema and ElectricVehicleSchema, which are then combined in to VehicleSchema.
  *
  * Then, the Vehicle type is a union of those two types.
  *
@@ -78,13 +79,15 @@ export const BaseVehicleSchema = z.object({
 	id: z.number().readonly(),
 	userid: z.string().uuid().readonly(),
 	vehiclesOrder: z.number().positive(),
-	type: z.enum(["gas", "electric"]),
+	type: z.enum(["gas", "electric", "hybrid"]),
 
 	vehicleData: VehicleDataSchema,
 
 	gasVehicleData: GasVehicleDataSchema,
 
 	electricVehicleData: ElectricVehicleDataSchema,
+
+	hybridVehicleData: HybridVehicleDataSchema,
 
 	purchaseAndSales: PurchaseAndSalesSchema,
 
@@ -99,11 +102,15 @@ export const BaseVehicleSchema = z.object({
 
 export const GasVehicleSchema = BaseVehicleSchema.extend({
 	type: z.literal("gas"),
-}).omit({ electricVehicleData: true });
+}).omit({ electricVehicleData: true, hybridVehicleData: true });
 
 export const ElectricVehicleSchema = BaseVehicleSchema.extend({
 	type: z.literal("electric"),
-}).omit({ gasVehicleData: true });
+}).omit({ gasVehicleData: true, hybridVehicleData: true });
+
+export const HybridVehicleSchema = BaseVehicleSchema.extend({
+	type: z.literal("hybrid"),
+}).omit({ gasVehicleData: true, electricVehicleData: true });
 
 /**
  * The type Vehicle is inferred from this
@@ -115,6 +122,7 @@ export const ElectricVehicleSchema = BaseVehicleSchema.extend({
 export const VehicleSchema = z.discriminatedUnion("type", [
 	GasVehicleSchema,
 	ElectricVehicleSchema,
+	HybridVehicleSchema,
 ]);
 
 /**
