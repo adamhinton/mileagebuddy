@@ -48,11 +48,9 @@ describe("Tabs.tsx", () => {
 		const activeTab = getByText("Dashboard").closest("a");
 
 		// Check that it has the active styling classes
-		expect(activeTab).toHaveClass("bg-primary-50");
-		expect(activeTab).toHaveClass("text-primary");
-		expect(activeTab).toHaveClass("font-semibold");
-		expect(activeTab).toHaveClass("border-b-2");
-		expect(activeTab).toHaveClass("border-primary");
+		expect(activeTab).toHaveClass(
+			"mileage-calc-tabs-link mileage-calc-tabs-link--active"
+		);
 
 		// Should not have the hover classes that inactive tabs have
 		expect(activeTab).not.toHaveClass("hover:bg-background-highlight");
@@ -65,16 +63,12 @@ describe("Tabs.tsx", () => {
 		const inactiveTab = getByText("Login").closest("a");
 
 		// Should not have the active styling classes
-		expect(inactiveTab).not.toHaveClass("bg-primary-50");
-		expect(inactiveTab).not.toHaveClass("text-primary");
-		expect(inactiveTab).not.toHaveClass("font-semibold");
-		expect(inactiveTab).not.toHaveClass("border-b-2");
-		expect(inactiveTab).not.toHaveClass("border-primary");
+		expect(inactiveTab).not.toHaveClass("hover:bg-background-highlight");
 
 		// Should have hover classes that active tabs don't have
-		expect(inactiveTab).toHaveClass("hover:bg-background-highlight");
-		expect(inactiveTab).toHaveClass("hover:text-primary");
-		expect(inactiveTab).toHaveClass("transition-colors");
+		expect(inactiveTab).toHaveClass(
+			"mileage-calc-tabs-link mileage-calc-tabs-link--inactive"
+		);
 	});
 
 	it("Sets aria-current attribute only on active tab", () => {
