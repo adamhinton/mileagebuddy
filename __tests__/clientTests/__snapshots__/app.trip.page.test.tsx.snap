@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TripPage matches snapshot from 4.30.2025 1`] = `
+<div>
+  <div
+    class="min-h-screen"
+  >
+    blah blah blah
+  </div>
+</div>
+`;

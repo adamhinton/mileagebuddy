@@ -12,4 +12,13 @@ describe("TripPage", () => {
 			</TestReduxStore>
 		);
 	});
+	
+	it("matches snapshot from 4.30.2025", () => {
+		const { container } = render(
+			<TestReduxStore>
+				<TripPage />
+			</TestReduxStore>
+		);
+		expect(container).toMatchSnapshot();
+	});
 });
