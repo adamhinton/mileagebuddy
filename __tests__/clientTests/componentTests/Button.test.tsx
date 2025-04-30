@@ -340,4 +340,75 @@ describe("Button.tsx", () => {
 			expect(screen.getByText(customCancelText)).toBeInTheDocument();
 		});
 	});
+
+	describe("Snapshot tests", () => {
+		it("matches snapshot for primary button from 4.30.2025", () => {
+			const { container } = render(
+				<Button
+					text="Primary Button"
+					onClick={mockOnClick}
+					variant="primary"
+					isConfirmationRequired={false}
+				/>
+			);
+			expect(container).toMatchSnapshot();
+		});
+		
+		it("matches snapshot for secondary button from 4.30.2025", () => {
+			const { container } = render(
+				<Button
+					text="Secondary Button"
+					onClick={mockOnClick}
+					variant="secondary"
+					isConfirmationRequired={false}
+				/>
+			);
+			expect(container).toMatchSnapshot();
+		});
+		
+		it("matches snapshot for danger button from 4.30.2025", () => {
+			const { container } = render(
+				<Button
+					text="Danger Button"
+					onClick={mockOnClick}
+					variant="danger"
+					isConfirmationRequired={false}
+				/>
+			);
+			expect(container).toMatchSnapshot();
+		});
+		
+		it("matches snapshot for disabled button from 4.30.2025", () => {
+			const { container } = render(
+				<Button
+					text="Disabled Button"
+					onClick={mockOnClick}
+					isDisabled={true}
+					isConfirmationRequired={false}
+				/>
+			);
+			expect(container).toMatchSnapshot();
+		});
+		
+		it("matches snapshot for button with confirmation dialog open from 4.30.2025", () => {
+			const { container } = render(
+				<Button
+					text="Delete Item"
+					onClick={mockOnClick}
+					isConfirmationRequired={true}
+					confirmationDialogOptions={{
+						title: "Confirm Delete",
+						message: "Are you sure you want to delete this item?",
+						confirmButtonText: "Delete",
+						cancelButtonText: "Cancel",
+					}}
+				/>
+			);
+			
+			const button = screen.getByRole("button", { name: /delete item/i });
+			fireEvent.click(button);
+			
+			expect(container).toMatchSnapshot();
+		});
+	});
 });
