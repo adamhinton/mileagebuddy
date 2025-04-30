@@ -52,4 +52,13 @@ describe("calculator/edit/vehicleId", () => {
 
 		expect(vehicleName).toBeVisible();
 	});
+	
+	it("matches snapshot from 4.30.2025", () => {
+		const { container } = render(
+			<TestReduxStore>
+				<EditVehiclePage params={vehicleIdPromise} />
+			</TestReduxStore>
+		);
+		expect(container).toMatchSnapshot();
+	});
 });
