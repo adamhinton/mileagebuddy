@@ -31,4 +31,13 @@ describe("Calculator page", () => {
 			</TestReduxStore>
 		);
 	});
+
+	it("matches snapshot from 4.30.2025", () => {
+		const { container } = render(
+			<TestReduxStore>
+				<CalculatorPage />
+			</TestReduxStore>
+		);
+		expect(container).toMatchSnapshot();
+	});
 });

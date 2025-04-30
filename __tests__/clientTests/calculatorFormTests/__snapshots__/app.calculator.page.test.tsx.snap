@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Calculator page matches snapshot from 4.30.2025 1`] = `
+<div>
+  <section
+    class="min-h-screen p-4 sm:p-6 md:p-8 bg-neutral-50 dark:bg-neutral-900"
+  >
+    <div
+      class="max-w-5xl mx-auto"
+    >
+      <header
+        class="mb-6"
+      >
+        <h1
+          class="text-2xl sm:text-3xl md:text-4xl font-bold text-neutral-800 dark:text-neutral-100"
+        >
+          Vehicle Information
+        </h1>
+        <p
+          class="mt-2 text-neutral-600 dark:text-neutral-400"
+        >
+          Input your vehicle information to calculate your true cost per mile.
+        </p>
+      </header>
+      <form
+        class="mileage-calc-container"
+      >
+        <div
+          class="mileage-calc-form-header"
+        >
+          <h1
+            class="mileage-calc-form-title"
+          >
+            Create New Vehicle
+          </h1>
+          <button
+            aria-label="Clear Form"
+            class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-background-elevated text-neutral-text border border-primary-100 hover:bg-background-highlight focus:ring-primary-200 dark:border-primary-200 self-start"
+            type="button"
+          >
+            Clear Form
+          </button>
+        </div>
+        <div
+          class="mileage-calc-form-radio-group-container"
+        >
+          <h3
+            class="mileage-calc-form-radio-group-title"
+          >
+            Vehicle Type
+          </h3>
+          <div
+            class="mileage-calc-form-radio-group"
+          >
+            <label
+              class="mileage-calc-form-radio-label "
+            >
+              <input
+                class="mileage-calc-form-radio-input"
+                name="type"
+                type="radio"
+                value="gas"
+              />
+              <span
+                class="mileage-calc-form-radio-text"
+              >
+                Gas / Standard Hybrid
+              </span>
+            </label>
+            <label
+              class="mileage-calc-form-radio-label "
+            >
+              <input
+                class="mileage-calc-form-radio-input"
+                name="type"
+                type="radio"
+                value="electric"
+              />
+              <span
+                class="mileage-calc-form-radio-text"
+              >
+                Electric
+              </span>
+            </label>
+            <label
+              class="mileage-calc-form-radio-label "
+            >
+              <input
+                class="mileage-calc-form-radio-input"
+                name="type"
+                type="radio"
+                value="hybrid"
+              />
+              <span
+                class="mileage-calc-form-radio-text"
+              >
+                Plug-in Hybrid
+              </span>
+            </label>
+          </div>
+        </div>
+        <div
+          class="mileage-calc-form-footer"
+        >
+          <button
+            aria-label="Save Vehicle"
+            class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-primary text-white hover:bg-primary-600 focus:ring-primary-200 px-6 py-2.5"
+            type="submit"
+          >
+            Save Vehicle
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+</div>
+`;
