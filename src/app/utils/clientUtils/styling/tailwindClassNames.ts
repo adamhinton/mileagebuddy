@@ -26,6 +26,15 @@ type TailwindClassNames = {
 		COST_VALUE_PRIMARY: "mileage-calc-cost-value--primary";
 		COST_VALUE_SECONDARY: "mileage-calc-cost-value--secondary";
 	};
+	navigation: {
+		TABS_CONTAINER: "mileage-calc-tabs-container";
+		TABS_INNER: "mileage-calc-tabs-inner";
+		TABS_LIST: "mileage-calc-tabs-list";
+		TABS_ITEM: "mileage-calc-tabs-item";
+		TABS_LINK: "mileage-calc-tabs-link";
+		TABS_LINK_ACTIVE: "mileage-calc-tabs-link--active";
+		TABS_LINK_INACTIVE: "mileage-calc-tabs-link--inactive";
+	};
 	mileageCalcForm: {
 		FORM_SECTION: "mileage-calc-form-section";
 		FORM_SECTION_HEADER: "mileage-calc-form-section-header";
@@ -118,14 +127,21 @@ const tailWindClassNames: TailwindClassNames = {
 		COST_VALUE_PRIMARY: "mileage-calc-cost-value--primary",
 		COST_VALUE_SECONDARY: "mileage-calc-cost-value--secondary",
 	},
+	navigation: {
+		TABS_CONTAINER: "mileage-calc-tabs-container",
+		TABS_INNER: "mileage-calc-tabs-inner",
+		TABS_LIST: "mileage-calc-tabs-list",
+		TABS_ITEM: "mileage-calc-tabs-item",
+		TABS_LINK: "mileage-calc-tabs-link",
+		TABS_LINK_ACTIVE: "mileage-calc-tabs-link--active",
+		TABS_LINK_INACTIVE: "mileage-calc-tabs-link--inactive",
+	},
 	mileageCalcForm: {
 		FORM_SECTION: "mileage-calc-form-section",
 		FORM_SECTION_HEADER: "mileage-calc-form-section-header",
 		FORM_SECTION_CONTENT: "mileage-calc-form-section-content",
-		FORM_NUMBER_INPUT:
-			"mileage-calc-form-input-base mileage-calc-form-number-input",
-		FORM_TEXT_INPUT:
-			"mileage-calc-form-input-base mileage-calc-form-text-input",
+		FORM_NUMBER_INPUT: "mileage-calc-form-input-base mileage-calc-form-number-input",
+		FORM_TEXT_INPUT: "mileage-calc-form-input-base mileage-calc-form-text-input",
 		FORM_ERROR_MESSAGE: "mileage-calc-form-error-message",
 		FORM_ERROR_ICON: "mileage-calc-form-error-icon",
 		FORM_INPUT_LABEL: "mileage-calc-form-input-label",
@@ -150,8 +166,7 @@ const tailWindClassNames: TailwindClassNames = {
 			CONTAINER: "mileage-calc-form-section-container",
 			CONTAINER_ACTIVE: "mileage-calc-form-section-container-active",
 			CONTAINER_INACTIVE: "mileage-calc-form-section-container-inactive",
-			CONTAINER_FIRST_ACTIVE:
-				"mileage-calc-form-section-container-first-active",
+			CONTAINER_FIRST_ACTIVE: "mileage-calc-form-section-container-first-active",
 			BUTTON: "mileage-calc-form-section-button",
 			BUTTON_ACTIVE: "mileage-calc-form-section-button-active",
 			BUTTON_INACTIVE: "mileage-calc-form-section-button-inactive",
@@ -168,10 +183,8 @@ const tailWindClassNames: TailwindClassNames = {
 			CHEVRON: "mileage-calc-form-section-chevron",
 			CHEVRON_ACTIVE: "mileage-calc-form-section-chevron-active",
 			CONTENT_WRAPPER: "mileage-calc-form-section-content-wrapper",
-			CONTENT_WRAPPER_ACTIVE:
-				"mileage-calc-form-section-content-wrapper-active",
-			CONTENT_WRAPPER_INACTIVE:
-				"mileage-calc-form-section-content-wrapper-inactive",
+			CONTENT_WRAPPER_ACTIVE: "mileage-calc-form-section-content-wrapper-active",
+			CONTENT_WRAPPER_INACTIVE: "mileage-calc-form-section-content-wrapper-inactive",
 			CONTENT_INNER: "mileage-calc-form-section-content-inner",
 			FOOTER: "mileage-calc-form-section-footer",
 			NEXT_BUTTON: "mileage-calc-form-next-button",
