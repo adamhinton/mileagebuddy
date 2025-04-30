@@ -1,0 +1,2634 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VehicleCreationOrEditForm matches snapshot for create vehicle mode from 4.30.2025 1`] = `
+<div>
+  <form
+    class="mileage-calc-container"
+  >
+    <div
+      class="mileage-calc-form-header"
+    >
+      <h1
+        class="mileage-calc-form-title"
+      >
+        Create New Vehicle
+      </h1>
+      <button
+        aria-label="Clear Form"
+        class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-background-elevated text-neutral-text border border-primary-100 hover:bg-background-highlight focus:ring-primary-200 dark:border-primary-200 self-start"
+        type="button"
+      >
+        Clear Form
+      </button>
+    </div>
+    <div
+      class="mileage-calc-form-radio-group-container"
+    >
+      <h3
+        class="mileage-calc-form-radio-group-title"
+      >
+        Vehicle Type
+      </h3>
+      <div
+        class="mileage-calc-form-radio-group"
+      >
+        <label
+          class="mileage-calc-form-radio-label "
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="gas"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Gas / Standard Hybrid
+          </span>
+        </label>
+        <label
+          class="mileage-calc-form-radio-label "
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="electric"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Electric
+          </span>
+        </label>
+        <label
+          class="mileage-calc-form-radio-label mileage-calc-form-radio-label--selected"
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="hybrid"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Plug-in Hybrid
+          </span>
+        </label>
+      </div>
+    </div>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="hybridVehicleData"
+    >
+      <h3>
+        <button
+          aria-controls="hybridVehicleData-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Hybrid Vehicle Data
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              1
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="hybridVehicleData-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="vehicleData"
+    >
+      <h3>
+        <button
+          aria-controls="vehicleData-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Vehicle Data
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              2
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="vehicleData-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="purchaseAndSales"
+    >
+      <h3>
+        <button
+          aria-controls="purchaseAndSales-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Purchase and Sales
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              3
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="purchaseAndSales-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="usage"
+    >
+      <h3>
+        <button
+          aria-controls="usage-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Usage
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              4
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="usage-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="fixedCosts"
+    >
+      <h3>
+        <button
+          aria-controls="fixedCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Fixed Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              5
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="fixedCosts-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="yearlyMaintenanceCosts"
+    >
+      <h3>
+        <button
+          aria-controls="yearlyMaintenanceCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Yearly Maintenance Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              6
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="yearlyMaintenanceCosts-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="variableCosts"
+    >
+      <h3>
+        <button
+          aria-controls="variableCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Variable Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              7
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="variableCosts-content"
+      />
+    </section>
+    <div
+      class="mileage-calc-form-footer"
+    >
+      <button
+        aria-label="Save Vehicle"
+        class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-primary text-white hover:bg-primary-600 focus:ring-primary-200 px-6 py-2.5"
+        type="submit"
+      >
+        Save Vehicle
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`VehicleCreationOrEditForm matches snapshot for edit vehicle mode from 4.30.2025 1`] = `
+<div>
+  <form
+    class="mileage-calc-container"
+  >
+    <div
+      class="mileage-calc-form-header"
+    >
+      <h1
+        class="mileage-calc-form-title"
+      >
+        Edit Ford F-150
+      </h1>
+      <button
+        aria-label="Clear Form"
+        class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-background-elevated text-neutral-text border border-primary-100 hover:bg-background-highlight focus:ring-primary-200 dark:border-primary-200 self-start"
+        type="button"
+      >
+        Clear Form
+      </button>
+    </div>
+    <div
+      class="mileage-calc-form-radio-group-container"
+    >
+      <h3
+        class="mileage-calc-form-radio-group-title"
+      >
+        Vehicle Type
+      </h3>
+      <div
+        class="mileage-calc-form-radio-group"
+      >
+        <label
+          class="mileage-calc-form-radio-label mileage-calc-form-radio-label--selected"
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="gas"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Gas / Standard Hybrid
+          </span>
+        </label>
+        <label
+          class="mileage-calc-form-radio-label "
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="electric"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Electric
+          </span>
+        </label>
+        <label
+          class="mileage-calc-form-radio-label "
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="hybrid"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Plug-in Hybrid
+          </span>
+        </label>
+      </div>
+    </div>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-active
+				mileage-calc-form-section-container-first-active"
+      id="gasVehicleData"
+    >
+      <h3>
+        <button
+          aria-controls="gasVehicleData-content"
+          aria-expanded="true"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-active"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-active"
+            >
+              Gas Vehicle Data
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-active"
+            >
+              1
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron mileage-calc-form-section-chevron-active"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-active"
+        id="gasVehicleData-content"
+      >
+        <div
+          class="mileage-calc-form-section-content-inner"
+        >
+          <div
+            class="mb-4"
+          >
+            <label
+              class="mileage-calc-form-label"
+              data-testid="gasVehicleData.gasCostPerGallon-label"
+              for="gasVehicleData.gasCostPerGallon"
+            >
+              Gas Cost $/gal
+              <span
+                class="mileage-calc-form-required-asterisk"
+              >
+                *
+              </span>
+            </label>
+            <div
+              class="relative rounded-md shadow-sm"
+            >
+              <input
+                class="mileage-calc-form-number-field "
+                data-testid="gasVehicleData.gasCostPerGallon-input"
+                id="gasVehicleData.gasCostPerGallon"
+                max="1000"
+                min="0"
+                name="gasVehicleData.gasCostPerGallon"
+                required=""
+                step="0.01"
+                type="number"
+              />
+            </div>
+          </div>
+          <div
+            class="mb-4"
+          >
+            <label
+              class="mileage-calc-form-label"
+              data-testid="gasVehicleData.milesPerGallonHighway-label"
+              for="gasVehicleData.milesPerGallonHighway"
+            >
+              MPG Highway
+              <span
+                class="mileage-calc-form-required-asterisk"
+              >
+                *
+              </span>
+            </label>
+            <div
+              class="relative rounded-md shadow-sm"
+            >
+              <input
+                class="mileage-calc-form-number-field "
+                data-testid="gasVehicleData.milesPerGallonHighway-input"
+                id="gasVehicleData.milesPerGallonHighway"
+                max="1000"
+                min="0"
+                name="gasVehicleData.milesPerGallonHighway"
+                required=""
+                step="1"
+                type="number"
+              />
+            </div>
+          </div>
+          <div
+            class="mb-4"
+          >
+            <label
+              class="mileage-calc-form-label"
+              data-testid="gasVehicleData.milesPerGallonCity-label"
+              for="gasVehicleData.milesPerGallonCity"
+            >
+              MPG City
+              <span
+                class="mileage-calc-form-required-asterisk"
+              >
+                *
+              </span>
+            </label>
+            <div
+              class="relative rounded-md shadow-sm"
+            >
+              <input
+                class="mileage-calc-form-number-field "
+                data-testid="gasVehicleData.milesPerGallonCity-input"
+                id="gasVehicleData.milesPerGallonCity"
+                max="1000"
+                min="0"
+                name="gasVehicleData.milesPerGallonCity"
+                required=""
+                step="1"
+                type="number"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="mileage-calc-form-section-footer"
+        >
+          <button
+            class="mileage-calc-form-next-button"
+            type="button"
+          >
+            <span
+              class="mileage-calc-form-next-button-inner"
+            >
+              <span>
+                Next Section
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="vehicleData"
+    >
+      <h3>
+        <button
+          aria-controls="vehicleData-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Vehicle Data
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              2
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="vehicleData-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="purchaseAndSales"
+    >
+      <h3>
+        <button
+          aria-controls="purchaseAndSales-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Purchase and Sales
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              3
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="purchaseAndSales-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="usage"
+    >
+      <h3>
+        <button
+          aria-controls="usage-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Usage
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              4
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="usage-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="fixedCosts"
+    >
+      <h3>
+        <button
+          aria-controls="fixedCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Fixed Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              5
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="fixedCosts-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="yearlyMaintenanceCosts"
+    >
+      <h3>
+        <button
+          aria-controls="yearlyMaintenanceCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Yearly Maintenance Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              6
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="yearlyMaintenanceCosts-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="variableCosts"
+    >
+      <h3>
+        <button
+          aria-controls="variableCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Variable Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              7
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="variableCosts-content"
+      />
+    </section>
+    <div
+      class="mileage-calc-form-footer"
+    >
+      <button
+        aria-label="Save Vehicle"
+        class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-primary text-white hover:bg-primary-600 focus:ring-primary-200 px-6 py-2.5"
+        type="submit"
+      >
+        Save Vehicle
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`VehicleCreationOrEditForm matches snapshot for electric vehicle selection from 4.30.2025 1`] = `
+<div>
+  <form
+    class="mileage-calc-container"
+  >
+    <div
+      class="mileage-calc-form-header"
+    >
+      <h1
+        class="mileage-calc-form-title"
+      >
+        Create New Vehicle
+      </h1>
+      <button
+        aria-label="Clear Form"
+        class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-background-elevated text-neutral-text border border-primary-100 hover:bg-background-highlight focus:ring-primary-200 dark:border-primary-200 self-start"
+        type="button"
+      >
+        Clear Form
+      </button>
+    </div>
+    <div
+      class="mileage-calc-form-radio-group-container"
+    >
+      <h3
+        class="mileage-calc-form-radio-group-title"
+      >
+        Vehicle Type
+      </h3>
+      <div
+        class="mileage-calc-form-radio-group"
+      >
+        <label
+          class="mileage-calc-form-radio-label "
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="gas"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Gas / Standard Hybrid
+          </span>
+        </label>
+        <label
+          class="mileage-calc-form-radio-label mileage-calc-form-radio-label--selected"
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="electric"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Electric
+          </span>
+        </label>
+        <label
+          class="mileage-calc-form-radio-label "
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="hybrid"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Plug-in Hybrid
+          </span>
+        </label>
+      </div>
+    </div>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="electricVehicleData"
+    >
+      <h3>
+        <button
+          aria-controls="electricVehicleData-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Electric Vehicle Data
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              1
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="electricVehicleData-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="vehicleData"
+    >
+      <h3>
+        <button
+          aria-controls="vehicleData-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Vehicle Data
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              2
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="vehicleData-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="purchaseAndSales"
+    >
+      <h3>
+        <button
+          aria-controls="purchaseAndSales-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Purchase and Sales
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              3
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="purchaseAndSales-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="usage"
+    >
+      <h3>
+        <button
+          aria-controls="usage-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Usage
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              4
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="usage-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="fixedCosts"
+    >
+      <h3>
+        <button
+          aria-controls="fixedCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Fixed Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              5
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="fixedCosts-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="yearlyMaintenanceCosts"
+    >
+      <h3>
+        <button
+          aria-controls="yearlyMaintenanceCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Yearly Maintenance Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              6
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="yearlyMaintenanceCosts-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="variableCosts"
+    >
+      <h3>
+        <button
+          aria-controls="variableCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Variable Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              7
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="variableCosts-content"
+      />
+    </section>
+    <div
+      class="mileage-calc-form-footer"
+    >
+      <button
+        aria-label="Save Vehicle"
+        class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-primary text-white hover:bg-primary-600 focus:ring-primary-200 px-6 py-2.5"
+        type="submit"
+      >
+        Save Vehicle
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`VehicleCreationOrEditForm matches snapshot for gas vehicle selection from 4.30.2025 1`] = `
+<div>
+  <form
+    class="mileage-calc-container"
+  >
+    <div
+      class="mileage-calc-form-header"
+    >
+      <h1
+        class="mileage-calc-form-title"
+      >
+        Create New Vehicle
+      </h1>
+      <button
+        aria-label="Clear Form"
+        class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-background-elevated text-neutral-text border border-primary-100 hover:bg-background-highlight focus:ring-primary-200 dark:border-primary-200 self-start"
+        type="button"
+      >
+        Clear Form
+      </button>
+    </div>
+    <div
+      class="mileage-calc-form-radio-group-container"
+    >
+      <h3
+        class="mileage-calc-form-radio-group-title"
+      >
+        Vehicle Type
+      </h3>
+      <div
+        class="mileage-calc-form-radio-group"
+      >
+        <label
+          class="mileage-calc-form-radio-label mileage-calc-form-radio-label--selected"
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="gas"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Gas / Standard Hybrid
+          </span>
+        </label>
+        <label
+          class="mileage-calc-form-radio-label "
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="electric"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Electric
+          </span>
+        </label>
+        <label
+          class="mileage-calc-form-radio-label "
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="hybrid"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Plug-in Hybrid
+          </span>
+        </label>
+      </div>
+    </div>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-active
+				mileage-calc-form-section-container-first-active"
+      id="gasVehicleData"
+    >
+      <h3>
+        <button
+          aria-controls="gasVehicleData-content"
+          aria-expanded="true"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-active"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-active"
+            >
+              Gas Vehicle Data
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-active"
+            >
+              1
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron mileage-calc-form-section-chevron-active"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-active"
+        id="gasVehicleData-content"
+      >
+        <div
+          class="mileage-calc-form-section-content-inner"
+        >
+          <div
+            class="mb-4"
+          >
+            <label
+              class="mileage-calc-form-label"
+              data-testid="gasVehicleData.gasCostPerGallon-label"
+              for="gasVehicleData.gasCostPerGallon"
+            >
+              Gas Cost $/gal
+              <span
+                class="mileage-calc-form-required-asterisk"
+              >
+                *
+              </span>
+            </label>
+            <div
+              class="relative rounded-md shadow-sm"
+            >
+              <input
+                class="mileage-calc-form-number-field "
+                data-testid="gasVehicleData.gasCostPerGallon-input"
+                id="gasVehicleData.gasCostPerGallon"
+                max="1000"
+                min="0"
+                name="gasVehicleData.gasCostPerGallon"
+                required=""
+                step="0.01"
+                type="number"
+              />
+            </div>
+          </div>
+          <div
+            class="mb-4"
+          >
+            <label
+              class="mileage-calc-form-label"
+              data-testid="gasVehicleData.milesPerGallonHighway-label"
+              for="gasVehicleData.milesPerGallonHighway"
+            >
+              MPG Highway
+              <span
+                class="mileage-calc-form-required-asterisk"
+              >
+                *
+              </span>
+            </label>
+            <div
+              class="relative rounded-md shadow-sm"
+            >
+              <input
+                class="mileage-calc-form-number-field "
+                data-testid="gasVehicleData.milesPerGallonHighway-input"
+                id="gasVehicleData.milesPerGallonHighway"
+                max="1000"
+                min="0"
+                name="gasVehicleData.milesPerGallonHighway"
+                required=""
+                step="1"
+                type="number"
+              />
+            </div>
+          </div>
+          <div
+            class="mb-4"
+          >
+            <label
+              class="mileage-calc-form-label"
+              data-testid="gasVehicleData.milesPerGallonCity-label"
+              for="gasVehicleData.milesPerGallonCity"
+            >
+              MPG City
+              <span
+                class="mileage-calc-form-required-asterisk"
+              >
+                *
+              </span>
+            </label>
+            <div
+              class="relative rounded-md shadow-sm"
+            >
+              <input
+                class="mileage-calc-form-number-field "
+                data-testid="gasVehicleData.milesPerGallonCity-input"
+                id="gasVehicleData.milesPerGallonCity"
+                max="1000"
+                min="0"
+                name="gasVehicleData.milesPerGallonCity"
+                required=""
+                step="1"
+                type="number"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="mileage-calc-form-section-footer"
+        >
+          <button
+            class="mileage-calc-form-next-button"
+            type="button"
+          >
+            <span
+              class="mileage-calc-form-next-button-inner"
+            >
+              <span>
+                Next Section
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="vehicleData"
+    >
+      <h3>
+        <button
+          aria-controls="vehicleData-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Vehicle Data
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              2
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="vehicleData-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="purchaseAndSales"
+    >
+      <h3>
+        <button
+          aria-controls="purchaseAndSales-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Purchase and Sales
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              3
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="purchaseAndSales-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="usage"
+    >
+      <h3>
+        <button
+          aria-controls="usage-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Usage
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              4
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="usage-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="fixedCosts"
+    >
+      <h3>
+        <button
+          aria-controls="fixedCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Fixed Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              5
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="fixedCosts-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="yearlyMaintenanceCosts"
+    >
+      <h3>
+        <button
+          aria-controls="yearlyMaintenanceCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Yearly Maintenance Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              6
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="yearlyMaintenanceCosts-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="variableCosts"
+    >
+      <h3>
+        <button
+          aria-controls="variableCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Variable Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              7
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="variableCosts-content"
+      />
+    </section>
+    <div
+      class="mileage-calc-form-footer"
+    >
+      <button
+        aria-label="Save Vehicle"
+        class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-primary text-white hover:bg-primary-600 focus:ring-primary-200 px-6 py-2.5"
+        type="submit"
+      >
+        Save Vehicle
+      </button>
+    </div>
+  </form>
+</div>
+`;
+
+exports[`VehicleCreationOrEditForm matches snapshot for hybrid vehicle selection from 4.30.2025 1`] = `
+<div>
+  <form
+    class="mileage-calc-container"
+  >
+    <div
+      class="mileage-calc-form-header"
+    >
+      <h1
+        class="mileage-calc-form-title"
+      >
+        Create New Vehicle
+      </h1>
+      <button
+        aria-label="Clear Form"
+        class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-background-elevated text-neutral-text border border-primary-100 hover:bg-background-highlight focus:ring-primary-200 dark:border-primary-200 self-start"
+        type="button"
+      >
+        Clear Form
+      </button>
+    </div>
+    <div
+      class="mileage-calc-form-radio-group-container"
+    >
+      <h3
+        class="mileage-calc-form-radio-group-title"
+      >
+        Vehicle Type
+      </h3>
+      <div
+        class="mileage-calc-form-radio-group"
+      >
+        <label
+          class="mileage-calc-form-radio-label "
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="gas"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Gas / Standard Hybrid
+          </span>
+        </label>
+        <label
+          class="mileage-calc-form-radio-label "
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="electric"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Electric
+          </span>
+        </label>
+        <label
+          class="mileage-calc-form-radio-label mileage-calc-form-radio-label--selected"
+        >
+          <input
+            class="mileage-calc-form-radio-input"
+            name="type"
+            type="radio"
+            value="hybrid"
+          />
+          <span
+            class="mileage-calc-form-radio-text"
+          >
+            Plug-in Hybrid
+          </span>
+        </label>
+      </div>
+    </div>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="hybridVehicleData"
+    >
+      <h3>
+        <button
+          aria-controls="hybridVehicleData-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Hybrid Vehicle Data
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              1
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="hybridVehicleData-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="vehicleData"
+    >
+      <h3>
+        <button
+          aria-controls="vehicleData-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Vehicle Data
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              2
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="vehicleData-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="purchaseAndSales"
+    >
+      <h3>
+        <button
+          aria-controls="purchaseAndSales-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Purchase and Sales
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              3
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="purchaseAndSales-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="usage"
+    >
+      <h3>
+        <button
+          aria-controls="usage-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Usage
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              4
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="usage-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="fixedCosts"
+    >
+      <h3>
+        <button
+          aria-controls="fixedCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Fixed Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              5
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="fixedCosts-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="yearlyMaintenanceCosts"
+    >
+      <h3>
+        <button
+          aria-controls="yearlyMaintenanceCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Yearly Maintenance Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              6
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="yearlyMaintenanceCosts-content"
+      />
+    </section>
+    <section
+      class="mileage-calc-form-section-container 
+				mileage-calc-form-section-container-inactive
+				"
+      id="variableCosts"
+    >
+      <h3>
+        <button
+          aria-controls="variableCosts-content"
+          aria-expanded="false"
+          class="mileage-calc-form-section-button 
+						mileage-calc-form-section-button-inactive"
+          type="button"
+        >
+          <div
+            class="mileage-calc-form-section-button-inner"
+          >
+            <span
+              class="mileage-calc-form-section-title 
+								mileage-calc-form-section-title-inactive"
+            >
+              Variable Costs
+            </span>
+            <span
+              class="mileage-calc-form-section-badge 
+									mileage-calc-form-section-badge-inactive"
+            >
+              7
+               of 
+              7
+            </span>
+          </div>
+          <div
+            class="mileage-calc-form-section-chevron-wrapper"
+          >
+            <svg
+              class="mileage-calc-form-section-chevron "
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M5.293 7.293a1 1 011.414 0L10 10.586l3.293-3.293a1 1 011.414 1.414l-4 4a1 1 01-1.414 0l-4-4a1 1 010-1.414z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </h3>
+      <div
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
+        id="variableCosts-content"
+      />
+    </section>
+    <div
+      class="mileage-calc-form-footer"
+    >
+      <button
+        aria-label="Save Vehicle"
+        class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-primary text-white hover:bg-primary-600 focus:ring-primary-200 px-6 py-2.5"
+        type="submit"
+      >
+        Save Vehicle
+      </button>
+    </div>
+  </form>
+</div>
+`;

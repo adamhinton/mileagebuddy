@@ -1,0 +1,117 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tabs.tsx matches snapshot with calculator as active tab from 4.30.2025 1`] = `
+<div>
+  <section
+    class="mileage-calc-tabs-container"
+  >
+    <div
+      class="mileage-calc-tabs-inner"
+    >
+      <ul
+        class="mileage-calc-tabs-list"
+      >
+        <li
+          class="mileage-calc-tabs-item"
+        >
+          <a
+            class="mileage-calc-tabs-link mileage-calc-tabs-link--inactive"
+            href="/login"
+          >
+            Login
+          </a>
+        </li>
+        <li
+          class="mileage-calc-tabs-item"
+        >
+          <a
+            class="mileage-calc-tabs-link mileage-calc-tabs-link--inactive"
+            href="/dashboard"
+          >
+            Dashboard
+          </a>
+        </li>
+        <li
+          class="mileage-calc-tabs-item"
+        >
+          <a
+            aria-current="page"
+            class="mileage-calc-tabs-link mileage-calc-tabs-link--active"
+            href="/calculator"
+          >
+            Calculator
+          </a>
+        </li>
+        <li
+          class="mileage-calc-tabs-item"
+        >
+          <a
+            class="mileage-calc-tabs-link mileage-calc-tabs-link--inactive"
+            href="/about"
+          >
+            About
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>
+`;
+
+exports[`Tabs.tsx matches snapshot with dashboard as active tab from 4.30.2025 1`] = `
+<div>
+  <section
+    class="mileage-calc-tabs-container"
+  >
+    <div
+      class="mileage-calc-tabs-inner"
+    >
+      <ul
+        class="mileage-calc-tabs-list"
+      >
+        <li
+          class="mileage-calc-tabs-item"
+        >
+          <a
+            class="mileage-calc-tabs-link mileage-calc-tabs-link--inactive"
+            href="/login"
+          >
+            Login
+          </a>
+        </li>
+        <li
+          class="mileage-calc-tabs-item"
+        >
+          <a
+            aria-current="page"
+            class="mileage-calc-tabs-link mileage-calc-tabs-link--active"
+            href="/dashboard"
+          >
+            Dashboard
+          </a>
+        </li>
+        <li
+          class="mileage-calc-tabs-item"
+        >
+          <a
+            class="mileage-calc-tabs-link mileage-calc-tabs-link--inactive"
+            href="/calculator"
+          >
+            Calculator
+          </a>
+        </li>
+        <li
+          class="mileage-calc-tabs-item"
+        >
+          <a
+            class="mileage-calc-tabs-link mileage-calc-tabs-link--inactive"
+            href="/about"
+          >
+            About
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+</div>
+`;

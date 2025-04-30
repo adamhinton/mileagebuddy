@@ -186,3 +186,46 @@ describe("Number Input Specific", () => {
 		expect(input).not.toHaveAttribute("step", "0.01");
 	});
 });
+
+describe("Snapshot Tests", () => {
+	it("matches snapshot for basic number input from 4.30.2025", () => {
+		const { container } = render(
+			<MileageInputNumTestWrapper
+				path="yearlyMaintenanceCosts.batteries"
+				schema={z.number().describe("My Vehicle Number")}
+			/>
+		);
+		expect(container).toMatchSnapshot();
+	});
+
+	it("matches snapshot for required number field from 4.30.2025", () => {
+		const { container } = render(
+			<MileageInputNumTestWrapper
+				path="gasVehicleData.milesPerGallonCity"
+				schema={z.number().nonnegative()}
+			/>
+		);
+		expect(container).toMatchSnapshot();
+	});
+
+	it("matches snapshot for number input with error from 4.30.2025", () => {
+		const { container } = render(
+			<MileageInputNumTestWrapper
+				path="gasVehicleData.milesPerGallonCity"
+				schema={z.number()}
+				error="This is an error message"
+			/>
+		);
+		expect(container).toMatchSnapshot();
+	});
+
+	it("matches snapshot for decimal step input from 4.30.2025", () => {
+		const { container } = render(
+			<MileageInputNumTestWrapper
+				path="gasVehicleData.gasCostPerGallon"
+				schema={z.number()}
+			/>
+		);
+		expect(container).toMatchSnapshot();
+	});
+});

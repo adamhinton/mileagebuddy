@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page matches snapshot from 4.30.2025 1`] = `
+<div>
+  <main />
+</div>
+`;

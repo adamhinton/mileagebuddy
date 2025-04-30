@@ -87,4 +87,28 @@ describe("ConfirmationDialog.tsx", () => {
 			expect(confirmButton.className).not.toContain("bg-red-600");
 		});
 	});
+
+	describe("Snapshot tests", () => {
+		it("matches snapshot for open dialog from 4.30.2025", () => {
+			const { container } = render(<ConfirmationDialog {...defaultProps} />);
+			expect(container).toMatchSnapshot();
+		});
+
+		it("matches snapshot for closed dialog from 4.30.2025", () => {
+			const { container } = render(
+				<ConfirmationDialog {...defaultProps} isOpen={false} />
+			);
+			expect(container).toMatchSnapshot();
+		});
+
+		it("matches snapshot with custom button class from 4.30.2025", () => {
+			const { container } = render(
+				<ConfirmationDialog
+					{...defaultProps}
+					confirmButtonClass="bg-blue-500 text-black"
+				/>
+			);
+			expect(container).toMatchSnapshot();
+		});
+	});
 });

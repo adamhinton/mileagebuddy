@@ -44,4 +44,24 @@ describe("Dashboard.tsx", () => {
 			);
 		});
 	});
+
+	describe("Snapshot tests", () => {
+		it("matches snapshot with vehicles from 4.30.2025", () => {
+			const { container } = render(
+				<TestReduxStore>
+					<Dashboard />
+				</TestReduxStore>
+			);
+			expect(container).toMatchSnapshot();
+		});
+
+		it("matches snapshot with empty vehicles list from 4.30.2025", () => {
+			const { container } = render(
+				<TestReduxStore vehicles={[]}>
+					<Dashboard />
+				</TestReduxStore>
+			);
+			expect(container).toMatchSnapshot();
+		});
+	});
 });

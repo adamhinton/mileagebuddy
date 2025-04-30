@@ -139,3 +139,46 @@ describe("Text Input Specific", () => {
 		expect(input).toHaveAttribute("minLength", "5");
 	});
 });
+
+describe("Snapshot Tests", () => {
+	it("matches snapshot for basic text input from 4.30.2025", () => {
+		const { container } = render(
+			<MileageInputTextTestWrapper
+				path="vehicleData.vehicleName"
+				schema={z.string().describe("My Vehicle Name")}
+			/>
+		);
+		expect(container).toMatchSnapshot();
+	});
+
+	it("matches snapshot for required text field from 4.30.2025", () => {
+		const { container } = render(
+			<MileageInputTextTestWrapper
+				path="vehicleData.vehicleName"
+				schema={z.string().nonempty()}
+			/>
+		);
+		expect(container).toMatchSnapshot();
+	});
+
+	it("matches snapshot for text input with error from 4.30.2025", () => {
+		const { container } = render(
+			<MileageInputTextTestWrapper
+				path="vehicleData.vehicleName"
+				schema={z.string()}
+				error="This is an error message"
+			/>
+		);
+		expect(container).toMatchSnapshot();
+	});
+
+	it("matches snapshot for text input with length constraints from 4.30.2025", () => {
+		const { container } = render(
+			<MileageInputTextTestWrapper
+				path="vehicleData.vehicleName"
+				schema={z.string().min(5).max(20)}
+			/>
+		);
+		expect(container).toMatchSnapshot();
+	});
+});
