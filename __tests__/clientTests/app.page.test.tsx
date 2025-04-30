@@ -28,6 +28,15 @@ describe("Page", () => {
 			</TestReduxStore>
 		);
 	});
+	
+	it("matches snapshot from 4.30.2025", () => {
+		const { container } = render(
+			<TestReduxStore>
+				<Page />
+			</TestReduxStore>
+		);
+		expect(container).toMatchSnapshot();
+	});
 });
 
 describe("Sanity check", () => {
