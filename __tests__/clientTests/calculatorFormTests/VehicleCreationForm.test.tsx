@@ -58,6 +58,37 @@ describe("VehicleCreationOrEditForm", () => {
 		expect(queryByText("Gas Vehicle Data")).not.toBeInTheDocument();
 		expect(queryByText("Electric Vehicle Data")).not.toBeInTheDocument();
 	});
+
+	it("matches snapshot for edit vehicle mode from 4.30.2025", () => {
+		const { container } = renderVehicleForm("editVehicle");
+		expect(container).toMatchSnapshot();
+	});
+
+	it("matches snapshot for create vehicle mode from 4.30.2025", () => {
+		const { container } = renderVehicleForm("newVehicle");
+		expect(container).toMatchSnapshot();
+	});
+
+	it("matches snapshot for electric vehicle selection from 4.30.2025", () => {
+		const { container, getByLabelText } = renderVehicleForm("newVehicle");
+		const electricRadio = getByLabelText("Electric");
+		fireEvent.click(electricRadio);
+		expect(container).toMatchSnapshot();
+	});
+
+	it("matches snapshot for hybrid vehicle selection from 4.30.2025", () => {
+		const { container, getByLabelText } = renderVehicleForm("newVehicle");
+		const hybridRadio = getByLabelText("Plug-in Hybrid");
+		fireEvent.click(hybridRadio);
+		expect(container).toMatchSnapshot();
+	});
+
+	it("matches snapshot for gas vehicle selection from 4.30.2025", () => {
+		const { container, getByLabelText } = renderVehicleForm("newVehicle");
+		const gasRadio = getByLabelText("Gas / Standard Hybrid");
+		fireEvent.click(gasRadio);
+		expect(container).toMatchSnapshot();
+	});
 });
 
 /**Simple wrapper to pass in props and redux state */

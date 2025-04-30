@@ -104,4 +104,28 @@ describe("ProfileDropdown.tsx", () => {
 			expect(handleSignOutMock).toHaveBeenCalled();
 		});
 	});
+
+	describe("Snapshot tests", () => {
+		it("matches snapshot with dropdown closed from 4.30.2025", () => {
+			const mockProps = createMockProps({ isProfileDropdownOpen: false });
+			const { container } = render(<ProfileDropdown {...mockProps} />);
+			expect(container).toMatchSnapshot();
+		});
+		
+		it("matches snapshot with dropdown open from 4.30.2025", () => {
+			const mockProps = createMockProps({ isProfileDropdownOpen: true });
+			const { container } = render(<ProfileDropdown {...mockProps} />);
+			expect(container).toMatchSnapshot();
+		});
+		
+		it("matches snapshot with custom email from 4.30.2025", () => {
+			const customEmail = "custom.user@test.com";
+			const mockProps = createMockProps({
+				isProfileDropdownOpen: true,
+				user: { id: "test-id", email: customEmail, isDarkMode: false },
+			});
+			const { container } = render(<ProfileDropdown {...mockProps} />);
+			expect(container).toMatchSnapshot();
+		});
+	});
 });

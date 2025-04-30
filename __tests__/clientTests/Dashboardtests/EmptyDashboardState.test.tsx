@@ -33,4 +33,9 @@ describe("EmptyDashboardState", () => {
 		const link = screen.getByRole("link", { name: /Add Vehicle/i });
 		expect(link).toBeVisible();
 	});
+	
+	it("matches snapshot from 4.30.2025", () => {
+		const { container } = render(<EmptyDashboardState />);
+		expect(container).toMatchSnapshot();
+	});
 });

@@ -1,0 +1,1518 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard.tsx Snapshot tests matches snapshot with empty vehicles list from 4.30.2025 1`] = `
+<div>
+  <div
+    class="min-h-screen bg-background-base p-4 md:p-6 lg:p-8"
+  >
+    <h1
+      class="text-3xl font-bold mb-6 text-center sm:text-left"
+    >
+      Your Vehicles
+    </h1>
+    <div
+      class="flex flex-col items-center justify-center py-12 px-4 bg-background-elevated rounded-lg shadow-sm border border-primary-50"
+    >
+      <svg
+        class="w-20 h-20 text-primary-100 mb-4"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        />
+        <path
+          d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="1.5"
+        />
+      </svg>
+      <h2
+        class="text-xl font-bold mb-2"
+      >
+        No vehicles yet
+      </h2>
+      <p
+        class="text-neutral-text text-center mb-6 max-w-md"
+      >
+        Add your first vehicle to calculate its true cost per mile.
+      </p>
+      <a
+        class="nav-link-primary flex items-center"
+        href="/calculator"
+      >
+        <svg
+          class="w-5 h-5 mr-2"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+          />
+        </svg>
+        Add Vehicle
+      </a>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Dashboard.tsx Snapshot tests matches snapshot with vehicles from 4.30.2025 1`] = `
+<div>
+  <div
+    class="min-h-screen bg-background-base p-4 md:p-6 lg:p-8"
+  >
+    <h1
+      class="text-3xl font-bold mb-6 text-center sm:text-left"
+    >
+      Your Vehicles
+    </h1>
+    <div
+      class="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+    >
+      <article
+        class="touch-manipulation"
+        style="opacity: 1; z-index: auto;"
+      >
+        <article
+          class="mileage-calc-card"
+        >
+          <header
+            aria-describedby="DndDescribedBy-1"
+            aria-disabled="false"
+            aria-label="Drag to reorder"
+            aria-roledescription="sortable"
+            class="mileage-calc-drag-handle"
+            role="button"
+            tabindex="0"
+          >
+            <svg
+              class="mileage-calc-drag-handle-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M8 9h8M8 15h8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </header>
+          <section
+            class="p-5"
+          >
+            <header
+              class="flex justify-between items-start"
+            >
+              <hgroup>
+                <h2
+                  class="text-xl font-bold"
+                >
+                  Ford F-150
+                </h2>
+                <p
+                  class="text-neutral-text text-sm"
+                >
+                  2018
+                   
+                  Ford
+                   
+                  F-150
+                   
+                  XLT
+                </p>
+              </hgroup>
+              <figure
+                class="flex items-center"
+              >
+                <span
+                  class="mileage-calc-vehicle-icon mileage-calc-vehicle-icon--gas"
+                  title="Gas Vehicle"
+                >
+                  <svg
+                    class="mileage-calc-vehicle-icon-svg"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    />
+                  </svg>
+                </span>
+              </figure>
+            </header>
+            <section
+              class="mt-5 mb-4"
+            >
+              <figure
+                class="mileage-calc-cost-figure mileage-calc-cost-figure--primary"
+              >
+                <figcaption
+                  class="mileage-calc-cost-caption"
+                >
+                  Cost Per Mile: 50 miles/day
+                  <div
+                    class="relative group inline-block"
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="
+          absolute hidden group-hover:block z-10
+          top-full mt-2
+          left-1/2 transform -translate-x-1/2
+          bg-neutral-800 dark:bg-neutral-500 
+          text-neutral-100 text-xs font-medium 
+          px-3 py-2 rounded-md shadow-lg max-w-[200px] w-max
+        "
+                      role="tooltip"
+                    >
+                      Includes maintenance, fuel, depreciation, fixed costs like insurance, loan payments, and more.
+                      <svg
+                        class="
+            absolute top-0 -translate-y-full rotate-180 
+            left-1/2 -translate-x-1/2 text-neutral-800 dark:text-neutral-500
+          "
+                        fill="none"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0L5 5L10 0H0Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="cursor-pointer"
+                    >
+                      <svg
+                        class="mileage-calc-tooltip-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </figcaption>
+                <p
+                  class="mileage-calc-cost-value mileage-calc-cost-value--primary"
+                >
+                  $
+                  0.00
+                </p>
+              </figure>
+              <figure
+                class="mileage-calc-cost-figure mileage-calc-cost-figure--secondary"
+              >
+                <figcaption
+                  class="mileage-calc-cost-caption"
+                >
+                  Cost Per Additional Mile
+                  <div
+                    class="relative group inline-block"
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="
+          absolute hidden group-hover:block z-10
+          top-full mt-2
+          left-1/2 transform -translate-x-1/2
+          bg-neutral-800 dark:bg-neutral-500 
+          text-neutral-100 text-xs font-medium 
+          px-3 py-2 rounded-md shadow-lg max-w-[200px] w-max
+        "
+                      role="tooltip"
+                    >
+                      Includes maintenance, depreciation, fuel, and other variable costs, but not fixed costs like insurance.
+                      <svg
+                        class="
+            absolute top-0 -translate-y-full rotate-180 
+            left-1/2 -translate-x-1/2 text-neutral-800 dark:text-neutral-500
+          "
+                        fill="none"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0L5 5L10 0H0Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="cursor-pointer"
+                    >
+                      <svg
+                        class="mileage-calc-tooltip-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </figcaption>
+                <p
+                  class="mileage-calc-cost-value mileage-calc-cost-value--secondary"
+                >
+                  $
+                  0.00
+                </p>
+              </figure>
+            </section>
+            <footer
+              class="flex justify-between mt-4"
+            >
+              <button
+                aria-label="Edit Ford F-150"
+                class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-background-elevated text-neutral-text border border-primary-100 hover:bg-background-highlight focus:ring-primary-200 dark:border-primary-200 flex items-center"
+                type="button"
+              >
+                Edit
+              </button>
+              <button
+                aria-label="Delete Ford F-150"
+                class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-red-600 text-white hover:bg-red-700 focus:ring-red-200 flex items-center"
+                type="button"
+              >
+                Delete
+              </button>
+            </footer>
+          </section>
+        </article>
+      </article>
+      <article
+        class="touch-manipulation"
+        style="opacity: 1; z-index: auto;"
+      >
+        <article
+          class="mileage-calc-card"
+        >
+          <header
+            aria-describedby="DndDescribedBy-1"
+            aria-disabled="false"
+            aria-label="Drag to reorder"
+            aria-roledescription="sortable"
+            class="mileage-calc-drag-handle"
+            role="button"
+            tabindex="0"
+          >
+            <svg
+              class="mileage-calc-drag-handle-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M8 9h8M8 15h8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </header>
+          <section
+            class="p-5"
+          >
+            <header
+              class="flex justify-between items-start"
+            >
+              <hgroup>
+                <h2
+                  class="text-xl font-bold"
+                >
+                  Toyota Camry
+                </h2>
+                <p
+                  class="text-neutral-text text-sm"
+                >
+                  2020
+                   
+                  Toyota
+                   
+                  Camry
+                   
+                  SE
+                </p>
+              </hgroup>
+              <figure
+                class="flex items-center"
+              >
+                <span
+                  class="mileage-calc-vehicle-icon mileage-calc-vehicle-icon--gas"
+                  title="Gas Vehicle"
+                >
+                  <svg
+                    class="mileage-calc-vehicle-icon-svg"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    />
+                  </svg>
+                </span>
+              </figure>
+            </header>
+            <section
+              class="mt-5 mb-4"
+            >
+              <figure
+                class="mileage-calc-cost-figure mileage-calc-cost-figure--primary"
+              >
+                <figcaption
+                  class="mileage-calc-cost-caption"
+                >
+                  Cost Per Mile: 30 miles/day
+                  <div
+                    class="relative group inline-block"
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="
+          absolute hidden group-hover:block z-10
+          top-full mt-2
+          left-1/2 transform -translate-x-1/2
+          bg-neutral-800 dark:bg-neutral-500 
+          text-neutral-100 text-xs font-medium 
+          px-3 py-2 rounded-md shadow-lg max-w-[200px] w-max
+        "
+                      role="tooltip"
+                    >
+                      Includes maintenance, fuel, depreciation, fixed costs like insurance, loan payments, and more.
+                      <svg
+                        class="
+            absolute top-0 -translate-y-full rotate-180 
+            left-1/2 -translate-x-1/2 text-neutral-800 dark:text-neutral-500
+          "
+                        fill="none"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0L5 5L10 0H0Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="cursor-pointer"
+                    >
+                      <svg
+                        class="mileage-calc-tooltip-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </figcaption>
+                <p
+                  class="mileage-calc-cost-value mileage-calc-cost-value--primary"
+                >
+                  $
+                  0.00
+                </p>
+              </figure>
+              <figure
+                class="mileage-calc-cost-figure mileage-calc-cost-figure--secondary"
+              >
+                <figcaption
+                  class="mileage-calc-cost-caption"
+                >
+                  Cost Per Additional Mile
+                  <div
+                    class="relative group inline-block"
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="
+          absolute hidden group-hover:block z-10
+          top-full mt-2
+          left-1/2 transform -translate-x-1/2
+          bg-neutral-800 dark:bg-neutral-500 
+          text-neutral-100 text-xs font-medium 
+          px-3 py-2 rounded-md shadow-lg max-w-[200px] w-max
+        "
+                      role="tooltip"
+                    >
+                      Includes maintenance, depreciation, fuel, and other variable costs, but not fixed costs like insurance.
+                      <svg
+                        class="
+            absolute top-0 -translate-y-full rotate-180 
+            left-1/2 -translate-x-1/2 text-neutral-800 dark:text-neutral-500
+          "
+                        fill="none"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0L5 5L10 0H0Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="cursor-pointer"
+                    >
+                      <svg
+                        class="mileage-calc-tooltip-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </figcaption>
+                <p
+                  class="mileage-calc-cost-value mileage-calc-cost-value--secondary"
+                >
+                  $
+                  0.00
+                </p>
+              </figure>
+            </section>
+            <footer
+              class="flex justify-between mt-4"
+            >
+              <button
+                aria-label="Edit Toyota Camry"
+                class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-background-elevated text-neutral-text border border-primary-100 hover:bg-background-highlight focus:ring-primary-200 dark:border-primary-200 flex items-center"
+                type="button"
+              >
+                Edit
+              </button>
+              <button
+                aria-label="Delete Toyota Camry"
+                class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-red-600 text-white hover:bg-red-700 focus:ring-red-200 flex items-center"
+                type="button"
+              >
+                Delete
+              </button>
+            </footer>
+          </section>
+        </article>
+      </article>
+      <article
+        class="touch-manipulation"
+        style="opacity: 1; z-index: auto;"
+      >
+        <article
+          class="mileage-calc-card"
+        >
+          <header
+            aria-describedby="DndDescribedBy-1"
+            aria-disabled="false"
+            aria-label="Drag to reorder"
+            aria-roledescription="sortable"
+            class="mileage-calc-drag-handle"
+            role="button"
+            tabindex="0"
+          >
+            <svg
+              class="mileage-calc-drag-handle-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M8 9h8M8 15h8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </header>
+          <section
+            class="p-5"
+          >
+            <header
+              class="flex justify-between items-start"
+            >
+              <hgroup>
+                <h2
+                  class="text-xl font-bold"
+                >
+                  Tesla Model 3
+                </h2>
+                <p
+                  class="text-neutral-text text-sm"
+                >
+                  2021
+                   
+                  Tesla
+                   
+                  Model 3
+                   
+                  Long Range
+                </p>
+              </hgroup>
+              <figure
+                class="flex items-center"
+              >
+                <span
+                  class="mileage-calc-vehicle-icon mileage-calc-vehicle-icon--electric"
+                  title="Electric Vehicle"
+                >
+                  <svg
+                    class="mileage-calc-vehicle-icon-svg"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    />
+                  </svg>
+                </span>
+              </figure>
+            </header>
+            <section
+              class="mt-5 mb-4"
+            >
+              <figure
+                class="mileage-calc-cost-figure mileage-calc-cost-figure--primary"
+              >
+                <figcaption
+                  class="mileage-calc-cost-caption"
+                >
+                  Cost Per Mile: 40 miles/day
+                  <div
+                    class="relative group inline-block"
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="
+          absolute hidden group-hover:block z-10
+          top-full mt-2
+          left-1/2 transform -translate-x-1/2
+          bg-neutral-800 dark:bg-neutral-500 
+          text-neutral-100 text-xs font-medium 
+          px-3 py-2 rounded-md shadow-lg max-w-[200px] w-max
+        "
+                      role="tooltip"
+                    >
+                      Includes maintenance, fuel, depreciation, fixed costs like insurance, loan payments, and more.
+                      <svg
+                        class="
+            absolute top-0 -translate-y-full rotate-180 
+            left-1/2 -translate-x-1/2 text-neutral-800 dark:text-neutral-500
+          "
+                        fill="none"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0L5 5L10 0H0Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="cursor-pointer"
+                    >
+                      <svg
+                        class="mileage-calc-tooltip-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </figcaption>
+                <p
+                  class="mileage-calc-cost-value mileage-calc-cost-value--primary"
+                >
+                  $
+                  0.00
+                </p>
+              </figure>
+              <figure
+                class="mileage-calc-cost-figure mileage-calc-cost-figure--secondary"
+              >
+                <figcaption
+                  class="mileage-calc-cost-caption"
+                >
+                  Cost Per Additional Mile
+                  <div
+                    class="relative group inline-block"
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="
+          absolute hidden group-hover:block z-10
+          top-full mt-2
+          left-1/2 transform -translate-x-1/2
+          bg-neutral-800 dark:bg-neutral-500 
+          text-neutral-100 text-xs font-medium 
+          px-3 py-2 rounded-md shadow-lg max-w-[200px] w-max
+        "
+                      role="tooltip"
+                    >
+                      Includes maintenance, depreciation, fuel, and other variable costs, but not fixed costs like insurance.
+                      <svg
+                        class="
+            absolute top-0 -translate-y-full rotate-180 
+            left-1/2 -translate-x-1/2 text-neutral-800 dark:text-neutral-500
+          "
+                        fill="none"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0L5 5L10 0H0Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="cursor-pointer"
+                    >
+                      <svg
+                        class="mileage-calc-tooltip-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </figcaption>
+                <p
+                  class="mileage-calc-cost-value mileage-calc-cost-value--secondary"
+                >
+                  $
+                  0.00
+                </p>
+              </figure>
+            </section>
+            <footer
+              class="flex justify-between mt-4"
+            >
+              <button
+                aria-label="Edit Tesla Model 3"
+                class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-background-elevated text-neutral-text border border-primary-100 hover:bg-background-highlight focus:ring-primary-200 dark:border-primary-200 flex items-center"
+                type="button"
+              >
+                Edit
+              </button>
+              <button
+                aria-label="Delete Tesla Model 3"
+                class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-red-600 text-white hover:bg-red-700 focus:ring-red-200 flex items-center"
+                type="button"
+              >
+                Delete
+              </button>
+            </footer>
+          </section>
+        </article>
+      </article>
+      <article
+        class="touch-manipulation"
+        style="opacity: 1; z-index: auto;"
+      >
+        <article
+          class="mileage-calc-card"
+        >
+          <header
+            aria-describedby="DndDescribedBy-1"
+            aria-disabled="false"
+            aria-label="Drag to reorder"
+            aria-roledescription="sortable"
+            class="mileage-calc-drag-handle"
+            role="button"
+            tabindex="0"
+          >
+            <svg
+              class="mileage-calc-drag-handle-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M8 9h8M8 15h8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </header>
+          <section
+            class="p-5"
+          >
+            <header
+              class="flex justify-between items-start"
+            >
+              <hgroup>
+                <h2
+                  class="text-xl font-bold"
+                >
+                  Nissan Leaf
+                </h2>
+                <p
+                  class="text-neutral-text text-sm"
+                >
+                  2019
+                   
+                  Nissan
+                   
+                  Leaf
+                   
+                  SV
+                </p>
+              </hgroup>
+              <figure
+                class="flex items-center"
+              >
+                <span
+                  class="mileage-calc-vehicle-icon mileage-calc-vehicle-icon--electric"
+                  title="Electric Vehicle"
+                >
+                  <svg
+                    class="mileage-calc-vehicle-icon-svg"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M13 10V3L4 14h7v7l9-11h-7z"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    />
+                  </svg>
+                </span>
+              </figure>
+            </header>
+            <section
+              class="mt-5 mb-4"
+            >
+              <figure
+                class="mileage-calc-cost-figure mileage-calc-cost-figure--primary"
+              >
+                <figcaption
+                  class="mileage-calc-cost-caption"
+                >
+                  Cost Per Mile: 35 miles/day
+                  <div
+                    class="relative group inline-block"
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="
+          absolute hidden group-hover:block z-10
+          top-full mt-2
+          left-1/2 transform -translate-x-1/2
+          bg-neutral-800 dark:bg-neutral-500 
+          text-neutral-100 text-xs font-medium 
+          px-3 py-2 rounded-md shadow-lg max-w-[200px] w-max
+        "
+                      role="tooltip"
+                    >
+                      Includes maintenance, fuel, depreciation, fixed costs like insurance, loan payments, and more.
+                      <svg
+                        class="
+            absolute top-0 -translate-y-full rotate-180 
+            left-1/2 -translate-x-1/2 text-neutral-800 dark:text-neutral-500
+          "
+                        fill="none"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0L5 5L10 0H0Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="cursor-pointer"
+                    >
+                      <svg
+                        class="mileage-calc-tooltip-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </figcaption>
+                <p
+                  class="mileage-calc-cost-value mileage-calc-cost-value--primary"
+                >
+                  $
+                  0.00
+                </p>
+              </figure>
+              <figure
+                class="mileage-calc-cost-figure mileage-calc-cost-figure--secondary"
+              >
+                <figcaption
+                  class="mileage-calc-cost-caption"
+                >
+                  Cost Per Additional Mile
+                  <div
+                    class="relative group inline-block"
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="
+          absolute hidden group-hover:block z-10
+          top-full mt-2
+          left-1/2 transform -translate-x-1/2
+          bg-neutral-800 dark:bg-neutral-500 
+          text-neutral-100 text-xs font-medium 
+          px-3 py-2 rounded-md shadow-lg max-w-[200px] w-max
+        "
+                      role="tooltip"
+                    >
+                      Includes maintenance, depreciation, fuel, and other variable costs, but not fixed costs like insurance.
+                      <svg
+                        class="
+            absolute top-0 -translate-y-full rotate-180 
+            left-1/2 -translate-x-1/2 text-neutral-800 dark:text-neutral-500
+          "
+                        fill="none"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0L5 5L10 0H0Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="cursor-pointer"
+                    >
+                      <svg
+                        class="mileage-calc-tooltip-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </figcaption>
+                <p
+                  class="mileage-calc-cost-value mileage-calc-cost-value--secondary"
+                >
+                  $
+                  0.00
+                </p>
+              </figure>
+            </section>
+            <footer
+              class="flex justify-between mt-4"
+            >
+              <button
+                aria-label="Edit Nissan Leaf"
+                class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-background-elevated text-neutral-text border border-primary-100 hover:bg-background-highlight focus:ring-primary-200 dark:border-primary-200 flex items-center"
+                type="button"
+              >
+                Edit
+              </button>
+              <button
+                aria-label="Delete Nissan Leaf"
+                class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-red-600 text-white hover:bg-red-700 focus:ring-red-200 flex items-center"
+                type="button"
+              >
+                Delete
+              </button>
+            </footer>
+          </section>
+        </article>
+      </article>
+      <article
+        class="touch-manipulation"
+        style="opacity: 1; z-index: auto;"
+      >
+        <article
+          class="mileage-calc-card"
+        >
+          <header
+            aria-describedby="DndDescribedBy-1"
+            aria-disabled="false"
+            aria-label="Drag to reorder"
+            aria-roledescription="sortable"
+            class="mileage-calc-drag-handle"
+            role="button"
+            tabindex="0"
+          >
+            <svg
+              class="mileage-calc-drag-handle-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M8 9h8M8 15h8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </header>
+          <section
+            class="p-5"
+          >
+            <header
+              class="flex justify-between items-start"
+            >
+              <hgroup>
+                <h2
+                  class="text-xl font-bold"
+                >
+                  Toyota Prius Prime
+                </h2>
+                <p
+                  class="text-neutral-text text-sm"
+                >
+                  2022
+                   
+                  Toyota
+                   
+                  Prius Prime
+                   
+                  XLE
+                </p>
+              </hgroup>
+              <figure
+                class="flex items-center"
+              >
+                <span
+                  class="mileage-calc-vehicle-icon mileage-calc-vehicle-icon--gas"
+                  title="Gas Vehicle"
+                >
+                  <svg
+                    class="mileage-calc-vehicle-icon-svg"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    />
+                  </svg>
+                </span>
+              </figure>
+            </header>
+            <section
+              class="mt-5 mb-4"
+            >
+              <figure
+                class="mileage-calc-cost-figure mileage-calc-cost-figure--primary"
+              >
+                <figcaption
+                  class="mileage-calc-cost-caption"
+                >
+                  Cost Per Mile: 35 miles/day
+                  <div
+                    class="relative group inline-block"
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="
+          absolute hidden group-hover:block z-10
+          top-full mt-2
+          left-1/2 transform -translate-x-1/2
+          bg-neutral-800 dark:bg-neutral-500 
+          text-neutral-100 text-xs font-medium 
+          px-3 py-2 rounded-md shadow-lg max-w-[200px] w-max
+        "
+                      role="tooltip"
+                    >
+                      Includes maintenance, fuel, depreciation, fixed costs like insurance, loan payments, and more.
+                      <svg
+                        class="
+            absolute top-0 -translate-y-full rotate-180 
+            left-1/2 -translate-x-1/2 text-neutral-800 dark:text-neutral-500
+          "
+                        fill="none"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0L5 5L10 0H0Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="cursor-pointer"
+                    >
+                      <svg
+                        class="mileage-calc-tooltip-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </figcaption>
+                <p
+                  class="mileage-calc-cost-value mileage-calc-cost-value--primary"
+                >
+                  $
+                  0.00
+                </p>
+              </figure>
+              <figure
+                class="mileage-calc-cost-figure mileage-calc-cost-figure--secondary"
+              >
+                <figcaption
+                  class="mileage-calc-cost-caption"
+                >
+                  Cost Per Additional Mile
+                  <div
+                    class="relative group inline-block"
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="
+          absolute hidden group-hover:block z-10
+          top-full mt-2
+          left-1/2 transform -translate-x-1/2
+          bg-neutral-800 dark:bg-neutral-500 
+          text-neutral-100 text-xs font-medium 
+          px-3 py-2 rounded-md shadow-lg max-w-[200px] w-max
+        "
+                      role="tooltip"
+                    >
+                      Includes maintenance, depreciation, fuel, and other variable costs, but not fixed costs like insurance.
+                      <svg
+                        class="
+            absolute top-0 -translate-y-full rotate-180 
+            left-1/2 -translate-x-1/2 text-neutral-800 dark:text-neutral-500
+          "
+                        fill="none"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0L5 5L10 0H0Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="cursor-pointer"
+                    >
+                      <svg
+                        class="mileage-calc-tooltip-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </figcaption>
+                <p
+                  class="mileage-calc-cost-value mileage-calc-cost-value--secondary"
+                >
+                  $
+                  0.00
+                </p>
+              </figure>
+            </section>
+            <footer
+              class="flex justify-between mt-4"
+            >
+              <button
+                aria-label="Edit Toyota Prius Prime"
+                class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-background-elevated text-neutral-text border border-primary-100 hover:bg-background-highlight focus:ring-primary-200 dark:border-primary-200 flex items-center"
+                type="button"
+              >
+                Edit
+              </button>
+              <button
+                aria-label="Delete Toyota Prius Prime"
+                class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-red-600 text-white hover:bg-red-700 focus:ring-red-200 flex items-center"
+                type="button"
+              >
+                Delete
+              </button>
+            </footer>
+          </section>
+        </article>
+      </article>
+      <article
+        class="touch-manipulation"
+        style="opacity: 1; z-index: auto;"
+      >
+        <article
+          class="mileage-calc-card"
+        >
+          <header
+            aria-describedby="DndDescribedBy-1"
+            aria-disabled="false"
+            aria-label="Drag to reorder"
+            aria-roledescription="sortable"
+            class="mileage-calc-drag-handle"
+            role="button"
+            tabindex="0"
+          >
+            <svg
+              class="mileage-calc-drag-handle-icon"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M8 9h8M8 15h8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+              />
+            </svg>
+          </header>
+          <section
+            class="p-5"
+          >
+            <header
+              class="flex justify-between items-start"
+            >
+              <hgroup>
+                <h2
+                  class="text-xl font-bold"
+                >
+                  Hyundai Ioniq Plug-in
+                </h2>
+                <p
+                  class="text-neutral-text text-sm"
+                >
+                  2021
+                   
+                  Hyundai
+                   
+                  Ioniq
+                   
+                  Limited
+                </p>
+              </hgroup>
+              <figure
+                class="flex items-center"
+              >
+                <span
+                  class="mileage-calc-vehicle-icon mileage-calc-vehicle-icon--gas"
+                  title="Gas Vehicle"
+                >
+                  <svg
+                    class="mileage-calc-vehicle-icon-svg"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                    />
+                  </svg>
+                </span>
+              </figure>
+            </header>
+            <section
+              class="mt-5 mb-4"
+            >
+              <figure
+                class="mileage-calc-cost-figure mileage-calc-cost-figure--primary"
+              >
+                <figcaption
+                  class="mileage-calc-cost-caption"
+                >
+                  Cost Per Mile: 42 miles/day
+                  <div
+                    class="relative group inline-block"
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="
+          absolute hidden group-hover:block z-10
+          top-full mt-2
+          left-1/2 transform -translate-x-1/2
+          bg-neutral-800 dark:bg-neutral-500 
+          text-neutral-100 text-xs font-medium 
+          px-3 py-2 rounded-md shadow-lg max-w-[200px] w-max
+        "
+                      role="tooltip"
+                    >
+                      Includes maintenance, fuel, depreciation, fixed costs like insurance, loan payments, and more.
+                      <svg
+                        class="
+            absolute top-0 -translate-y-full rotate-180 
+            left-1/2 -translate-x-1/2 text-neutral-800 dark:text-neutral-500
+          "
+                        fill="none"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0L5 5L10 0H0Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="cursor-pointer"
+                    >
+                      <svg
+                        class="mileage-calc-tooltip-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </figcaption>
+                <p
+                  class="mileage-calc-cost-value mileage-calc-cost-value--primary"
+                >
+                  $
+                  0.00
+                </p>
+              </figure>
+              <figure
+                class="mileage-calc-cost-figure mileage-calc-cost-figure--secondary"
+              >
+                <figcaption
+                  class="mileage-calc-cost-caption"
+                >
+                  Cost Per Additional Mile
+                  <div
+                    class="relative group inline-block"
+                  >
+                    <div
+                      aria-hidden="true"
+                      class="
+          absolute hidden group-hover:block z-10
+          top-full mt-2
+          left-1/2 transform -translate-x-1/2
+          bg-neutral-800 dark:bg-neutral-500 
+          text-neutral-100 text-xs font-medium 
+          px-3 py-2 rounded-md shadow-lg max-w-[200px] w-max
+        "
+                      role="tooltip"
+                    >
+                      Includes maintenance, depreciation, fuel, and other variable costs, but not fixed costs like insurance.
+                      <svg
+                        class="
+            absolute top-0 -translate-y-full rotate-180 
+            left-1/2 -translate-x-1/2 text-neutral-800 dark:text-neutral-500
+          "
+                        fill="none"
+                        height="5"
+                        viewBox="0 0 10 5"
+                        width="10"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M0 0L5 5L10 0H0Z"
+                          fill="currentColor"
+                        />
+                      </svg>
+                    </div>
+                    <span
+                      class="cursor-pointer"
+                    >
+                      <svg
+                        class="mileage-calc-tooltip-icon"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                        />
+                      </svg>
+                    </span>
+                  </div>
+                </figcaption>
+                <p
+                  class="mileage-calc-cost-value mileage-calc-cost-value--secondary"
+                >
+                  $
+                  0.00
+                </p>
+              </figure>
+            </section>
+            <footer
+              class="flex justify-between mt-4"
+            >
+              <button
+                aria-label="Edit Hyundai Ioniq Plug-in"
+                class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-background-elevated text-neutral-text border border-primary-100 hover:bg-background-highlight focus:ring-primary-200 dark:border-primary-200 flex items-center"
+                type="button"
+              >
+                Edit
+              </button>
+              <button
+                aria-label="Delete Hyundai Ioniq Plug-in"
+                class="px-4 py-2 rounded-md transition-colors focus:outline-none focus:ring-2 
+          text-sm sm:text-base bg-red-600 text-white hover:bg-red-700 focus:ring-red-200 flex items-center"
+                type="button"
+              >
+                Delete
+              </button>
+            </footer>
+          </section>
+        </article>
+      </article>
+    </div>
+    <div
+      id="DndDescribedBy-1"
+      style="display: none;"
+    >
+      
+    To pick up a draggable item, press the space bar.
+    While dragging, use the arrow keys to move the item.
+    Press space again to drop the item in its new position, or press escape to cancel.
+  
+    </div>
+    <div
+      aria-atomic="true"
+      aria-live="assertive"
+      id="DndLiveRegion-1"
+      role="status"
+      style="position: fixed; top: 0px; left: 0px; width: 1px; height: 1px; margin: -1px; border: 0px; padding: 0px; overflow: hidden; clip-path: inset(100%); white-space: nowrap;"
+    />
+  </div>
+</div>
+`;

@@ -143,4 +143,31 @@ describe("VehicleCard.tsx", () => {
 			expect(screen.getByText(vehicleInfoText)).toBeVisible();
 		});
 	});
+
+	describe("Snapshot tests", () => {
+		it("matches snapshot for gas vehicle from 4.30.2025", () => {
+			const { container } = setupVehicleCardTest(basicGasVehicle);
+			expect(container).toMatchSnapshot();
+		});
+		
+		it("matches snapshot for electric vehicle from 4.30.2025", () => {
+			const { container } = setupVehicleCardTest(basicElectricVehicle);
+			expect(container).toMatchSnapshot();
+		});
+		
+		it("matches snapshot for hybrid vehicle from 4.30.2025", () => {
+			const { container } = setupVehicleCardTest(basicHybridVehicle);
+			expect(container).toMatchSnapshot();
+		});
+		
+		it("matches snapshot for vehicle with empty trim from 4.30.2025", () => {
+			const vehicleWithEmptyTrim = {
+				...basicGasVehicle,
+				vehicleData: { ...basicGasVehicle.vehicleData, trim: "" },
+			};
+			
+			const { container } = setupVehicleCardTest(vehicleWithEmptyTrim);
+			expect(container).toMatchSnapshot();
+		});
+	});
 });

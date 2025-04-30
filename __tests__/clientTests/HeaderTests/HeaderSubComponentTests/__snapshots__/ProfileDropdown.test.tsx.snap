@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ProfileDropdown.tsx Snapshot tests matches snapshot with custom email from 4.30.2025 1`] = `
+<div>
+  <div
+    class="relative"
+  >
+    <button
+      class="flex items-center px-3 py-1 bg-background-elevated rounded-full text-sm text-neutral-text border border-primary-50 dark:border-primary-200 hover:bg-background-highlight transition-colors"
+    >
+      <div
+        class="w-2 h-2 rounded-full bg-accent mr-2 animate-pulse"
+      />
+      <span
+        class="hidden sm:inline"
+        data-testid="profile-icon"
+      >
+        Profile
+      </span>
+      <svg
+        class="h-4 w-4 ml-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M19 9l-7 7-7-7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+    </button>
+    <div
+      class="absolute right-0 mt-2 w-48 bg-background-elevated rounded-md shadow-lg border border-primary-50 dark:border-primary-200 z-40"
+    >
+      <div
+        class="p-2"
+      >
+        <div
+          class="text-sm font-medium text-neutral-text mb-2 border-b border-primary-50 dark:border-primary-200 pb-2"
+        >
+          custom.user@test.com
+        </div>
+        <button
+          class="w-full text-left px-3 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
+        >
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ProfileDropdown.tsx Snapshot tests matches snapshot with dropdown closed from 4.30.2025 1`] = `
+<div>
+  <div
+    class="relative"
+  >
+    <button
+      class="flex items-center px-3 py-1 bg-background-elevated rounded-full text-sm text-neutral-text border border-primary-50 dark:border-primary-200 hover:bg-background-highlight transition-colors"
+    >
+      <div
+        class="w-2 h-2 rounded-full bg-accent mr-2 animate-pulse"
+      />
+      <span
+        class="hidden sm:inline"
+        data-testid="profile-icon"
+      >
+        Profile
+      </span>
+      <svg
+        class="h-4 w-4 ml-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M19 9l-7 7-7-7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+    </button>
+  </div>
+</div>
+`;
+
+exports[`ProfileDropdown.tsx Snapshot tests matches snapshot with dropdown open from 4.30.2025 1`] = `
+<div>
+  <div
+    class="relative"
+  >
+    <button
+      class="flex items-center px-3 py-1 bg-background-elevated rounded-full text-sm text-neutral-text border border-primary-50 dark:border-primary-200 hover:bg-background-highlight transition-colors"
+    >
+      <div
+        class="w-2 h-2 rounded-full bg-accent mr-2 animate-pulse"
+      />
+      <span
+        class="hidden sm:inline"
+        data-testid="profile-icon"
+      >
+        Profile
+      </span>
+      <svg
+        class="h-4 w-4 ml-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M19 9l-7 7-7-7"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+        />
+      </svg>
+    </button>
+    <div
+      class="absolute right-0 mt-2 w-48 bg-background-elevated rounded-md shadow-lg border border-primary-50 dark:border-primary-200 z-40"
+    >
+      <div
+        class="p-2"
+      >
+        <div
+          class="text-sm font-medium text-neutral-text mb-2 border-b border-primary-50 dark:border-primary-200 pb-2"
+        >
+          test@example.com
+        </div>
+        <button
+          class="w-full text-left px-3 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
+        >
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -26,7 +26,13 @@ describe("Page", () => {
 			})),
 		});
 	});
+	
 	it("renders without errors", () => {
 		render(<RootLayout>{dummyTestChildren}</RootLayout>);
+	});
+	
+	it("matches snapshot from 4.30.2025", () => {
+		const { container } = render(<RootLayout>{dummyTestChildren}</RootLayout>);
+		expect(container).toMatchSnapshot();
 	});
 });

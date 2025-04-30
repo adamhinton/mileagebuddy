@@ -73,4 +73,23 @@ describe("Header.tsx", () => {
 			expect(userEmail).not.toBeVisible();
 		});
 	});
+
+	describe("Snapshot tests", () => {
+		it("matches snapshot of default state from 4.30.2025", () => {
+			const { container } = renderHeader();
+			expect(container).toMatchSnapshot();
+		});
+		
+		it("matches snapshot with profile dropdown open from 4.30.2025", () => {
+			const { container } = renderHeader();
+			
+			// Find profile button
+			const profileButton = screen.getByRole("button", { name: /profile/i });
+			
+			// Click to open dropdown
+			fireEvent.click(profileButton);
+			
+			expect(container).toMatchSnapshot();
+		});
+	});
 });

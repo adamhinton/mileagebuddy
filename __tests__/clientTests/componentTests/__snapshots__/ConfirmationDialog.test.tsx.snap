@@ -1,0 +1,81 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConfirmationDialog.tsx Snapshot tests matches snapshot for closed dialog from 4.30.2025 1`] = `<div />`;
+
+exports[`ConfirmationDialog.tsx Snapshot tests matches snapshot for open dialog from 4.30.2025 1`] = `
+<div>
+  <div
+    class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50"
+  >
+    <div
+      class="bg-white dark:bg-gray-800 p-6 rounded-md shadow-lg max-w-sm w-full"
+    >
+      <h3
+        class="text-lg font-medium mb-3"
+      >
+        Test Title
+      </h3>
+      <div
+        class="mb-4"
+      >
+        Test Message
+      </div>
+      <div
+        class="flex justify-end space-x-3"
+      >
+        <button
+          class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-700"
+          type="button"
+        >
+          Cancel
+        </button>
+        <button
+          class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700"
+          type="button"
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ConfirmationDialog.tsx Snapshot tests matches snapshot with custom button class from 4.30.2025 1`] = `
+<div>
+  <div
+    class="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-50"
+  >
+    <div
+      class="bg-white dark:bg-gray-800 p-6 rounded-md shadow-lg max-w-sm w-full"
+    >
+      <h3
+        class="text-lg font-medium mb-3"
+      >
+        Test Title
+      </h3>
+      <div
+        class="mb-4"
+      >
+        Test Message
+      </div>
+      <div
+        class="flex justify-end space-x-3"
+      >
+        <button
+          class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-700"
+          type="button"
+        >
+          Cancel
+        </button>
+        <button
+          class="px-4 py-2 rounded-md bg-blue-500 text-black"
+          type="button"
+        >
+          Confirm
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

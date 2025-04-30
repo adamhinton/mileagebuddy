@@ -1,0 +1,161 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot Tests matches snapshot for basic number input from 4.30.2025 1`] = `
+<div>
+  <div
+    class="mb-4"
+  >
+    <label
+      class="mileage-calc-form-label"
+      data-testid="yearlyMaintenanceCosts.batteries-label"
+      for="yearlyMaintenanceCosts.batteries"
+    >
+      My Vehicle Number
+      <span
+        class="mileage-calc-form-required-asterisk"
+      >
+        *
+      </span>
+    </label>
+    <div
+      class="relative rounded-md shadow-sm"
+    >
+      <input
+        class="mileage-calc-form-number-field "
+        data-testid="yearlyMaintenanceCosts.batteries-input"
+        id="yearlyMaintenanceCosts.batteries"
+        min="0"
+        name="test"
+        required=""
+        step="1"
+        type="number"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Snapshot Tests matches snapshot for decimal step input from 4.30.2025 1`] = `
+<div>
+  <div
+    class="mb-4"
+  >
+    <label
+      class="mileage-calc-form-label"
+      data-testid="gasVehicleData.gasCostPerGallon-label"
+      for="gasVehicleData.gasCostPerGallon"
+    >
+      gasCostPerGallon
+      <span
+        class="mileage-calc-form-required-asterisk"
+      >
+        *
+      </span>
+    </label>
+    <div
+      class="relative rounded-md shadow-sm"
+    >
+      <input
+        class="mileage-calc-form-number-field "
+        data-testid="gasVehicleData.gasCostPerGallon-input"
+        id="gasVehicleData.gasCostPerGallon"
+        min="0"
+        name="test"
+        required=""
+        step="0.01"
+        type="number"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Snapshot Tests matches snapshot for number input with error from 4.30.2025 1`] = `
+<div>
+  <div
+    class="mb-4"
+  >
+    <label
+      class="mileage-calc-form-label"
+      data-testid="gasVehicleData.milesPerGallonCity-label"
+      for="gasVehicleData.milesPerGallonCity"
+    >
+      milesPerGallonCity
+      <span
+        class="mileage-calc-form-required-asterisk"
+      >
+        *
+      </span>
+    </label>
+    <div
+      class="relative rounded-md shadow-sm"
+    >
+      <input
+        aria-describedby="gasVehicleData.milesPerGallonCity-error"
+        class="mileage-calc-form-number-field mileage-calc-form-number-field-error"
+        data-testid="gasVehicleData.milesPerGallonCity-input"
+        id="gasVehicleData.milesPerGallonCity"
+        min="0"
+        name="test"
+        required=""
+        step="1"
+        type="number"
+      />
+    </div>
+    <p
+      class="mileage-calc-form-error-message"
+      data-testid="gasVehicleData.milesPerGallonCity-error"
+      id="gasVehicleData.milesPerGallonCity-error"
+    >
+      <svg
+        class="mileage-calc-form-error-icon"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          clip-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+          fill-rule="evenodd"
+        />
+      </svg>
+      This is an error message
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Snapshot Tests matches snapshot for required number field from 4.30.2025 1`] = `
+<div>
+  <div
+    class="mb-4"
+  >
+    <label
+      class="mileage-calc-form-label"
+      data-testid="gasVehicleData.milesPerGallonCity-label"
+      for="gasVehicleData.milesPerGallonCity"
+    >
+      milesPerGallonCity
+      <span
+        class="mileage-calc-form-required-asterisk"
+      >
+        *
+      </span>
+    </label>
+    <div
+      class="relative rounded-md shadow-sm"
+    >
+      <input
+        class="mileage-calc-form-number-field "
+        data-testid="gasVehicleData.milesPerGallonCity-input"
+        id="gasVehicleData.milesPerGallonCity"
+        min="0"
+        name="test"
+        required=""
+        step="1"
+        type="number"
+      />
+    </div>
+  </div>
+</div>
+`;

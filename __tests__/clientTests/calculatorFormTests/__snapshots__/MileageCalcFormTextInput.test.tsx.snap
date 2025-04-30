@@ -1,0 +1,140 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot Tests matches snapshot for basic text input from 4.30.2025 1`] = `
+<div>
+  <div
+    class="mb-4"
+  >
+    <label
+      class="mileage-calc-form-label"
+      data-testid="vehicleData.vehicleName-label"
+      for="vehicleData.vehicleName"
+    >
+      My Vehicle Name
+      <span
+        class="mileage-calc-form-required-asterisk"
+      >
+        *
+      </span>
+    </label>
+    <input
+      class="mileage-calc-form-text-field "
+      data-testid="vehicleData.vehicleName-input"
+      id="vehicleData.vehicleName"
+      name="test"
+      required=""
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`Snapshot Tests matches snapshot for required text field from 4.30.2025 1`] = `
+<div>
+  <div
+    class="mb-4"
+  >
+    <label
+      class="mileage-calc-form-label"
+      data-testid="vehicleData.vehicleName-label"
+      for="vehicleData.vehicleName"
+    >
+      vehicleName
+      <span
+        class="mileage-calc-form-required-asterisk"
+      >
+        *
+      </span>
+    </label>
+    <input
+      class="mileage-calc-form-text-field "
+      data-testid="vehicleData.vehicleName-input"
+      id="vehicleData.vehicleName"
+      minlength="1"
+      name="test"
+      required=""
+      type="text"
+    />
+  </div>
+</div>
+`;
+
+exports[`Snapshot Tests matches snapshot for text input with error from 4.30.2025 1`] = `
+<div>
+  <div
+    class="mb-4"
+  >
+    <label
+      class="mileage-calc-form-label"
+      data-testid="vehicleData.vehicleName-label"
+      for="vehicleData.vehicleName"
+    >
+      vehicleName
+      <span
+        class="mileage-calc-form-required-asterisk"
+      >
+        *
+      </span>
+    </label>
+    <input
+      aria-describedby="vehicleData.vehicleName-error"
+      class="mileage-calc-form-text-field mileage-calc-form-text-field-error"
+      data-testid="vehicleData.vehicleName-input"
+      id="vehicleData.vehicleName"
+      name="test"
+      required=""
+      type="text"
+    />
+    <p
+      class="mileage-calc-form-error-message"
+      data-testid="vehicleData.vehicleName-error"
+      id="vehicleData.vehicleName-error"
+    >
+      <svg
+        class="mileage-calc-form-error-icon"
+        fill="currentColor"
+        viewBox="0 0 20 20"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          clip-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z"
+          fill-rule="evenodd"
+        />
+      </svg>
+      This is an error message
+    </p>
+  </div>
+</div>
+`;
+
+exports[`Snapshot Tests matches snapshot for text input with length constraints from 4.30.2025 1`] = `
+<div>
+  <div
+    class="mb-4"
+  >
+    <label
+      class="mileage-calc-form-label"
+      data-testid="vehicleData.vehicleName-label"
+      for="vehicleData.vehicleName"
+    >
+      vehicleName
+      <span
+        class="mileage-calc-form-required-asterisk"
+      >
+        *
+      </span>
+    </label>
+    <input
+      class="mileage-calc-form-text-field "
+      data-testid="vehicleData.vehicleName-input"
+      id="vehicleData.vehicleName"
+      maxlength="20"
+      minlength="5"
+      name="test"
+      required=""
+      type="text"
+    />
+  </div>
+</div>
+`;
