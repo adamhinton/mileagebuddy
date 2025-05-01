@@ -91,6 +91,17 @@ describe("Tabs.tsx", () => {
 
 		expect(mockEvent.preventDefault).not.toHaveBeenCalled();
 	});
+
+	it("matches snapshot with dashboard as active tab from 4.30.2025", () => {
+		const { container } = renderTabsWithRedux();
+		expect(container).toMatchSnapshot();
+	});
+
+	it("matches snapshot with calculator as active tab from 4.30.2025", () => {
+		(usePathname as jest.Mock).mockReturnValue("/calculator");
+		const { container } = renderTabsWithRedux();
+		expect(container).toMatchSnapshot();
+	});
 });
 
 /**
