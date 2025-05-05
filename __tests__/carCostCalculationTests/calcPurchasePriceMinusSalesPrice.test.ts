@@ -1,5 +1,5 @@
 import { calcPurchasePriceMinusSalesPrice } from "@/app/utils/CarCostAlgorithm/smallerCostUtils";
-import { PurchaseAndSales } from "@/app/zod/schemas/VehicleSubSchemas";
+import { PurchaseAndSales } from "@/app/zod/schemas/vehicles/VehicleSubSchemas";
 
 describe("calcPurchasePriceMinusSalesPrice", () => {
 	/** Only including needed fields */

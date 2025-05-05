@@ -9,7 +9,7 @@ import {
 	GasVehicleData,
 	HybridVehicleData,
 	Usage,
-} from "@/app/zod/schemas/VehicleSubSchemas";
+} from "@/app/zod/schemas/vehicles/VehicleSubSchemas";
 
 // Dummy part of a Vehicle with only gasVehicleData
 // Only passing in the needed fields

@@ -13,7 +13,7 @@ import {
 	HybridVehicleSchema,
 	refineZodVehicleValidation,
 } from "./GetVehicleTypes";
-import { boughtAtLessThanSoldAtError } from "@/app/zod/schemas/VehicleSubSchemas";
+import { boughtAtLessThanSoldAtError } from "@/app/zod/schemas/vehicles/VehicleSubSchemas";
 
 /**
  * This doesn't have any ids anywhere because it's for a POST request

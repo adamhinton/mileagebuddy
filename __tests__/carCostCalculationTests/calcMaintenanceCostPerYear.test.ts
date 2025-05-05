@@ -1,5 +1,5 @@
 import { calcMaintenanceCostPerYear } from "@/app/utils/CarCostAlgorithm/smallerCostUtils";
-import { YearlyMaintenanceCosts } from "@/app/zod/schemas/VehicleSubSchemas";
+import { YearlyMaintenanceCosts } from "@/app/zod/schemas/vehicles/VehicleSubSchemas";
 
 describe("calcMaintenanceCostPerYear", () => {
 	// Only including needed fields
