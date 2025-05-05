@@ -1,5 +1,5 @@
 import { calcVariableCostPerYear } from "@/app/utils/CarCostAlgorithm/smallerCostUtils";
-import { VariableCosts } from "@/app/zod/schemas/VehicleSubSchemas";
+import { VariableCosts } from "@/app/zod/schemas/vehicles/VehicleSubSchemas";
 
 describe("calcVariableCostPerYear", () => {
 	/** Only including needed fields */

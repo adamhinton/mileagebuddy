@@ -9,7 +9,7 @@ import { FieldErrors, UseFormRegister } from "react-hook-form";
 import FormSection, { FormNavigationOptions } from "../FormSection";
 import { BaseVehicleSchema } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import MileageCalcFormNumInput from "../MileageCalcFormNumberInput";
-import { boughtAtLessThanSoldAtError } from "@/app/zod/schemas/VehicleSubSchemas";
+import { boughtAtLessThanSoldAtError } from "@/app/zod/schemas/vehicles/VehicleSubSchemas";
 import {
 	type VehiclePATCHorPOST,
 	type CollapsedOrNot,

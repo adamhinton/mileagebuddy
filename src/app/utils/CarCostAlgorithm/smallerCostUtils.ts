@@ -9,7 +9,7 @@ import {
 	PurchaseAndSales,
 	VariableCosts,
 	YearlyMaintenanceCosts,
-} from "../../zod/schemas/VehicleSubSchemas";
+} from "../../zod/schemas/vehicles/VehicleSubSchemas";
 
 /**
  * NOTE: Loan payments are accounted for elsewhere

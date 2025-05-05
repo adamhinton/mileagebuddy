@@ -31,7 +31,7 @@ import {
 	VariableCostsSchema,
 	VehicleDataSchema,
 	YearlyMaintenanceCostsSchema,
-} from "../../../../zod/schemas/VehicleSubSchemas";
+} from "../../../../zod/schemas/vehicles/VehicleSubSchemas";
 
 /**Used to make all the sub-objects in a Vehicle readonly
  *
