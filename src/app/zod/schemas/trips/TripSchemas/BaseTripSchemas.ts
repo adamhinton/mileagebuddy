@@ -20,7 +20,7 @@
 // _________________________________________________________________
 
 import { z } from "zod";
-import { TripOptionSchema } from "../TripOptionSchemas";
+import { TripOptionSchema } from "./TripOptionSchemas/BaseTripOptionSchemas";
 import { DeepReadonly } from "next/dist/shared/lib/deep-readonly";
 
 /**
