@@ -15,6 +15,8 @@
 
 // Each trip can have multiple TripOptions
 //    - Each TripOption is a different way to take the trip
+
+// DB operations: There are separate schemas for POST and PATCH requests
 // _________________________________________________________________
 
 import { z } from "zod";
