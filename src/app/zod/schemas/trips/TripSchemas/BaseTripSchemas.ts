@@ -15,6 +15,8 @@
 
 // Each trip can have multiple TripOptions
 //    - Each TripOption is a different way to take the trip
+
+// DB operations: There are separate schemas for POST and PATCH requests
 // _________________________________________________________________
 
 import { z } from "zod";
@@ -58,15 +60,19 @@ export const _BaseTripSchema = z.object({
 	tripType: z
 		// Form asks user more TripOptions questions for long distance than short distance
 		.enum(["SHORT_DISTANCE", "LONG_DISTANCE"])
-		.describe("Trip Type (Short/Long)"),
+		.describe("Trip Type"),
 	// Estimated round-trip driving distance (if driving is an option)
 	roundTripDrivingDistanceMiles: z
 		.number()
+		.max(50000, "Must be less than 10,000 miles")
 		.positive("Must be positive")
 		.nullish()
 		.describe("Round Trip Driving Distance (miles)"),
 
-	tripOptions: z.array(TripOptionSchema).describe("Trip options"),
+	tripOptions: z
+		.array(TripOptionSchema)
+		.describe("Trip options")
+		.max(50, "Max 50 trip options"),
 });
 
 /**
@@ -92,6 +98,7 @@ export const LongDistanceTripSchema = _BaseTripSchema.extend({
 	// Estimated round-trip driving distance (if driving is an option)
 	localDrivingDistanceMiles: z
 		.number()
+		.max(50000, "Must be less than 50,000 miles")
 		.positive("Must be positive")
 		.int()
 		.nullish()
@@ -110,9 +117,9 @@ export const TripSchema = z.discriminatedUnion("tripType", [
 export type Trip = DeepReadonly<z.infer<typeof TripSchema>>;
 
 // Have to use this in several places so keeping this DRY
-export const UserIdSchema = z.string().uuid().describe("User ID");
+export const UserIdSchema = z.string().uuid();
 
 /**
  * Defining an ID schema for consistency because this will be used in several places
  */
-export const TripIDSchema = z.string().uuid().describe("Trip ID");
+export const TripIDSchema = z.string().uuid();
