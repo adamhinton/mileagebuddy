@@ -36,6 +36,8 @@ Note that some stuff below oculd be out of date. If I say something different in
 
 Trip feature docs:
 
+Note that I've put an X in the items that are finished.
+
 ```
 
 ```
@@ -48,9 +50,9 @@ I'll follow this order to build the feature incrementally.
 
 **Phase 1: Data Structure & Types**
 
-- [ ] Define Zod schemas for `Trip` (Base, POST, PATCH).
-- [ ] Define Zod schemas for `TripOption` (Base, POST, PATCH).
-- [ ] Define TypeScript types inferred from Zod schemas (`Trip`, `TripOption`, etc.).
+- [x] Define Zod schemas for `Trip` (Base, POST, PATCH).
+- [x] Define Zod schemas for `TripOption` (Base, POST, PATCH).
+- [x] Define TypeScript types inferred from Zod schemas (`Trip`, `TripOption`, etc.).
 - [ ] Design database table schemas (`Trips`, `TripOptions`) in Supabase.
   - [ ] Define columns and types.
   - [ ] Set up primary/foreign keys and constraints (including cascade delete).
