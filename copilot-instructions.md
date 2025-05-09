@@ -53,10 +53,10 @@ I'll follow this order to build the feature incrementally.
 - [x] Define Zod schemas for `Trip` (Base, POST, PATCH).
 - [x] Define Zod schemas for `TripOption` (Base, POST, PATCH).
 - [x] Define TypeScript types inferred from Zod schemas (`Trip`, `TripOption`, etc.).
-- [ ] Design database table schemas (`Trips`, `TripOptions`) in Supabase.
-  - [ ] Define columns and types.
-  - [ ] Set up primary/foreign keys and constraints (including cascade delete).
-- [ ] Write and apply initial Supabase migrations for new tables.
+- [x] Design database table schemas (`Trips`, `TripOptions`) in Supabase.
+  - [x] Define columns and types.
+  - [x] Set up primary/foreign keys and constraints (including cascade delete).
+- [x] Write and apply initial Supabase migrations for new tables.
 
 **Phase 2: Low-Fi UI & Calculation**
 
