@@ -1,3 +1,4 @@
+// TODO Stretch: Ability to add pictures of vehicles; pic will show in dash
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
