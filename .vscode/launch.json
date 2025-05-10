@@ -40,6 +40,15 @@
 				"uriFormat": "%s",
 				"webRoot": "${workspaceFolder}"
 			}
+		},
+		{
+			"name": "Next.js: attach to client-side Chrome",
+			"type": "chrome",
+			"request": "attach",
+			"port": 9222, // Ensure this port matches the one Chrome is launched with
+			"urlFilter": "http://localhost:3000/*", // Helps VS Code find the correct tab
+			"webRoot": "${workspaceFolder}",
+			"sourceMaps": true
 		}
 	]
 }
