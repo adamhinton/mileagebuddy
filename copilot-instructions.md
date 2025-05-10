@@ -60,6 +60,30 @@ I'll follow this order to build the feature incrementally.
 
 **Phase 2: Low-Fi UI & Calculation**
 
+Update:
+
+I've made some dummy/skeleton files I know we'll need. We'll fill these in: (and also make new components). Skeleton components:
+
+- Note, many of these components and pages will be very similar to - and reuse logic from - Vehicles components.
+
+- TripCreationOrEditForm.tsx
+- /app/trip_planner/page.tsx
+- /app/trip_planner/edit/[tripId]/page.tsx
+- tripDataForTesting.ts
+- tripsReducer.ts
+
+- TripCreationOrEditForm.tsx
+
+  - TripOptionCreationOrEditForm.tsx
+
+  - We should be able to use the same num and short text input as in VehicleCreationForm.tsx. We'll need to create a dropdown which should be easy. We'll need a longer form text input for `notes` but that should be easy.
+
+- Dashboard:
+
+  - We need to think carefully about the dashboard. Possibly we'll have one tab for vehicles and one for trips. We'll also want to make it clear in the vehicles section which trips are associated with which vehicles.
+
+  - TripCard, SortableTripCard
+
 - [ ] Create low-fidelity wireframes/sketches for `TripCreationForm`.
 - [ ] Create low-fidelity wireframes/sketches for Dashboard Trips view.
 - [ ] Implement `calculateTripOptionCost` utility function (can be backend or shared).
