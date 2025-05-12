@@ -5,17 +5,18 @@
 // Confused about the subschema being passed in? See the jsdoc for subSchema param
 // Note, this is closely related to MileageCalcFormNumberInput.tsx, which is just different enough to warrant its own component
 
+// TODO stretch: This was originally built just for mileage form; make it more extendable since it's used in the Trip form now too
+
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
 import FormErrorMessage from "./FormErrorMessage";
-import { VehiclePATCHorPOST } from "./VehicleCreationForm";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 
 type MileageCalcFormTextInputProps<TFieldValues extends FieldValues> = {
 	registerFn: UseFormRegister<TFieldValues>;
 	// Edit mode or new vehicle mode
 	// Only difference for this component is that in edit mode, the input will be pre-filled with the existing value
-	path: Path<VehiclePATCHorPOST>;
+	path: Path<TFieldValues>;
 	error?: string;
 	subSchema: z.ZodString;
 };
@@ -30,12 +31,12 @@ type MileageCalcFormTextInputProps<TFieldValues extends FieldValues> = {
  * @param subSchema The Zod schema for the text input. For instance BaseVehicleSchema.shape.vehicleData.shape.vehicleName. Note that it's extended from BaseVehicleSchema because things like VehicleSchemaForPOST are union types, and you can't access the shape of a union type
  *
  */
-const MileageCalcFormTextInput = ({
+const MileageCalcFormTextInput = <TFieldValues extends FieldValues>({
 	registerFn,
 	error,
 	path,
 	subSchema,
-}: MileageCalcFormTextInputProps<VehiclePATCHorPOST>) => {
+}: MileageCalcFormTextInputProps<TFieldValues>) => {
 	const maxLength = subSchema.maxLength || undefined;
 	const minLength = subSchema.minLength || undefined;
 
