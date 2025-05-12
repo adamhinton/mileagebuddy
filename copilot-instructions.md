@@ -1,3 +1,8 @@
+-NEVER EVER EVER USE `any` FOR ANY REASON, EVER.
+-NEVER EVER EVER USE `any` FOR ANY REASON, EVER.
+-NEVER EVER EVER USE `any` FOR ANY REASON, EVER.
+-NEVER EVER EVER USE `any` FOR ANY REASON, EVER.
+
 GENERAL INSTRUCTIONS:
 
 -I really care about good TS typing:
@@ -69,8 +74,13 @@ I've made some dummy/skeleton files I know we'll need. We'll fill these in: (and
 - TripCreationOrEditForm.tsx
 - /app/trip_planner/page.tsx
 - /app/trip_planner/edit/[tripId]/page.tsx
-- tripDataForTesting.ts
+- tripDataForTesting.ts - finished
 - tripsReducer.ts
+- NotesInput.tsx - finished - need to test
+- tripFormSubmitLogic.ts - flesh this out when endpoints are set up
+- getSavedTripFormValuesFromLocalStorage - still need
+
+  - Note to self: I originally ahd this written but it had errors and I was lazy so I deleted it
 
 - TripCreationOrEditForm.tsx
 
