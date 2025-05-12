@@ -6,15 +6,16 @@
 // Confused about the subschema being passed in? See the jsdoc for subSchema param
 // Note, this is closely related to MileageCalcFormTextInput.tsx, which is just different enough to warrant its own component
 
+// TODO stretch: This was originally built just for mileage form; make it more extendable since it's used in the Trip form now too
+
 import { FieldValues, Path, UseFormRegister } from "react-hook-form";
 import { z } from "zod";
 import FormErrorMessage from "./FormErrorMessage";
-import { VehiclePATCHorPOST } from "./VehicleCreationForm";
 import tailWindClassNames from "@/app/utils/clientUtils/styling/tailwindClassNames";
 
 type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
 	registerFn: UseFormRegister<TFieldValues>;
-	path: Path<VehiclePATCHorPOST>;
+	path: Path<TFieldValues>;
 	error?: string;
 	subSchema: z.ZodNumber;
 };
@@ -29,12 +30,12 @@ type MileageCalcFormNumInputProps<TFieldValues extends FieldValues> = {
  * @param subSchema The Zod schema for the number input. For instance BaseVehicleSchema.shape.fixedCosts.shape.inspectionCost. Note that it's extended from BaseVehicleSchema because things like VehicleSchemaForPOST are union types, and you can't access the shape of a union type
  *
  */
-const MileageCalcFormNumInput = ({
+const MileageCalcFormNumInput = <TFieldValues extends FieldValues>({
 	registerFn,
 	error,
 	path,
 	subSchema,
-}: MileageCalcFormNumInputProps<VehiclePATCHorPOST>) => {
+}: MileageCalcFormNumInputProps<TFieldValues>) => {
 	const maxValue = subSchema.maxValue || undefined;
 	const minValue =
 		subSchema.minValue || (subSchema.nonnegative() ? 0 : undefined);
@@ -45,8 +46,8 @@ const MileageCalcFormNumInput = ({
 	// Inputs can be as precise as two decimal places for gas cost or EV cost per charge purposes, but not more
 	// All other inputs are incremented by the dollar
 	const step =
-		path === "gasVehicleData.gasCostPerGallon" ||
-		path === "electricVehicleData.costPerCharge"
+		path === ("gasVehicleData.gasCostPerGallon" as Path<TFieldValues>) ||
+		path === ("electricVehicleData.costPerCharge" as Path<TFieldValues>)
 			? "0.01"
 			: "1";
 
