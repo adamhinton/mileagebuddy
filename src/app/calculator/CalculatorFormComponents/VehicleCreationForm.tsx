@@ -195,7 +195,7 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 
 		// Cleanup subscription on unmount
 		return () => subscription.unsubscribe();
-	}, [watch]); // watch function from react-hook-form is stable
+	}, [watch]);
 
 	/**Wrapper to give this a clearer name
 	 * Clears all form values and removes persisted form data from localStorage
