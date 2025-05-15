@@ -49,11 +49,9 @@ export const _BaseTripSchema = z.object({
 		.string()
 		.trim()
 		.max(100)
-		.trim()
-		.nullish()
-		.default("Home")
+		.nullable()
 		.describe("Origin (Default: Home)"),
-	notes: z.string().trim().max(500).nullish().describe("Notes"),
+	notes: z.string().trim().max(500).nullable().describe("Notes"),
 
 	// Fields relevant for calculation (stricter validation where applicable)
 	// User defines this, influences available/relevant options/UI
@@ -66,7 +64,7 @@ export const _BaseTripSchema = z.object({
 		.number()
 		.max(50000, "Must be less than 10,000 miles")
 		.positive("Must be positive")
-		.nullish()
+		.nullable()
 		.describe("Round Trip Driving Distance (miles)"),
 
 	tripOptions: z
@@ -93,7 +91,7 @@ export const ShortDistanceTripSchema = _BaseTripSchema.extend({
  */
 export const LongDistanceTripSchema = _BaseTripSchema.extend({
 	tripType: z.literal("LONG_DISTANCE"),
-	departureDate: z.coerce.date().nullish().describe("Departure Date"),
+	departureDate: z.coerce.date().nullable().describe("Departure Date"),
 	returnDate: z.coerce.date().nullish().describe("Return Date"),
 	// Estimated round-trip driving distance (if driving is an option)
 	localDrivingDistanceMiles: z
@@ -101,7 +99,7 @@ export const LongDistanceTripSchema = _BaseTripSchema.extend({
 		.max(50000, "Must be less than 50,000 miles")
 		.positive("Must be positive")
 		.int()
-		.nullish()
+		.nullable()
 		.describe("Local Driving Distance at destination (miles)"),
 });
 
