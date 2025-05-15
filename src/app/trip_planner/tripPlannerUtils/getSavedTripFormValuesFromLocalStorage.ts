@@ -1,9 +1,14 @@
-import { LOCAL_STORAGE_TRIP_FORM_DATA_KEY } from "./tripFormDefaultValues";
+import { DeepPartial } from "react-hook-form";
+import { TripPATCHOrPOST } from "../TripFormComponents/TripCreationOrEditForm";
+
+export const LOCAL_STORAGE_TRIP_FORM_DATA_KEY = "tripFormData";
 
 /**When the user navigates away, any in-progress form values are saved to local storage and retrieved when they come back
  * This function retrieves those values on page load
  */
-const getSavedTripFormValuesFromLocalStorage = () => {
+const getSavedTripFormValuesFromLocalStorage = ():
+	| DeepPartial<TripPATCHOrPOST>
+	| undefined => {
 	const savedData = localStorage.getItem(LOCAL_STORAGE_TRIP_FORM_DATA_KEY);
 	if (savedData) {
 		try {
