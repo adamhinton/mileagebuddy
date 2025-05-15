@@ -20,7 +20,6 @@ type FormPropsEditMode = {
 type FormPropsNewTripMode = {
 	mode: "newTrip";
 	schema: ZodSchema<Trip_For_DB_POST>;
-	// avoid any confusion
 };
 
 type FormProps = FormPropsEditMode | FormPropsNewTripMode;
