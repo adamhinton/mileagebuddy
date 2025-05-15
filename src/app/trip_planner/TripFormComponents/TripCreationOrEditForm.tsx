@@ -9,6 +9,7 @@
 
 import { Trip_For_DB_PATCH } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaForPatch";
 import { Trip_For_DB_POST } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaPOST";
+import { useAppSelector } from "@/redux/hooks";
 import { ZodSchema } from "zod";
 
 type FormPropsEditMode = {
@@ -26,6 +27,10 @@ type FormProps = FormPropsEditMode | FormPropsNewTripMode;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const TripCreationOrEditForm = (props: FormProps) => {
+	const loggedInUser = useAppSelector((state) => state.user.value);
+	// Should never be undefined bc this is a protected route
+	const userId = loggedInUser ? loggedInUser.id : undefined;
+
 	return <h1>Placeholder</h1>;
 };
 
