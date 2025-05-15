@@ -1,3 +1,6 @@
+"use client";
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
 // __________________________________________________________________________________
 // This is (obviously) the form where user can edit or create a trip.
 // Will also have the logic to create multiple TripOptions for said trip.
@@ -5,11 +8,15 @@
 // Persistence: In-progress created Trips are saved to localStorage
 
 // TODO: Instate default form values because Zod didn't play nice with defaults in-built to schemas
+
+// TODO error summary
 //__________________________________________________________________________________
 
 import { Trip_For_DB_PATCH } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaForPatch";
 import { Trip_For_DB_POST } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaPOST";
 import { useAppSelector } from "@/redux/hooks";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { ZodSchema } from "zod";
 
 type FormPropsEditMode = {
@@ -23,13 +30,23 @@ type FormPropsNewTripMode = {
 	schema: ZodSchema<Trip_For_DB_POST>;
 };
 
+/**Form schema will be one of these based off whether it's edit or creation mode */
+export type TripPATCHOrPOST = Trip_For_DB_PATCH | Trip_For_DB_POST;
+
 type FormProps = FormPropsEditMode | FormPropsNewTripMode;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const TripCreationOrEditForm = (props: FormProps) => {
 	const loggedInUser = useAppSelector((state) => state.user.value);
 	// Should never be undefined bc this is a protected route
-	const userId = loggedInUser ? loggedInUser.id : undefined;
+	const userId = loggedInUser ? loggedInUser.id : "testid";
+
+	const { mode, schema } = props;
+	const tripToEdit = "tripToEdit" in props ? props.tripToEdit : undefined;
+
+	const form = useForm<TripPATCHOrPOST>({
+		resolver: zodResolver(schema),
+		// TODO default values
+	});
 
 	return <h1>Placeholder</h1>;
 };
