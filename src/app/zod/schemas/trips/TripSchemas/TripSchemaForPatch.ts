@@ -40,3 +40,5 @@ export const TripSchemaForPATCH = z.discriminatedUnion("tripType", [
 	ShortDistanceTripSchemaForPATCH,
 	LongDistanceTripSchemaForPATCH,
 ]);
+
+export type Trip_For_DB_PATCH = z.infer<typeof TripSchemaForPATCH>;

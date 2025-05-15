@@ -18,20 +18,19 @@ import { z } from "zod";
  */
 const _BaseTripOptionSchema = z.object({
 	name: z.string().trim().min(1).max(100).describe("Option name"),
-	notes: z.string().trim().max(500).nullish().describe("Notes"),
+	notes: z.string().trim().max(500).nullable().describe("Notes"),
 
 	// This is our discriminator field
 	// We don't care what OTHER is - flight, train, whatever
 	transportMode: z.enum(["OWN_VEHICLE", "OTHER"]),
 
 	// Common cost fields
-	parkingCosts: z.number().nonnegative().default(0).describe("Parking costs"),
-	tollCosts: z.number().nonnegative().default(0).describe("Toll costs"),
+	parkingCosts: z.number().nonnegative().describe("Parking costs"),
+	tollCosts: z.number().nonnegative().describe("Toll costs"),
 	additionalCosts: z
 		.number()
 		.max(500_000)
 		.nonnegative()
-		.default(0)
 		.describe("Other travel-related costs"),
 });
 
@@ -61,7 +60,6 @@ export const OtherTripOptionSchema = _BaseTripOptionSchema.extend({
 	transportationCostAtDestination: z
 		.number()
 		.nonnegative()
-		.default(0)
 		.describe("Local transportation costs"),
 });
 
