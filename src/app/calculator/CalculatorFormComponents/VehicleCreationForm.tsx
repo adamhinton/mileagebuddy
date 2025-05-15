@@ -252,17 +252,14 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 		setCollapsedSections
 	);
 
-	console.log("formValues inside form before submit:", formValues);
-	console.log("errors inside form before submit:", errors);
-
 	// new vehicles should always come first in user's list
 	setValue("vehiclesOrder", 1);
 	setValue("userid", userId);
 
 	const dispatch = useAppDispatch();
 
-	const formStyles = tailWindClassNames.mileageCalcForm; // Renamed from styles
-	const layoutStyles = tailWindClassNames.layout; // Added for layout classes
+	const formStyles = tailWindClassNames.mileageCalcForm;
+	const layoutStyles = tailWindClassNames.layout;
 
 	// Submit logic uses this to redirect to /dashboard after form submission
 	const router = useRouter();
