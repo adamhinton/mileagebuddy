@@ -1,3 +1,5 @@
+"use client";
+
 // TRIPS TODO: Middleware route protection
 
 import { TripSchemaForPOST } from "../zod/schemas/trips/TripSchemas/TripSchemaPOST";
