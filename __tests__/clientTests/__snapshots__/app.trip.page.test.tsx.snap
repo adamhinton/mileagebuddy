@@ -2,10 +2,8 @@
 
 exports[`TripPage matches snapshot from 4.30.2025 1`] = `
 <div>
-  <div
-    class="min-h-screen"
-  >
-    blah blah blah
-  </div>
+  <h1>
+    Placeholder
+  </h1>
 </div>
 `;

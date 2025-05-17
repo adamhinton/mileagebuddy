@@ -126,6 +126,7 @@ const fakeTestTrips: Trip[] = [
 				parkingCosts: 0,
 				tollCosts: 0,
 				additionalCosts: 0,
+				notes: null,
 			},
 			{
 				name: "Amtrak Train",
@@ -180,6 +181,7 @@ const fakeTestTrips: Trip[] = [
 				parkingCosts: 60, // Hotel parking
 				tollCosts: 0,
 				additionalCosts: 0,
+				notes: null,
 			},
 			{
 				name: "Fly and use Ride Share",
@@ -190,6 +192,7 @@ const fakeTestTrips: Trip[] = [
 				parkingCosts: 0,
 				tollCosts: 0,
 				additionalCosts: 0,
+				notes: null,
 			},
 			{
 				name: "Rent a Car (at origin)",
@@ -220,6 +223,7 @@ const fakeTestTrips: Trip[] = [
 				parkingCosts: 5,
 				tollCosts: 0,
 				additionalCosts: 0,
+				notes: null,
 			},
 			{
 				name: "Take the Leaf",
@@ -228,6 +232,7 @@ const fakeTestTrips: Trip[] = [
 				parkingCosts: 5,
 				tollCosts: 0,
 				additionalCosts: 0,
+				notes: null,
 			},
 		],
 	},
@@ -250,6 +255,7 @@ const fakeTestTrips: Trip[] = [
 				parkingCosts: 100, // Hotel + beach parking
 				tollCosts: 20,
 				additionalCosts: 0,
+				notes: null,
 			},
 			{
 				name: "Fly to Miami",
@@ -260,6 +266,7 @@ const fakeTestTrips: Trip[] = [
 				parkingCosts: 0,
 				tollCosts: 0,
 				additionalCosts: 0,
+				notes: null,
 			},
 			{
 				name: "Fly and Rent Convertible",
@@ -281,6 +288,7 @@ const fakeTestTrips: Trip[] = [
 				parkingCosts: 0,
 				tollCosts: 0,
 				additionalCosts: 0,
+				notes: null,
 			},
 			{
 				name: "Train to Miami",
@@ -291,6 +299,7 @@ const fakeTestTrips: Trip[] = [
 				parkingCosts: 0,
 				tollCosts: 0,
 				additionalCosts: 0,
+				notes: null,
 			},
 		],
 	},
@@ -310,6 +319,7 @@ const fakeTestTrips: Trip[] = [
 				parkingCosts: 0,
 				tollCosts: 5,
 				additionalCosts: 0,
+				notes: null,
 			},
 			{
 				name: "Drive Model 3",
@@ -318,6 +328,7 @@ const fakeTestTrips: Trip[] = [
 				parkingCosts: 0,
 				tollCosts: 5,
 				additionalCosts: 0,
+				notes: null,
 			},
 			{
 				name: "Carpool with Friend (share gas)",
@@ -376,6 +387,7 @@ const fakeTestTrips: Trip[] = [
 				parkingCosts: 0, // Assuming not renting a car for the whole duration
 				tollCosts: 0,
 				additionalCosts: 0,
+				notes: null,
 			},
 			{
 				name: "Fly to London (Business Class)",
@@ -386,6 +398,7 @@ const fakeTestTrips: Trip[] = [
 				parkingCosts: 0,
 				tollCosts: 0,
 				additionalCosts: 100, // Airport lounge access if not included
+				notes: null,
 			},
 			{
 				name: "Taxi to Airport + Flight (Economy)",

@@ -1,17 +1,18 @@
-import { TripFormData } from "./tripFormDefaultValues";
-import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"; // Assuming AppRouterInstance is needed
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { useAppDispatch } from "@/redux/hooks"; // Or import AppDispatch directly if available
+import { TripPATCHOrPOST } from "../TripFormComponents/TripCreationOrEditForm";
 
 // Define AppDispatch type if not imported directly, e.g., from your store configuration
 type AppDispatch = ReturnType<typeof useAppDispatch>; // This is a common way if useAppDispatch is standard
 
 const tripFormSubmitLogic = async (
-	formData: TripFormData,
+	// I think this is the right type. TODO double check
+	formData: TripPATCHOrPOST,
 	mode: "newTrip" | "editTrip",
-	dispatch: AppDispatch, // Using the defined AppDispatch type
+	dispatch: AppDispatch,
 	router: AppRouterInstance,
-	userId: string, // Added userId
-	tripID?: number // Added optional tripID for edit mode
+	userId: string,
+	tripID?: number
 ) => {
 	console.log("Submitting trip form data:", formData);
 	console.log("Mode:", mode, "UserID:", userId, "TripID:", tripID);
@@ -26,9 +27,9 @@ const tripFormSubmitLogic = async (
 
 	// Placeholder logic:
 	alert(`Trip data submitted (mode: ${mode}). Check console.`);
-	
+
 	// Clear form logic might be handled by RHF's reset in the component after successful submission
-	// clearForm(); 
+	// clearForm();
 
 	// TODO: Redirect to a relevant page, e.g., trip dashboard or details page
 	// router.push("/dashboard/trips");
