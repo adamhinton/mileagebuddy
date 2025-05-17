@@ -1,4 +1,4 @@
-//___________________________________________
+tr; //___________________________________________
 // This is the default values for the vehicle creation form
 // One set is for the edit mode, the other is for the creation mode
 // These sets will be quite similar, so will share a lot of logic.
@@ -97,6 +97,8 @@ export const defaultVehicleValuesPOST = (
 
 /**Default values to pass in when editing a vehicle
  * This ensures that the form is populated with a vehicle's relevant IDs etc
+ *
+ * NOTE: Initially the form is just populated with the data of the vehicle to be edited. These default values are only used after the user hits the "clear form" button but doesn't back out of the form.
  */
 export const defaultVehicleValuesPATCH = (
 	userId: string,

@@ -7,6 +7,9 @@
 // Validation: Zod
 // Persistence: In-progress created Trips are saved to localStorage
 
+// TODO: tripsOrder and tripOptionOrder in db and frontend. Sigh
+// Make sure to add this to the defaultValues
+
 // TODO: Instate default form values because Zod didn't play nice with defaults in-built to schemas
 
 // TODO error summary
@@ -23,7 +26,6 @@ import { ZodSchema } from "zod";
 import getSavedTripFormValuesFromLocalStorage, {
 	LOCAL_STORAGE_TRIP_FORM_DATA_KEY,
 } from "../tripPlannerUtils/getSavedTripFormValuesFromLocalStorage";
-import { watch } from "fs";
 import { useEffect } from "react";
 
 type FormPropsEditMode = {
