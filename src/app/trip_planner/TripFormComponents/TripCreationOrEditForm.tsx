@@ -64,7 +64,10 @@ const TripCreationOrEditForm = (props: FormProps) => {
 		// For a new trip, we need to decide on a default tripType or make it selectable by the user first.
 		// For now, let's assume a default or that this will be set by user interaction before form init.
 		// Defaulting to SHORT_DISTANCE for now, this might need adjustment based on UX flow.
-		// TODO ^
+		// TODO after setting up Trip endpoints^
+		// Notes: Not sure if the db will require all fields even if they're type `never`
+		// Like for a shrot distance trip, we don't need departureDate or returnDate but the db may need them
+		// Will need to look at this after we have endpoints set up
 		initialFormValues = defaultTripValuesPOST(
 			userId,
 			"SHORT_DISTANCE"
