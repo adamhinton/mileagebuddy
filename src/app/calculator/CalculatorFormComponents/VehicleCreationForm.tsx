@@ -147,7 +147,6 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 		register,
 		handleSubmit,
 		setValue,
-		getValues,
 		watch,
 		reset,
 		formState: { errors, isSubmitting },
@@ -177,8 +176,6 @@ const VehicleCreationOrEditForm = (props: FormProps) => {
 			setHasResetFormValues(false);
 		}
 	}, [hasResetFormValues, mode, reset, userId, vehicleToEdit]);
-
-	const formValues = getValues();
 
 	// Every time user changes a form value, save it to localStorage
 	// This will be loaded back into the form if user navigates away and comes back
