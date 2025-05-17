@@ -1,32 +1,32 @@
 "use client";
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 // __________________________________________________________________________________
 // This is (obviously) the form where user can edit or create a trip.
 // Will also have the logic to create multiple TripOptions for said trip.
 // Validation: Zod
 // Persistence: In-progress created Trips are saved to localStorage
 
-// TODO: tripsOrder and tripOptionOrder in db and frontend. Sigh
-// Make sure to add this to the defaultValues
-
 // TODO: Instate default form values because Zod didn't play nice with defaults in-built to schemas
 
 // TODO error summary
 
-// TODO tripoptions ordering and DnD
+// TODO STRETCH tripoptions ordering and DnD
 //__________________________________________________________________________________
 
 import { Trip_For_DB_PATCH } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaForPatch";
 import { Trip_For_DB_POST } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaPOST";
-import { useAppSelector } from "@/redux/hooks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { useAppSelector } from "@/redux/hooks";
+import {
+	defaultTripValuesPATCH,
+	defaultTripValuesPOST,
+} from "../tripPlannerUtils/defaultValues/trip/defaultTripValues";
 import { ZodSchema } from "zod";
 import getSavedTripFormValuesFromLocalStorage, {
 	LOCAL_STORAGE_TRIP_FORM_DATA_KEY,
 } from "../tripPlannerUtils/getSavedTripFormValuesFromLocalStorage";
-import { useEffect } from "react";
 
 type FormPropsEditMode = {
 	mode: "editTrip";
@@ -51,14 +51,38 @@ const savedLocalStorageValues = getSavedTripFormValuesFromLocalStorage();
 const TripCreationOrEditForm = (props: FormProps) => {
 	const loggedInUser = useAppSelector((state) => state.user.value);
 	// Should never be undefined bc this is a protected route
-	const userId = loggedInUser ? loggedInUser.id : "testid";
+	const userId = loggedInUser ? loggedInUser.id : "testid"; // TODO: Handle case where userId might not be available more gracefully
 
 	const { mode, schema } = props;
 	const tripToEdit = "tripToEdit" in props ? props.tripToEdit : undefined;
 
+	// Determine default values based on mode and potentially localStorage
+	let initialFormValues: TripPATCHOrPOST;
+	if (savedLocalStorageValues) {
+		initialFormValues = savedLocalStorageValues as unknown as TripPATCHOrPOST;
+	} else if (mode === "newTrip") {
+		// For a new trip, we need to decide on a default tripType or make it selectable by the user first.
+		// For now, let's assume a default or that this will be set by user interaction before form init.
+		// Defaulting to SHORT_DISTANCE for now, this might need adjustment based on UX flow.
+		// TODO ^
+		initialFormValues = defaultTripValuesPOST(
+			userId,
+			"SHORT_DISTANCE"
+		) as Trip_For_DB_POST;
+	} else if (tripToEdit) {
+		initialFormValues = defaultTripValuesPATCH(tripToEdit) as Trip_For_DB_PATCH;
+	} else {
+		// Fallback, should ideally not happen if props are correctly passed
+		// Defaulting to SHORT_DISTANCE for now
+		initialFormValues = defaultTripValuesPOST(
+			userId,
+			"SHORT_DISTANCE"
+		) as Trip_For_DB_POST;
+	}
+
 	const form = useForm<TripPATCHOrPOST>({
 		resolver: zodResolver(schema),
-		// TODO default values
+		defaultValues: initialFormValues,
 	});
 
 	const { watch } = form;
