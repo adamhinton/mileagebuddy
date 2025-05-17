@@ -1,4 +1,4 @@
-tr; //___________________________________________
+//___________________________________________
 // This is the default values for the vehicle creation form
 // One set is for the edit mode, the other is for the creation mode
 // These sets will be quite similar, so will share a lot of logic.
