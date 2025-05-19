@@ -1,6 +1,5 @@
 import { Trip } from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
-import testVehicles from "./fakeTestVehicles"; // Assuming this path and that testVehicles exports an array of vehicles with numeric IDs
-
+import testVehicles from "./fakeTestVehicles";
 const fakeTestTrips: Trip[] = [
 	// Trip 1: Short distance, 3 options (2 own vehicle, 1 other)
 	{
@@ -427,7 +426,7 @@ const fakeTestTrips: Trip[] = [
 				vehicleId: testVehicles[0].id, // Ford F-150 (example for a longer drive)
 				parkingCosts: 150, // Parking near JFK
 				tollCosts: 40, // Tolls to/from NY
-				additionalCosts: 0, // Flight cost handled in a linked "OTHER" option if app supported linked options, or user notes it
+				additionalCosts: 0,
 				notes:
 					"Drive to a different airport for a cheaper flight. Flight cost itself would be separate.",
 			},
