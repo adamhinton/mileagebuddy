@@ -143,47 +143,63 @@ VALUES
 (8, 27.0, 52, 55.0, 80.0, 50.0, NOW(), NOW()), 
 (9, 40.0, 48, 70.0, 200.0, 60.0, NOW(), NOW());
 
-INSERT INTO "fixedCosts" ("vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts", "createdAt", "updatedAt")
-VALUES
--- Gas vehicles
-(1, 1200.00, 150.00, 200.00, 350.00, 50.00, 100.00, 500.00, NOW(), NOW()),
-(2, 1400.00, 175.00, 250.00, 400.00, 60.00, 120.00, 600.00, NOW(), NOW()),
-(3, 1300.00, 180.00, 225.00, 375.00, 55.00, 110.00, 550.00, NOW(), NOW()),
--- Electric vehicles
-(4, 1600.00, 200.00, 300.00, 450.00, 70.00, 150.00, 700.00, NOW(), NOW()),
-(5, 1500.00, 190.00, 275.00, 425.00, 65.00, 140.00, 650.00, NOW(), NOW()),
-(6, 1550.00, 210.00, 320.00, 475.00, 80.00, 160.00, 750.00, NOW(), NOW()),
--- Hybrid vehicles
-(7, 1350.00, 160.00, 210.00, 380.00, 50.00, 90.00, 520.00, NOW(), NOW()), 
-(8, 1450.00, 170.00, 240.00, 410.00, 55.00, 100.00, 580.00, NOW(), NOW()), 
-(9, 1500.00, 190.00, 260.00, 430.00, 60.00, 110.00, 620.00, NOW(), NOW());
 
-INSERT INTO "yearlyMaintenanceCosts"("vehicleID", "oilChanges", tires, batteries, brakes, other, "createdAt", "updatedAt")
-VALUES
--- Gas vehicles
-(1, 75.00, 250.00, 50.00, 150.00, 200.00, NOW(), NOW()),
-(2, 80.00, 280.00, 60.00, 180.00, 220.00, NOW(), NOW()),
-(3, 85.00, 300.00, 70.00, 200.00, 240.00, NOW(), NOW()),
--- Electric vehicles
-(4, 90.00, 320.00, 80.00, 220.00, 260.00, NOW(), NOW()),
-(5, 95.00, 340.00, 90.00, 240.00, 280.00, NOW(), NOW()),
-(6, 80.00, 360.00, 100.00, 260.00, 300.00, NOW(), NOW()),
--- Hybrid vehicles
-(7, 40.00, 280.00, 80.00, 190.00, 210.00, NOW(), NOW()), 
-(8, 45.00, 290.00, 85.00, 200.00, 230.00, NOW(), NOW()), 
-(9, 50.00, 310.00, 90.00, 210.00, 250.00, NOW(), NOW());
 
-INSERT INTO "variableCosts"("vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions", "createdAt", "updatedAt")
+-- Seed Trips (ensure userID matches an existing user from the WITH new_user block)
+-- For simplicity, we'll assume the user created earlier has id = (SELECT id FROM new_user LIMIT 1)
+-- If in the future we have a specific UUID for the user, we'll replace (SELECT id FROM new_user LIMIT 1) with that UUID.
+
+-- Trip 1: Weekend Getaway to Napa
+INSERT INTO trips ("userID", "vehiclesOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "createdAt", "updatedAt")
+SELECT id, 1, 'Weekend Getaway to Napa', 'Napa Valley, CA', 'San Francisco, CA', 'Wine tasting trip with friends.', 'SHORT_DISTANCE', 100, NOW(), NOW()
+FROM new_user LIMIT 1;
+
+INSERT INTO trip_options (tripID, vehicleID, name, notes, transportMode, parkingCosts, tollCosts, additionalCosts)
 VALUES
--- Gas vehicles
-(1, 100.00, 50.00, 20.00, 50.00, 20.00, NOW(), NOW()),
-(2, 120.00, 60.00, 25.00, 60.00, 25.00, NOW(), NOW()),
-(3, 140.00, 70.00, 30.00, 70.00, 30.00, NOW(), NOW()),
--- Electric vehicles
-(4, 160.00, 80.00, 35.00, 80.00, 35.00, NOW(), NOW()),
-(5, 180.00, 90.00, 40.00, 90.00, 40.00, NOW(), NOW()),
-(6, 200.00, 100.00, 45.00, 100.00, 45.00, NOW(), NOW()),
--- Hybrid vehicles
-(7, 110.00, 55.00, 22.00, 55.00, 22.00, NOW(), NOW()), 
-(8, 130.00, 65.00, 28.00, 65.00, 28.00, NOW(), NOW()), 
-(9, 150.00, 75.00, 32.00, 75.00, 32.00, NOW(), NOW());
+((SELECT id FROM trips WHERE name = 'Weekend Getaway to Napa'), 1, 'Drive Ford Focus', 'Comfortable but less fuel efficient.', 'OWN_VEHICLE', 20, 10, 0),
+((SELECT id FROM trips WHERE name = 'Weekend Getaway to Napa'), 7, 'Drive Toyota Prius Prime', 'More fuel efficient option.', 'OWN_VEHICLE', 20, 10, 0);
+INSERT INTO trip_options (tripID, name, notes, transportMode, transportationType, transportationCostToDestination, transportationCostAtDestination, parkingCosts, tollCosts, additionalCosts)
+VALUES
+((SELECT id FROM trips WHERE name = 'Weekend Getaway to Napa'), 'Ride Share', 'Convenient but potentially costly.', 'OTHER', 'Other', 120, 50, 0, 0, 0);
+
+
+-- Trip 2: Road Trip to National Park
+INSERT INTO trips ("userID", "vehiclesOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "departureDate", "returnDate", "localDrivingDistanceMiles", "createdAt", "updatedAt")
+SELECT id, 2, 'Road Trip to National Park', 'Yellowstone National Park', 'Denver, CO', 'Annual family vacation.', 'LONG_DISTANCE', 1000, '2024-07-15', '2024-07-22', 200, NOW(), NOW()
+FROM new_user LIMIT 1;
+
+INSERT INTO trip_options (tripID, vehicleID, name, notes, transportMode, parkingCosts, tollCosts, additionalCosts)
+VALUES
+((SELECT id FROM trips WHERE name = 'Road Trip to National Park'), 3, 'Drive Toyota Camry', 'Scenic route, more luggage space.', 'OWN_VEHICLE', 50, 5, 0),
+((SELECT id FROM trips WHERE name = 'Road Trip to National Park'), 4, 'Drive Tesla Model 3', 'Long range EV option.', 'OWN_VEHICLE', 50, 5, 0);
+INSERT INTO trip_options (tripID, name, notes, transportMode, transportationType, transportationCostToDestination, transportationCostAtDestination, parkingCosts, tollCosts, additionalCosts)
+VALUES
+((SELECT id FROM trips WHERE name = 'Road Trip to National Park'), 'Fly and Rent Car', 'Faster, but involves rental logistics.', 'OTHER', 'Flight', 400, 300, 20, 0, 50);
+
+
+-- Trip 3: Commute to Work
+INSERT INTO trips ("userID", "vehiclesOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "createdAt", "updatedAt")
+SELECT id, 3, 'Commute to Work', 'Downtown Office', 'Suburban Home', 'Daily commute.', 'SHORT_DISTANCE', 30, NOW(), NOW()
+FROM new_user LIMIT 1;
+
+INSERT INTO trip_options (tripID, vehicleID, name, notes, transportMode, parkingCosts, tollCosts, additionalCosts)
+VALUES
+((SELECT id FROM trips WHERE name = 'Commute to Work'), 4, 'Drive Tesla Model 3', 'Zero emissions commute.', 'OWN_VEHICLE', 15, 2, 0),
+((SELECT id FROM trips WHERE name = 'Commute to Work'), 5, 'Drive Nissan Leaf', 'Good for city driving.', 'OWN_VEHICLE', 15, 2, 0);
+INSERT INTO trip_options (tripID, name, notes, transportMode, transportationType, transportationCostToDestination, transportationCostAtDestination, parkingCosts, tollCosts, additionalCosts)
+VALUES
+((SELECT id FROM trips WHERE name = 'Commute to Work'), 'Public Bus', 'Economical but slower.', 'OTHER', 'Bus', 5, 0, 0, 0, 0);
+
+
+-- Trip 4: Visit Family Cross-Country
+INSERT INTO trips ("userID", "vehiclesOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "departureDate", "returnDate", "localDrivingDistanceMiles", "createdAt", "updatedAt")
+SELECT id, 4, 'Visit Family Cross-Country', 'Chicago, IL', 'New York, NY', 'Thanksgiving holiday.', 'LONG_DISTANCE', 1600, '2024-11-20', '2024-11-28', 50, NOW(), NOW()
+FROM new_user LIMIT 1;
+
+INSERT INTO trip_options (tripID, vehicleID, name, notes, transportMode, parkingCosts, tollCosts, additionalCosts)
+VALUES
+((SELECT id FROM trips WHERE name = 'Visit Family Cross-Country'), 5, 'Drive Nissan Leaf (with stops)', 'Economical but time-consuming due to charging.', 'OWN_VEHICLE', 30, 50, 0);
+INSERT INTO trip_options (tripID, name, notes, transportMode, transportationType, transportationCostToDestination, transportationCostAtDestination, parkingCosts, tollCosts, additionalCosts)
+VALUES
+((SELECT id FROM trips WHERE name = 'Visit Family Cross-Country'), 'Fly Direct', NULL, 'OTHER', 'Flight', 350, 70, 0, 0, 0),
+((SELECT id FROM trips WHERE name = 'Visit Family Cross-Country'), 'Amtrak Train', 'Scenic, but slower than flying.', 'OTHER', 'Train', 250, 50, 0, 0, 0);

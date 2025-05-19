@@ -94,7 +94,7 @@ I've made some dummy/skeleton files I know we'll need. We'll fill these in: (and
 
   - TripCard, SortableTripCard
 
-- [ ] Create low-fidelity wireframes/sketches for `TripCreationForm`.
+- [x] Create low-fidelity wireframes/sketches for `TripCreationForm`.
 - [ ] Create low-fidelity wireframes/sketches for Dashboard Trips view.
 - [ ] Implement `calculateTripOptionCost` utility function (can be backend or shared).
   - [ ] Handle 'ownVehicle' case using `costPerExtraMile`.
