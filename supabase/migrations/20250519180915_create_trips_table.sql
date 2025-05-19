@@ -21,7 +21,7 @@ CREATE TABLE trips (
     "notes" VARCHAR(500),
 
     -- Now trip cost calculation stuff
-    "tripType" VARCHAR(20) NOT NULL CHECK(tripType IN ('SHORT_DISTANCE', 'LONG_DISTANCE')),
+    "tripType" VARCHAR(20) NOT NULL CHECK("tripType" IN ('SHORT_DISTANCE', 'LONG_DISTANCE')),
     "roundTripDrivingDistanceMiles" DECIMAL(7, 1),
     
     -- Can have multiple TripOptions - one to many relationship - that relationship is modeled in TripOption's foreign key
