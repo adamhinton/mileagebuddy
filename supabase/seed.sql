@@ -154,11 +154,11 @@ INSERT INTO trips ("userID", "tripsOrder", name, destination, origin, notes, "tr
 SELECT id, 1, 'Weekend Getaway to Napa', 'Napa Valley, CA', 'San Francisco, CA', 'Wine tasting trip with friends.', 'SHORT_DISTANCE', 100, NOW(), NOW()
 FROM new_user LIMIT 1;
 
-INSERT INTO trip_options (tripID, vehicleID, name, notes, transportMode, parkingCosts, tollCosts, additionalCosts)
+INSERT INTO trip_options ("tripID", "vehicleID", name, notes, "transportMode", "parkingCosts", "tollCosts", "additionalCosts")
 VALUES
 ((SELECT id FROM trips WHERE name = 'Weekend Getaway to Napa'), 1, 'Drive Ford Focus', 'Comfortable but less fuel efficient.', 'OWN_VEHICLE', 20, 10, 0),
 ((SELECT id FROM trips WHERE name = 'Weekend Getaway to Napa'), 7, 'Drive Toyota Prius Prime', 'More fuel efficient option.', 'OWN_VEHICLE', 20, 10, 0);
-INSERT INTO trip_options (tripID, name, notes, transportMode, transportationType, transportationCostToDestination, transportationCostAtDestination, parkingCosts, tollCosts, additionalCosts)
+INSERT INTO trip_options ("tripID", name, notes, "transportMode", "transportationType", "transportationCostToDestination", "transportationCostAtDestination", "parkingCosts", "tollCosts", "additionalCosts")
 VALUES
 ((SELECT id FROM trips WHERE name = 'Weekend Getaway to Napa'), 'Ride Share', 'Convenient but potentially costly.', 'OTHER', 'Other', 120, 50, 0, 0, 0);
 
@@ -168,11 +168,11 @@ INSERT INTO trips ("userID", "tripsOrder", name, destination, origin, notes, "tr
 SELECT id, 2, 'Road Trip to National Park', 'Yellowstone National Park', 'Denver, CO', 'Annual family vacation.', 'LONG_DISTANCE', 1000, '2024-07-15', '2024-07-22', 200, NOW(), NOW()
 FROM new_user LIMIT 1;
 
-INSERT INTO trip_options (tripID, vehicleID, name, notes, transportMode, parkingCosts, tollCosts, additionalCosts)
+INSERT INTO trip_options ("tripID", "vehicleID", name, notes, "transportMode", "parkingCosts", "tollCosts", "additionalCosts")
 VALUES
 ((SELECT id FROM trips WHERE name = 'Road Trip to National Park'), 3, 'Drive Toyota Camry', 'Scenic route, more luggage space.', 'OWN_VEHICLE', 50, 5, 0),
 ((SELECT id FROM trips WHERE name = 'Road Trip to National Park'), 4, 'Drive Tesla Model 3', 'Long range EV option.', 'OWN_VEHICLE', 50, 5, 0);
-INSERT INTO trip_options (tripID, name, notes, transportMode, transportationType, transportationCostToDestination, transportationCostAtDestination, parkingCosts, tollCosts, additionalCosts)
+INSERT INTO trip_options ("tripID", name, notes, "transportMode", "transportationType", "transportationCostToDestination", "transportationCostAtDestination", "parkingCosts", "tollCosts", "additionalCosts")
 VALUES
 ((SELECT id FROM trips WHERE name = 'Road Trip to National Park'), 'Fly and Rent Car', 'Faster, but involves rental logistics.', 'OTHER', 'Flight', 400, 300, 20, 0, 50);
 
@@ -182,11 +182,11 @@ INSERT INTO trips ("userID", "tripsOrder", name, destination, origin, notes, "tr
 SELECT id, 3, 'Commute to Work', 'Downtown Office', 'Suburban Home', 'Daily commute.', 'SHORT_DISTANCE', 30, NOW(), NOW()
 FROM new_user LIMIT 1;
 
-INSERT INTO trip_options (tripID, vehicleID, name, notes, transportMode, parkingCosts, tollCosts, additionalCosts)
+INSERT INTO trip_options ("tripID", "vehicleID", name, notes, "transportMode", "parkingCosts", "tollCosts", "additionalCosts")
 VALUES
 ((SELECT id FROM trips WHERE name = 'Commute to Work'), 4, 'Drive Tesla Model 3', 'Zero emissions commute.', 'OWN_VEHICLE', 15, 2, 0),
 ((SELECT id FROM trips WHERE name = 'Commute to Work'), 5, 'Drive Nissan Leaf', 'Good for city driving.', 'OWN_VEHICLE', 15, 2, 0);
-INSERT INTO trip_options (tripID, name, notes, transportMode, transportationType, transportationCostToDestination, transportationCostAtDestination, parkingCosts, tollCosts, additionalCosts)
+INSERT INTO trip_options ("tripID", name, notes, "transportMode", "transportationType", "transportationCostToDestination", "transportationCostAtDestination", "parkingCosts", "tollCosts", "additionalCosts")
 VALUES
 ((SELECT id FROM trips WHERE name = 'Commute to Work'), 'Public Bus', 'Economical but slower.', 'OTHER', 'Bus', 5, 0, 0, 0, 0);
 
@@ -196,10 +196,10 @@ INSERT INTO trips ("userID", "tripsOrder", name, destination, origin, notes, "tr
 SELECT id, 4, 'Visit Family Cross-Country', 'Chicago, IL', 'New York, NY', 'Thanksgiving holiday.', 'LONG_DISTANCE', 1600, '2024-11-20', '2024-11-28', 50, NOW(), NOW()
 FROM new_user LIMIT 1;
 
-INSERT INTO trip_options (tripID, vehicleID, name, notes, transportMode, parkingCosts, tollCosts, additionalCosts)
+INSERT INTO trip_options ("tripID", "vehicleID", name, notes, "transportMode", "parkingCosts", "tollCosts", "additionalCosts")
 VALUES
 ((SELECT id FROM trips WHERE name = 'Visit Family Cross-Country'), 5, 'Drive Nissan Leaf (with stops)', 'Economical but time-consuming due to charging.', 'OWN_VEHICLE', 30, 50, 0);
-INSERT INTO trip_options (tripID, name, notes, transportMode, transportationType, transportationCostToDestination, transportationCostAtDestination, parkingCosts, tollCosts, additionalCosts)
+INSERT INTO trip_options ("tripID", name, notes, "transportMode", "transportationType", "transportationCostToDestination", "transportationCostAtDestination", "parkingCosts", "tollCosts", "additionalCosts")
 VALUES
 ((SELECT id FROM trips WHERE name = 'Visit Family Cross-Country'), 'Fly Direct', NULL, 'OTHER', 'Flight', 350, 70, 0, 0, 0),
 ((SELECT id FROM trips WHERE name = 'Visit Family Cross-Country'), 'Amtrak Train', 'Scenic, but slower than flying.', 'OTHER', 'Train', 250, 50, 0, 0, 0);

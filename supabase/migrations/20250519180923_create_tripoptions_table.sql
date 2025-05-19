@@ -7,8 +7,8 @@ DROP TABLE IF EXISTS trip_options;
 
 CREATE TABLE trip_options(
     id SERIAL PRIMARY KEY,
-    tripID INTEGER NOT NULL,
-    CONSTRAINT fk_trip FOREIGN KEY (tripID) REFERENCES trips(id) ON DELETE CASCADE,
+    "tripID" INTEGER NOT NULL,
+    CONSTRAINT fk_trip FOREIGN KEY ("tripID") REFERENCES trips(id) ON DELETE CASCADE,
     
     -- Optional because only TripOptions of transportMode OWN_VEHICLE will need a vehicleID
     "vehicleID" INTEGER,
@@ -31,7 +31,7 @@ CREATE TABLE trip_options(
     "transportationType" VARCHAR(30),
     CHECK(
         "transportMode" = 'OTHER' AND "transportationType" IN ('Flight', 'Train', 'Bus', 'Rental Car', 'Other')
-        OR "transportMode "= 'OWN_VEHICLE' AND "transportationType" IS NULL
+        OR "transportMode" = 'OWN_VEHICLE' AND "transportationType" IS NULL
     ),
 
     "transportationCostToDestination" DECIMAL(8, 2),
