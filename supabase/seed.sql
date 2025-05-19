@@ -150,7 +150,7 @@ VALUES
 -- If in the future we have a specific UUID for the user, we'll replace (SELECT id FROM new_user LIMIT 1) with that UUID.
 
 -- Trip 1: Weekend Getaway to Napa
-INSERT INTO trips ("userID", "vehiclesOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "createdAt", "updatedAt")
+INSERT INTO trips ("userID", "tripsOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "createdAt", "updatedAt")
 SELECT id, 1, 'Weekend Getaway to Napa', 'Napa Valley, CA', 'San Francisco, CA', 'Wine tasting trip with friends.', 'SHORT_DISTANCE', 100, NOW(), NOW()
 FROM new_user LIMIT 1;
 
@@ -164,7 +164,7 @@ VALUES
 
 
 -- Trip 2: Road Trip to National Park
-INSERT INTO trips ("userID", "vehiclesOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "departureDate", "returnDate", "localDrivingDistanceMiles", "createdAt", "updatedAt")
+INSERT INTO trips ("userID", "tripsOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "departureDate", "returnDate", "localDrivingDistanceMiles", "createdAt", "updatedAt")
 SELECT id, 2, 'Road Trip to National Park', 'Yellowstone National Park', 'Denver, CO', 'Annual family vacation.', 'LONG_DISTANCE', 1000, '2024-07-15', '2024-07-22', 200, NOW(), NOW()
 FROM new_user LIMIT 1;
 
@@ -178,7 +178,7 @@ VALUES
 
 
 -- Trip 3: Commute to Work
-INSERT INTO trips ("userID", "vehiclesOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "createdAt", "updatedAt")
+INSERT INTO trips ("userID", "tripsOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "createdAt", "updatedAt")
 SELECT id, 3, 'Commute to Work', 'Downtown Office', 'Suburban Home', 'Daily commute.', 'SHORT_DISTANCE', 30, NOW(), NOW()
 FROM new_user LIMIT 1;
 
@@ -192,7 +192,7 @@ VALUES
 
 
 -- Trip 4: Visit Family Cross-Country
-INSERT INTO trips ("userID", "vehiclesOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "departureDate", "returnDate", "localDrivingDistanceMiles", "createdAt", "updatedAt")
+INSERT INTO trips ("userID", "tripsOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "departureDate", "returnDate", "localDrivingDistanceMiles", "createdAt", "updatedAt")
 SELECT id, 4, 'Visit Family Cross-Country', 'Chicago, IL', 'New York, NY', 'Thanksgiving holiday.', 'LONG_DISTANCE', 1600, '2024-11-20', '2024-11-28', 50, NOW(), NOW()
 FROM new_user LIMIT 1;
 
