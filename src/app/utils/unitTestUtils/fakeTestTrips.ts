@@ -10,6 +10,7 @@ const fakeTestTrips: Trip[] = [
 		notes: "Wine tasting trip with friends.",
 		tripType: "SHORT_DISTANCE",
 		roundTripDrivingDistanceMiles: 100,
+		tripsOrder: 1,
 		tripOptions: [
 			{
 				name: "Drive F-150",
@@ -53,6 +54,7 @@ const fakeTestTrips: Trip[] = [
 		departureDate: new Date("2024-07-15"),
 		returnDate: new Date("2024-07-22"),
 		localDrivingDistanceMiles: 200,
+		tripsOrder: 2,
 		tripOptions: [
 			{
 				name: "Drive Toyota Camry",
@@ -84,6 +86,7 @@ const fakeTestTrips: Trip[] = [
 		notes: "Daily commute.",
 		tripType: "SHORT_DISTANCE",
 		roundTripDrivingDistanceMiles: 30,
+		tripsOrder: 3,
 		tripOptions: [
 			{
 				name: "Drive Tesla Model 3",
@@ -107,6 +110,7 @@ const fakeTestTrips: Trip[] = [
 		departureDate: new Date("2024-11-20"),
 		returnDate: new Date("2024-11-28"),
 		localDrivingDistanceMiles: 50,
+		tripsOrder: 4,
 		tripOptions: [
 			{
 				name: "Drive Nissan Leaf (with stops)",
@@ -159,6 +163,7 @@ const fakeTestTrips: Trip[] = [
 		origin: "Home",
 		tripType: "SHORT_DISTANCE",
 		roundTripDrivingDistanceMiles: 5,
+		tripsOrder: 5,
 		tripOptions: [],
 		notes: "Quick trip for essentials.",
 	},
@@ -173,6 +178,7 @@ const fakeTestTrips: Trip[] = [
 		departureDate: new Date("2025-03-10"),
 		returnDate: new Date("2025-03-13"),
 		localDrivingDistanceMiles: 30,
+		tripsOrder: 6,
 		tripOptions: [
 			{
 				name: "Drive Hyundai Ioniq",
@@ -215,6 +221,7 @@ const fakeTestTrips: Trip[] = [
 		notes: "Afternoon outing.",
 		tripType: "SHORT_DISTANCE",
 		roundTripDrivingDistanceMiles: 15,
+		tripsOrder: 7,
 		tripOptions: [
 			{
 				name: "Take the F-150",
@@ -247,6 +254,7 @@ const fakeTestTrips: Trip[] = [
 		departureDate: new Date("2025-04-05"),
 		returnDate: new Date("2025-04-12"),
 		localDrivingDistanceMiles: 100,
+		tripsOrder: 8,
 		tripOptions: [
 			{
 				name: "Drive Prius Prime",
@@ -311,6 +319,7 @@ const fakeTestTrips: Trip[] = [
 		notes: "Buying new clothes.",
 		tripType: "SHORT_DISTANCE",
 		roundTripDrivingDistanceMiles: 60,
+		tripsOrder: 9,
 		tripOptions: [
 			{
 				name: "Drive Camry",
@@ -366,6 +375,7 @@ const fakeTestTrips: Trip[] = [
 		departureDate: new Date("2025-09-01"),
 		returnDate: new Date("2025-09-15"),
 		localDrivingDistanceMiles: 150, // Using Tube, taxis, and maybe a day-trip rental in UK
+		tripsOrder: 10,
 		tripOptions: [
 			{
 				name: "Drive Ioniq to Airport & Park",
