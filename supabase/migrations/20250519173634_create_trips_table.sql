@@ -3,7 +3,7 @@
 -- It corresponds to TripSchema
 -- ___________________________________________________________
 
-DROP TABLE IF EXISTS trips;
+DROP TABLE IF EXISTS trips cascade;
 
 CREATE TABLE trips (
     -- Stuff not used in cost calculation
