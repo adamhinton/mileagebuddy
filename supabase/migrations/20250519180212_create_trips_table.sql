@@ -9,7 +9,7 @@ CREATE TABLE trips (
     -- Stuff not used in cost calculation
     id SERIAL PRIMARY KEY,
     "userID" uuid NOT NULL,
-    -- CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES auth.users(id) ON DELETE CASCADE,
+    CONSTRAINT fk_user FOREIGN KEY (userID) REFERENCES auth.users(id) ON DELETE CASCADE,
     tripsOrder INT NOT NULL,
 
     -- These help the user classify and understand
