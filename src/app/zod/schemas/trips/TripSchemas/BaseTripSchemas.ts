@@ -31,6 +31,10 @@ export const _BaseTripSchema = z.object({
 	// Basic details, common to all trips
 	// This stuff isn't used for calculations - only for helping the user understand their trip
 	// So we're liberal in what inputs we accept here
+
+	// This is the order in which the trip appears in the list of trips
+	tripsOrder: z.number().positive(),
+
 	name: z
 		.string()
 		.trim()
