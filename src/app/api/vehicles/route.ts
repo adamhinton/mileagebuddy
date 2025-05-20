@@ -58,13 +58,14 @@ export async function GET(request: Request) {
 
 			return NextResponse.json(arrayWithSingleVehicle, { status: 200 });
 		} else {
+			// VehicleId not specified, so get all vehicles for userID
 			const vehicles = await getVehiclesByUser(supabase, userID);
 			return NextResponse.json(vehicles, { status: 200 });
 		}
 	} catch (error) {
 		return NextResponse.json(
 			{
-				error: "Failed to fetch vehicle data" + error,
+				error: "Failed to fetch vehicle data:" + error,
 			},
 			{ status: 500 }
 		);
