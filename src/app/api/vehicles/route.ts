@@ -17,6 +17,8 @@ const {
 // If vehicleid query parameter is passed in, it gets only that vehicle
 // if no vehicleid is passed in, it gets all vehicles for that user
 // Right now userid must be passed in (api/vehicles?userid=1 or optionally, api/vehicles?userid=1&vehicleid=4) but that can be nixed once we get auth set up, since it'll only get vehicles for an authenticated user
+// TODO just realized there's no validation on vehicle GET requests - not in middleware or on the endpoint
+// -- Should be fine since it's validated on client, but might as well throw it in
 export async function GET(request: Request) {
 	const supabase = await createClientSSROnly();
 
