@@ -1,7 +1,7 @@
 "use server";
 
 import { QueryData } from "@supabase/supabase-js";
-import { createClientSSROnly } from "../supabase/server";
+import { createClientSSROnly } from "../../supabase/server";
 import { stringForJoiningVehicleTables } from "./vehiclesDBUtils";
 
 // README
