@@ -19,7 +19,10 @@ const {
 // Right now userid must be passed in (api/vehicles?userid=1 or optionally, api/vehicles?userid=1&vehicleid=4) but that can be nixed once we get auth set up, since it'll only get vehicles for an authenticated user
 // TODO just realized there's no validation on vehicle GET requests - not in middleware or on the endpoint
 // -- Should be fine since it's validated on client, but might as well throw it in
-export async function GET(request: Request) {
+export async function GET(request: Request): Promise<
+	// TODO STRETCH this return type is a bit messy
+	NextResponse<Vehicle[] | [(Vehicle | undefined)?] | { error: string }>
+> {
 	const supabase = await createClientSSROnly();
 
 	const url = new URL(request.url!);
