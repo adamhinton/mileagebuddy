@@ -1,6 +1,5 @@
 "use server";
 
-import { QueryData } from "@supabase/supabase-js";
 import { createClientSSROnly } from "../../supabase/server";
 
 // _______________________________________________________________
@@ -23,5 +22,3 @@ export const getSingleTripByIdQuery = async (tripId: number) => {
 	const supabase = await createClientSSROnly();
 	return supabase.from("trips").select("*").eq("id", tripId);
 };
-
-export type TripFromDB = Promise<QueryData<typeof getSingleTripByIdQuery>>;
