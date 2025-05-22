@@ -1,24 +1,35 @@
-"use server";
+import { SupabaseClient } from "@supabase/supabase-js";
+import { getTripsByUserIdQuery } from "./getTripsQueries";
+import {
+	Trip,
+	TripSchema,
+} from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
 
-import { createClientSSROnly } from "../../supabase/server";
+export async function getTripsByUser(
+	supabase: SupabaseClient,
+	userId: string
+): Promise<Trip[]> {
+	const tripsDataQuery = getTripsByUserIdQuery(String(userId));
+	const { data, error } = await tripsDataQuery;
 
-// _______________________________________________________________
-// This is (obivously) utils for interacting with the DB w.r.t Trips
-// Not sure yet if I'll put TripOptions stuff in here or another file; probably another file
-// _______________________________________________________________
+	if (error) {
+		throw new Error("Error fetching trips data: " + error.message);
+	}
 
-/**Returns a supabase sql-type statement to get all of a user's Trips
- * This doesn't get a Trip's TripOptions; another function (to be written) will get those and combine it with this Trip
+	// TODO IMPORTANT: Add TripOptions to this or somewhere
+	return data as unknown as Trip[];
+}
+
+/**
+ * Check that Trips data returned from the DB is valid
+ * This should never be an issue since it's validated before getting  to DB in the first place.
+ *
+ * @param data trips data returned from the DB
+ *
+ * @returns true if the data is valid, false otherwise
  */
-export const getTripsByUserIdQuery = async (userId: string) => {
-	const supabase = await createClientSSROnly();
-	return supabase.from("trips").select("*").eq("userid", userId);
-};
+// const validateTrips = (data: unknown): data is Trip[] => {
+// 	const isValidTrip = TripSchema.safeParse(data);
 
-/**Returns a supabase sql-type statement to get a single Trip by its id
- * Doesn't get a Trip's TripOptions; another function will get those and combine it with this where neeed
- */
-export const getSingleTripByIdQuery = async (tripId: number) => {
-	const supabase = await createClientSSROnly();
-	return supabase.from("trips").select("*").eq("id", tripId);
-};
+// 	return isValidTrip.error ? false : true;
+// };
