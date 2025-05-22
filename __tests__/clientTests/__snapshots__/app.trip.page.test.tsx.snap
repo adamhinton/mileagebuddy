@@ -2,8 +2,17 @@
 
 exports[`TripPage matches snapshot from 4.30.2025 1`] = `
 <div>
-  <h1>
-    Placeholder
-  </h1>
+  <div>
+    <button
+      style="margin: 20px; padding: 10px;"
+    >
+      Test Fetch Trips by User ID
+    </button>
+    <button
+      style="margin: 20px; padding: 10px;"
+    >
+      Test Fetch Trip by ID
+    </button>
+  </div>
 </div>
 `;
