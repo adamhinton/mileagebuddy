@@ -170,11 +170,7 @@ VALUES
 -- Trip 2: Road Trip to National Park
 INSERT INTO trips ("userID", "tripsOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "departureDate", "returnDate", "localDrivingDistanceMiles", "createdAt", "updatedAt")
 SELECT id, 2, 'Road Trip to National Park', 'Yellowstone National Park', 'Denver, CO', 'Annual family vacation.', 'LONG_DISTANCE', 1000, '2024-07-15', '2024-07-22', 200, NOW(), NOW()
-<<<<<<< HEAD
 FROM auth.users WHERE email = 'adam.d.hinton@gmail.com' LIMIT 1;
-=======
-FROM new_user LIMIT 1;
->>>>>>> 2a81f6f6d17d347b6f3981429356c25db2f58c1f
 
 INSERT INTO trip_options ("tripID", "vehicleID", name, notes, "transportMode", "parkingCosts", "tollCosts", "additionalCosts")
 VALUES
@@ -202,11 +198,7 @@ VALUES
 -- Trip 4: Visit Family Cross-Country
 INSERT INTO trips ("userID", "tripsOrder", name, destination, origin, notes, "tripType", "roundTripDrivingDistanceMiles", "departureDate", "returnDate", "localDrivingDistanceMiles", "createdAt", "updatedAt")
 SELECT id, 4, 'Visit Family Cross-Country', 'Chicago, IL', 'New York, NY', 'Thanksgiving holiday.', 'LONG_DISTANCE', 1600, '2024-11-20', '2024-11-28', 50, NOW(), NOW()
-<<<<<<< HEAD
 FROM auth.users WHERE email = 'adam.d.hinton@gmail.com' LIMIT 1;
-=======
-FROM new_user LIMIT 1;
->>>>>>> 2a81f6f6d17d347b6f3981429356c25db2f58c1f
 
 INSERT INTO trip_options ("tripID", "vehicleID", name, notes, "transportMode", "parkingCosts", "tollCosts", "additionalCosts")
 VALUES
