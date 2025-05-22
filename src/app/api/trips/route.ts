@@ -40,13 +40,16 @@ export async function GET(request: Request) {
 
 	try {
 		if (tripID) {
-			// Fetch details of a single vehicle by its ID
+			// Fetch details of a single Trip by its ID
 			/**
-			 * Will be an array with one vehicle if vehicle exists in db, or empty array if vehicle isn't in db
+			 * Will be an array with one Trip if Trip exists in db, or empty array if Trip isn't in db
 			 */
 			// TODO about to implemenet getSingleTripById
 			// const arrayWithSingleTrip = await getSingleTripById(Number(tripID));
-			const arrayWithSingleTrip = getSingleTripById(supabase, Number(tripID));
+			const arrayWithSingleTrip = await getSingleTripById(
+				supabase,
+				Number(tripID)
+			);
 
 			if (arrayWithSingleTrip.length === 0) {
 				return NextResponse.json(
@@ -57,7 +60,7 @@ export async function GET(request: Request) {
 
 			return NextResponse.json(arrayWithSingleTrip, { status: 200 });
 		} else {
-			// VehicleId not specified, so get all trips for userID
+			// TripId not specified, so get all trips for userID
 			// TODO instate getTripsByUser - coming up shortly
 			const trips = await getTripsByUser(supabase, userID);
 			return NextResponse.json(trips, { status: 200 });

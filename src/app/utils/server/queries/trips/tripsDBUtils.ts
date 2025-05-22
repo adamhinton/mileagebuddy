@@ -38,7 +38,7 @@ export async function getSingleTripById(
 
 	// TODO IMPORTANT: Add TripOptions to this or somewhere
 	// Then validate the data with zod
-	return [data[0]] ? ([data[0]] as unknown as [Trip]) : [];
+	return data[0] ? [data[0] as unknown as Trip] : [];
 }
 
 /**
