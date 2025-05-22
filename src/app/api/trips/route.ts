@@ -1,6 +1,7 @@
 // Use server is default, but just for clarity
 "use server";
 
+import { getTripsByUser } from "@/app/utils/server/queries/trips/tripsDBUtils";
 // _______________________________________________________________
 // This is the endpoint for CRUD operations on a user's Trips.
 
@@ -41,7 +42,8 @@ export async function GET(request: Request) {
 			 * Will be an array with one vehicle if vehicle exists in db, or empty array if vehicle isn't in db
 			 */
 			// TODO about to implemenet getSingleTripById
-			const arrayWithSingleTrip = await getSingleTripById(Number(tripID));
+			// const arrayWithSingleTrip = await getSingleTripById(Number(tripID));
+			const arrayWithSingleTrip = "placeholder TODO";
 
 			if (arrayWithSingleTrip.length === 0) {
 				return NextResponse.json(
