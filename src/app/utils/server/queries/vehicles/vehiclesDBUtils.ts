@@ -111,7 +111,7 @@ async function getVehiclesByUser(
 	const { data, error } = await vehiclesDataQuery;
 
 	if (error) {
-		throw new Error("Error fetching vehicle data in TEST: " + error.message);
+		throw new Error("Error fetching vehicle data: " + error.message);
 	}
 
 	return data as unknown as Vehicles;
