@@ -1,7 +1,6 @@
 "use server";
 
-import { QueryData } from "@supabase/supabase-js";
-import { createClientSSROnly } from "../supabase/server";
+import { createClientSSROnly } from "../../supabase/server";
 import { stringForJoiningVehicleTables } from "./vehiclesDBUtils";
 
 // README
@@ -22,4 +21,3 @@ export const getSingleVehicleByIdQuery = async (vehicleId: number) => {
 		.select(stringForJoiningVehicleTables)
 		.eq("id", vehicleId);
 };
-export type VehicleFromDB = QueryData<typeof getSingleVehicleByIdQuery>;

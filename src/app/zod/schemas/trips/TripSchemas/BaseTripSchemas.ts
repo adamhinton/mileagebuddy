@@ -125,3 +125,5 @@ export const UserIdSchema = z.string().uuid();
  * Defining an ID schema for consistency because this will be used in several places
  */
 export const TripIDSchema = z.string().uuid();
+
+export const TripsArraySchema = z.array(TripSchema);

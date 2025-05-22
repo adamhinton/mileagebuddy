@@ -275,6 +275,117 @@ export type Database = {
           },
         ]
       }
+      trip_options: {
+        Row: {
+          additionalCosts: number | null
+          id: number
+          name: string
+          notes: string | null
+          parkingCosts: number | null
+          tollCosts: number | null
+          transportationCostAtDestination: number | null
+          transportationCostToDestination: number | null
+          transportationType: string | null
+          transportMode: string
+          tripID: number
+          vehicleID: number | null
+        }
+        Insert: {
+          additionalCosts?: number | null
+          id?: number
+          name: string
+          notes?: string | null
+          parkingCosts?: number | null
+          tollCosts?: number | null
+          transportationCostAtDestination?: number | null
+          transportationCostToDestination?: number | null
+          transportationType?: string | null
+          transportMode: string
+          tripID: number
+          vehicleID?: number | null
+        }
+        Update: {
+          additionalCosts?: number | null
+          id?: number
+          name?: string
+          notes?: string | null
+          parkingCosts?: number | null
+          tollCosts?: number | null
+          transportationCostAtDestination?: number | null
+          transportationCostToDestination?: number | null
+          transportationType?: string | null
+          transportMode?: string
+          tripID?: number
+          vehicleID?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_trip"
+            columns: ["tripID"]
+            isOneToOne: false
+            referencedRelation: "trips"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_vehicles"
+            columns: ["vehicleID"]
+            isOneToOne: false
+            referencedRelation: "vehicles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trips: {
+        Row: {
+          createdAt: string | null
+          departureDate: string | null
+          destination: string
+          id: number
+          localDrivingDistanceMiles: number | null
+          name: string
+          notes: string | null
+          origin: string | null
+          returnDate: string | null
+          roundTripDrivingDistanceMiles: number | null
+          tripsOrder: number
+          tripType: string
+          updatedAt: string | null
+          userID: string
+        }
+        Insert: {
+          createdAt?: string | null
+          departureDate?: string | null
+          destination: string
+          id?: number
+          localDrivingDistanceMiles?: number | null
+          name: string
+          notes?: string | null
+          origin?: string | null
+          returnDate?: string | null
+          roundTripDrivingDistanceMiles?: number | null
+          tripsOrder: number
+          tripType: string
+          updatedAt?: string | null
+          userID: string
+        }
+        Update: {
+          createdAt?: string | null
+          departureDate?: string | null
+          destination?: string
+          id?: number
+          localDrivingDistanceMiles?: number | null
+          name?: string
+          notes?: string | null
+          origin?: string | null
+          returnDate?: string | null
+          roundTripDrivingDistanceMiles?: number | null
+          tripsOrder?: number
+          tripType?: string
+          updatedAt?: string | null
+          userID?: string
+        }
+        Relationships: []
+      }
       usage: {
         Row: {
           averageDailyMiles: number
@@ -519,17 +630,11 @@ export type Database = {
         Returns: number
       }
       update_vehicle: {
-        Args: {
-          _vehicleid: number
-          _partialdata: Json
-        }
+        Args: { _vehicleid: number; _partialdata: Json }
         Returns: undefined
       }
       update_vehicles_order: {
-        Args: {
-          _userid: string
-          _vehicle_orders: Json
-        }
+        Args: { _userid: string; _vehicle_orders: Json }
         Returns: undefined
       }
     }

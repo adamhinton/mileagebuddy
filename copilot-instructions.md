@@ -9,6 +9,7 @@ GENERAL INSTRUCTIONS:
 -TS types should always represent valid states
 -Use unions of interfaces rather than interfaces of unions
 -I love discriminated unions
+-I want best practices. Boring, established, the same thing a million other devs have done. I'm not reinventing the wheel.
 
 Code:
 -Clean, readable, maintainable. Well-documented and commented. I don't comment obvious stuff, but I explain logic and unclear ideas.

@@ -12,7 +12,7 @@ import {
 	VehicleSchemaForPATCH,
 } from "./app/utils/server/types/VehicleTypes/PATCHVehicleTypes";
 import { updateSession } from "./app/utils/server/supabase/middleware";
-import { getSingleVehicleById } from "./app/utils/server/queries/vehiclesDBUtils";
+import { getSingleVehicleById } from "./app/utils/server/queries/vehicles/vehiclesDBUtils";
 import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {

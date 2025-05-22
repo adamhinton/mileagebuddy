@@ -3,13 +3,13 @@
 // As opposed to GetVehiclesQueries.ts in the same folder, which contains the strings of the db queries for GET
 
 import { SupabaseClient } from "@supabase/supabase-js";
-import { Vehicle, Vehicles } from "../types/VehicleTypes/GetVehicleTypes";
+import { Vehicle, Vehicles } from "../../types/VehicleTypes/GetVehicleTypes";
 import {
 	getSingleVehicleByIdQuery,
 	getVehiclesByUserIdQuery,
 } from "./GetVehiclesQueries";
 import { NextResponse } from "next/server";
-import { Vehicle_For_db_POST } from "../types/VehicleTypes/POSTVehicleTypes";
+import { Vehicle_For_db_POST } from "../../types/VehicleTypes/POSTVehicleTypes";
 
 /**
  * The string we use in our select statement to get vehicles
@@ -111,7 +111,7 @@ async function getVehiclesByUser(
 	const { data, error } = await vehiclesDataQuery;
 
 	if (error) {
-		throw new Error("Error fetching vehicle data in TEST: " + error.message);
+		throw new Error("Error fetching vehicle data: " + error.message);
 	}
 
 	return data as unknown as Vehicles;

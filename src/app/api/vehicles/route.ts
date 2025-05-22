@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import VehiclesDBUtils from "@/app/utils/server/queries/vehiclesDBUtils";
+import VehiclesDBUtils from "@/app/utils/server/queries/vehicles/vehiclesDBUtils";
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
 import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 import { Vehicle_For_db_POST } from "@/app/utils/server/types/VehicleTypes/POSTVehicleTypes";
@@ -17,7 +17,12 @@ const {
 // If vehicleid query parameter is passed in, it gets only that vehicle
 // if no vehicleid is passed in, it gets all vehicles for that user
 // Right now userid must be passed in (api/vehicles?userid=1 or optionally, api/vehicles?userid=1&vehicleid=4) but that can be nixed once we get auth set up, since it'll only get vehicles for an authenticated user
-export async function GET(request: Request) {
+// TODO just realized there's no validation on vehicle GET requests - not in middleware or on the endpoint
+// -- Should be fine since it's validated on client, but might as well throw it in
+export async function GET(request: Request): Promise<
+	// TODO STRETCH this return type is a bit messy
+	NextResponse<Vehicle[] | [(Vehicle | undefined)?] | { error: string }>
+> {
 	const supabase = await createClientSSROnly();
 
 	const url = new URL(request.url!);
@@ -56,13 +61,14 @@ export async function GET(request: Request) {
 
 			return NextResponse.json(arrayWithSingleVehicle, { status: 200 });
 		} else {
+			// VehicleId not specified, so get all vehicles for userID
 			const vehicles = await getVehiclesByUser(supabase, userID);
 			return NextResponse.json(vehicles, { status: 200 });
 		}
 	} catch (error) {
 		return NextResponse.json(
 			{
-				error: "Failed to fetch vehicle data" + error,
+				error: "Failed to fetch vehicle data:" + error,
 			},
 			{ status: 500 }
 		);
