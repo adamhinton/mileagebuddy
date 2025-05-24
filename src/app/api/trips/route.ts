@@ -12,6 +12,7 @@ import {
 // _______________________________________________________________
 
 import { createClientSSROnly } from "@/app/utils/server/supabase/server";
+import { Trip } from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
 import { NextResponse } from "next/server";
 
 // Userid is required
@@ -73,4 +74,11 @@ export async function GET(request: Request) {
 			{ status: 500 }
 		);
 	}
+}
+
+export async function POST(
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	request: Request
+): Promise<NextResponse<Trip | { error: string }>> {
+	// TODO middleware validation for POSTed trips
 }
