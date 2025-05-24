@@ -14,6 +14,10 @@ import {
 import { updateSession } from "./app/utils/server/supabase/middleware";
 import { getSingleVehicleById } from "./app/utils/server/queries/vehicles/vehiclesDBUtils";
 import { createServerClient } from "@supabase/ssr";
+import {
+	Trip_For_DB_POST,
+	TripSchemaForPOST,
+} from "./app/zod/schemas/trips/TripSchemas/TripSchemaPOST";
 
 export async function middleware(request: NextRequest) {
 	const supabase = createServerClient(
@@ -120,6 +124,36 @@ export async function middleware(request: NextRequest) {
 		}
 	}
 
+	if (
+		request.method === "POST" &&
+		request.nextUrl.pathname === "/api/vehicles"
+	) {
+		const clonedRequest = request.clone();
+		try {
+			const body = await clonedRequest.json();
+			const isBodyValid = isValidTripPOST(body);
+
+			if (!isBodyValid) {
+				return NextResponse.json(
+					{ error: "Invalid POST Trip input" },
+					{ status: 400 }
+				);
+			}
+
+			// Make sure logged in user's id matches vehicle's userId
+			if (userId !== body.userid) {
+				return NextResponse.json(
+					{ error: "Logged in user's id does not match new trip's userId" },
+					{ status: 400 }
+				);
+			}
+			// The actual db POST will be done in the api/trips/route.ts file
+		} catch (error) {
+			console.error("Error parsing JSON:", error);
+			return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+		}
+	}
+
 	// update user's auth session
 	// Note: I changed utils/supabase/middleware.ts per supabase docs. If something goes wrong here, see that file.
 	// supabase.com/docs/guides/auth/server-side/nextjs
@@ -158,5 +192,10 @@ const isValidVehiclePatch = (
 	vehicle: unknown
 ): vehicle is Vehicle_For_db_PATCH => {
 	const isSafe = VehicleSchemaForPATCH.safeParse(vehicle);
+	return isSafe.success;
+};
+
+const isValidTripPOST = (trip: unknown): trip is Trip_For_DB_POST => {
+	const isSafe = TripSchemaForPOST.safeParse(trip);
 	return isSafe.success;
 };
