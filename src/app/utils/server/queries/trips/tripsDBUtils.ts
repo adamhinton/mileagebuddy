@@ -3,10 +3,9 @@ import {
 	getSingleTripByIdQuery,
 	getTripsByUserIdQuery,
 } from "./getTripsQueries";
-import {
-	Trip,
-	TripSchema,
-} from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
+import { Trip } from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
+import { Trip_For_DB_POST } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaPOST";
+import { NextResponse } from "next/server";
 
 export async function getTripsByUser(
 	supabase: SupabaseClient,
@@ -42,15 +41,28 @@ export async function getSingleTripById(
 }
 
 /**
- * Check that Trips data returned from the DB is valid
- * This should never be an issue since it's validated before getting  to DB in the first place.
+ * Attemps to add a new Trip to the DB
  *
- * @param data trips data returned from the DB
+ * Note, TripOptions are added separately
  *
- * @returns true if the data is valid, false otherwise
+ * Returns the new Trip if successful, and an error if unsuccessful
+ *
+ * Zod validation of body has already been done on both client and server
  */
-// const validateTrips = (data: unknown): data is Trip[] => {
-// 	const isValidTrip = TripSchema.safeParse(data);
-
-// 	return isValidTrip.error ? false : true;
-// };
+export const addNewTripToDB = async (
+	body: Trip_For_DB_POST,
+	supabase: SupabaseClient
+): Promise<NextResponse<Trip | { error: string }>> => {
+	// No sql function because this is simple; jsut use supabase client
+	const { data, error } = await supabase
+		.from("trips")
+		.insert([body])
+		.select()
+		.single();
+	if (error) {
+		throw new Error("Error adding trip to DB: " + error.message);
+	}
+	// TODO IMPORTANT: Add TripOptions to this or somewhere
+	// Then validate the data with zod
+	return NextResponse.json(data, { status: 200 });
+};

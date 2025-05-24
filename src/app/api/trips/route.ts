@@ -2,6 +2,7 @@
 "use server";
 
 import {
+	addNewTripToDB,
 	getSingleTripById,
 	getTripsByUser,
 } from "@/app/utils/server/queries/trips/tripsDBUtils";
@@ -13,6 +14,7 @@ import {
 
 import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 import { Trip } from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
+import { Trip_For_DB_POST } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaPOST";
 import { NextResponse } from "next/server";
 
 // Userid is required
@@ -77,8 +79,15 @@ export async function GET(request: Request) {
 }
 
 export async function POST(
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	request: Request
 ): Promise<NextResponse<Trip | { error: string }>> {
-	// TODO middleware validation for POSTed trips
+	const supabase = await createClientSSROnly();
+
+	// Middleware has already validated this Trip and checked that its user id matches authenticated user
+	const body: Trip_For_DB_POST = await request.json();
+
+	// TODO addNewTripToDB
+	const response = await addNewTripToDB(body, supabase);
+
+	return response;
 }
