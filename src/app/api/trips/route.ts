@@ -86,8 +86,15 @@ export async function POST(
 	// Middleware has already validated this Trip and checked that its user id matches authenticated user
 	const body: Trip_For_DB_POST = await request.json();
 
+	// Separate out tripOptions from the body
+	// This endpoint is only for adding a Trip, not TripOptions
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { tripOptions, ...tripDataToInsert } = body;
+
 	// TODO addNewTripToDB
-	const response = await addNewTripToDB(body, supabase);
+	// @ts-expect-error this type expects TripOptions but those are added in another endpoint
+	const response = await addNewTripToDB(tripDataToInsert, supabase);
 
 	return response;
 }
