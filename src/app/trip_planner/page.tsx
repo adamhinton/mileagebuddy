@@ -4,6 +4,7 @@ import fakeTestTrips from "../utils/unitTestUtils/fakeTestTrips";
 
 // TRIPS TODO: Middleware route protection
 
+// __________________________________________________________________________________
 // This is the page the user goes to to create a new Trip.
 // It houses TripCreationForm.tsx
 // __________________________________________________________________________________
@@ -14,6 +15,7 @@ const TripCreationPage = () => {
 
 	return (
 		<div>
+			{/* Dummy testing button for dev */}
 			<button
 				onClick={async () => {
 					const testUserId = "0488323f-5e5c-4bb2-b188-75bdaf6eb527"; // From seed.sql
@@ -34,6 +36,7 @@ const TripCreationPage = () => {
 				Test Fetch Trips by User ID
 			</button>
 
+			{/* Dummy testing button for dev */}
 			<button
 				onClick={async () => {
 					const testUserId = "0488323f-5e5c-4bb2-b188-75bdaf6eb527"; // From seed.sql
