@@ -3,10 +3,7 @@ import {
 	getSingleTripByIdQuery,
 	getTripsByUserIdQuery,
 } from "./getTripsQueries";
-import {
-	Trip,
-	TripSchema,
-} from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
+import { Trip } from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
 
 export async function getTripsByUser(
 	supabase: SupabaseClient,
