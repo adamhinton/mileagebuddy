@@ -15,7 +15,7 @@ import { z } from "zod";
  * This will be combined with long distance schema to make a single schema for PATCH requests
  */
 const ShortDistanceTripSchemaForPATCH = ShortDistanceTripSchema.extend({
-	userid: UserIdSchema,
+	userID: UserIdSchema,
 	tripID: TripIDSchema,
 });
 
@@ -23,7 +23,7 @@ const ShortDistanceTripSchemaForPATCH = ShortDistanceTripSchema.extend({
  * This will be combined with short distance schema to make a single schema for PATCH requests
  */
 const LongDistanceTripSchemaForPATCH = LongDistanceTripSchema.extend({
-	userid: UserIdSchema,
+	userID: UserIdSchema,
 	tripID: TripIDSchema,
 });
 
