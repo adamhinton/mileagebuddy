@@ -153,3 +153,57 @@ export async function PATCH(
 	// TODO validate this Trip in middleware or in client function
 	return NextResponse.json(data as unknown as Trip, { status: 200 });
 }
+
+// TODO middleware to verify DELETEd trip belongs to authenticated user
+/**
+ * Deletes a Trip by its ID. Also cascades to delete all TripOptions associated with that Trip.
+ * @returns the success message or an error if the Trip was not found or deletion failed.
+ * @throws 400 if tripid is not provided
+ * @throws 404 if the Trip with the specified ID does not exist
+ * @throws 500 if there is an error during the deletion process
+ * @example DELETE /api/trips?tripid=2348
+ */
+export async function DELETE(
+	request: Request
+): Promise<NextResponse<{ message: string } | { error: string }>> {
+	const supabase = await createClientSSROnly();
+
+	const url = new URL(request.url!);
+	const tripID = url.searchParams.get("tripid");
+
+	if (!tripID) {
+		return NextResponse.json(
+			{
+				error:
+					"tripid is required. Must be formatted like: /api/trips?tripid=2348",
+			},
+			{ status: 400 }
+		);
+	}
+
+	const { data, error } = await supabase
+		.from("trips")
+		.delete()
+		.eq("id", Number(tripID))
+		.select("*")
+		.single();
+
+	if (error) {
+		return NextResponse.json(
+			{ error: "Failed to delete trip:" + error },
+			{ status: 500 }
+		);
+	}
+
+	if (!data) {
+		return NextResponse.json(
+			{ error: `Trip with id ${tripID} not found` },
+			{ status: 404 }
+		);
+	}
+
+	return NextResponse.json(
+		{ message: `Trip with id ${tripID} deleted successfully` },
+		{ status: 200 }
+	);
+}

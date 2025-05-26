@@ -138,6 +138,39 @@ const TripCreationPage = () => {
 				Patch Test Trip (ID: 1 with Random Data)
 			</button>
 
+			{/* Dummy test button to DELETE Trip with id 1 */}
+			<button
+				onClick={async () => {
+					const tripIdToDelete = 1; // Assuming this trip exists for testing
+					try {
+						const response = await fetch(
+							`/api/trips?tripid=${tripIdToDelete}`,
+							{
+								method: "DELETE",
+							}
+						);
+						if (!response.ok) {
+							const errorData = await response.json();
+							console.error(
+								`Error deleting trip (ID: ${tripIdToDelete}):`,
+								response.status,
+								errorData
+							);
+						} else {
+							console.log(`Trip (ID: ${tripIdToDelete}) deleted successfully.`);
+						}
+					} catch (error) {
+						console.error(
+							`Failed to make DELETE request for trip (ID: ${tripIdToDelete}):`,
+							error
+						);
+					}
+				}}
+				style={{ margin: "20px", padding: "10px" }}
+			>
+				Delete Trip (ID: 1)
+			</button>
+
 			{/* <TripCreationOrEditForm mode="newTrip" schema={TripSchemaForPOST} /> */}
 		</div>
 	);
