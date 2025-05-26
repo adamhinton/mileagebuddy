@@ -13,7 +13,7 @@ import {
 	removeAllVehicles,
 	setVehicles,
 } from "@/redux/reducers/vehiclesReducer";
-import { getVehiclesByUserIDClient } from "../utils/server/client/DBInteractions/VehiclesDBInteractions";
+import { getVehiclesByUserIDClient } from "../utils/client/DBInteractions/VehiclesDBInteractions";
 import { redirect } from "next/navigation";
 
 interface AuthWatcherProps {
