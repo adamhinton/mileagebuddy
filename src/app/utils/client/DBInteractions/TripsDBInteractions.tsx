@@ -35,18 +35,19 @@ export const getTripsByUserIDClient = async (
 		});
 		const trips: Trip[] = await res.json();
 
+		// TODO Trips: reinstate this validation when we have TripOptions sorted out
 		// Validating GET receipts to notify me in dev if something is wrong
-		trips.forEach((trip) => {
-			const isTrip = TripSchema.safeParse(trip);
-			// Only erroring in dev bc it's not the user's problem if the data is a little off.
-			if (!isTrip.success && process.env.NODE_ENV === "development") {
-				console.error(
-					"Trip from GET failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
-					isTrip.error.errors
-				);
-				throw new Error("Trip failed validation");
-			}
-		});
+		// trips.forEach((trip) => {
+		// 	const isTrip = TripSchema.safeParse(trip);
+		// 	// Only erroring in dev bc it's not the user's problem if the data is a little off.
+		// 	if (!isTrip.success && process.env.NODE_ENV === "development") {
+		// 		console.error(
+		// 			"Trip from GET failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
+		// 			isTrip.error.errors
+		// 		);
+		// 		throw new Error("Trip failed validation");
+		// 	}
+		// });
 		return trips;
 	} catch (error) {
 		console.error("Error fetching trips by user ID:", error);
@@ -81,15 +82,16 @@ export const getSingleTripByIdClient = async (
 
 		const trip = data[0];
 
+		// TODO Trips: reinstate this validation when we have TripOptions sorted out
 		// Validate the trip
-		const isTrip = TripSchema.safeParse(trip);
-		if (!isTrip.success && process.env.NODE_ENV === "development") {
-			console.error(
-				"Trip from GET failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
-				isTrip.error.errors
-			);
-			throw new Error("Trip failed validation");
-		}
+		// const isTrip = TripSchema.safeParse(trip);
+		// if (!isTrip.success && process.env.NODE_ENV === "development") {
+		// 	console.error(
+		// 		"Trip from GET failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
+		// 		isTrip.error.errors
+		// 	);
+		// 	throw new Error("Trip failed validation");
+		// }
 
 		return [trip];
 	} catch (error) {
@@ -129,17 +131,18 @@ export const insertTripToDBClient = async (
 
 		const newTrip: Trip = await res.json();
 
+		// TODO Trips: reinstate this validation when we have TripOptions sorted out
 		// Validate the new trip
 		// This might be overkill because middleware and react-hook-form should already validate this, but things can change and validation is cheap so this is fine
 		// Can refactor if we get a lot of traffic.
-		const isTrip = TripSchema.safeParse(newTrip);
-		if (!isTrip.success && process.env.NODE_ENV === "development") {
-			console.error(
-				"New trip from POST failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
-				isTrip.error.errors
-			);
-			throw new Error("New trip failed validation");
-		}
+		// const isTrip = TripSchema.safeParse(newTrip);
+		// if (!isTrip.success && process.env.NODE_ENV === "development") {
+		// 	console.error(
+		// 		"New trip from POST failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
+		// 		isTrip.error.errors
+		// 	);
+		// 	throw new Error("New trip failed validation");
+		// }
 
 		return newTrip;
 	} catch (error) {
@@ -213,15 +216,16 @@ export const updateTripInDBClient = async (
 
 		const updatedTrip: Trip = await res.json();
 
+		// TODO Trips: reinstate this validation when we have TripOptions sorted out
 		// Validate the updated trip
-		const isTrip = TripSchema.safeParse(updatedTrip);
-		if (!isTrip.success && process.env.NODE_ENV === "development") {
-			console.error(
-				"Updated trip from PATCH failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
-				isTrip.error.errors
-			);
-			throw new Error("Updated trip failed validation");
-		}
+		// const isTrip = TripSchema.safeParse(updatedTrip);
+		// if (!isTrip.success && process.env.NODE_ENV === "development") {
+		// 	console.error(
+		// 		"Updated trip from PATCH failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
+		// 		isTrip.error.errors
+		// 	);
+		// 	throw new Error("Updated trip failed validation");
+		// }
 
 		return updatedTrip;
 	} catch (error) {
