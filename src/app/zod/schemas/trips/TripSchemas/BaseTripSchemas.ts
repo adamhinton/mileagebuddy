@@ -74,7 +74,8 @@ export const _BaseTripSchema = z.object({
 	tripOptions: z
 		.array(TripOptionSchema)
 		.describe("Trip options")
-		.max(50, "Max 50 trip options"),
+		.max(50, "Max 50 trip options")
+		.optional(),
 });
 
 /**
