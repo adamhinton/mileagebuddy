@@ -141,7 +141,7 @@ export async function middleware(request: NextRequest) {
 			}
 
 			// Make sure logged in user's id matches vehicle's userId
-			if (userId !== body.userid) {
+			if (userId !== body.userID) {
 				return NextResponse.json(
 					{ error: "Logged in user's id does not match new trip's userId" },
 					{ status: 400 }

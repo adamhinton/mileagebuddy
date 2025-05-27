@@ -169,7 +169,6 @@ const generateDynamicDummyTripForPatch = (): Trip_For_DB_PATCH => {
 		timeZoneName: "short",
 	});
 
-	// @ts-expect-error tripoptions missing is fine
 	return {
 		tripID: "a1b2c3d4-e5f6-7890-1234-567890abcdef", // Dummy UUID for schema compliance
 		userID: "0488323f-5e5c-4bb2-b188-75bdaf6eb527", // User ID from seed.sql

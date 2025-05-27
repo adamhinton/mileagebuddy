@@ -89,7 +89,6 @@ export async function POST(
 	const { tripOptions, ...tripDataToInsert } = body;
 
 	// TODO addNewTripToDB
-	// @ts-expect-error this type expects TripOptions but those are added in another endpoint
 	const response = await addNewTripToDB(tripDataToInsert, supabase);
 
 	return response;
