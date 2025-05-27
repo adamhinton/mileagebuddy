@@ -1,3 +1,8 @@
+// _____________________________________________________________________________
+// This is the Vehicle API endpoint
+// Performs CRUD operations on user's Vehicles
+// _____________________________________________________________________________
+
 import { NextResponse } from "next/server";
 import VehiclesDBUtils from "@/app/utils/server/queries/vehicles/vehiclesDBUtils";
 import { Vehicle } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";
