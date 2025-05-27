@@ -151,4 +151,34 @@ describe("GET /api/trips", () => {
 
 		expect(responseData).toEqual([]);
 	});
+
+	it("Should return an error if user id not provided", async () => {
+		const mockSupabase: jest.Mock = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnThis(),
+			eq: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(callback({ data: [], error: null }));
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({ from: mockSupabase });
+
+		const request = {
+			url: "http://localhost:3000/api/trips",
+		} as NextRequest;
+
+		const response = await GET({
+			...request,
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextRequest);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual({
+			error:
+				"userid is required. Must be formatted like: /api/trips?userid=2348. Or, optionally, api/trips?userid=1234&tripid=2348",
+		});
+	});
 });

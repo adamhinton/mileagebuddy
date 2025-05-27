@@ -19,8 +19,8 @@ import { Trip_For_DB_POST } from "@/app/zod/schemas/trips/TripSchemas/TripSchema
 import { NextResponse } from "next/server";
 
 // Userid is required
-// If tripid query param is passed in, it gets only that vehicle
-// If no tripid is passed in, it gets all vehicles for that user
+// If tripid query param is passed in, it gets only that trip
+// If no tripid is passed in, it gets all trips for that user
 // Note that you have to call api/trips/tripoptions to get TripOptions
 
 // TODO validate trips from GET; either in middleware or in GET function
@@ -34,7 +34,7 @@ export async function GET(request: Request) {
 		return NextResponse.json(
 			{
 				error:
-					"userid is required. Must be formatted like: /api/trips?userid=2348. Or, optionally, api/vehicles?userid=1234&tripid=2348",
+					"userid is required. Must be formatted like: /api/trips?userid=2348. Or, optionally, api/trips?userid=1234&tripid=2348",
 			},
 			{ status: 400 }
 		);

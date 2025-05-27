@@ -173,7 +173,7 @@ describe("GET /api/vehicles", () => {
 		expect(mockSupabase().eq).toHaveBeenCalledWith("id", 1);
 	});
 
-	it("Should return an error on invalid user id", async () => {
+	it("Should return an error if user id not provided", async () => {
 		const mockSupabase: jest.Mock = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnThis(),
 			eq: jest.fn().mockReturnThis(),
