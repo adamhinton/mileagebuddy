@@ -52,7 +52,7 @@ export async function GET(request: Request) {
 
 			if (arrayWithSingleTrip.length === 0) {
 				return NextResponse.json(
-					{ error: `trip with id ${tripID} not found` },
+					{ error: `Trip with id ${tripID} not found` },
 					{ status: 404 }
 				);
 			}

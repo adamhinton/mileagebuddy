@@ -102,4 +102,30 @@ describe("GET /api/trips", () => {
 		expect(mockSupabase().select).toHaveBeenCalledWith("*");
 		expect(mockSupabase().eq).toHaveBeenCalledWith("id", 1);
 	});
+
+	it("Throws 404 error if provided tripid does not exist", async () => {
+		const mockSupabase: jest.Mock = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnThis(),
+			eq: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				// If it returns an empty array (data:[]), it means the trip was not found
+				return Promise.resolve(callback({ data: [], error: null }));
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({
+			from: mockSupabase,
+		});
+
+		const request = {
+			url: "http://localhost:3000/api/trips?userid=1&tripid=9999",
+		} as unknown as NextRequest;
+		const response = await GET(request);
+		const responseData = (await response.json()) as unknown as {
+			error: string;
+		};
+		console.log("responseData:", responseData);
+		expect(response.status).toBe(404);
+		expect(responseData.error).toBe("Trip with id 9999 not found");
+	});
 });
