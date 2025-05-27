@@ -72,4 +72,34 @@ describe("GET /api/trips", () => {
 
 		expect(responseData).toEqual(mockTrips);
 	});
+
+	it("Should return an array with one trip when called with /tripss?userid=x&tripid=y", async () => {
+		const mockSupabase: jest.Mock = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnThis(),
+			eq: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(callback({ data: [mockTrips[0]], error: null }));
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({
+			from: mockSupabase,
+		});
+
+		const response = await GET({
+			url: "http://localhost:3000/api/trips?userid=1&tripid=1",
+			query: {},
+			cookies: {},
+			body: {},
+			env: {},
+		} as unknown as NextRequest);
+
+		const responseData = (await response.json()) as unknown as Trip[];
+
+		expect(responseData).toHaveLength(1);
+		expect(responseData[0]).toEqual(mockTrips[0]);
+		expect(mockSupabase).toHaveBeenCalledWith("trips");
+		expect(mockSupabase().select).toHaveBeenCalledWith("*");
+		expect(mockSupabase().eq).toHaveBeenCalledWith("id", 1);
+	});
 });
