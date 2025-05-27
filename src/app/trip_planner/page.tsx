@@ -1,9 +1,16 @@
 "use client";
 
+import {
+	getSingleTripByIdClient,
+	getTripsByUserIDClient,
+	insertTripToDBClient,
+} from "../utils/client/DBInteractions/TripsDBInteractions";
 import fakeTestTrips from "../utils/unitTestUtils/fakeTestTrips";
 import { Trip_For_DB_PATCH } from "../zod/schemas/trips/TripSchemas/TripSchemaForPatch";
+import { Trip_For_DB_POST } from "../zod/schemas/trips/TripSchemas/TripSchemaPOST";
 
 // TRIPS TODO: Middleware route protection
+// TODO: DB helper functions for this route
 
 // __________________________________________________________________________________
 // This is the page the user goes to to create a new Trip.
@@ -20,17 +27,8 @@ const TripCreationPage = () => {
 			<button
 				onClick={async () => {
 					const testUserId = "0488323f-5e5c-4bb2-b188-75bdaf6eb527"; // From seed.sql
-					try {
-						const response = await fetch(`/api/trips?userid=${testUserId}`);
-						const data = await response.json();
-						console.log("Fetched trips by user ID:", data);
-						if (!response.ok) {
-							console.error("Error fetching trips:", response.status, data);
-							alert(`Error: ${data.error || response.statusText}`);
-						}
-					} catch (error) {
-						console.error("Failed to fetch trips:", error);
-					}
+					const trips = await getTripsByUserIDClient(testUserId);
+					console.log("trips:", trips);
 				}}
 				style={{ margin: "20px", padding: "10px" }}
 			>
@@ -40,19 +38,9 @@ const TripCreationPage = () => {
 			{/* Dummy testing button for dev */}
 			<button
 				onClick={async () => {
-					const testUserId = "0488323f-5e5c-4bb2-b188-75bdaf6eb527"; // From seed.sql
-					try {
-						const response = await fetch(
-							`/api/trips?userid=${testUserId}&tripid=1`
-						);
-						const data = await response.json();
-						console.log("Fetched trip by ID:", data);
-						if (!response.ok) {
-							console.error("Error fetching trip:", response.status, data);
-						}
-					} catch (error) {
-						console.error("Failed to fetch trip:", error);
-					}
+					const response = await getSingleTripByIdClient(2);
+
+					console.log("Fetched trip by ID:", response);
 				}}
 				style={{ margin: "20px", padding: "10px" }}
 			>
@@ -72,25 +60,10 @@ const TripCreationPage = () => {
 						userID: CURRENT_USER_ID,
 					};
 
-					try {
-						const response = await fetch("/api/trips", {
-							method: "POST",
-							headers: {
-								"Content-Type": "application/json",
-							},
-							body: JSON.stringify(payload),
-						});
-
-						const result = await response.json();
-
-						if (!response.ok) {
-							console.error("Error posting trip:", response.status, result);
-						} else {
-							console.log("Trip posted successfully:", result);
-						}
-					} catch (error) {
-						console.error("Failed to make POST request:", error);
-					}
+					const trip = await insertTripToDBClient(
+						payload as unknown as Trip_For_DB_POST
+					);
+					console.log("Trip created successfully:", trip);
 				}}
 				style={{ margin: "20px", padding: "10px" }}
 			>
@@ -100,7 +73,7 @@ const TripCreationPage = () => {
 			{/* PATCH Test Trip Button with randomized data*/}
 			<button
 				onClick={async () => {
-					const tripToUpdateId = 1;
+					const tripToUpdateId = 4;
 					const dynamicPayload = generateDynamicDummyTripForPatch();
 					try {
 						const response = await fetch(
@@ -141,7 +114,7 @@ const TripCreationPage = () => {
 			{/* Dummy test button to DELETE Trip with id 1 */}
 			<button
 				onClick={async () => {
-					const tripIdToDelete = 1; // Assuming this trip exists for testing
+					const tripIdToDelete = 3;
 					try {
 						const response = await fetch(
 							`/api/trips?tripid=${tripIdToDelete}`,
@@ -168,7 +141,7 @@ const TripCreationPage = () => {
 				}}
 				style={{ margin: "20px", padding: "10px" }}
 			>
-				Delete Trip (ID: 1)
+				{`Delete Trip)`}
 			</button>
 
 			{/* <TripCreationOrEditForm mode="newTrip" schema={TripSchemaForPOST} /> */}

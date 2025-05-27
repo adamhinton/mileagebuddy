@@ -25,8 +25,6 @@ import { NextResponse } from "next/server";
 
 // TODO validate trips from GET; either in middleware or in GET function
 export async function GET(request: Request) {
-	const supabase = await createClientSSROnly();
-
 	const url = new URL(request.url!);
 
 	const userID = url.searchParams.get("userid");
@@ -50,10 +48,7 @@ export async function GET(request: Request) {
 			 */
 			// TODO about to implemenet getSingleTripById
 			// const arrayWithSingleTrip = await getSingleTripById(Number(tripID));
-			const arrayWithSingleTrip = await getSingleTripById(
-				supabase,
-				Number(tripID)
-			);
+			const arrayWithSingleTrip = await getSingleTripById(Number(tripID));
 
 			if (arrayWithSingleTrip.length === 0) {
 				return NextResponse.json(
@@ -66,7 +61,7 @@ export async function GET(request: Request) {
 		} else {
 			// TripId not specified, so get all trips for userID
 			// TODO instate getTripsByUser - coming up shortly
-			const trips = await getTripsByUser(supabase, userID);
+			const trips = await getTripsByUser(userID);
 			return NextResponse.json(trips, { status: 200 });
 		}
 	} catch (error) {

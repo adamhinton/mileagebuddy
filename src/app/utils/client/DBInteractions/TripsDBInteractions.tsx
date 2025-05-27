@@ -1,9 +1,6 @@
 "use client";
 
-import {
-	Trip,
-	TripSchema,
-} from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
+import { Trip } from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
 import { Trip_For_DB_PATCH } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaForPatch";
 import { Trip_For_DB_POST } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaPOST";
 
@@ -70,11 +67,20 @@ export const getSingleTripByIdClient = async (
 	tripId: number
 ): Promise<[Trip] | []> => {
 	try {
-		const res = await fetch(`/api/trips?tripid=${tripId}`, {
-			method: "GET",
-			headers: { accept: "application/json" },
-		});
+		// const res = await fetch(`/api/trips?tripid=${tripId}`, {
+		// 	method: "GET",
+		// 	headers: { accept: "application/json" },
+		// });
+		// Refactor the above to use our test userid
+		const res = await fetch(
+			`/api/trips?userid=0488323f-5e5c-4bb2-b188-75bdaf6eb527&tripid=${tripId}`,
+			{
+				method: "GET",
+				headers: { accept: "application/json" },
+			}
+		);
 		const data = await res.json();
+		console.log("data:", data);
 
 		if (!Array.isArray(data) || data.length === 0) {
 			return [];

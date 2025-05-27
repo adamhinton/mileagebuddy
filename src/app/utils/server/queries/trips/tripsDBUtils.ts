@@ -7,10 +7,7 @@ import { Trip } from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
 import { Trip_For_DB_POST } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaPOST";
 import { NextResponse } from "next/server";
 
-export async function getTripsByUser(
-	supabase: SupabaseClient,
-	userId: string
-): Promise<Trip[]> {
+export async function getTripsByUser(userId: string): Promise<Trip[]> {
 	const tripsDataQuery = getTripsByUserIdQuery(String(userId));
 	const { data, error } = await tripsDataQuery;
 
@@ -25,10 +22,7 @@ export async function getTripsByUser(
 
 /**Returns an array with a single Trip if that trip id exists, or an empty array if Trip id doesn't exist */
 // TODO: User id validation - shouldn't be necessary bc of protected routes etc, but double check our security anyway
-export async function getSingleTripById(
-	supabase: SupabaseClient,
-	tripId: number
-): Promise<[Trip] | []> {
+export async function getSingleTripById(tripId: number): Promise<[Trip] | []> {
 	const tripDataQuery = getSingleTripByIdQuery(tripId);
 	const { data, error } = await tripDataQuery;
 	if (error) {
