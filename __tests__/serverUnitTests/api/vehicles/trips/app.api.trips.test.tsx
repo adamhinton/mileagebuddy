@@ -128,4 +128,27 @@ describe("GET /api/trips", () => {
 		expect(response.status).toBe(404);
 		expect(responseData.error).toBe("Trip with id 9999 not found");
 	});
+
+	it("Should return an empty array if no trips are found for the user", async () => {
+		const mockSupabase: jest.Mock = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnThis(),
+			eq: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(callback({ data: [], error: null }));
+			}),
+		});
+
+		(createClientSSROnly as jest.Mock).mockReturnValue({
+			from: mockSupabase,
+		});
+
+		const request = {
+			url: "http://localhost:3000/api/trips?userid=9999",
+		} as unknown as NextRequest;
+
+		const response = await GET(request);
+		const responseData = (await response.json()) as unknown as Trip[];
+
+		expect(responseData).toEqual([]);
+	});
 });
