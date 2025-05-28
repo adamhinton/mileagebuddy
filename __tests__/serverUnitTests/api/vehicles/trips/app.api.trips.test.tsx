@@ -3,7 +3,7 @@
 // api/trips
 // Route found at src/app/api/trips/route.ts
 
-import { GET } from "@/app/api/trips/route";
+import { GET, POST } from "@/app/api/trips/route";
 import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 import { Trip } from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
 import { NextRequest } from "next/server";
@@ -31,20 +31,20 @@ jest.mock("next/server", () => ({
 	},
 }));
 
-describe("GET /api/trips", () => {
-	const mockTrips: Trip[] = [
-		// Trip 1: Short distance, no TripOptions
-		{
-			name: "Weekend Getaway to Napa",
-			destination: "Napa Valley, CA",
-			origin: "San Francisco, CA",
-			notes: "Wine tasting trip with friends.",
-			tripType: "SHORT_DISTANCE",
-			roundTripDrivingDistanceMiles: 100,
-			tripsOrder: 1,
-		},
-	];
+const mockTrips: Trip[] = [
+	// Trip 1: Short distance, no TripOptions
+	{
+		name: "Weekend Getaway to Napa",
+		destination: "Napa Valley, CA",
+		origin: "San Francisco, CA",
+		notes: "Wine tasting trip with friends.",
+		tripType: "SHORT_DISTANCE",
+		roundTripDrivingDistanceMiles: 100,
+		tripsOrder: 1,
+	},
+];
 
+describe("GET /api/trips", () => {
 	beforeEach(() => {
 		jest.clearAllMocks();
 
@@ -183,4 +183,34 @@ describe("GET /api/trips", () => {
 	});
 });
 
-describe("POST /api/trips", () => {});
+describe("POST /api/trips", () => {
+	it("Should create a Trip then return the created trip", async () => {
+		const mockInsertTrip = jest
+			.fn()
+			.mockResolvedValue({ data: 1, error: null });
+
+		const mockSupabase = {
+			from: jest.fn().mockReturnValue({
+				insert: mockInsertTrip,
+				select: jest.fn().mockReturnThis(),
+				eq: jest.fn().mockReturnThis(),
+			}),
+		};
+
+		(createClientSSROnly as jest.Mock).mockReturnValue(mockSupabase);
+
+		const request = {
+			json: jest.fn().mockResolvedValue(mockTrips[0]),
+			url: "http://localhost:3000/api/trips",
+			method: "POST",
+			body: mockTrips[0],
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await POST(request);
+		const responseData = await response.json();
+
+		const createdTrip = mockTrips[0];
+		expect(responseData).toEqual(createdTrip);
+	});
+});
