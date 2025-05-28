@@ -217,4 +217,43 @@ describe("POST /api/trips", () => {
 		const createdTrip = mockTrips[0];
 		expect(responseData).toEqual(createdTrip);
 	});
+
+	// There are a lot of required fields, we won't test all of them here, just spot-check
+	it("Should throw an error if submitted without required fields", async () => {
+		const mockInsertTripWithoutAllFields = {
+			name: "Weekend Getaway to Napa",
+			destination: "Napa Valley, CA",
+			origin: "San Francisco, CA",
+		};
+
+		const mockSupabase = {
+			from: jest.fn().mockReturnValue({
+				insert: jest.fn().mockReturnThis(),
+				select: jest.fn().mockReturnThis(),
+				eq: jest.fn().mockReturnThis(),
+				single: jest.fn().mockReturnThis(),
+				then: jest.fn().mockImplementation((callback) => {
+					return Promise.resolve(
+						callback({ data: null, error: { message: "Missing required fields" } })
+					);
+				}
+			}),
+		};
+		(createClientSSROnly as jest.Mock).mockReturnValue(mockSupabase);
+		const request = {
+			json: jest.fn().mockResolvedValue(mockInsertTripWithoutAllFields),
+			url: "http://localhost:3000/api/trips",
+			method: "POST",
+			body: mockInsertTripWithoutAllFields,
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await POST(request);
+		const responseData = await response.json();
+		expect(response.status).toBe(400);
+		expect(responseData).toEqual({
+			error:
+				"Missing required fields"
+		});
+	});
 });
