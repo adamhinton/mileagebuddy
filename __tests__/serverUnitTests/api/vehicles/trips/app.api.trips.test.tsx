@@ -185,9 +185,13 @@ describe("GET /api/trips", () => {
 
 describe("POST /api/trips", () => {
 	it("Should create a Trip then return the created trip", async () => {
-		const mockInsertTrip = jest
-			.fn()
-			.mockResolvedValue({ data: 1, error: null });
+		const mockInsertTrip = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnThis(),
+			single: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(callback({ data: mockTrips[0], error: null }));
+			}),
+		});
 
 		const mockSupabase = {
 			from: jest.fn().mockReturnValue({
