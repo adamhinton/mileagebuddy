@@ -182,3 +182,5 @@ describe("GET /api/trips", () => {
 		});
 	});
 });
+
+describe("POST /api/trips", () => {});
