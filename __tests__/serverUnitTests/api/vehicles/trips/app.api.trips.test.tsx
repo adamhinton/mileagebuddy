@@ -183,6 +183,7 @@ describe("GET /api/trips", () => {
 	});
 });
 
+// TODO: More Trips POST tests when we have validation in place. One of tehse tests has already been written, but is skipped.
 describe("POST /api/trips", () => {
 	it("Should create a Trip then return the created trip", async () => {
 		const mockInsertTrip = jest.fn().mockReturnValue({
@@ -301,4 +302,32 @@ describe("POST /api/trips", () => {
 		expect(responseData).toEqual(longDistanceTrip);
 		expect(mockInsertTrip).toHaveBeenCalledWith([longDistanceTrip]);
 	});
+
+	// Unskip this when we have validation in place
+	it.skip("Should reject POST request with 400 if trip data is invalid", async () => {
+		const invalidTrip = {
+			name: "Invalid Trip",
+			destination: "Nowhere",
+			origin: "Somewhere",
+			notes: "This trip has no tripType.",
+			// Missing tripType, which is required
+			roundTripDrivingDistanceMiles: 50,
+			tripsOrder: 1,
+		};
+
+		const request = {
+			json: jest.fn().mockResolvedValue(invalidTrip),
+			url: "http://localhost:3000/api/trips",
+			method: "POST",
+			body: invalidTrip,
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await POST(request);
+		expect(response.status).toBe(400);
+		const responseData = await response.json();
+		expect(responseData.error).toBe("Invalid trip data provided");
+	});
 });
+
+describe("PATCH /api/trips", () => {});
