@@ -218,42 +218,87 @@ describe("POST /api/trips", () => {
 		expect(responseData).toEqual(createdTrip);
 	});
 
-	// There are a lot of required fields, we won't test all of them here, just spot-check
-	it("Should throw an error if submitted without required fields", async () => {
-		const mockInsertTripWithoutAllFields = {
-			name: "Weekend Getaway to Napa",
-			destination: "Napa Valley, CA",
-			origin: "San Francisco, CA",
-		};
+	// TODO STRETCH: tests for POST with missing fields
+
+	it("Should insert short distance trip without errors", async () => {
+		const mockInsertTrip = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnThis(),
+			single: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(callback({ data: mockTrips[0], error: null }));
+			}),
+		});
 
 		const mockSupabase = {
 			from: jest.fn().mockReturnValue({
-				insert: jest.fn().mockReturnThis(),
+				insert: mockInsertTrip,
 				select: jest.fn().mockReturnThis(),
 				eq: jest.fn().mockReturnThis(),
-				single: jest.fn().mockReturnThis(),
-				then: jest.fn().mockImplementation((callback) => {
-					return Promise.resolve(
-						callback({ data: null, error: { message: "Missing required fields" } })
-					);
-				}
 			}),
 		};
+
 		(createClientSSROnly as jest.Mock).mockReturnValue(mockSupabase);
+
 		const request = {
-			json: jest.fn().mockResolvedValue(mockInsertTripWithoutAllFields),
+			json: jest.fn().mockResolvedValue(mockTrips[0]),
 			url: "http://localhost:3000/api/trips",
 			method: "POST",
-			body: mockInsertTripWithoutAllFields,
+			body: mockTrips[0],
 			headers: { "Content-Type": "application/json" },
 		} as unknown as NextRequest;
 
 		const response = await POST(request);
 		const responseData = await response.json();
-		expect(response.status).toBe(400);
-		expect(responseData).toEqual({
-			error:
-				"Missing required fields"
+
+		expect(responseData).toEqual(mockTrips[0]);
+		expect(mockInsertTrip).toHaveBeenCalledWith([mockTrips[0]]);
+	});
+
+	it("Should insert a long distance trip without errors", async () => {
+		const longDistanceTrip: Trip = {
+			name: "Cross-Country Road Trip",
+			destination: "New York, NY",
+			origin: "Los Angeles, CA",
+			notes: "Epic road trip across the country.",
+			tripType: "LONG_DISTANCE",
+			roundTripDrivingDistanceMiles: 3000,
+			tripsOrder: 1,
+			departureDate: new Date(),
+			localDrivingDistanceMiles: 100,
+		};
+
+		const mockInsertTrip = jest.fn().mockReturnValue({
+			select: jest.fn().mockReturnThis(),
+			single: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(
+					callback({ data: longDistanceTrip, error: null })
+				);
+			}),
 		});
+
+		const mockSupabase = {
+			from: jest.fn().mockReturnValue({
+				insert: mockInsertTrip,
+				select: jest.fn().mockReturnThis(),
+				eq: jest.fn().mockReturnThis(),
+			}),
+		};
+
+		(createClientSSROnly as jest.Mock).mockReturnValue(mockSupabase);
+
+		const request = {
+			json: jest.fn().mockResolvedValue(longDistanceTrip),
+			url: "http://localhost:3000/api/trips",
+			method: "POST",
+			body: longDistanceTrip,
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await POST(request);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual(longDistanceTrip);
+		expect(mockInsertTrip).toHaveBeenCalledWith([longDistanceTrip]);
 	});
 });
