@@ -3,7 +3,7 @@
 // api/trips
 // Route found at src/app/api/trips/route.ts
 
-import { GET, POST } from "@/app/api/trips/route";
+import { GET, PATCH, POST } from "@/app/api/trips/route";
 import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 import { Trip } from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
 import { NextRequest } from "next/server";
@@ -41,6 +41,18 @@ const mockTrips: Trip[] = [
 		tripType: "SHORT_DISTANCE",
 		roundTripDrivingDistanceMiles: 100,
 		tripsOrder: 1,
+	},
+	// Trip 2: Long distance, with TripOptions
+	{
+		name: "Cross-Country Road Trip",
+		destination: "New York, NY",
+		origin: "Los Angeles, CA",
+		notes: "Epic road trip across the country.",
+		tripType: "LONG_DISTANCE",
+		roundTripDrivingDistanceMiles: 3000,
+		tripsOrder: 2,
+		departureDate: new Date(),
+		localDrivingDistanceMiles: 100,
 	},
 ];
 
@@ -330,4 +342,166 @@ describe("POST /api/trips", () => {
 	});
 });
 
-describe("PATCH /api/trips", () => {});
+// TODO more PATCH tests when we have validation in place
+describe("PATCH /api/trips", () => {
+	it("Should update existing short distance Trip by id and return the updated trip", async () => {
+		const updatedTrip: Trip = {
+			...mockTrips[0],
+			name: "Updated Weekend Getaway to Napa",
+			notes: "Updated notes for the trip.",
+		};
+
+		const mockUpdateTrip = jest.fn().mockReturnValue({
+			eq: jest.fn().mockReturnThis(),
+			select: jest.fn().mockReturnThis(),
+			single: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(callback({ data: updatedTrip, error: null }));
+			}),
+		});
+
+		const mockSupabase = {
+			from: jest.fn().mockReturnValue({
+				update: mockUpdateTrip,
+				select: jest.fn().mockReturnThis(),
+				eq: jest.fn().mockReturnThis(),
+			}),
+		};
+
+		(createClientSSROnly as jest.Mock).mockReturnValue(mockSupabase);
+
+		const request = {
+			json: jest.fn().mockResolvedValue(updatedTrip),
+			url: "http://localhost:3000/api/trips?userid=1&tripid=1",
+			method: "PATCH",
+			body: updatedTrip,
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await PATCH(request);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual(updatedTrip);
+		expect(mockUpdateTrip).toHaveBeenCalledWith(updatedTrip);
+	});
+
+	it("Should update existing long distance Trip by id and return the updated trip", async () => {
+		const updatedTrip: Trip = {
+			...mockTrips[1],
+			name: "Updated Cross-Country Road Trip",
+			notes: "Updated notes for the long distance trip.",
+		};
+
+		const mockUpdateTrip = jest.fn().mockReturnValue({
+			eq: jest.fn().mockReturnThis(),
+			select: jest.fn().mockReturnThis(),
+			single: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(callback({ data: updatedTrip, error: null }));
+			}),
+		});
+
+		const mockSupabase = {
+			from: jest.fn().mockReturnValue({
+				update: mockUpdateTrip,
+				select: jest.fn().mockReturnThis(),
+				eq: jest.fn().mockReturnThis(),
+			}),
+		};
+
+		(createClientSSROnly as jest.Mock).mockReturnValue(mockSupabase);
+
+		const request = {
+			json: jest.fn().mockResolvedValue(updatedTrip),
+			url: "http://localhost:3000/api/trips?userid=1&tripid=2",
+			method: "PATCH",
+			body: updatedTrip,
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await PATCH(request);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual(updatedTrip);
+		expect(mockUpdateTrip).toHaveBeenCalledWith(updatedTrip);
+	});
+
+	it("Should return 404 if trip with given id does not exist", async () => {
+		const mockUpdateTrip = jest.fn().mockReturnValue({
+			eq: jest.fn().mockReturnThis(),
+			select: jest.fn().mockReturnThis(),
+			single: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(callback({ data: null, error: null }));
+			}),
+		});
+
+		const mockSupabase = {
+			from: jest.fn().mockReturnValue({
+				update: mockUpdateTrip,
+				select: jest.fn().mockReturnThis(),
+				eq: jest.fn().mockReturnThis(),
+			}),
+		};
+
+		(createClientSSROnly as jest.Mock).mockReturnValue(mockSupabase);
+
+		const request = {
+			json: jest.fn().mockResolvedValue(mockTrips[0]),
+			url: "http://localhost:3000/api/trips?userid=1&tripid=9999",
+			method: "PATCH",
+			body: mockTrips[0],
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await PATCH(request);
+		expect(response.status).toBe(404);
+		const responseData = await response.json();
+		expect(responseData.error).toBe("Trip with id 9999 not found");
+	});
+
+	// Reinstate this test when we have validation in place
+	it.skip("Should return 400 if trip data is invalid", async () => {
+		const invalidTrip = {
+			name: "Invalid Trip",
+			destination: "Nowhere",
+			origin: "Somewhere",
+			notes: "This trip has no tripType.",
+			// Missing tripType, which is required
+			roundTripDrivingDistanceMiles: 50,
+			tripsOrder: 1,
+		};
+
+		const request = {
+			json: jest.fn().mockResolvedValue(invalidTrip),
+			url: "http://localhost:3000/api/trips?userid=1&tripid=1",
+			method: "PATCH",
+			body: invalidTrip,
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await PATCH(request);
+		expect(response.status).toBe(400);
+		const responseData = await response.json();
+		expect(responseData.error).toBe("Invalid trip data provided");
+	});
+
+	it.only("Should throw error if trip id is missing", async () => {
+		const request = {
+			json: jest.fn().mockResolvedValue(mockTrips[0]),
+			url: "http://localhost:3000/api/trips",
+			method: "PATCH",
+			body: mockTrips[0],
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await PATCH(request);
+		console.log("response:", response);
+		const responseData = await response.json();
+		expect(responseData.status).toBe(400);
+		console.log("responseData:", responseData);
+		expect(responseData.error).toBe(
+			"tripid is required. Must be formatted like: /api/trips?tripid=2348"
+		);
+	});
+});
