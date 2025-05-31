@@ -3,11 +3,10 @@
 // api/trips
 // Route found at src/app/api/trips/route.ts
 
-import { GET, PATCH, POST } from "@/app/api/trips/route";
+import { DELETE, GET, PATCH, POST } from "@/app/api/trips/route";
 import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 import { Trip } from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
 import { NextRequest } from "next/server";
-import { mock } from "node:test";
 
 // This file is for UNIT tests. It tests API endpoint logic with dummy data, doesn't interact with an actual DB.
 // See README in servertests/serverunit tests for more info.
@@ -509,31 +508,83 @@ describe("PATCH /api/trips", () => {
 
 describe("DELETE /api/trips", () => {
 	it("Should delete a trip by id and return the deleted trip", async () => {
+		const mockDeleteTrip = jest.fn().mockReturnValue({
+			eq: jest.fn().mockReturnThis(),
+			select: jest.fn().mockReturnThis(),
+			single: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(callback({ data: mockTrips[0], error: null }));
+			}),
+		});
 		const mockSupabase = {
-			// from delete eq select single
 			from: jest.fn().mockReturnValue({
-				delete: jest.fn().mockReturnValue({
-					eq: jest.fn().mockReturnValue({
-						select: jest.fn().mockResolvedValue({
-							data: mockTrips[0],
-							error: null,
-						}),
-					}),
-				}),
+				delete: mockDeleteTrip,
+				select: jest.fn().mockReturnThis(),
+				eq: jest.fn().mockReturnThis(),
 			}),
 		};
 
 		(createClientSSROnly as jest.Mock).mockReturnValue(mockSupabase);
 
 		const request = {
-			url: "http://localhost:3000/api/trips?userid=1&tripid=1",
+			url: "http://localhost:3000/api/trips?tripid=1",
 			method: "DELETE",
 			headers: { "Content-Type": "application/json" },
 		} as unknown as NextRequest;
 
-		const response = await GET(request);
+		const response = await DELETE(request);
 		const responseData = await response.json();
 
-		expect(responseData).toEqual(mockTrips[0]);
+		expect(responseData).toEqual({
+			message: "Trip with id 1 deleted successfully",
+		});
+	});
+
+	it("Should reject calls without a tripid", async () => {
+		const request = {
+			url: "http://localhost:3000/api/trips",
+			method: "DELETE",
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await DELETE(request);
+		const responseData = await response.json();
+
+		expect(response.status).toBe(400);
+		expect(responseData.error).toBe(
+			"tripid is required. Must be formatted like: /api/trips?tripid=2348"
+		);
+	});
+
+	it("Should throw 404 if trip with given id does not exist", async () => {
+		const mockDeleteTrip = jest.fn().mockReturnValue({
+			eq: jest.fn().mockReturnThis(),
+			select: jest.fn().mockReturnThis(),
+			single: jest.fn().mockReturnThis(),
+			then: jest.fn().mockImplementation((callback) => {
+				return Promise.resolve(callback({ data: null, error: null }));
+			}),
+		});
+
+		const mockSupabase = {
+			from: jest.fn().mockReturnValue({
+				delete: mockDeleteTrip,
+				select: jest.fn().mockReturnThis(),
+				eq: jest.fn().mockReturnThis(),
+			}),
+		};
+
+		(createClientSSROnly as jest.Mock).mockReturnValue(mockSupabase);
+
+		const request = {
+			url: "http://localhost:3000/api/trips?tripid=9999",
+			method: "DELETE",
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await DELETE(request);
+		expect(response.status).toBe(404);
+		const responseData = await response.json();
+		expect(responseData.error).toBe("Trip with id 9999 not found");
 	});
 });
