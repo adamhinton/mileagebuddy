@@ -7,6 +7,7 @@ import { GET, PATCH, POST } from "@/app/api/trips/route";
 import { createClientSSROnly } from "@/app/utils/server/supabase/server";
 import { Trip } from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
 import { NextRequest } from "next/server";
+import { mock } from "node:test";
 
 // This file is for UNIT tests. It tests API endpoint logic with dummy data, doesn't interact with an actual DB.
 // See README in servertests/serverunit tests for more info.
@@ -506,4 +507,33 @@ describe("PATCH /api/trips", () => {
 	});
 });
 
-describe("DELETE /api/trips", () => {});
+describe("DELETE /api/trips", () => {
+	it("Should delete a trip by id and return the deleted trip", async () => {
+		const mockSupabase = {
+			// from delete eq select single
+			from: jest.fn().mockReturnValue({
+				delete: jest.fn().mockReturnValue({
+					eq: jest.fn().mockReturnValue({
+						select: jest.fn().mockResolvedValue({
+							data: mockTrips[0],
+							error: null,
+						}),
+					}),
+				}),
+			}),
+		};
+
+		(createClientSSROnly as jest.Mock).mockReturnValue(mockSupabase);
+
+		const request = {
+			url: "http://localhost:3000/api/trips?userid=1&tripid=1",
+			method: "DELETE",
+			headers: { "Content-Type": "application/json" },
+		} as unknown as NextRequest;
+
+		const response = await GET(request);
+		const responseData = await response.json();
+
+		expect(responseData).toEqual(mockTrips[0]);
+	});
+});
