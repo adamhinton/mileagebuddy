@@ -486,7 +486,7 @@ describe("PATCH /api/trips", () => {
 		expect(responseData.error).toBe("Invalid trip data provided");
 	});
 
-	it.only("Should throw error if trip id is missing", async () => {
+	it("Should throw error if trip id is missing", async () => {
 		const request = {
 			json: jest.fn().mockResolvedValue(mockTrips[0]),
 			url: "http://localhost:3000/api/trips",
@@ -505,3 +505,5 @@ describe("PATCH /api/trips", () => {
 		);
 	});
 });
+
+describe("DELETE /api/trips", () => {});
