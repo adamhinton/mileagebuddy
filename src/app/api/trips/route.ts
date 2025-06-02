@@ -60,7 +60,6 @@ export async function GET(request: Request) {
 			return NextResponse.json(arrayWithSingleTrip, { status: 200 });
 		} else {
 			// TripId not specified, so get all trips for userID
-			// TODO instate getTripsByUser - coming up shortly
 			const trips = await getTripsByUser(userID);
 			return NextResponse.json(trips, { status: 200 });
 		}
