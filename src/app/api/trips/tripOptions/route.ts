@@ -5,6 +5,8 @@ import {
 	getSingleTripOptionById,
 	getTripOptionsByTripID,
 } from "@/app/utils/server/queries/tripOptions/tripOptionsDBUtils";
+import { createClientSSROnly } from "@/app/utils/server/supabase/server";
+import { TripOption } from "@/app/zod/schemas/trips/TripSchemas/TripOptionSchemas/BaseTripOptionSchemas";
 import { NextResponse } from "next/server";
 
 // _______________________________________________________________
@@ -13,7 +15,9 @@ import { NextResponse } from "next/server";
 // Each Trip can have multiple TripOptions. Trips are handled in api/trips/route.ts. You have to call that endpoint as well to get an actual Trip.
 // _______________________________________________________________
 
-export async function GET(request: Request) {
+export async function GET(
+	request: Request
+): Promise<NextResponse<TripOption[]> | NextResponse<{ error: string }>> {
 	const url = new URL(request.url!);
 
 	// Get all TripOptions for a Trip
@@ -57,6 +61,51 @@ export async function GET(request: Request) {
 		return NextResponse.json(
 			{
 				error: "Failed to fetch trip data:" + error,
+			},
+			{ status: 500 }
+		);
+	}
+	return NextResponse.json(
+		{ error: "Unexpected error occurred" },
+		{ status: 500 }
+	);
+}
+
+// TODO middleware to verify DELETEd TripOption exists and belongs to logged in user
+export async function DELETE(request: Request) {
+	const url = new URL(request.url!);
+	const tripOptionID = url.searchParams.get("tripoptionid");
+
+	if (!tripOptionID) {
+		return NextResponse.json(
+			{ error: "tripoptionid is required for deletion" },
+			{ status: 400 }
+		);
+	}
+
+	try {
+		// Just delete trip here, we don't need a helper function
+		const supabase = await createClientSSROnly();
+		const { error } = await supabase
+			.from("trip_options")
+			.delete()
+			.eq("id", Number(tripOptionID));
+
+		if (error) {
+			return NextResponse.json(
+				{ error: "Failed to delete trip option: " + error.message },
+				{ status: 500 }
+			);
+		}
+
+		return NextResponse.json(
+			{ message: `TripOption with id ${tripOptionID} deleted successfully` },
+			{ status: 200 }
+		);
+	} catch (error) {
+		return NextResponse.json(
+			{
+				error: "Failed to delete trip option:" + error,
 			},
 			{ status: 500 }
 		);

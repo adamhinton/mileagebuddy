@@ -24,7 +24,9 @@ import { NextResponse } from "next/server";
 // Note that you have to call api/trips/tripoptions to get TripOptions
 
 // TODO validate trips from GET; either in middleware or in GET function
-export async function GET(request: Request) {
+export async function GET(
+	request: Request
+): Promise<NextResponse<Trip[] | { error: string }>> {
 	const url = new URL(request.url!);
 
 	const userID = url.searchParams.get("userid");
