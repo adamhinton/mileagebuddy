@@ -112,6 +112,7 @@ export async function DELETE(request: Request) {
 	}
 }
 
+// TODO middleware to verify POSTed TripOption exists and belongs to logged in user
 export async function POST(request: Request): Promise<
 	NextResponse<
 		| {
@@ -146,7 +147,13 @@ export async function POST(request: Request): Promise<
 		}
 
 		return NextResponse.json(
-			{ message: "Trip option created successfully", tripOption: data },
+			{
+				message: "Trip option created successfully",
+				// Not sure this is right
+				// Middleware will have validated that it's a TripOption (once I write the middleware)
+				// So we'll know if this doesn't work before pushing to prod
+				tripOption: data as unknown as TripOption,
+			},
 			{ status: 201 }
 		);
 	} catch (error) {
