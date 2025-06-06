@@ -113,6 +113,7 @@ export async function DELETE(request: Request) {
 }
 
 // TODO middleware to verify POSTed TripOption exists and belongs to logged in user
+// TODO make sure this return object is how we want it structured
 export async function POST(request: Request): Promise<
 	NextResponse<
 		| {
