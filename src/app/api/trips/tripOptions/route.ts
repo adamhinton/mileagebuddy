@@ -111,3 +111,50 @@ export async function DELETE(request: Request) {
 		);
 	}
 }
+
+export async function POST(request: Request): Promise<
+	NextResponse<
+		| {
+				message: string;
+				tripOption: TripOption;
+		  }
+		| { error: string }
+	>
+> {
+	try {
+		const supabase = await createClientSSROnly();
+		const body = await request.json();
+
+		if (!body.trip_id) {
+			return NextResponse.json(
+				{ error: "trip_id and name are required" },
+				{ status: 400 }
+			);
+		}
+
+		const { data, error } = await supabase
+			.from("trip_options")
+			.insert(body)
+			.select("*")
+			.single();
+
+		if (error) {
+			return NextResponse.json(
+				{ error: "Failed to create trip option: " + error.message },
+				{ status: 500 }
+			);
+		}
+
+		return NextResponse.json(
+			{ message: "Trip option created successfully", tripOption: data },
+			{ status: 201 }
+		);
+	} catch (error) {
+		return NextResponse.json(
+			{
+				error: "Failed to create trip option:" + error,
+			},
+			{ status: 500 }
+		);
+	}
+}
