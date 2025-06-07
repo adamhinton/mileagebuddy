@@ -151,3 +151,42 @@ export async function POST(
 		);
 	}
 }
+
+export async function PATCH(
+	request: Request
+): Promise<NextResponse<TripOption | { error: string }>> {
+	try {
+		const supabase = await createClientSSROnly();
+		const body = await request.json();
+
+		if (!body.id) {
+			return NextResponse.json(
+				{ error: "id is required to update a trip option" },
+				{ status: 400 }
+			);
+		}
+
+		const { data, error } = await supabase
+			.from("trip_options")
+			.update(body)
+			.eq("id", body.id)
+			.select("*")
+			.single();
+
+		if (error) {
+			return NextResponse.json(
+				{ error: "Failed to update trip option: " + error.message },
+				{ status: 500 }
+			);
+		}
+
+		return NextResponse.json(data as unknown as TripOption, { status: 200 });
+	} catch (error) {
+		return NextResponse.json(
+			{
+				error: "Failed to update trip option:" + error,
+			},
+			{ status: 500 }
+		);
+	}
+}
