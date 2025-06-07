@@ -112,17 +112,11 @@ export async function DELETE(request: Request) {
 	}
 }
 
-// TODO middleware to verify POSTed TripOption exists and belongs to logged in user
+// TODO middleware to verify POSTed TripOption exists, is valid and belongs to logged in user
 // TODO make sure this return object is how we want it structured
-export async function POST(request: Request): Promise<
-	NextResponse<
-		| {
-				message: string;
-				tripOption: TripOption;
-		  }
-		| { error: string }
-	>
-> {
+export async function POST(
+	request: Request
+): Promise<NextResponse<TripOption | { error: string }>> {
 	try {
 		const supabase = await createClientSSROnly();
 		const body = await request.json();
@@ -146,17 +140,8 @@ export async function POST(request: Request): Promise<
 				{ status: 500 }
 			);
 		}
-
-		return NextResponse.json(
-			{
-				message: "Trip option created successfully",
-				// Not sure this is right
-				// Middleware will have validated that it's a TripOption (once I write the middleware)
-				// So we'll know if this doesn't work before pushing to prod
-				tripOption: data as unknown as TripOption,
-			},
-			{ status: 201 }
-		);
+		// Middleware will have validated the TripOption before this point
+		return NextResponse.json(data as unknown as TripOption, { status: 201 });
 	} catch (error) {
 		return NextResponse.json(
 			{
