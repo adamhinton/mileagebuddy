@@ -13,6 +13,8 @@ import { NextResponse } from "next/server";
 // This is the endpoint for CRUD operations on TripOptions.
 
 // Each Trip can have multiple TripOptions. Trips are handled in api/trips/route.ts. You have to call that endpoint as well to get an actual Trip.
+
+// TODO docstrings
 // _______________________________________________________________
 
 export async function GET(
