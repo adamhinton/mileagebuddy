@@ -18,6 +18,21 @@ import {
 	Trip_For_DB_POST,
 	TripSchemaForPOST,
 } from "./app/zod/schemas/trips/TripSchemas/TripSchemaPOST";
+import {
+	TripOption_For_DB_POST,
+	TripOptionSchemaForPOST,
+} from "./app/zod/schemas/trips/TripSchemas/TripOptionSchemas/TripOptionSchemaForPost";
+import {
+	TripOption_For_DB_PATCH,
+	TripOptionSchemaForPATCH,
+} from "./app/zod/schemas/trips/TripSchemas/TripOptionSchemas/TripOptionSchemaForPatch";
+
+// Saving strings of path names to avoid typos
+const DASHBOARD_PATH = "/dashboard";
+const CALCULATOR_PATH = "/calculator/";
+const TRIPOPTIONS_API_PATH = "/api/trips/tripOptions";
+const VEHICLES_API_PATH = "/api/vehicles";
+const vehicleEditPathRegex = new RegExp(`^${CALCULATOR_PATH}edit/[0-9]+$`);
 
 export async function middleware(request: NextRequest) {
 	const supabase = createServerClient(
@@ -36,13 +51,13 @@ export async function middleware(request: NextRequest) {
 
 	// Ensure non-authenticated users cannot access /dashboard
 	// Dashboard doesn't show up in Tabs either if user isn't logged in, so this is just a backup
-	if (request.nextUrl.pathname === "/dashboard" && !userId) {
+	if (request.nextUrl.pathname === DASHBOARD_PATH && !userId) {
 		return NextResponse.redirect(new URL("/login", request.url));
 	}
 
 	// On "edit vehicle" page (calculator/vehicle/{vehicleId}), if user is logged in, ensure that the vehicle belongs to the logged in user
 	// Non-loggedin users get their vehicles from localStorage here
-	if (request.nextUrl.pathname.match(/\/calculator\/edit\/[0-9]+/)) {
+	if (request.nextUrl.pathname.match(vehicleEditPathRegex) && userId) {
 		const vehicleId = request.nextUrl.pathname.split("/").pop()!;
 		const vehicleIdNum = Number(vehicleId);
 
@@ -60,7 +75,7 @@ export async function middleware(request: NextRequest) {
 
 	if (
 		request.method === "POST" &&
-		request.nextUrl.pathname === "/api/vehicles"
+		request.nextUrl.pathname === VEHICLES_API_PATH
 	) {
 		const clonedRequest = request.clone();
 
@@ -94,7 +109,7 @@ export async function middleware(request: NextRequest) {
 
 	if (
 		request.method === "PATCH" &&
-		request.nextUrl.pathname === "/api/vehicles"
+		request.nextUrl.pathname === VEHICLES_API_PATH
 	) {
 		const clonedRequest = request.clone();
 
@@ -126,7 +141,7 @@ export async function middleware(request: NextRequest) {
 
 	if (
 		request.method === "POST" &&
-		request.nextUrl.pathname === "/api/vehicles"
+		request.nextUrl.pathname === VEHICLES_API_PATH
 	) {
 		const clonedRequest = request.clone();
 		try {
@@ -148,6 +163,51 @@ export async function middleware(request: NextRequest) {
 				);
 			}
 			// The actual db POST will be done in the api/trips/route.ts file
+		} catch (error) {
+			console.error("Error parsing JSON:", error);
+			return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+		}
+	}
+
+	// TODO verify TripOption middleware is working as intended once we get things spun up
+	// TODO verify TripOptions in middleware belong to authenticated user
+
+	if (
+		request.method === "POST" &&
+		request.nextUrl.pathname === TRIPOPTIONS_API_PATH
+	) {
+		const clonedRequest = request.clone();
+		try {
+			const body = await clonedRequest.json();
+			const isBodyValid = isValidTripOptionPOST(body);
+
+			if (!isBodyValid) {
+				return NextResponse.json(
+					{ error: "Invalid POST TripOption input" },
+					{ status: 400 }
+				);
+			}
+		} catch (error) {
+			console.error("Error parsing JSON:", error);
+			return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
+		}
+	}
+
+	if (
+		request.method === "PATCH" &&
+		request.nextUrl.pathname === TRIPOPTIONS_API_PATH
+	) {
+		const clonedRequest = request.clone();
+		try {
+			const body = await clonedRequest.json();
+			const isBodyValid = isValidTripOptionPATCH(body);
+
+			if (!isBodyValid) {
+				return NextResponse.json(
+					{ error: "Invalid PATCH TripOption input" },
+					{ status: 400 }
+				);
+			}
 		} catch (error) {
 			console.error("Error parsing JSON:", error);
 			return NextResponse.json({ error: "Invalid JSON" }, { status: 400 });
@@ -197,5 +257,19 @@ const isValidVehiclePatch = (
 
 const isValidTripPOST = (trip: unknown): trip is Trip_For_DB_POST => {
 	const isSafe = TripSchemaForPOST.safeParse(trip);
+	return isSafe.success;
+};
+
+const isValidTripOptionPOST = (
+	tripOption: unknown
+): tripOption is TripOption_For_DB_POST => {
+	const isSafe = TripOptionSchemaForPOST.safeParse(tripOption);
+	return isSafe.success;
+};
+
+const isValidTripOptionPATCH = (
+	tripOption: unknown
+): tripOption is TripOption_For_DB_PATCH => {
+	const isSafe = TripOptionSchemaForPATCH.safeParse(tripOption);
 	return isSafe.success;
 };
