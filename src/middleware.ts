@@ -73,6 +73,7 @@ export async function middleware(request: NextRequest) {
 		}
 	}
 
+	// Validate POSTed Vehicle
 	if (
 		request.method === "POST" &&
 		request.nextUrl.pathname === VEHICLES_API_PATH
@@ -107,6 +108,7 @@ export async function middleware(request: NextRequest) {
 		}
 	}
 
+	// Validate PATCHed Vehicle
 	if (
 		request.method === "PATCH" &&
 		request.nextUrl.pathname === VEHICLES_API_PATH
@@ -139,6 +141,7 @@ export async function middleware(request: NextRequest) {
 		}
 	}
 
+	// Validated POSTed Vehicle
 	if (
 		request.method === "POST" &&
 		request.nextUrl.pathname === VEHICLES_API_PATH
@@ -172,6 +175,7 @@ export async function middleware(request: NextRequest) {
 	// TODO verify TripOption middleware is working as intended once we get things spun up
 	// TODO verify TripOptions in middleware belong to authenticated user
 
+	// Validate POSTed TripOption
 	if (
 		request.method === "POST" &&
 		request.nextUrl.pathname === TRIPOPTIONS_API_PATH
@@ -193,6 +197,7 @@ export async function middleware(request: NextRequest) {
 		}
 	}
 
+	// Validate PATCHed TripOption
 	if (
 		request.method === "PATCH" &&
 		request.nextUrl.pathname === TRIPOPTIONS_API_PATH
