@@ -5,6 +5,7 @@ import {
 	addNewTripToDB,
 	getSingleTripById,
 	getTripsByUser,
+	getTripsWithPopulatedOptions,
 } from "@/app/utils/server/queries/trips/tripsDBUtils";
 // _______________________________________________________________
 // This is the endpoint for CRUD operations on a user's Trips.
@@ -62,7 +63,7 @@ export async function GET(
 			return NextResponse.json(arrayWithSingleTrip, { status: 200 });
 		} else {
 			// TripId not specified, so get all trips for userID
-			const trips = await getTripsByUser(userID);
+			const trips = await getTripsWithPopulatedOptions(userID);
 			return NextResponse.json(trips, { status: 200 });
 		}
 	} catch (error) {

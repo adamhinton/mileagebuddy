@@ -15,6 +15,7 @@ import {
 } from "@/redux/reducers/vehiclesReducer";
 import { getVehiclesByUserIDClient } from "../utils/client/DBInteractions/VehiclesDBInteractions";
 import { redirect } from "next/navigation";
+import { getTripsByUserIDClient } from "../utils/client/DBInteractions/TripsDBInteractions";
 
 interface AuthWatcherProps {
 	children: ReactNode;
@@ -45,6 +46,11 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 			}
 		};
 
+		const fetchAndSetTrips = async (userId: string) => {
+			const trips = await getTripsByUserIDClient(userId);
+			console.log("trips:", trips);
+		};
+
 		// Check if there's an initial session on first load
 		const initializeAuth = async () => {
 			const { data } = await supabase.auth.getSession();
@@ -59,6 +65,8 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 					})
 				);
 				await fetchAndSetVehicles(data.session.user.id);
+				const trips = await fetchAndSetTrips(data.session.user.id);
+				console.log("trips:", trips);
 			}
 
 			// Indicate auth is initialized whether user is logged in or not

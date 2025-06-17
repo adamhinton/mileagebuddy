@@ -74,47 +74,49 @@ export const addNewTripToDB = async (
  * Note on performance: This function makes N+1 database calls (1 for all trips, then N for
  * options for each of N trips). If performance becomes an issue for users with many trips,
  * consider implementing a batch fetch for all relevant TripOptions in a single query.
+ *
+ * TODO stretch: Validate this when I'm calling it from AuthWatcher; no way to validate until I'm able to do that.
  */
 export async function getTripsWithPopulatedOptions(
 	userId: string
 ): Promise<Trip_For_DB_PATCH[]> {
-	const baseTrips: Trip[] = await getTripsByUser(userId);
+	const baseTrips: Trip_For_DB_PATCH[] = (await getTripsByUser(
+		userId
+	)) as unknown as Trip_For_DB_PATCH[];
 
 	if (!baseTrips || baseTrips.length === 0) {
 		return [];
 	}
 
-	const populatedTripsPromises = baseTrips.map(
-		async (trip: Trip_For_DB_PATCH) => {
-			// Asserting the presence of id and name due to potential TypeScript inference issues with complex types.
-			// The Trip type definition does include id, and underlying data from getTripsByUser contains it.
-			const tripId = trip.tripID;
-			const tripName = trip.name;
+	const populatedTripsPromises = baseTrips.map(async (trip) => {
+		// Asserting the presence of id and name due to potential TypeScript inference issues with complex types.
+		// The Trip type definition does include id, and underlying data from getTripsByUser contains it.
+		const tripId = trip.tripID;
+		const tripName = trip.name;
 
-			let tripOptions: TripOption[] = [];
-			try {
-				// Ensure tripId is valid before making a DB call
-				if (typeof tripId === "number") {
-					// @ts-expect-error TS expedts this to be a string but I'm not totally sure it'll never be a number
-					tripOptions = await getTripOptionsByTripID(tripId.toString());
-				} else {
-					console.error(
-						`Invalid or missing tripId for trip named '${tripName || "Unnamed Trip"}'. Cannot fetch options.`
-					);
-				}
-			} catch (error) {
+		let tripOptions: TripOption[] = [];
+		try {
+			// Ensure tripId is valid before making a DB call
+			if (typeof tripId === "number") {
+				// @ts-expect-error TS expedts this to be a string but I'm not totally sure it'll never be a number
+				tripOptions = await getTripOptionsByTripID(tripId.toString());
+			} else {
 				console.error(
-					`Failed to fetch trip options for trip '${tripName || "Unnamed Trip"}' (ID: ${tripId}):`,
-					error instanceof Error ? error.message : String(error)
+					`Invalid or missing tripId for trip named '${tripName || "Unnamed Trip"}'. Cannot fetch options.`
 				);
-				// Default to empty options on error for this specific trip to not fail the whole process
 			}
-			return {
-				...trip, // Spread the original trip object
-				tripOptions: tripOptions || [], // Ensure tripOptions is always an array
-			};
+		} catch (error) {
+			console.error(
+				`Failed to fetch trip options for trip '${tripName || "Unnamed Trip"}' (ID: ${tripId}):`,
+				error instanceof Error ? error.message : String(error)
+			);
+			// Default to empty options on error for this specific trip to not fail the whole process
 		}
-	);
+		return {
+			...trip, // Spread the original trip object
+			tripOptions: tripOptions || [], // Ensure tripOptions is always an array
+		};
+	});
 
 	const populatedTrips = await Promise.all(populatedTripsPromises);
 
