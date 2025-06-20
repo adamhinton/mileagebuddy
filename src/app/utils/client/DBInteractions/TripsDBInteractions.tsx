@@ -31,6 +31,7 @@ export const getTripsByUserIDClient = async (
 			headers: { accept: "application/json" },
 		});
 		const trips: Trip[] = await res.json();
+		console.log("trips in getTripsByUserIDClient:", trips);
 
 		// TODO Trips: reinstate this validation when we have TripOptions sorted out
 		// Validating GET receipts to notify me in dev if something is wrong

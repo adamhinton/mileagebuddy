@@ -64,6 +64,7 @@ export async function GET(
 		} else {
 			// TripId not specified, so get all trips for userID
 			const trips = await getTripsWithPopulatedOptions(userID);
+			console.log("trips in GET /api/trips:", trips);
 			return NextResponse.json(trips, { status: 200 });
 		}
 	} catch (error) {

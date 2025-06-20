@@ -91,7 +91,8 @@ export async function getTripsWithPopulatedOptions(
 	const populatedTripsPromises = baseTrips.map(async (trip) => {
 		// Asserting the presence of id and name due to potential TypeScript inference issues with complex types.
 		// The Trip type definition does include id, and underlying data from getTripsByUser contains it.
-		const tripId = trip.tripID;
+		const tripId = trip.id;
+		console.log("tripId in populatedTripsPromises:", tripId);
 		const tripName = trip.name;
 
 		let tripOptions: TripOption[] = [];
@@ -100,6 +101,7 @@ export async function getTripsWithPopulatedOptions(
 			if (typeof tripId === "number") {
 				// @ts-expect-error TS expedts this to be a string but I'm not totally sure it'll never be a number
 				tripOptions = await getTripOptionsByTripID(tripId.toString());
+				console.log("tripOptions in:", tripOptions);
 			} else {
 				console.error(
 					`Invalid or missing tripId for trip named '${tripName || "Unnamed Trip"}'. Cannot fetch options.`
