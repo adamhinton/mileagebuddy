@@ -119,7 +119,7 @@ export async function PATCH(
 	const updatedTripRequestData: Trip_For_DB_PATCH = body;
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { tripID: schemaTripID, ...updatePayload } = updatedTripRequestData;
+	const { id: schemaTripID, ...updatePayload } = updatedTripRequestData;
 
 	// NOTE: For simplicity we're just including all Trip fields in the PATCH
 	// This isn't high-volume enough to worry about performance

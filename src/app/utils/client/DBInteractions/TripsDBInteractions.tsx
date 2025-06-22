@@ -207,7 +207,7 @@ export const updateTripInDBClient = async (
 	trip: Trip_For_DB_PATCH
 ): Promise<Trip | { error: string }> => {
 	try {
-		const res = await fetch(`/api/trips?tripid=${trip.tripID}`, {
+		const res = await fetch(`/api/trips?tripid=${trip.id}`, {
 			method: "PATCH",
 			headers: {
 				"Content-Type": "application/json",

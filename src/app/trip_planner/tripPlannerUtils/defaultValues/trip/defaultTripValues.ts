@@ -91,7 +91,7 @@ export const defaultTripValuesPATCH = (
 				Extract<Trip_For_DB_PATCH, { tripType: "SHORT_DISTANCE" }>
 			>),
 			userID: tripToEdit.userID,
-			tripID: tripToEdit.tripID,
+			id: tripToEdit.id,
 		};
 	} else {
 		// Type assertion for LongDistanceTrip specific fields if any on tripToEdit are needed for defaults
@@ -104,7 +104,7 @@ export const defaultTripValuesPATCH = (
 				Extract<Trip_For_DB_PATCH, { tripType: "LONG_DISTANCE" }>
 			>),
 			userID: longTripToEdit.userID,
-			tripID: longTripToEdit.tripID,
+			id: longTripToEdit.id,
 		};
 	}
 };
