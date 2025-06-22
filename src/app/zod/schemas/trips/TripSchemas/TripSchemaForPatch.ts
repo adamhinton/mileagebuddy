@@ -16,7 +16,7 @@ import { z } from "zod";
  */
 const ShortDistanceTripSchemaForPATCH = ShortDistanceTripSchema.extend({
 	userID: UserIdSchema,
-	tripID: TripIDSchema,
+	id: TripIDSchema,
 });
 
 /**
@@ -24,7 +24,7 @@ const ShortDistanceTripSchemaForPATCH = ShortDistanceTripSchema.extend({
  */
 const LongDistanceTripSchemaForPATCH = LongDistanceTripSchema.extend({
 	userID: UserIdSchema,
-	tripID: TripIDSchema,
+	id: TripIDSchema,
 });
 
 /**
