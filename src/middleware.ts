@@ -172,9 +172,6 @@ export async function middleware(request: NextRequest) {
 		}
 	}
 
-	// TODO verify TripOption middleware is working as intended once we get things spun up
-	// TODO verify TripOptions in middleware belong to authenticated user
-
 	// Validate POSTed TripOption
 	if (
 		request.method === "POST" &&
@@ -251,7 +248,7 @@ const isValidVehiclePost = (
 
 /**Validates that request body matches type Vehicle_For_DB_PATCH
  *
- * If true, vehicle is ready to be inserted into DB
+ * If true, vehicle is ready to be updated in DB
  */
 const isValidVehiclePatch = (
 	vehicle: unknown
@@ -260,11 +257,19 @@ const isValidVehiclePatch = (
 	return isSafe.success;
 };
 
+/** Validates that request body matches type Trip_For_DB_POST
+ *
+ * If true, trip is ready to be inserted into DB
+ */
 const isValidTripPOST = (trip: unknown): trip is Trip_For_DB_POST => {
 	const isSafe = TripSchemaForPOST.safeParse(trip);
 	return isSafe.success;
 };
 
+/** Validates that request body matches type TripOption_For_DB_POST
+ *
+ * If true, trip option is ready to be inserted into DB
+ */
 const isValidTripOptionPOST = (
 	tripOption: unknown
 ): tripOption is TripOption_For_DB_POST => {
@@ -272,6 +277,10 @@ const isValidTripOptionPOST = (
 	return isSafe.success;
 };
 
+/** Validates that request body matches type TripOption_For_DB_PATCH
+ *
+ * If true, trip option is ready to be updated in DB
+ */
 const isValidTripOptionPATCH = (
 	tripOption: unknown
 ): tripOption is TripOption_For_DB_PATCH => {
