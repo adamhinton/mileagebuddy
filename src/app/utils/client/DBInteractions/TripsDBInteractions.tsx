@@ -1,6 +1,9 @@
 "use client";
 
-import { Trip } from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
+import {
+	Trip,
+	TripSchema,
+} from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
 import { Trip_For_DB_PATCH } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaForPatch";
 import { Trip_For_DB_POST } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaPOST";
 
@@ -31,21 +34,20 @@ export const getTripsByUserIDClient = async (
 			headers: { accept: "application/json" },
 		});
 		const trips: Trip[] = await res.json();
-		console.log("trips in getTripsByUserIDClient:", trips);
-
-		// TODO Trips: reinstate this validation when we have TripOptions sorted out
 		// Validating GET receipts to notify me in dev if something is wrong
-		// trips.forEach((trip) => {
-		// 	const isTrip = TripSchema.safeParse(trip);
-		// 	// Only erroring in dev bc it's not the user's problem if the data is a little off.
-		// 	if (!isTrip.success && process.env.NODE_ENV === "development") {
-		// 		console.error(
-		// 			"Trip from GET failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
-		// 			isTrip.error.errors
-		// 		);
-		// 		throw new Error("Trip failed validation");
-		// 	}
-		// });
+		// Doing this here instead of in middleware because I had a hard time validating the RECEIPT in middleware instead of the request body
+		// And it made my tiny brain hurt so we're doing it here instead
+		trips.forEach((trip) => {
+			const isTrip = TripSchema.safeParse(trip);
+			// Only erroring in dev bc it's not the user's problem if the data is a little off.
+			if (!isTrip.success && process.env.NODE_ENV === "development") {
+				console.error(
+					"Trip from GET failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
+					isTrip.error.errors
+				);
+				throw new Error("Trip failed validation");
+			}
+		});
 		return trips;
 	} catch (error) {
 		console.error("Error fetching trips by user ID:", error);
@@ -58,6 +60,8 @@ export const getTripsByUserIDClient = async (
  *
  * Middleware verifies this trip belongs to the authenticated user
  *
+ * This function validates the Trip against the TripSchema
+ *
  * This is the client-side function that calls the API endpoint
  *
  * See api/trips/route.ts GET for the associated endpoint
@@ -68,11 +72,6 @@ export const getSingleTripByIdClient = async (
 	tripId: number
 ): Promise<[Trip] | []> => {
 	try {
-		// const res = await fetch(`/api/trips?tripid=${tripId}`, {
-		// 	method: "GET",
-		// 	headers: { accept: "application/json" },
-		// });
-		// Refactor the above to use our test userid
 		const res = await fetch(
 			`/api/trips?userid=0488323f-5e5c-4bb2-b188-75bdaf6eb527&tripid=${tripId}`,
 			{
@@ -89,16 +88,16 @@ export const getSingleTripByIdClient = async (
 
 		const trip = data[0];
 
-		// TODO Trips: reinstate this validation when we have TripOptions sorted out
+		// Validating Trip here instead of middleware because I had a hard time validating the RECEIPT in middleware instead of the request body
 		// Validate the trip
-		// const isTrip = TripSchema.safeParse(trip);
-		// if (!isTrip.success && process.env.NODE_ENV === "development") {
-		// 	console.error(
-		// 		"Trip from GET failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
-		// 		isTrip.error.errors
-		// 	);
-		// 	throw new Error("Trip failed validation");
-		// }
+		const isTrip = TripSchema.safeParse(trip);
+		if (!isTrip.success && process.env.NODE_ENV === "development") {
+			console.error(
+				"Trip from GET failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
+				isTrip.error.errors
+			);
+			throw new Error("Trip failed validation");
+		}
 
 		return [trip];
 	} catch (error) {
@@ -115,6 +114,8 @@ export const getSingleTripByIdClient = async (
  * Note, TripOptions are added separately
  *
  * Returns the new Trip if successful, and an error if unsuccessful
+ *
+ * This function validates the Trip against the TripSchema before POSTing to the DB.
  *
  * See api/trips/route.ts POST for the associated endpoint
  */
@@ -138,18 +139,17 @@ export const insertTripToDBClient = async (
 
 		const newTrip: Trip = await res.json();
 
-		// TODO Trips: reinstate this validation when we have TripOptions sorted out
 		// Validate the new trip
 		// This might be overkill because middleware and react-hook-form should already validate this, but things can change and validation is cheap so this is fine
 		// Can refactor if we get a lot of traffic.
-		// const isTrip = TripSchema.safeParse(newTrip);
-		// if (!isTrip.success && process.env.NODE_ENV === "development") {
-		// 	console.error(
-		// 		"New trip from POST failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
-		// 		isTrip.error.errors
-		// 	);
-		// 	throw new Error("New trip failed validation");
-		// }
+		const isTrip = TripSchema.safeParse(newTrip);
+		if (!isTrip.success && process.env.NODE_ENV === "development") {
+			console.error(
+				"New trip from POST failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
+				isTrip.error.errors
+			);
+			throw new Error("New trip failed validation");
+		}
 
 		return newTrip;
 	} catch (error) {
@@ -201,6 +201,8 @@ export const deleteTripFromDBClient = async (
  *
  * Returns the updated Trip if successful, and an error if unsuccessful
  *
+ * This function validates the Trip against the TripSchema before PATCHing to the DB.
+ *
  * See api/trips/route.ts PATCH for the associated endpoint
  */
 export const updateTripInDBClient = async (
@@ -223,7 +225,6 @@ export const updateTripInDBClient = async (
 
 		const updatedTrip: Trip = await res.json();
 
-		// TODO Trips: reinstate this validation when we have TripOptions sorted out
 		// Validate the updated trip
 		// const isTrip = TripSchema.safeParse(updatedTrip);
 		// if (!isTrip.success && process.env.NODE_ENV === "development") {

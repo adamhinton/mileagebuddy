@@ -13,7 +13,10 @@ import {
 // _______________________________________________________________
 
 import { createClientSSROnly } from "@/app/utils/server/supabase/server";
-import { Trip } from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
+import {
+	Trip,
+	TripSchema,
+} from "@/app/zod/schemas/trips/TripSchemas/BaseTripSchemas";
 import { Trip_For_DB_PATCH } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaForPatch";
 import { Trip_For_DB_POST } from "@/app/zod/schemas/trips/TripSchemas/TripSchemaPOST";
 import { NextResponse } from "next/server";
@@ -90,6 +93,15 @@ export async function POST(
 
 	const response = await addNewTripToDB(tripDataToInsert, supabase);
 
+	const isTrip = TripSchema.safeParse(response);
+	if (!isTrip.success && process.env.NODE_ENV === "development") {
+		console.error(
+			"New trip from POST failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
+			isTrip.error.errors
+		);
+		throw new Error("New trip failed validation");
+	}
+
 	return response;
 }
 
@@ -109,7 +121,7 @@ export async function PATCH(
 		});
 	}
 
-	// After I've instated middleware (TODO), this will already have been validated as a Trip_For_db_PATCH
+	// Middleware will have already verified that the trip belongs to the authenticated user and is a valid Trip
 	const body = await request.json();
 	const updatedTripRequestData: Trip_For_DB_PATCH = body;
 
@@ -142,7 +154,16 @@ export async function PATCH(
 		);
 	}
 
-	// This Trip will have been validated in middleware
+	// Validate the updated trip
+	const isTrip = TripSchema.safeParse(data);
+	if (!isTrip.success && process.env.NODE_ENV === "development") {
+		console.error(
+			"Updated trip from PATCH failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
+			isTrip.error.errors
+		);
+		throw new Error("Updated trip failed validation");
+	}
+
 	return NextResponse.json(data as unknown as Trip, { status: 200 });
 }
 
