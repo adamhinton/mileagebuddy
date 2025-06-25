@@ -209,6 +209,8 @@ export const updateVehicleInDBClient = async (
 		});
 		const fullNewVehicle: Vehicle = await res.json();
 
+		console.log("fullNewVehicle:", fullNewVehicle);
+
 		// validate new vehicle received from db
 		const isNewVehicle = VehicleSchema.safeParse(fullNewVehicle);
 		if (!isNewVehicle.success) {

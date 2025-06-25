@@ -4,7 +4,6 @@
 import {
 	addNewTripToDB,
 	getSingleTripById,
-	getTripsByUser,
 	getTripsWithPopulatedOptions,
 } from "@/app/utils/server/queries/trips/tripsDBUtils";
 // _______________________________________________________________
@@ -49,8 +48,6 @@ export async function GET(
 			/**
 			 * Will be an array with one Trip if Trip exists in db, or empty array if Trip isn't in db
 			 */
-			// TODO about to implemenet getSingleTripById
-			// const arrayWithSingleTrip = await getSingleTripById(Number(tripID));
 			const arrayWithSingleTrip = await getSingleTripById(Number(tripID));
 
 			if (arrayWithSingleTrip.length === 0) {
@@ -91,13 +88,11 @@ export async function POST(
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { tripOptions, ...tripDataToInsert } = body;
 
-	// TODO addNewTripToDB
 	const response = await addNewTripToDB(tripDataToInsert, supabase);
 
 	return response;
 }
 
-// TODO middleware PATCH Trip input validation
 export async function PATCH(
 	request: Request
 ): Promise<NextResponse<Trip | { error: string }>> {
@@ -147,7 +142,7 @@ export async function PATCH(
 		);
 	}
 
-	// TODO validate this Trip in middleware or in client function
+	// This Trip will have been validated in middleware
 	return NextResponse.json(data as unknown as Trip, { status: 200 });
 }
 

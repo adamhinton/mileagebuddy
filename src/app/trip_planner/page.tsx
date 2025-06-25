@@ -10,8 +10,6 @@ import { Trip_For_DB_PATCH } from "../zod/schemas/trips/TripSchemas/TripSchemaFo
 import { Trip_For_DB_POST } from "../zod/schemas/trips/TripSchemas/TripSchemaPOST";
 
 // TRIPS TODO: Middleware route protection
-// TODO: DB helper functions for this route
-
 // __________________________________________________________________________________
 // This is the page the user goes to to create a new Trip.
 // It houses TripCreationForm.tsx
