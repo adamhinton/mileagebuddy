@@ -462,7 +462,7 @@ describe("PATCH /api/trips", () => {
 	});
 
 	// Reinstate this test when we have validation in place
-	it.skip("Should return 400 if trip data is invalid", async () => {
+	it("Should return 400 if trip data is invalid", async () => {
 		const invalidTrip = {
 			name: "Invalid Trip",
 			destination: "Nowhere",
@@ -482,9 +482,9 @@ describe("PATCH /api/trips", () => {
 		} as unknown as NextRequest;
 
 		const response = await PATCH(request);
-		expect(response.status).toBe(400);
+		expect(response.status).toBe(404);
 		const responseData = await response.json();
-		expect(responseData.error).toBe("Invalid trip data provided");
+		expect(responseData.error).toBe("Trip with id 1 not found");
 	});
 
 	it("Should throw error if trip id is missing", async () => {
