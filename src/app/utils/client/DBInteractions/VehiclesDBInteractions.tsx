@@ -11,15 +11,15 @@ import {
 	type Vehicle,
 	type Vehicles,
 	VehicleSchema,
-} from "../../types/VehicleTypes/GetVehicleTypes";
+} from "../../server/types/VehicleTypes/GetVehicleTypes";
 import {
 	type Vehicle_For_db_PATCH,
 	VehicleSchemaForPATCH,
-} from "../../types/VehicleTypes/PATCHVehicleTypes";
+} from "../../server/types/VehicleTypes/PATCHVehicleTypes";
 import {
 	type Vehicle_For_db_POST,
 	VehicleToBePostedSchema,
-} from "../../types/VehicleTypes/POSTVehicleTypes";
+} from "../../server/types/VehicleTypes/POSTVehicleTypes";
 
 /** See api/vehicles/route.ts GET for the associated endpoint */
 export const getVehiclesByUserIDClient = async (
@@ -208,6 +208,8 @@ export const updateVehicleInDBClient = async (
 			body: JSON.stringify(vehicle),
 		});
 		const fullNewVehicle: Vehicle = await res.json();
+
+		console.log("fullNewVehicle:", fullNewVehicle);
 
 		// validate new vehicle received from db
 		const isNewVehicle = VehicleSchema.safeParse(fullNewVehicle);

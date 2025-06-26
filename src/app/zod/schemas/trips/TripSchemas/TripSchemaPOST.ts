@@ -16,7 +16,7 @@ import {
  */
 const ShortDistanceTripSchemaForPOST = ShortDistanceTripSchema.extend({
 	// Need userid for creation
-	userid: UserIdSchema,
+	userID: UserIdSchema,
 });
 
 /**
@@ -24,7 +24,7 @@ const ShortDistanceTripSchemaForPOST = ShortDistanceTripSchema.extend({
  */
 const LongDistanceTripSchemaForPOST = LongDistanceTripSchema.extend({
 	// Need userid for creation
-	userid: UserIdSchema,
+	userID: UserIdSchema,
 });
 
 /**Schema for validating Trip to be POSTed to DB

@@ -1,6 +1,6 @@
 -- README
 -- Vehicles in this project are complicated objects. So there's a main `vehicles` table, then seven sub-tables
--- This file seeds a single user (in auth.users), and six vehicles
+-- This file seeds a single user (in auth.users), two Trips (and TripOptions), and six vehicles
 -- This can be expanded to more users and more vehicles, there just hasn't been a need yet
 
 -- NOTE. IMPORTANT: Some table names and column names are wrapped in double quotes. This is to make them case sensitive, otherwise all keys returned from the backend would be lowercase which would be extremely annoying when trying to convert them to camel case for frontend use.

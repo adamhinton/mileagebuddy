@@ -9,7 +9,7 @@
 import {
 	deleteVehicleByIDClient,
 	updateVehicleOrdersClient,
-} from "@/app/utils/server/client/DBInteractions/VehiclesDBInteractions";
+} from "@/app/utils/client/DBInteractions/VehiclesDBInteractions";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import {
 	removeVehicleById,

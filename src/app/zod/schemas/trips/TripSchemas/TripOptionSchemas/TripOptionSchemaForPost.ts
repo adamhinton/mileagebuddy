@@ -1,6 +1,5 @@
 // __________________________________________________________________________
 // This is schemas for TripOption DB POST operations
-// TODO I think these should have additional fields but I'm not sure what yet
 // __________________________________________________________________________
 
 import { DeepReadonly } from "@/app/utils/server/types/VehicleTypes/GetVehicleTypes";

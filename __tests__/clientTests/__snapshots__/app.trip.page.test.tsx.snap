@@ -13,6 +13,21 @@ exports[`TripPage matches snapshot from 4.30.2025 1`] = `
     >
       Test Fetch Trip by ID
     </button>
+    <button
+      style="margin: 20px; padding: 10px;"
+    >
+      Post Random Test Trip
+    </button>
+    <button
+      style="margin: 20px; padding: 10px;"
+    >
+      Patch Test Trip (ID: 1 with Random Data)
+    </button>
+    <button
+      style="margin: 20px; padding: 10px;"
+    >
+      Delete Trip)
+    </button>
   </div>
 </div>
 `;

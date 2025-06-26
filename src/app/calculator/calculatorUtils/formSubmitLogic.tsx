@@ -12,7 +12,7 @@ import { VehiclePATCHorPOST } from "../CalculatorFormComponents/VehicleCreationF
 import {
 	insertVehicleClient,
 	updateVehicleInDBClient,
-} from "@/app/utils/server/client/DBInteractions/VehiclesDBInteractions";
+} from "@/app/utils/client/DBInteractions/VehiclesDBInteractions";
 import { addVehicle, editVehicleById } from "@/redux/reducers/vehiclesReducer";
 import { Action, ThunkDispatch } from "@reduxjs/toolkit";
 import { type RootState } from "@/redux/store";
