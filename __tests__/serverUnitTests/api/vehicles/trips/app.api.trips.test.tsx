@@ -197,7 +197,7 @@ describe("GET /api/trips", () => {
 	});
 });
 
-// TODO: More Trips POST tests when we have validation in place. One of tehse tests has already been written, but is skipped.
+// TODO STRETCH: More Trips POST tests when we have validation in place. One of tehse tests has already been written, but is skipped.
 describe("POST /api/trips", () => {
 	it("Should create a Trip then return the created trip", async () => {
 		const mockInsertTrip = jest.fn().mockReturnValue({
@@ -343,7 +343,7 @@ describe("POST /api/trips", () => {
 	});
 });
 
-// TODO more PATCH tests when we have validation in place
+// TODO STRETCH more PATCH tests when we have validation in place
 describe("PATCH /api/trips", () => {
 	it("Should update existing short distance Trip by id and return the updated trip", async () => {
 		const updatedTrip: Trip = {

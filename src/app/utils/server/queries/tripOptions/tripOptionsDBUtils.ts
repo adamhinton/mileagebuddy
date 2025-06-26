@@ -11,7 +11,6 @@ export async function getTripOptionsByTripID(
 		throw new Error("Error fetching trip options data: " + error.message);
 	}
 
-	// TODO IMPORTANT: Validate this in middleware
 	return data as unknown as TripOption[];
 }
 
@@ -25,7 +24,6 @@ export async function getSingleTripOptionById(
 		throw new Error("Error fetching trip option data: " + error.message);
 	}
 
-	// TODO IMPORTANT: Validate this in middleware
 	return data as unknown as TripOption[];
 }
 

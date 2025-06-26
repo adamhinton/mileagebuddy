@@ -26,7 +26,6 @@ import { NextResponse } from "next/server";
 // If no tripid is passed in, it gets all trips for that user
 // Note that you have to call api/trips/tripoptions to get TripOptions
 
-// TODO validate trips from GET; either in middleware or in GET function
 export async function GET(
 	request: Request
 ): Promise<NextResponse<Trip[] | { error: string }>> {

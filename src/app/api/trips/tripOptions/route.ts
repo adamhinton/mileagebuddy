@@ -114,7 +114,6 @@ export async function DELETE(request: Request) {
 	}
 }
 
-// TODO make sure this return object is how we want it structured
 export async function POST(
 	request: Request
 ): Promise<NextResponse<TripOption | { error: string }>> {

@@ -5,7 +5,6 @@
 // You call this from your CLIENT components and it hits the API endpoints for you
 // This code runs on the client; does not expose any sensitive information
 // Validation: TripOptions are validated here on the client, and also validated on the server before being sent to the db
-// TODO test all these functions
 // _____________________________________________
 
 import {

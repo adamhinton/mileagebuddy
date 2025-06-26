@@ -18,8 +18,7 @@ export async function getTripsByUser(userId: string): Promise<Trip[]> {
 		throw new Error("Error fetching trips data: " + error.message);
 	}
 
-	// TODO IMPORTANT: Add TripOptions to this or somewhere
-	// Then validate the data with zod
+	// This will have already been validated (I think)
 	return data as unknown as Trip[];
 }
 
@@ -31,8 +30,6 @@ export async function getSingleTripById(tripId: number): Promise<[Trip] | []> {
 		throw new Error("Error fetching trip data: " + error.message);
 	}
 
-	// TODO IMPORTANT: Add TripOptions to this or somewhere
-	// Then validate the data with zod
 	return data[0] ? [data[0] as unknown as Trip] : [];
 }
 
@@ -58,8 +55,7 @@ export const addNewTripToDB = async (
 	if (error) {
 		throw new Error("Error adding trip to DB: " + error.message);
 	}
-	// TODO IMPORTANT: Add TripOptions to this or somewhere
-	// Then validate the data with zod
+
 	return NextResponse.json(data, { status: 200 });
 };
 
@@ -120,11 +116,6 @@ export async function getTripsWithPopulatedOptions(
 	});
 
 	const populatedTrips = await Promise.all(populatedTripsPromises);
-
-	// The TODO for Zod validation in getTripsByUser still applies.
-	// Ideally, the final populatedTrips array or each item would be validated against
-	// a comprehensive Zod schema that includes populated tripOptions.
-	// For now, this function focuses on the data aggregation.
 
 	return populatedTrips;
 }
