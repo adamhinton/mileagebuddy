@@ -143,6 +143,50 @@ VALUES
 (8, 27.0, 52, 55.0, 80.0, 50.0, NOW(), NOW()), 
 (9, 40.0, 48, 70.0, 200.0, 60.0, NOW(), NOW());
 
+INSERT INTO "fixedCosts" ("vehicleID", "yearlyInsuranceCost", "yearlyRegistrationCost", "yearlyTaxes", "monthlyLoanPayment", "monthlyWarrantyCost", "inspectionCost", "otherYearlyCosts", "createdAt", "updatedAt")
+VALUES
+-- Gas vehicles
+(1, 1200.00, 150.00, 200.00, 350.00, 50.00, 100.00, 500.00, NOW(), NOW()),
+(2, 1400.00, 175.00, 250.00, 400.00, 60.00, 120.00, 600.00, NOW(), NOW()),
+(3, 1300.00, 180.00, 225.00, 375.00, 55.00, 110.00, 550.00, NOW(), NOW()),
+-- Electric vehicles
+(4, 1600.00, 200.00, 300.00, 450.00, 70.00, 150.00, 700.00, NOW(), NOW()),
+(5, 1500.00, 190.00, 275.00, 425.00, 65.00, 140.00, 650.00, NOW(), NOW()),
+(6, 1550.00, 210.00, 320.00, 475.00, 80.00, 160.00, 750.00, NOW(), NOW()),
+-- Hybrid vehicles
+(7, 1350.00, 160.00, 210.00, 380.00, 50.00, 90.00, 520.00, NOW(), NOW()), 
+(8, 1450.00, 170.00, 240.00, 410.00, 55.00, 100.00, 580.00, NOW(), NOW()), 
+(9, 1500.00, 190.00, 260.00, 430.00, 60.00, 110.00, 620.00, NOW(), NOW());
+
+INSERT INTO "yearlyMaintenanceCosts"("vehicleID", "oilChanges", tires, batteries, brakes, other, "createdAt", "updatedAt")
+VALUES
+-- Gas vehicles
+(1, 75.00, 250.00, 50.00, 150.00, 200.00, NOW(), NOW()),
+(2, 80.00, 280.00, 60.00, 180.00, 220.00, NOW(), NOW()),
+(3, 85.00, 300.00, 70.00, 200.00, 240.00, NOW(), NOW()),
+-- Electric vehicles
+(4, 90.00, 320.00, 80.00, 220.00, 260.00, NOW(), NOW()),
+(5, 95.00, 340.00, 90.00, 240.00, 280.00, NOW(), NOW()),
+(6, 80.00, 360.00, 100.00, 260.00, 300.00, NOW(), NOW()),
+-- Hybrid vehicles
+(7, 40.00, 280.00, 80.00, 190.00, 210.00, NOW(), NOW()), 
+(8, 45.00, 290.00, 85.00, 200.00, 230.00, NOW(), NOW()), 
+(9, 50.00, 310.00, 90.00, 210.00, 250.00, NOW(), NOW());
+
+INSERT INTO "variableCosts"("vehicleID", "monthlyParkingCosts", "monthlyTolls", "monthlyCarWashCost", "monthlyMiscellaneousCosts", "monthlyCostDeductions", "createdAt", "updatedAt")
+VALUES
+-- Gas vehicles
+(1, 100.00, 50.00, 20.00, 50.00, 20.00, NOW(), NOW()),
+(2, 120.00, 60.00, 25.00, 60.00, 25.00, NOW(), NOW()),
+(3, 140.00, 70.00, 30.00, 70.00, 30.00, NOW(), NOW()),
+-- Electric vehicles
+(4, 160.00, 80.00, 35.00, 80.00, 35.00, NOW(), NOW()),
+(5, 180.00, 90.00, 40.00, 90.00, 40.00, NOW(), NOW()),
+(6, 200.00, 100.00, 45.00, 100.00, 45.00, NOW(), NOW()),
+-- Hybrid vehicles
+(7, 110.00, 55.00, 22.00, 55.00, 22.00, NOW(), NOW()), 
+(8, 130.00, 65.00, 28.00, 65.00, 28.00, NOW(), NOW()), 
+(9, 150.00, 75.00, 32.00, 75.00, 32.00, NOW(), NOW());
 
 
 -- Seed Trips (ensure userID matches an existing user from the WITH new_user block)

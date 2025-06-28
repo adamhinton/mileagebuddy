@@ -2,9 +2,6 @@
 
 // TRIPS TODO: Middleware route protection
 
-import { TripSchemaForPOST } from "../zod/schemas/trips/TripSchemas/TripSchemaPOST";
-import TripCreationOrEditForm from "./TripFormComponents/TripCreationOrEditForm";
-
 // __________________________________________________________________________________
 // This is the page the user goes to to create a new Trip.
 // It houses TripCreationForm.tsx
@@ -16,6 +13,7 @@ const TripCreationPage = () => {
 
 	return (
 		<div>
+			{/* Dummy testing button for dev */}
 			<button
 				onClick={async () => {
 					const testUserId = "0488323f-5e5c-4bb2-b188-75bdaf6eb527"; // From seed.sql
@@ -39,6 +37,7 @@ const TripCreationPage = () => {
 				Test Fetch Trips by User ID
 			</button>
 
+			{/* Dummy testing button for dev */}
 			<button
 				onClick={async () => {
 					const testUserId = "0488323f-5e5c-4bb2-b188-75bdaf6eb527"; // From seed.sql
