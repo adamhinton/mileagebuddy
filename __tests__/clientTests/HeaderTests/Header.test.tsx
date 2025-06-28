@@ -7,6 +7,18 @@ import { Header } from "@/components/Header/Header";
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
+// The signOut function was making the tests fail
+// signOut isn't used in our unit tests so we can mock it to oblivion
+jest.mock("@supabase/ssr", () => ({
+	createBrowserClient: jest.fn(() => ({
+		auth: {
+			signOut: jest.fn(() => Promise.resolve({ error: null })),
+		},
+	})),
+}));
+
+jest.mock("isows", () => ({}));
+
 const renderHeader = () => {
 	return render(
 		<TestReduxStore>
