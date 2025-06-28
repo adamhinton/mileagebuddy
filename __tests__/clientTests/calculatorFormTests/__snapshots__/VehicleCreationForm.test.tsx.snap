@@ -34,7 +34,7 @@ exports[`VehicleCreationOrEditForm matches snapshot for create vehicle mode from
         class="mileage-calc-form-radio-group"
       >
         <label
-          class="mileage-calc-form-radio-label "
+          class="mileage-calc-form-radio-label mileage-calc-form-radio-label--selected"
         >
           <input
             class="mileage-calc-form-radio-input"
@@ -64,7 +64,7 @@ exports[`VehicleCreationOrEditForm matches snapshot for create vehicle mode from
           </span>
         </label>
         <label
-          class="mileage-calc-form-radio-label mileage-calc-form-radio-label--selected"
+          class="mileage-calc-form-radio-label "
         >
           <input
             class="mileage-calc-form-radio-input"
@@ -82,16 +82,16 @@ exports[`VehicleCreationOrEditForm matches snapshot for create vehicle mode from
     </div>
     <section
       class="mileage-calc-form-section-container 
-				mileage-calc-form-section-container-inactive
-				"
-      id="hybridVehicleData"
+				mileage-calc-form-section-container-active
+				mileage-calc-form-section-container-first-active"
+      id="gasVehicleData"
     >
       <h3>
         <button
-          aria-controls="hybridVehicleData-content"
-          aria-expanded="false"
+          aria-controls="gasVehicleData-content"
+          aria-expanded="true"
           class="mileage-calc-form-section-button 
-						mileage-calc-form-section-button-inactive"
+						mileage-calc-form-section-button-active"
           type="button"
         >
           <div
@@ -99,13 +99,13 @@ exports[`VehicleCreationOrEditForm matches snapshot for create vehicle mode from
           >
             <span
               class="mileage-calc-form-section-title 
-								mileage-calc-form-section-title-inactive"
+								mileage-calc-form-section-title-active"
             >
-              Hybrid Vehicle Data
+              Gas Vehicle Data
             </span>
             <span
               class="mileage-calc-form-section-badge 
-									mileage-calc-form-section-badge-inactive"
+									mileage-calc-form-section-badge-active"
             >
               1
                of 
@@ -116,7 +116,7 @@ exports[`VehicleCreationOrEditForm matches snapshot for create vehicle mode from
             class="mileage-calc-form-section-chevron-wrapper"
           >
             <svg
-              class="mileage-calc-form-section-chevron "
+              class="mileage-calc-form-section-chevron mileage-calc-form-section-chevron-active"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
@@ -131,9 +131,123 @@ exports[`VehicleCreationOrEditForm matches snapshot for create vehicle mode from
         </button>
       </h3>
       <div
-        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-inactive"
-        id="hybridVehicleData-content"
-      />
+        class="mileage-calc-form-section-content-wrapper mileage-calc-form-section-content-wrapper-active"
+        id="gasVehicleData-content"
+      >
+        <div
+          class="mileage-calc-form-section-content-inner"
+        >
+          <div
+            class="mb-4"
+          >
+            <label
+              class="mileage-calc-form-label"
+              data-testid="gasVehicleData.gasCostPerGallon-label"
+              for="gasVehicleData.gasCostPerGallon"
+            >
+              Gas Cost $/gal
+              <span
+                class="mileage-calc-form-required-asterisk"
+              >
+                *
+              </span>
+            </label>
+            <div
+              class="relative rounded-md shadow-sm"
+            >
+              <input
+                class="mileage-calc-form-number-field "
+                data-testid="gasVehicleData.gasCostPerGallon-input"
+                id="gasVehicleData.gasCostPerGallon"
+                max="1000"
+                min="0"
+                name="gasVehicleData.gasCostPerGallon"
+                required=""
+                step="0.01"
+                type="number"
+              />
+            </div>
+          </div>
+          <div
+            class="mb-4"
+          >
+            <label
+              class="mileage-calc-form-label"
+              data-testid="gasVehicleData.milesPerGallonHighway-label"
+              for="gasVehicleData.milesPerGallonHighway"
+            >
+              MPG Highway
+              <span
+                class="mileage-calc-form-required-asterisk"
+              >
+                *
+              </span>
+            </label>
+            <div
+              class="relative rounded-md shadow-sm"
+            >
+              <input
+                class="mileage-calc-form-number-field "
+                data-testid="gasVehicleData.milesPerGallonHighway-input"
+                id="gasVehicleData.milesPerGallonHighway"
+                max="1000"
+                min="0"
+                name="gasVehicleData.milesPerGallonHighway"
+                required=""
+                step="1"
+                type="number"
+              />
+            </div>
+          </div>
+          <div
+            class="mb-4"
+          >
+            <label
+              class="mileage-calc-form-label"
+              data-testid="gasVehicleData.milesPerGallonCity-label"
+              for="gasVehicleData.milesPerGallonCity"
+            >
+              MPG City
+              <span
+                class="mileage-calc-form-required-asterisk"
+              >
+                *
+              </span>
+            </label>
+            <div
+              class="relative rounded-md shadow-sm"
+            >
+              <input
+                class="mileage-calc-form-number-field "
+                data-testid="gasVehicleData.milesPerGallonCity-input"
+                id="gasVehicleData.milesPerGallonCity"
+                max="1000"
+                min="0"
+                name="gasVehicleData.milesPerGallonCity"
+                required=""
+                step="1"
+                type="number"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="mileage-calc-form-section-footer"
+        >
+          <button
+            class="mileage-calc-form-next-button"
+            type="button"
+          >
+            <span
+              class="mileage-calc-form-next-button-inner"
+            >
+              <span>
+                Next Section
+              </span>
+            </span>
+          </button>
+        </div>
+      </div>
     </section>
     <section
       class="mileage-calc-form-section-container 
