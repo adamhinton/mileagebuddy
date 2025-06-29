@@ -42,3 +42,12 @@ export const TripSchemaForPATCH = z.discriminatedUnion("tripType", [
 ]);
 
 export type Trip_For_DB_PATCH = z.infer<typeof TripSchemaForPATCH>;
+
+/**
+ * This is the same as TripSchemaForPATCH
+ * But we need this same type for stuff that doesn't involve PATCH operations,
+ * so I'm calling it something different to avoid confusion
+ *
+ * Hope this doesn't blow up in my face later
+ */
+export type TripWithID = z.infer<typeof TripSchemaForPATCH>;
