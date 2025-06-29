@@ -110,8 +110,7 @@ const tripsSlice = createSlice({
 			const tripIndex = state.findIndex((t) => t.tripID === trip.tripID);
 
 			if (tripIndex !== -1) {
-				// For simplicity this just updates the Trip in state with the passed-in Trip that has all TripOptions deleted
-				state[tripIndex] = trip;
+				state[tripIndex].tripOptions = [];
 			} else {
 				console.error("Trip not found in state");
 			}
@@ -119,6 +118,16 @@ const tripsSlice = createSlice({
 	},
 });
 
-export const { addTrip } = tripsSlice.actions;
+export const {
+	addTrip,
+	removeTripById,
+	setTrips,
+	removeAllTrips,
+	editTripById,
+	addNewTripOption,
+	editTripOption,
+	deleteTripOption,
+	deleteAllTripOptionsForOneTrip,
+} = tripsSlice.actions;
 
 export default tripsSlice.reducer;
