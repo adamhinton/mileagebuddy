@@ -15,6 +15,9 @@ import {
 } from "@/redux/reducers/vehiclesReducer";
 import { getVehiclesByUserIDClient } from "../utils/server/client/DBInteractions/VehiclesDBInteractions";
 import { redirect } from "next/navigation";
+import { removeAllTrips, setTrips } from "@/redux/reducers/tripsReducer";
+import { getTripsByUser } from "../utils/server/queries/trips/tripsDBUtils";
+import { TripWithID } from "../zod/schemas/trips/TripSchemas/TripSchemaForPatch";
 
 interface AuthWatcherProps {
 	children: ReactNode;
@@ -42,6 +45,16 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 				dispatch(setVehicles(vehiclesInOrder));
 			} catch (error) {
 				console.error("Error fetching vehicles on sign in:", error);
+			}
+		};
+
+		const fetchAndSetTrips = async (userId: string) => {
+			try {
+				const trips = await getTripsByUser(supabase);
+				dispatch(setTrips(trips as unknown as TripWithID[]));
+				// dispatch(setTrips(trips));
+			} catch (error) {
+				console.error("Error fetching trips on sign in:", error);
 			}
 		};
 
@@ -87,6 +100,7 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 				console.log("User signed out");
 				dispatch(clearUser());
 				dispatch(removeAllVehicles());
+				dispatch(removeAllTrips());
 				redirect("/login");
 			} else if (event === "TOKEN_REFRESHED") {
 				// Handle token refresh event
