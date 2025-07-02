@@ -50,7 +50,7 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 
 		const fetchAndSetTrips = async (userId: string) => {
 			try {
-				const trips = await getTripsByUser(supabase);
+				const trips = await getTripsByUser(supabase, userId);
 				dispatch(setTrips(trips as unknown as TripWithID[]));
 				// dispatch(setTrips(trips));
 			} catch (error) {
@@ -71,7 +71,8 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 						isDarkMode: false,
 					})
 				);
-				await fetchAndSetVehicles(data.session.user.id);
+				// await fetchAndSetVehicles(data.session.user.id);
+				await fetchAndSetTrips(data.session.user.id);
 			}
 
 			// Indicate auth is initialized whether user is logged in or not
@@ -143,7 +144,7 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 		return () => {
 			subscription.unsubscribe();
 		};
-	}, [supabase.auth, dispatch]);
+	}, [supabase.auth, supabase, dispatch]);
 
 	// Only render children when auth is initialized
 	if (!authInitialized) {
