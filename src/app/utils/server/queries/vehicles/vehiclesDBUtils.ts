@@ -43,7 +43,7 @@ export const stringForJoiningVehicleTables = `
 			"id", "vehicleID", "yearPurchased", "purchasePrice", "downPaymentAmount", "willSellCarAfterYears", "milesBoughtAt", "willSellCarAtMiles", "willSellCarAtPrice"
 		),
 
-		usage(
+		"usage"(
 			"id", "vehicleID", "averageDailyMiles", "weeksPerYear", "percentHighway", "extraDistanceMiles", "extraDistancePercentHighway"
 		),
 
