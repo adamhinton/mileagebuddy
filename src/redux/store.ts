@@ -6,6 +6,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import isDarkModeReducer from "./reducers/darkModeReducer";
 import vehiclesReducer from "./reducers/vehiclesReducer";
 import userReducer from "./reducers/userReducer";
+import tripsReducer from "./reducers/tripsReducer";
 
 export const makeStore = () => {
 	return configureStore({
@@ -13,6 +14,7 @@ export const makeStore = () => {
 			theme: isDarkModeReducer,
 			vehicles: vehiclesReducer,
 			user: userReducer,
+			trips: tripsReducer,
 		},
 	});
 };

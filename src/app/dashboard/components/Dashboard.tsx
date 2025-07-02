@@ -52,6 +52,8 @@ type AllCarCosts = {
 
 const Dashboard = () => {
 	const vehicles = useAppSelector((state) => state.vehicles);
+	const trips = useAppSelector((state) => state.trips);
+	console.log("trips in Dashboard:", trips);
 	const loggedInUser = useAppSelector((state) => state.user.value);
 	/**Tracks the calculated costs per mile of each vehicle */
 	const [vehicleCosts, setVehicleCosts] = useState<AllCarCosts>({});
@@ -75,7 +77,7 @@ const Dashboard = () => {
 						costs[vehicle.id] = cost;
 					} catch (vehicleError) {
 						console.error(
-							`Error calculating cost for vehicle ${vehicle.id}:`,
+							`Error calculating cost for vehicle ${vehicle.vehicleData.vehicleName} with id ${vehicle.id}:`,
 							vehicleError
 						);
 					}
