@@ -3,7 +3,7 @@
 // _____________________________________________
 // This is (obviously) the dashboard component. It lives in /src/app/dashboard/page.tsx
 // It contains a list of user's Vehicles and their calculated costs per mile. Has Drag and drop and delete/edit buttons for each vehicle
-// If user has no vehicles, it displays EmptyDashboardState.tsx
+// If user has no vehicles, it will display EmptyDashboardState.tsx
 // _____________________________________________
 
 import {
