@@ -44,7 +44,7 @@ import { useRouter } from "next/navigation";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 /**
- * Contains this key value pair for each vehicle
+ * Contains this key value pair for each vehicle in state
  */
 type AllCarCosts = {
 	[vehicleId: number]: CarCostCalculationResults;
