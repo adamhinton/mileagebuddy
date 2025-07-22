@@ -123,7 +123,6 @@ const Dashboard = () => {
 				(vehicle, index) => ({ ...vehicle, vehiclesOrder: index + 1 })
 			);
 
-			// Update Redux state with new order
 			dispatch(setVehicles(updatedVehicles));
 
 			// Now persist new order in db
@@ -133,7 +132,6 @@ const Dashboard = () => {
 			}));
 
 			updateVehicleOrdersClient(loggedInUser.id, orderUpdates).catch(
-				// Not sure this is the right type
 				(error: Error) =>
 					console.error("Failed to update vehicle orders:", error)
 			);
@@ -142,8 +140,6 @@ const Dashboard = () => {
 
 	const onEditButtonClick = useCallback(
 		(vehicleId: number, router: AppRouterInstance) => {
-			console.log("vehicleId in onEditButtonClick:", vehicleId);
-
 			router.push(`/calculator/edit/${vehicleId}`);
 		},
 		[]
@@ -152,14 +148,12 @@ const Dashboard = () => {
 	// The component that calls this (Button.tsx) will show a confirmation dialog before calling onDeleteButtonClick
 	const onDeleteButtonClick = useCallback(
 		async (vehicleId: number, dispatch: Dispatch) => {
-			// Remove vehicle from DB
 			const dbDeleteResults = await deleteVehicleByIDClient(vehicleId);
 			if ("error" in dbDeleteResults) {
 				console.error("Error deleting vehicle:", dbDeleteResults.error);
 				return;
 			}
 
-			// Remove vehicle from global Redux state
 			dispatch(removeVehicleById(vehicleId));
 		},
 		[]
