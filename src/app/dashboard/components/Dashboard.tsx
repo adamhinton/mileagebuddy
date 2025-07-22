@@ -58,7 +58,7 @@ const Dashboard = () => {
 	/**Tracks the calculated costs per mile of each vehicle */
 	const [vehicleCosts, setVehicleCosts] = useState<AllCarCosts>({});
 
-	// Calculate costs for all vehicles when the component loads
+	// Calculate costs for all vehicles
 	useEffect(() => {
 		const calculateCosts = async () => {
 			try {
