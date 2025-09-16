@@ -14,7 +14,9 @@ import { createClientSSROnly } from "@/app/utils/server/supabase/server";
  * @jest-environment node
  */
 
-jest.mock("../../src/app/utils/server/supabase/server", () => ({
+// ../../src/app/utils/server/supabase/server
+
+jest.mock("../../../../src/app/utils/server/supabase/server", () => ({
 	createClientSSROnly: jest.fn(),
 }));
 

@@ -64,14 +64,14 @@ export const defaultTripValuesPOST = (
 			...(defaultShortDistanceTripData as DeepPartial<
 				Extract<Trip_For_DB_POST, { tripType: "SHORT_DISTANCE" }>
 			>),
-			userid: userId,
+			userID: userId,
 		};
 	} else {
 		return {
 			...(defaultLongDistanceTripData as DeepPartial<
 				Extract<Trip_For_DB_POST, { tripType: "LONG_DISTANCE" }>
 			>),
-			userid: userId,
+			userID: userId,
 		};
 	}
 };
@@ -90,8 +90,8 @@ export const defaultTripValuesPATCH = (
 			...(defaultShortDistanceTripData as DeepPartial<
 				Extract<Trip_For_DB_PATCH, { tripType: "SHORT_DISTANCE" }>
 			>),
-			userid: tripToEdit.userid,
-			tripID: tripToEdit.tripID,
+			userID: tripToEdit.userID,
+			id: tripToEdit.id,
 		};
 	} else {
 		// Type assertion for LongDistanceTrip specific fields if any on tripToEdit are needed for defaults
@@ -103,8 +103,8 @@ export const defaultTripValuesPATCH = (
 			...(defaultLongDistanceTripData as DeepPartial<
 				Extract<Trip_For_DB_PATCH, { tripType: "LONG_DISTANCE" }>
 			>),
-			userid: longTripToEdit.userid,
-			tripID: longTripToEdit.tripID,
+			userID: longTripToEdit.userID,
+			id: longTripToEdit.id,
 		};
 	}
 };

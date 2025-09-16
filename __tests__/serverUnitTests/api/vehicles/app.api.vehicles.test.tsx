@@ -20,7 +20,7 @@ import { createClientSSROnly } from "@/app/utils/server/supabase/server";
  * @jest-environment node
  */
 
-jest.mock("../../src/app/utils/server/supabase/server", () => ({
+jest.mock("../../../../src/app/utils/server/supabase/server", () => ({
 	createClientSSROnly: jest.fn(),
 }));
 
@@ -173,7 +173,7 @@ describe("GET /api/vehicles", () => {
 		expect(mockSupabase().eq).toHaveBeenCalledWith("id", 1);
 	});
 
-	it("Should return an error on invalid user id", async () => {
+	it("Should return an error if user id not provided", async () => {
 		const mockSupabase: jest.Mock = jest.fn().mockReturnValue({
 			select: jest.fn().mockReturnThis(),
 			eq: jest.fn().mockReturnThis(),
@@ -325,7 +325,7 @@ describe("POST /api/vehicles", () => {
 		// Mock the database call to 'insert_vehicle' to return a vehicleID
 		const mockInsertVehicle = jest
 			.fn()
-			.mockResolvedValue({ data: 1, error: null }); // Mocked RPC response
+			.mockResolvedValue({ data: 1, error: null });
 
 		// Mock Supabase client methods
 		const supabase = {
@@ -339,7 +339,6 @@ describe("POST /api/vehicles", () => {
 			}),
 		};
 
-		// Mock the Supabase client (You may need to mock the import path depending on how you are using it)
 		(createClientSSROnly as jest.Mock).mockReturnValue(supabase);
 
 		const request = {
