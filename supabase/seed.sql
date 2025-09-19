@@ -7,6 +7,13 @@
 
 -- NOTE. IMPORTANT: User ids: I coded my test user id that's used when creating Vehicles. It's a stupid and hacky solution. The issue is that vehicles were being created with a randomly generated UUID, whereas my authenticated userid was staying the same.
 
+-- Ensure pgcrypto extension is available for this session
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions;
+
+-- Set search path for this transaction
+SET search_path TO public, extensions;
+
+
 -- I used the file from https://gist.github.com/khattaksd/4e8f4c89f4e928a2ecaad56d4a17ecd1 as a template here, and tweaked to meet my needs
 -- This seeds a single user in to auth.users
 -- Seeding in to Supabase's auth table is complex, hence all this gibberish
