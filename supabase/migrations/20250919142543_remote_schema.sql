@@ -390,19 +390,14 @@ revoke truncate on table "public"."vehicleData" from "anon";
 
 revoke update on table "public"."vehicleData" from "anon";
 
-revoke delete on table "public"."vehicleData" from "authenticated";
-
-revoke insert on table "public"."vehicleData" from "authenticated";
-
-revoke references on table "public"."vehicleData" from "authenticated";
-
-revoke select on table "public"."vehicleData" from "authenticated";
-
-revoke trigger on table "public"."vehicleData" from "authenticated";
-
-revoke truncate on table "public"."vehicleData" from "authenticated";
-
-revoke update on table "public"."vehicleData" from "authenticated";
+-- Commenting out REVOKE commands for 'authenticated' role on 'vehicleData' table
+-- revoke delete on table "public"."vehicleData" from "authenticated";
+-- revoke insert on table "public"."vehicleData" from "authenticated";
+-- revoke references on table "public"."vehicleData" from "authenticated";
+-- revoke select on table "public"."vehicleData" from "authenticated";
+-- revoke trigger on table "public"."vehicleData" from "authenticated";
+-- revoke truncate on table "public"."vehicleData" from "authenticated";
+-- revoke update on table "public"."vehicleData" from "authenticated";
 
 revoke delete on table "public"."vehicleData" from "service_role";
 
