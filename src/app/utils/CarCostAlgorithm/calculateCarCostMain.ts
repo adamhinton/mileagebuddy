@@ -14,18 +14,15 @@ import {
 // This is the main file for the algorithm that calculates the true cost of owning a car
 // The primary function is exported from here
 // It takes in an object of type Vehicle and performs various calculations to estimate the true cost per mile driven
-// This is currently (1.28.25) a WIP and will develop as the project evolves.
 // In the returned object, costPerMile is the total cost per mile for the amount of yearly miles the user reports driving
 // Whereas costPerExtraMile is the cost per mile for any extra miles driven beyond the yearly amount they report
-// costPerExtraMile factors in 		averagefuelCostPerMileDollars, maintenanceCostPerMile and netLossProfitPerMile, but not fixedCostsPerMile or variableCostsPerMile
+// costPerExtraMile factors in 	averagefuelCostPerMileDollars, maintenanceCostPerMile and netLossProfitPerMile, but not fixedCostsPerMile or variableCostsPerMile
 
 // NOTES:
 // The miles they'll sell at is taken in to account more than how many years they say they'll keep it
 // Need to make sure user understands that daily miles per day is on a seven day week, so if they commute five days a week it needs to account for that
 
 export type CarCostCalculationResults = {
-	// Breakdown of cost per mile? In gas, maintenance etc.
-	// That's a stretch goal maybe (TODO Stretch)
 	costPerAverageDailyMile: number;
 	costPerExtraMile: number;
 	// Not sure this is needed
