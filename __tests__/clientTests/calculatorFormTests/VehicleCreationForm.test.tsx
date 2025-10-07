@@ -41,7 +41,6 @@ describe("VehicleCreationOrEditForm", () => {
 		const electricRadio = getByLabelText("Electric");
 		fireEvent.click(electricRadio);
 
-		// Verify electric vehicle form section is visible and gas is not
 		expect(queryByText("Electric Vehicle Data")).toBeInTheDocument();
 		expect(queryByText("Gas Vehicle Data")).not.toBeInTheDocument();
 	});
@@ -53,7 +52,6 @@ describe("VehicleCreationOrEditForm", () => {
 		const hybridRadio = getByLabelText("Plug-in Hybrid");
 		fireEvent.click(hybridRadio);
 
-		// Verify hybrid vehicle form section is visible
 		expect(queryByText("Hybrid Vehicle Data")).toBeInTheDocument();
 		expect(queryByText("Gas Vehicle Data")).not.toBeInTheDocument();
 		expect(queryByText("Electric Vehicle Data")).not.toBeInTheDocument();
