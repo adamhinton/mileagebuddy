@@ -105,8 +105,6 @@ export const insertVehicleClient = async (
 	// But, the validation is cheap and form logic could change
 	const isVehicle = VehicleToBePostedSchema.safeParse(vehicle);
 
-	console.log("isVehicle:", isVehicle);
-
 	if (!isVehicle.success) {
 		console.error(
 			"Vehicle for POST failed validation. ",
