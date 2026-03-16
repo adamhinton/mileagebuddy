@@ -51,6 +51,10 @@ export default function RootLayout({
 						</ReduxStoreProvider>
 					</ThemeWrapper>
 				</div>
+				{/* This displays the popup to sign in with google. */}
+				{/* Right now, we jsut have the div in /login/page.tsx that displays a Google login banner. */}
+				{/* I deleted this script because it was conflicting with the banner, something about two fedCMs something or another getting initialized. */}
+				{/* TODO stretch work out why that happened and try to reinstate this script */}
 				{/* <Script
 					src="https://accounts.google.com/gsi/client"
 					strategy="afterInteractive"
