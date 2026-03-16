@@ -1,5 +1,3 @@
-@tailwind components;
-
 @layer components {
 	/* General reusable component styles will go here */
 	/* Example: .mileage-calc-button, .mileage-calc-badge */
@@ -50,7 +48,7 @@
 		@apply font-bold;
 	}
 	.mileage-calc-cost-value--primary {
-		@apply text-3xl bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent;
+		@apply text-3xl bg-linear-to-r from-primary via-secondary to-accent bg-clip-text text-transparent;
 	}
 	.mileage-calc-cost-value--secondary {
 		@apply text-2xl text-secondary;

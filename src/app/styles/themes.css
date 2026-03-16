@@ -1,62 +1,105 @@
-/* Light Mode (default) */
+/*
+  Design tokens — single source of truth for all CSS custom properties.
+  These are unlayered rules, so they win over the shadcn defaults that
+  live inside @layer base in base.css. Both our custom components and
+  ShadCN components read from these variables.
+*/
+
+/* ── Light Mode ───────────────────────────────────────────────────────── */
 :root {
-	/* Primary color: Soft blue */
-	--primary: 220, 70%, 60%;
-	--primary-50: 220, 70%, 95%;
-	--primary-100: 220, 70%, 90%;
-	--primary-200: 220, 70%, 80%;
+	/* Brand: Soft blue */
+	--primary:     hsl(220, 70%, 60%);
+	--primary-50:  hsl(220, 70%, 95%);
+	--primary-100: hsl(220, 70%, 90%);
+	--primary-200: hsl(220, 70%, 80%);
+	--primary-foreground: hsl(0, 0%, 100%);
 
-	/* Secondary color: Soft orange */
-	--secondary: 40, 80%, 55%;
-	--secondary-50: 40, 80%, 95%;
-	--secondary-100: 40, 80%, 90%;
-	--secondary-200: 40, 80%, 80%;
+	/* Brand: Soft orange */
+	--secondary:     hsl(40, 80%, 55%);
+	--secondary-50:  hsl(40, 80%, 95%);
+	--secondary-100: hsl(40, 80%, 90%);
+	--secondary-200: hsl(40, 80%, 80%);
+	--secondary-foreground: hsl(0, 0%, 100%);
 
-	/* Accent color: Soft green */
-	--accent: 150, 60%, 50%;
-	--accent-50: 150, 60%, 95%;
-	--accent-100: 150, 60%, 90%;
-	--accent-200: 150, 60%, 80%;
+	/* Brand: Soft green */
+	--accent:     hsl(150, 60%, 50%);
+	--accent-50:  hsl(150, 60%, 95%);
+	--accent-100: hsl(150, 60%, 90%);
+	--accent-200: hsl(150, 60%, 80%);
+	--accent-foreground: hsl(0, 0%, 100%);
 
-	/* Neutral color: Light gray background */
-	--neutral: 0, 0%, 98%;
-	--neutral-text: 0, 0%, 20%;
+	/* Text */
+	--foreground:   hsl(0, 0%, 20%);
+	--neutral-text: hsl(0, 0%, 20%);
+	--neutral:      hsl(0, 0%, 98%);
 
-	--background-base: 210, 30%, 98%; /* Softest blue-gray */
-	--background-elevated: 200, 25%, 96%; /* Slightly deeper for cards */
-	--background-header: 220, 20%, 94%; /* Distinct but subtle for headers */
-	--background-sidebar: 200, 15%, 93%; /* Slightly different for sidebars */
-	--background-highlight: 190, 30%, 97%; /* Subtle highlight areas */
+	/* Backgrounds */
+	--background:            hsl(210, 30%, 98%);
+	--background-base:       hsl(210, 30%, 98%);
+	--background-elevated:   hsl(200, 25%, 96%);
+	--background-header:     hsl(220, 20%, 94%);
+	--background-sidebar:    hsl(200, 15%, 93%);
+	--background-highlight:  hsl(190, 30%, 97%);
+
+	/* ShadCN tokens */
+	--card:               hsl(200, 25%, 96%);
+	--card-foreground:    hsl(0, 0%, 20%);
+	--popover:            hsl(200, 25%, 96%);
+	--popover-foreground: hsl(0, 0%, 20%);
+	--muted:              hsl(210, 30%, 95%);
+	--muted-foreground:   hsl(0, 0%, 45%);
+	--border:             hsl(220, 20%, 88%);
+	--input:              hsl(220, 20%, 90%);
+	--ring:               hsl(220, 70%, 60%);
+	--destructive:        hsl(0, 84%, 60%);
+	--radius:             0.625rem;
 }
 
-/* Dark Mode */
+/* ── Dark Mode ────────────────────────────────────────────────────────── */
 .dark {
-	/* Primary color: Soft blue */
-	--primary: 220, 40%, 70%;
-	--primary-50: 220, 40%, 15%;
-	--primary-100: 220, 40%, 20%;
-	--primary-200: 220, 40%, 30%;
+	/* Brand: Soft blue */
+	--primary:     hsl(220, 40%, 70%);
+	--primary-50:  hsl(220, 40%, 15%);
+	--primary-100: hsl(220, 40%, 20%);
+	--primary-200: hsl(220, 40%, 30%);
+	--primary-foreground: hsl(0, 0%, 100%);
 
-	/* Secondary color: Soft orange */
-	--secondary: 40, 50%, 65%;
-	--secondary-50: 40, 50%, 15%;
-	--secondary-100: 40, 50%, 20%;
-	--secondary-200: 40, 50%, 30%;
+	/* Brand: Soft orange */
+	--secondary:     hsl(40, 50%, 65%);
+	--secondary-50:  hsl(40, 50%, 15%);
+	--secondary-100: hsl(40, 50%, 20%);
+	--secondary-200: hsl(40, 50%, 30%);
+	--secondary-foreground: hsl(0, 0%, 100%);
 
-	/* Accent color: Soft green */
-	--accent: 150, 30%, 60%;
-	--accent-50: 150, 30%, 15%;
-	--accent-100: 150, 30%, 20%;
-	--accent-200: 150, 30%, 30%;
+	/* Brand: Soft green */
+	--accent:     hsl(150, 30%, 60%);
+	--accent-50:  hsl(150, 30%, 15%);
+	--accent-100: hsl(150, 30%, 20%);
+	--accent-200: hsl(150, 30%, 30%);
+	--accent-foreground: hsl(0, 0%, 100%);
 
-	/* Neutral color: Dark gray background */
-	--neutral: 0, 0%, 15%;
-	--neutral-text: 0, 0%, 95%;
+	/* Text */
+	--foreground:   hsl(0, 0%, 95%);
+	--neutral-text: hsl(0, 0%, 95%);
+	--neutral:      hsl(0, 0%, 15%);
 
-	/* Background System - Dark Mode */
-	--background-base: 220, 20%, 13%; /* Deep blue-gray */
-	--background-elevated: 215, 25%, 15%; /* Slightly lighter for cards */
-	--background-header: 220, 20%, 17%; /* Distinct header areas */
-	--background-sidebar: 215, 15%, 16%; /* Subtle sidebar difference */
-	--background-highlight: 210, 30%, 18%; /* Subtle highlight areas */
+	/* Backgrounds */
+	--background:            hsl(220, 20%, 13%);
+	--background-base:       hsl(220, 20%, 13%);
+	--background-elevated:   hsl(215, 25%, 15%);
+	--background-header:     hsl(220, 20%, 17%);
+	--background-sidebar:    hsl(215, 15%, 16%);
+	--background-highlight:  hsl(210, 30%, 18%);
+
+	/* ShadCN tokens */
+	--card:               hsl(215, 25%, 15%);
+	--card-foreground:    hsl(0, 0%, 95%);
+	--popover:            hsl(215, 25%, 15%);
+	--popover-foreground: hsl(0, 0%, 95%);
+	--muted:              hsl(220, 20%, 18%);
+	--muted-foreground:   hsl(0, 0%, 60%);
+	--border:             hsl(220, 20%, 25%);
+	--input:              hsl(220, 20%, 20%);
+	--ring:               hsl(220, 40%, 70%);
+	--destructive:        hsl(0, 70%, 65%);
 }

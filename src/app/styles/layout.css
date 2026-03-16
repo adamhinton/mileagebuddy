@@ -1,5 +1,3 @@
-@tailwind components;
-
 @layer components {
 	/* Layout-related styles will go here */
 	/* Example: .mileage-calc-container, .mileage-calc-card */

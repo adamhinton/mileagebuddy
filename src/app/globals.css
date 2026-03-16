@@ -1,25 +1,77 @@
 /* README */
 /* CSS has been organized into modular files in the styles/ directory for better maintainability */
 /* Look for individual styling components in:
-   - styles/base.css: Base styles and typography 
+   - styles/base.css: Base styles and typography
    - styles/forms.css: Form components and input styling
    - styles/navigation.css: Navigation components and links
    - styles/sections.css: Section components and collapsible elements
    - styles/themes.css: Theme variables and color definitions
 */
 
+@import "tailwindcss";
+
+/* Class-based dark mode (.dark on <html>) */
+@variant dark (&:is(.dark, .dark *));
+
+/*
+  @theme maps CSS custom properties → Tailwind v4 utility classes.
+  The actual color values are defined in styles/themes.css (unlayered, so they
+  win over the shadcn defaults that live inside @layer base in base.css).
+*/
+@theme {
+  /* Brand colors */
+  --color-primary:    var(--primary);
+  --color-primary-50:  var(--primary-50);
+  --color-primary-100: var(--primary-100);
+  --color-primary-200: var(--primary-200);
+
+  --color-secondary:    var(--secondary);
+  --color-secondary-50:  var(--secondary-50);
+  --color-secondary-100: var(--secondary-100);
+  --color-secondary-200: var(--secondary-200);
+
+  --color-accent:    var(--accent);
+  --color-accent-50:  var(--accent-50);
+  --color-accent-100: var(--accent-100);
+  --color-accent-200: var(--accent-200);
+
+  --color-neutral:      var(--neutral);
+  --color-neutral-text: var(--neutral-text);
+
+  /* Background system */
+  --color-background-base:      var(--background-base);
+  --color-background-elevated:  var(--background-elevated);
+  --color-background-header:    var(--background-header);
+  --color-background-sidebar:   var(--background-sidebar);
+  --color-background-highlight: var(--background-highlight);
+
+  /* ShadCN / standard Tailwind tokens */
+  --color-background:         var(--background);
+  --color-foreground:         var(--foreground);
+  --color-card:               var(--card);
+  --color-card-foreground:    var(--card-foreground);
+  --color-popover:            var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary-foreground:   var(--primary-foreground);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent-foreground:    var(--accent-foreground);
+  --color-muted:            var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive:      var(--destructive);
+  --color-border: var(--border);
+  --color-input:  var(--input);
+  --color-ring:   var(--ring);
+}
+
 /* Import base styles first */
 @import "./styles/base.css";
 
-/* Import all component style modules - each file now has its own @tailwind components directive */
+/* Import all component style modules */
 @import "./styles/layout.css";
 @import "./styles/components.css";
 @import "./styles/forms.css";
 @import "./styles/navigation.css";
 @import "./styles/sections.css";
 
-/* Import theme variables */
+/* Import theme variables (unlayered — wins over shadcn @layer base defaults) */
 @import "./styles/themes.css";
-
-/* Add utilities layer last */
-@tailwind utilities;
