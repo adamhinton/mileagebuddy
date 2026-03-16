@@ -1,15 +1,22 @@
 "use client";
 
+// AUTH TODO:
+// Work darkmode in to auth user data
+
 import Script from "next/script";
 import { useAppSelector } from "@/redux/hooks";
 import { createClientCSROnly } from "../utils/server/supabase/client";
 
+// Did this for google signin stuff
 declare global {
 	interface Window {
 		handleSignInWithGoogle: (response: { credential: string }) => Promise<void>;
 	}
 }
 
+// Google's auth API expects this function to be in the global scope
+// DO NOT CHANGE THIS FUNCTION NAME, ITS NAME IS REFERENCED IN THE GOOGLE GSI SCRIPT
+// Google's API calls this function when the user signs in
 window.handleSignInWithGoogle =
 	async function handleSignInWithGoogle(response: { credential: string }) {
 		const supabase = createClientCSROnly();
