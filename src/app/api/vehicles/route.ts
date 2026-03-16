@@ -37,7 +37,7 @@ export async function GET(request: Request): Promise<
 					error:
 						"userid is required. Must be formatted like: /api/vehicles?userid=2348. Or, optionally, api/vehicles?userid=1234&vehicleid=2348",
 				},
-				{ status: 400 }
+				{ status: 400 },
 			);
 		}
 
@@ -49,13 +49,13 @@ export async function GET(request: Request): Promise<
 			 * Will be an array with one vehicle if vehicle exists in db, or empty array if vehicle isn't in db
 			 */
 			const arrayWithSingleVehicle = await getSingleVehicleById(
-				Number(vehicleID)
+				Number(vehicleID),
 			);
 
 			if (arrayWithSingleVehicle.length === 0) {
 				return NextResponse.json(
 					{ error: `Vehicle with id ${vehicleID} not found` },
-					{ status: 404 }
+					{ status: 404 },
 				);
 			}
 
@@ -70,7 +70,7 @@ export async function GET(request: Request): Promise<
 			{
 				error: "Failed to fetch vehicle data:" + error,
 			},
-			{ status: 500 }
+			{ status: 500 },
 		);
 	}
 }
@@ -81,20 +81,23 @@ export async function GET(request: Request): Promise<
  * NOTE: Middleware has validated this Vehicle before it gets here
  */
 export async function POST(
-	request: Request
+	request: Request,
 ): Promise<NextResponse<Vehicle | { error: string }>> {
 	const supabase = await createClientSSROnly();
 
 	// Body has already been validated against VehicleToBePostedSchema in the middleware
 	const body: Vehicle_For_db_POST = await request.json();
+	console.log("body:", body);
 
 	const response = await addNewVehicleToDB(body, supabase);
+
+	console.log("response:", response);
 
 	return response;
 }
 
 export async function DELETE(
-	request: Request
+	request: Request,
 ): Promise<NextResponse<Vehicle | { error: string }>> {
 	const supabase = await createClientSSROnly();
 	const url = new URL(request.url!);
@@ -106,7 +109,7 @@ export async function DELETE(
 				error:
 					"vehicleid is required. Must be formatted like: /api/vehicles?vehicleid=2348",
 			},
-			{ status: 400 }
+			{ status: 400 },
 		);
 	}
 
@@ -114,7 +117,7 @@ export async function DELETE(
 	if (vehicleArray.length === 0) {
 		return NextResponse.json(
 			{ error: `Vehicle with id ${vehicleID} not found` },
-			{ status: 404 }
+			{ status: 404 },
 		);
 	}
 
@@ -133,7 +136,7 @@ export async function DELETE(
  * The function only makes updates if all parts succeed
  */
 export async function PATCH(
-	request: Request
+	request: Request,
 ): Promise<NextResponse<Vehicle | { error: string }>> {
 	const supabase = await createClientSSROnly();
 
@@ -199,7 +202,7 @@ export async function PATCH(
 	const response = await updateVehicleInDB(
 		updatedPartialVehicle,
 		supabase,
-		Number(vehicleID)
+		Number(vehicleID),
 	);
 
 	return response;

@@ -59,10 +59,12 @@ Follow these steps to set up the project for local development:
    ```
 
 3. **Ensure Docker is Running**
+
    - Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) if you haven't already.
    - Make sure Docker is **running** (not just installed) before proceeding. The local database runs inside Docker.
 
 4. **Set Up Supabase**
+
    - You need a Supabase project to host the database.
      - If you're a collaborator on this project, request authorization to access the existing Supabase project.
      - Otherwise, create your own Supabase project by following the [Supabase CLI setup guide](https://supabase.com/docs/guides/local-development/cli/getting-started).
@@ -77,6 +79,7 @@ Follow these steps to set up the project for local development:
      ```
 
 5. **Set Up Google Cloud Platform (GCP) OAuth**
+
    - Create a GCP project and configure OAuth credentials.
    - Add the URI of the environment where you're running this project (e.g., `localhost`) to the list of **Authorized Redirect URIs** in the GCP console.
    - Obtain the `GOOGLE_OAUTH_SECRET` and add it to your `.env.local` file.
@@ -97,6 +100,7 @@ Follow these steps to set up the project for local development:
    ```bash
    npm run dev:setup
    ```
+
    - This script sets up the local database, and starts both the frontend and backend.
 
 8. **Troubleshooting**
@@ -163,6 +167,7 @@ The backend uses Next.js API routes to handle CRUD operations for vehicles. Belo
 
 - **GET /api/vehicles**  
   Fetches vehicle data.
+
   - Combines data from the eight relevant Vehicle tables (fixedCosts, vehicles, variableCosts etc)
 
 - **POST /api/vehicles**  
@@ -170,15 +175,18 @@ The backend uses Next.js API routes to handle CRUD operations for vehicles. Belo
 
 - **PATCH /api/vehicles**  
   Updates an existing vehicle.
+
   - Accepts a partial vehicle object and updates only the provided fields.
   - Calls the `update_vehicle` database function.
 
 - **DELETE /api/vehicles**  
   Deletes a vehicle by its ID.
+
   - Returns the deleted vehicle object.
 
 - **PATCH /api/vehicles/order**  
   Updates the display order of vehicles.
+
   - Used for drag-and-drop reordering in the dashboard.
 
 - **Users**
@@ -283,12 +291,15 @@ If you encounter issues while developing the backend locally, follow these steps
 NOTE that Steps 2-4 are all covered by the single command: `npm run dev:setup`. This starts up both the client/server and the database. You only need these individual steps to help debug if something is going wrong.
 
 1. **Ensure Docker Desktop is Running**
+
    - The local database runs inside Docker, so Docker Desktop must be installed and running.
 
 2. **Install Supabase CLI**
+
    - If not already installed, follow the [Supabase CLI setup guide](https://supabase.com/docs/guides/local-development/cli/getting-started).
 
 3. **Link the Project to Supabase**
+
    - Run the following command to link the project to your Supabase instance:
      ```bash
      npx supabase link
@@ -296,24 +307,28 @@ NOTE that Steps 2-4 are all covered by the single command: `npm run dev:setup`. 
    - Provide the project reference ID when prompted (e.g., `kqnhzwgaypywymhqfbgd`).
 
 4. **Start Supabase Locally**
+
    - Start the local Supabase instance:
      ```bash
      npx supabase start
      ```
 
 5. **Run Migrations**
+
    - Apply migrations to the local database:
      ```bash
      npx supabase migration up
      ```
 
 6. **Reset the Database**
+
    - To reapply migrations and populate the database with seed data:
      ```bash
      npx supabase db reset
      ```
 
 7. **Environment Variables**
+
    - Ensure the following variables are correctly set in your `.env.local` file:
      ```env
      NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
@@ -323,12 +338,14 @@ NOTE that Steps 2-4 are all covered by the single command: `npm run dev:setup`. 
      ```
 
 8. **Run the Setup Script**
+
    - Use the custom setup script to initialize both the frontend and backend:
      ```bash
      npm run dev:setup
      ```
 
 9. **Check Supabase Logs**
+
    - If issues persist, check the Supabase logs for errors:
      ```bash
      npx supabase logs

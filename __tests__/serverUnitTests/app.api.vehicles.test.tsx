@@ -72,7 +72,6 @@ describe("GET /api/vehicles", () => {
 				make: "Tesla",
 				model: "Model 3",
 				trim: "Base",
-				highwayMPG: 35.5,
 			},
 			gasVehicleData: {
 				vehicleID: 1,
@@ -144,7 +143,7 @@ describe("GET /api/vehicles", () => {
 			eq: jest.fn().mockReturnThis(),
 			then: jest.fn().mockImplementation((callback) => {
 				return Promise.resolve(
-					callback({ data: [mockVehicles[0]], error: null })
+					callback({ data: [mockVehicles[0]], error: null }),
 				);
 			}),
 		});
@@ -168,7 +167,7 @@ describe("GET /api/vehicles", () => {
 		expect(responseData).toEqual([mockVehicles[0]]);
 		expect(mockSupabase).toHaveBeenCalledWith("vehicles");
 		expect(mockSupabase().select).toHaveBeenCalledWith(
-			stringForJoiningVehicleTables
+			stringForJoiningVehicleTables,
 		);
 		expect(mockSupabase().eq).toHaveBeenCalledWith("id", 1);
 	});
@@ -272,7 +271,6 @@ describe("POST /api/vehicles", () => {
 				make: "Tesla",
 				model: "Model 3",
 				trim: "Base",
-				highwayMPG: 35.5,
 			},
 			gasVehicleData: {
 				gasCostPerGallon: 3.5,
@@ -427,7 +425,7 @@ describe("POST /api/vehicles", () => {
 				then: jest
 					.fn()
 					.mockImplementation((cb) =>
-						cb({ data: [vehicleWithNullElectricVehicleData], error: null })
+						cb({ data: [vehicleWithNullElectricVehicleData], error: null }),
 					),
 			}),
 		};
@@ -472,7 +470,7 @@ describe("POST /api/vehicles", () => {
 				then: jest
 					.fn()
 					.mockImplementation((cb) =>
-						cb({ data: [vehicleWithNullGasVehicleData], error: null })
+						cb({ data: [vehicleWithNullGasVehicleData], error: null }),
 					),
 			}),
 		};
@@ -523,7 +521,7 @@ describe("POST /api/vehicles", () => {
 				then: jest
 					.fn()
 					.mockImplementation((cb) =>
-						cb({ data: [vehicleWithNullHybridVehicleData], error: null })
+						cb({ data: [vehicleWithNullHybridVehicleData], error: null }),
 					),
 			}),
 		};
@@ -601,7 +599,6 @@ describe("DELETE /api/vehicles", () => {
 				make: "Tesla",
 				model: "Model 3",
 				trim: "Base",
-				highwayMPG: 35.5,
 			},
 			gasVehicleData: {
 				vehicleID: 1,
@@ -768,7 +765,6 @@ describe("PATCH api/vehicles", () => {
 			make: "Tesla",
 			model: "Model 3",
 			trim: "Base",
-			highwayMPG: 35.5,
 		},
 		gasVehicleData: {
 			vehicleID: 1,
@@ -834,7 +830,6 @@ describe("PATCH api/vehicles", () => {
 			make: "TEST UPDATE",
 			model: "TEST UPDATED TEST",
 			trim: "Base",
-			highwayMPG: 35.5,
 		},
 	};
 
@@ -886,7 +881,7 @@ describe("PATCH api/vehicles", () => {
 
 		expect(responseData.status).toBe(400);
 		expect(responseData.error).toEqual(
-			"vehicleid is required. Must be formatted like: /api/vehicles?vehicleid=2348"
+			"vehicleid is required. Must be formatted like: /api/vehicles?vehicleid=2348",
 		);
 	});
 
@@ -932,7 +927,7 @@ describe("PATCH api/vehicles", () => {
 
 		expect(responseData.status).toBe(400);
 		expect(responseData.error).toEqual(
-			"Must include at least one vehicle field to update"
+			"Must include at least one vehicle field to update",
 		);
 	});
 });

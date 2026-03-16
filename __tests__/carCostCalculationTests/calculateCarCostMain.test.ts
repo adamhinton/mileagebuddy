@@ -18,7 +18,6 @@ const completeMockVehicle = {
 		make: "Tesla",
 		model: "Model 3",
 		trim: "Base",
-		highwayMPG: 35.5,
 	},
 	gasVehicleData: {
 		vehicleID: 1,

@@ -8,7 +8,7 @@
 import { useAppDispatch } from "@/redux/hooks";
 import { createClientCSROnly } from "../utils/server/supabase/client";
 import { clearUser, setUser } from "@/redux/reducers/userReducer";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import {
 	removeAllVehicles,
 	setVehicles,
@@ -21,7 +21,8 @@ interface AuthWatcherProps {
 }
 
 const AuthWatcher = ({ children }: AuthWatcherProps) => {
-	const supabase = createClientCSROnly();
+	const supabaseRef = useRef(createClientCSROnly());
+	const supabase = supabaseRef.current;
 	const dispatch = useAppDispatch();
 	const [authInitialized, setAuthInitialized] = useState(false);
 
@@ -36,7 +37,7 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 
 				// sort by vehiclesOrder, starting at 1
 				const vehiclesInOrder = vehicles.sort(
-					(a, b) => a.vehiclesOrder - b.vehiclesOrder
+					(a, b) => a.vehiclesOrder - b.vehiclesOrder,
 				);
 
 				dispatch(setVehicles(vehiclesInOrder));
@@ -56,7 +57,7 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 						id: data.session.user.id,
 						email: data.session.user.email!,
 						isDarkMode: false,
-					})
+					}),
 				);
 				await fetchAndSetVehicles(data.session.user.id);
 			}
@@ -78,7 +79,7 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 						id: session!.user.id,
 						email: session!.user.email!,
 						isDarkMode: false,
-					})
+					}),
 				);
 				fetchAndSetVehicles(session!.user.id);
 				redirect("/dashboard");
@@ -99,7 +100,7 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 						id: session!.user.id,
 						email: session!.user.email!,
 						isDarkMode: false,
-					})
+					}),
 				);
 
 				console.log("User updated:", session);
@@ -119,7 +120,7 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 						id: session!.user.id,
 						email: session!.user.email!,
 						isDarkMode: false,
-					})
+					}),
 				);
 				fetchAndSetVehicles(session!.user.id);
 			}

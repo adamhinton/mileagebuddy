@@ -31,8 +31,7 @@ BEGIN
             "year" = (_partialData->'vehicleData'->>'year')::INT,
             "make" = _partialData->'vehicleData'->>'make',
             "model" = _partialData->'vehicleData'->>'model',
-            "trim" = _partialData->'vehicleData'->>'trim',
-            "highwayMPG" = (_partialData->'vehicleData'->>'highwayMPG')::DECIMAL
+            "trim" = _partialData->'vehicleData'->>'trim'
         WHERE 
             "vehicleID" = _vehicleID;
     END IF;

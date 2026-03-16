@@ -17,7 +17,6 @@ const testVehicles: Vehicle[] = [
 			make: "Ford",
 			model: "F-150",
 			trim: "XLT",
-			highwayMPG: 20,
 		},
 		purchaseAndSales: {
 			vehicleID: 10,
@@ -84,7 +83,6 @@ const testVehicles: Vehicle[] = [
 			make: "Toyota",
 			model: "Camry",
 			trim: "SE",
-			highwayMPG: 32,
 		},
 		purchaseAndSales: {
 			vehicleID: 102,
@@ -151,7 +149,6 @@ const testVehicles: Vehicle[] = [
 			make: "Tesla",
 			model: "Model 3",
 			trim: "Long Range",
-			highwayMPG: 130, // Approximate MPGe for highways
 		},
 		purchaseAndSales: {
 			vehicleID: 201,
@@ -217,7 +214,6 @@ const testVehicles: Vehicle[] = [
 			make: "Nissan",
 			model: "Leaf",
 			trim: "SV",
-			highwayMPG: 100, // Approximate MPGe for highways
 		},
 		purchaseAndSales: {
 			vehicleID: 202,
@@ -283,7 +279,6 @@ const testVehicles: Vehicle[] = [
 			make: "Toyota",
 			model: "Prius Prime",
 			trim: "XLE",
-			highwayMPG: 54,
 		},
 		purchaseAndSales: {
 			vehicleID: 301,
@@ -354,7 +349,6 @@ const testVehicles: Vehicle[] = [
 			make: "Hyundai",
 			model: "Ioniq",
 			trim: "Limited",
-			highwayMPG: 52,
 		},
 		purchaseAndSales: {
 			vehicleID: 302,

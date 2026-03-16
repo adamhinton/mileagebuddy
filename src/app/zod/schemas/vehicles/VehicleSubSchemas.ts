@@ -18,8 +18,6 @@ export const VehicleDataSchema = z
 		make: z.string().min(1).max(30).trim().describe("Vehicle Make"),
 		model: z.string().min(1).max(30).trim().describe("Vehicle Model"),
 		trim: z.string().min(1).max(30).trim().describe("Vehicle Trim"),
-		// TODO Stretch: Delete highwayMPG, this is redundant with a field used elsewhere.
-		highwayMPG: z.number().max(5000).nonnegative().nullable().optional(),
 	})
 	.describe("Gas Vehicle Data");
 
@@ -180,7 +178,7 @@ export const PurchaseAndSalesSchema = z
 		(data) => {
 			return data.milesBoughtAt <= data.willSellCarAtMiles;
 		},
-		{ message: boughtAtLessThanSoldAtError, path: ["milesBoughtAt"] }
+		{ message: boughtAtLessThanSoldAtError, path: ["milesBoughtAt"] },
 	)
 	.describe(boughtAtLessThanSoldAtError);
 

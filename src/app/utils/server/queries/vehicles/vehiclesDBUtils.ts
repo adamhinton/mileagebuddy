@@ -24,7 +24,7 @@ export const stringForJoiningVehicleTables = `
 		userid, type, id, "vehiclesOrder",
 
 		"vehicleData"(
-			"id", "vehicleID", "vehicleName", year, make, model, trim, "highwayMPG"
+			"id", "vehicleID", "vehicleName", year, make, model, trim
 		),
 		
 		"gasVehicleData"(
@@ -69,7 +69,7 @@ type ArrayWithOneOrZeroVehicles = [Vehicle?];
  * Returns empty array if vehicle doesn't exist
  */
 export async function getSingleVehicleById(
-	vehicleId: number
+	vehicleId: number,
 ): Promise<ArrayWithOneOrZeroVehicles> {
 	/**Vehicle data is stored in several different tables
 	 *
@@ -89,7 +89,7 @@ export async function getSingleVehicleById(
 	// vehicle ids are unique so this should never happen
 	if (vehicles.length > 1) {
 		throw new Error(
-			"Error fetching vehicle data: Multiple vehicles found. \n how did you even do that?"
+			"Error fetching vehicle data: Multiple vehicles found. \n how did you even do that?",
 		);
 	}
 
@@ -102,7 +102,7 @@ export async function getSingleVehicleById(
 /** Get all vehicles belonging to a user */
 async function getVehiclesByUser(
 	supabase: SupabaseClient,
-	userId: string
+	userId: string,
 ): Promise<Vehicles> {
 	/** This is just the data from the vehicles table
 	 * There are several db tables that contain user data. Still need to aggregate all of them
@@ -118,7 +118,7 @@ async function getVehiclesByUser(
 }
 
 const checkIfVehicleExistsInDB = async (
-	vehicleID: number
+	vehicleID: number,
 ): Promise<boolean> => {
 	// Should be an array with one vehicle
 	const vehicleArray = await getSingleVehicleById(vehicleID);
@@ -135,7 +135,7 @@ const checkIfVehicleExistsInDB = async (
  */
 const deleteDBVehicle = async (
 	vehicle: Vehicle,
-	supabase: SupabaseClient
+	supabase: SupabaseClient,
 ): Promise<NextResponse<Vehicle | { error: string }>> => {
 	try {
 		const { data, error } = await supabase
@@ -148,7 +148,7 @@ const deleteDBVehicle = async (
 		if (!data || data.length === 0) {
 			return NextResponse.json(
 				{ error: `Vehicle with id ${vehicle.id} not found` },
-				{ status: 404 }
+				{ status: 404 },
 			);
 		}
 
@@ -164,7 +164,7 @@ const deleteDBVehicle = async (
 		console.error("Error deleting vehicle:", error);
 		return NextResponse.json(
 			{ error: "Failed to delete vehicle" },
-			{ status: 500 }
+			{ status: 500 },
 		);
 	}
 };
@@ -179,7 +179,7 @@ const deleteDBVehicle = async (
  */
 const updateVehicleOrdersAfterDelete = async (
 	vehicle: Vehicle,
-	supabase: SupabaseClient
+	supabase: SupabaseClient,
 ): Promise<boolean> => {
 	try {
 		// Fetch vehicles that should have their order decremented.
@@ -211,7 +211,7 @@ const updateVehicleOrdersAfterDelete = async (
 				if (updateError) {
 					throw updateError;
 				}
-			}
+			},
 		);
 
 		await Promise.all(updatePromises);
@@ -230,7 +230,7 @@ const updateVehicleOrdersAfterDelete = async (
  */
 const addNewVehicleToDB = async (
 	body: Vehicle_For_db_POST,
-	supabase: SupabaseClient
+	supabase: SupabaseClient,
 ): Promise<NextResponse<Vehicle | { error: string }>> => {
 	// Should only include the fields that need to be updated
 	const {
@@ -282,7 +282,7 @@ const addNewVehicleToDB = async (
 		console.error("Error inserting vehicle data:", error);
 		return NextResponse.json(
 			{ error: "Failed to insert vehicle data" },
-			{ status: 500 }
+			{ status: 500 },
 		);
 	}
 };
@@ -300,7 +300,7 @@ const addNewVehicleToDB = async (
 const updateVehicleInDB = async (
 	updatedPartialVehicle: Partial<Vehicle>,
 	supabase: SupabaseClient,
-	vehicleID: number
+	vehicleID: number,
 ): Promise<NextResponse<Vehicle | { error: string }>> => {
 	// Should only include the fields that need to be updated
 	const {
@@ -356,7 +356,7 @@ const updateVehicleInDB = async (
 		console.error("Error updating vehicle data:", error);
 		return NextResponse.json(
 			{ error: "Failed to update vehicle data" },
-			{ status: 500 }
+			{ status: 500 },
 		);
 	}
 };

@@ -85,21 +85,20 @@ CROSS JOIN (
   SELECT gs + 6 AS order_val, 'hybrid' AS type FROM generate_series(1,3) gs
 ) t;
 
--- Note: highwayMPG is deprecated since it's handled elsewhere; I just have to insert something there
-INSERT INTO "vehicleData" ("vehicleID", "vehicleName", year, make, model, trim, "highwayMPG", "createdAt", "updatedAt")
+INSERT INTO "vehicleData" ("vehicleID", "vehicleName", year, make, model, trim, "createdAt", "updatedAt")
 VALUES
--- Gas Vehicles
-(1, 'Ford Focus', 2020, 'Ford', 'Focus', 'SE', 35.5, NOW(), NOW()),
-(2, 'Chevrolet Malibu', 2021, 'Chevrolet', 'Malibu', 'LT', 30.2, NOW(), NOW()),
-(3, 'Toyota Camry', 2019, 'Toyota', 'Camry', 'XLE', 28.4, NOW(), NOW()),
--- Electric Vehicles
-(4, 'Tesla Model 3', 2023, 'Tesla', 'Model 3', 'Long Range', 0, NOW(), NOW()), -- MPGe handled elsewhere
-(5, 'Nissan Leaf', 2021, 'Nissan', 'Leaf', 'S Plus', 0, NOW(), NOW()), -- MPGe handled elsewhere
-(6, 'Chevrolet Bolt EV', 2022, 'Chevrolet', 'Bolt EV', 'LT', 0, NOW(), NOW()), -- MPGe handled elsewhere
+-- Gas Vehic
+(1, 'Ford Focus', 2020, 'Ford', 'Focus', 'SE', NOW(), NOW()),
+(2, 'Chevrolet Malibu', 2021, 'Chevrolet', 'Malibu', 'LT', NOW(), NOW()),
+(3, 'Toyota Camry', 2019, 'Toyota', 'Camry', 'XLE', NOW(), NOW()),
+-- Electric Vehi
+(4, 'Tesla Model 3', 2023, 'Tesla', 'Model 3', 'Long Range', NOW(), NOW()), -- MPGe handled elsewhere
+(5, 'Nissan Leaf', 2021, 'Nissan', 'Leaf', 'S Plus', NOW(), NOW()), -- MPGe handled elsewhere
+(6, 'Chevrolet Bolt EV', 2022, 'Chevrolet', 'Bolt EV', 'LT', NOW(), NOW()), -- MPGe handled elsewhere
 -- Plugin hybrids
-(7, 'Toyota Prius Prime', 2022, 'Toyota', 'Prius Prime', 'XLE', 54, NOW(), NOW()), -- Combined MPG, electric handled in hybrid table
-(8, 'Hyundai Ioniq Plug-in', 2021, 'Hyundai', 'Ioniq Plug-in', 'Limited', 52, NOW(), NOW()), -- Combined MPG
-(9, 'Ford Escape PHEV', 2023, 'Ford', 'Escape PHEV', 'SE', 40, NOW(), NOW()); -- Combined MPG
+(7, 'Toyota Prius Prime', 2022, 'Toyota', 'Prius Prime', 'XLE', NOW(), NOW()), -- Combined MPG, electric handled in hybrid table
+(8, 'Hyundai Ioniq Plug-in', 2021, 'Hyundai', 'Ioniq Plug-in', 'Limited', NOW(), NOW()), -- Combined MPG
+(9, 'Ford Escape PHEV', 2023, 'Ford', 'Escape PHEV', 'SE', NOW(), NOW()); -- Combined MPG
 
 INSERT INTO "gasVehicleData" ("vehicleID", "gasCostPerGallon", "milesPerGallonHighway", "milesPerGallonCity", "createdAt", "updatedAt")
 VALUES

@@ -23,7 +23,6 @@ const baseDefaultVehicleValues: DeepPartial<DeepReadonly<VehiclePATCHorPOST>> =
 			make: "",
 			model: "",
 			trim: "",
-			highwayMPG: 0,
 		},
 		gasVehicleData: {
 			gasCostPerGallon: 0,
@@ -85,7 +84,7 @@ const baseDefaultVehicleValues: DeepPartial<DeepReadonly<VehiclePATCHorPOST>> =
 	} as const;
 
 export const defaultVehicleValuesPOST = (
-	userId: string
+	userId: string,
 ): DeepPartial<DeepReadonly<Vehicle_For_db_POST>> => {
 	return {
 		userid: userId,
@@ -102,7 +101,7 @@ export const defaultVehicleValuesPOST = (
  */
 export const defaultVehicleValuesPATCH = (
 	userId: string,
-	vehicleToEdit: Vehicle_For_db_PATCH
+	vehicleToEdit: Vehicle_For_db_PATCH,
 ): DeepPartial<Readonly<Vehicle_For_db_PATCH>> => {
 	return {
 		userid: vehicleToEdit.userid,

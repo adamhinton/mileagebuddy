@@ -38,9 +38,9 @@ BEGIN
         VALUES (_userID, _type, 1)
         RETURNING id INTO new_vehicle_id;
 
-        INSERT INTO "vehicleData" ("vehicleID", "vehicleName", "year", "make", "model", "trim", "highwayMPG")
+        INSERT INTO "vehicleData" ("vehicleID", "vehicleName", "year", "make", "model", "trim")
         VALUES (new_vehicle_id, _vehicleData->>'vehicleName', (_vehicleData->>'year')::INT, _vehicleData->>'make', 
-                _vehicleData->>'model', _vehicleData->>'trim', (_vehicleData->>'highwayMPG')::DECIMAL);
+                _vehicleData->>'model', _vehicleData->>'trim');
 
         -- Insert into gasVehicleData only for 'gas' type vehicles
         -- Standard hybrids (ones that don't plug in) are also counted in this category

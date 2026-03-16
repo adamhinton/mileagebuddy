@@ -51,8 +51,10 @@ export default function RootLayout({
 						</ReduxStoreProvider>
 					</ThemeWrapper>
 				</div>
-
-				<script src="https://accounts.google.com/gsi/client" async></script>
+				{/* <Script
+					src="https://accounts.google.com/gsi/client"
+					strategy="afterInteractive"
+				/>{" "} */}
 			</body>
 		</html>
 	);

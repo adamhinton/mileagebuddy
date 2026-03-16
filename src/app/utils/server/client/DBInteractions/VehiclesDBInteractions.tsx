@@ -23,7 +23,7 @@ import {
 
 /** See api/vehicles/route.ts GET for the associated endpoint */
 export const getVehiclesByUserIDClient = async (
-	userID: string
+	userID: string,
 ): Promise<Vehicles> => {
 	try {
 		const res = await fetch(`/api/vehicles?userid=${userID}`, {
@@ -41,7 +41,7 @@ export const getVehiclesByUserIDClient = async (
 			if (!isVehicle.success && process.env.NODE_ENV === "development") {
 				console.error(
 					"Vehicle from GET failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
-					isVehicle.error.errors
+					isVehicle.error.errors,
 				);
 				throw new Error("Vehicle failed validation");
 			}
@@ -60,14 +60,14 @@ export const getVehiclesByUserIDClient = async (
  */
 export const getSingleVehicleByIDClient = async (
 	vehicleID: number,
-	userID: number
+	userID: number,
 ): Promise<[Vehicle?]> => {
 	try {
 		const res = await fetch(
 			`/api/vehicles?userid=${userID}&vehicleid=${vehicleID}`,
 			{
 				method: "GET",
-			}
+			},
 		);
 		const arrayWithOneOr0Vehicle: [Vehicle?] = await res.json();
 
@@ -79,7 +79,7 @@ export const getSingleVehicleByIDClient = async (
 			if (!isVehicle.success && process.env.NODE_ENV === "development") {
 				console.error(
 					"Vehicle from GET failed validation. Probably there's a mismatch between the db and the Zod schema. \n Did you change the db without changing the Zod schema, or vice-versa?",
-					isVehicle.error.errors
+					isVehicle.error.errors,
 				);
 				throw new Error("Vehicle failed validation");
 			}
@@ -98,7 +98,7 @@ export const getSingleVehicleByIDClient = async (
  */
 export const insertVehicleClient = async (
 	// Don't need to know userid because Vehicle_For_db_POST has user ID
-	vehicle: Vehicle_For_db_POST
+	vehicle: Vehicle_For_db_POST,
 ): Promise<Vehicle> => {
 	// Validate vehicle (obviously)
 	// This POST vehicle validation may be redundant because the form hook in the UI will already do this
@@ -108,7 +108,7 @@ export const insertVehicleClient = async (
 	if (!isVehicle.success) {
 		console.error(
 			"Vehicle for POST failed validation. ",
-			isVehicle.error.errors
+			isVehicle.error.errors,
 		);
 		throw new Error("Vehicle failed validation xyz");
 	}
@@ -131,7 +131,7 @@ export const insertVehicleClient = async (
 		if (!isNewVehicle.success) {
 			console.error(
 				"New vehicle from POST failed validation.",
-				isNewVehicle.error.errors
+				isNewVehicle.error.errors,
 			);
 			throw new Error("Vehicle failed validation");
 		}
@@ -150,7 +150,7 @@ export const insertVehicleClient = async (
  * See api/vehicles/route.ts DELETE for associated endpoint
  */
 export const deleteVehicleByIDClient = async (
-	vehicleID: number
+	vehicleID: number,
 ): Promise<
 	| Vehicle
 	| {
@@ -183,7 +183,7 @@ export const deleteVehicleByIDClient = async (
  * Validates vehicle before sending to DB, and validates vehicle received from DB
  */
 export const updateVehicleInDBClient = async (
-	vehicle: Vehicle_For_db_PATCH
+	vehicle: Vehicle_For_db_PATCH,
 ): Promise<Vehicle> => {
 	// Validate vehicle (obviously)
 	// This PATCH client vehicle validation may be redundant because the form hook in the UI will already do this
@@ -192,7 +192,7 @@ export const updateVehicleInDBClient = async (
 	if (!isVehicle.success) {
 		console.error(
 			"Vehicle for PATCH failed validation. ",
-			isVehicle.error.errors
+			isVehicle.error.errors,
 		);
 		throw new Error("Vehicle failed validation");
 	}
@@ -212,7 +212,7 @@ export const updateVehicleInDBClient = async (
 		if (!isNewVehicle.success) {
 			console.error(
 				"New vehicle from PATCH failed validation.",
-				isNewVehicle.error.errors
+				isNewVehicle.error.errors,
 			);
 			throw new Error("Vehicle failed validation");
 		}
@@ -230,7 +230,7 @@ export const updateVehicleInDBClient = async (
  */
 export const updateVehicleOrdersClient = async (
 	userid: string,
-	orderUpdates: Array<{ id: number; order: number }>
+	orderUpdates: Array<{ id: number; order: number }>,
 ): Promise<{ success: boolean } | { error: string }> => {
 	const requestBody = {
 		userid,
@@ -244,7 +244,7 @@ export const updateVehicleOrdersClient = async (
 	if (!isSafe.success) {
 		console.error(
 			"Invalid request body. Make sure you're sending the right format to api/vehicles/order:",
-			isSafe.error
+			isSafe.error,
 		);
 		return { error: "Invalid request body." };
 	}
