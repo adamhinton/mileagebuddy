@@ -40,4 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+StylingUpdatePlan.md
 copilot-instructions.md
