@@ -16,6 +16,23 @@ import { getSingleVehicleById } from "./app/utils/server/queries/vehicles/vehicl
 import { createServerClient } from "@supabase/ssr";
 
 export async function middleware(request: NextRequest) {
+	if (
+		request.nextUrl.pathname === "/" &&
+		request.nextUrl.searchParams.has("code") &&
+		request.nextUrl.searchParams.has("state") &&
+		request.nextUrl.searchParams.get("iss") === "https://accounts.google.com"
+	) {
+		const callbackUrl = new URL("/auth/google/callback", request.url);
+		callbackUrl.search = request.nextUrl.search;
+		return NextResponse.redirect(callbackUrl);
+	}
+
+	const isAuthRoute = request.nextUrl.pathname.startsWith("/auth/");
+
+	if (isAuthRoute) {
+		return NextResponse.next();
+	}
+
 	const supabase = createServerClient(
 		process.env.NEXT_PUBLIC_SUPABASE_URL!,
 		process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -25,7 +42,7 @@ export async function middleware(request: NextRequest) {
 					return request.cookies.get(name)?.value;
 				},
 			},
-		}
+		},
 	);
 	const loggedInUser = await supabase.auth.getUser();
 	const userId = loggedInUser.data.user?.id;
@@ -49,7 +66,7 @@ export async function middleware(request: NextRequest) {
 			// throw error
 			return NextResponse.json(
 				{ error: `Vehicle with id ${vehicleId} not found for logged in user` },
-				{ status: 404 }
+				{ status: 404 },
 			);
 		}
 	}
@@ -69,7 +86,7 @@ export async function middleware(request: NextRequest) {
 			if (!isBodyValid) {
 				return NextResponse.json(
 					{ error: "Invalid POST vehicle input" },
-					{ status: 400 }
+					{ status: 400 },
 				);
 			}
 
@@ -77,7 +94,7 @@ export async function middleware(request: NextRequest) {
 			if (userId !== body.userid) {
 				return NextResponse.json(
 					{ error: "Logged in user's id does not match vehicle's userId" },
-					{ status: 400 }
+					{ status: 400 },
 				);
 			}
 
@@ -101,7 +118,7 @@ export async function middleware(request: NextRequest) {
 			if (!isBodyValid) {
 				return NextResponse.json(
 					{ error: "Invalid PATCH vehicle input" },
-					{ status: 400 }
+					{ status: 400 },
 				);
 			}
 
@@ -109,7 +126,7 @@ export async function middleware(request: NextRequest) {
 			if (userId !== body.userid) {
 				return NextResponse.json(
 					{ error: "Logged in user's id does not match vehicle's userId" },
-					{ status: 400 }
+					{ status: 400 },
 				);
 			}
 
@@ -144,7 +161,7 @@ export const config = {
  * If true, vehicle is ready to be inserted into DB
  */
 const isValidVehiclePost = (
-	vehicle: unknown
+	vehicle: unknown,
 ): vehicle is Vehicle_For_db_POST => {
 	const isSafe = VehicleToBePostedSchema.safeParse(vehicle);
 	return isSafe.success;
@@ -155,7 +172,7 @@ const isValidVehiclePost = (
  * If true, vehicle is ready to be inserted into DB
  */
 const isValidVehiclePatch = (
-	vehicle: unknown
+	vehicle: unknown,
 ): vehicle is Vehicle_For_db_PATCH => {
 	const isSafe = VehicleSchemaForPATCH.safeParse(vehicle);
 	return isSafe.success;

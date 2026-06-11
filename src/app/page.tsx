@@ -8,6 +8,7 @@
 
 import { useAppSelector } from "@/redux/hooks";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Page() {
 	const loggedInUser = useAppSelector((state) => state.user.value);
@@ -17,17 +18,19 @@ export default function Page() {
 
 	const router = useRouter();
 
-	if (!isLoggedIn) {
-		router.push("/about");
-	}
+	useEffect(() => {
+		if (!isLoggedIn) {
+			router.replace("/about");
+			return;
+		}
 
-	if (!usersVehicles || usersVehicles.length === 0) {
-		router.push("/about");
-	}
+		if (!usersVehicles || usersVehicles.length === 0) {
+			router.replace("/about");
+			return;
+		}
 
-	if (usersVehicles.length > 0) {
-		router.push("/dashboard");
-	}
+		router.replace("/dashboard");
+	}, [isLoggedIn, router, usersVehicles]);
 
 	return <main></main>;
 }

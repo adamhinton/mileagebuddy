@@ -3,9 +3,7 @@
 // AUTH TODO:
 // Work darkmode in to auth user data
 
-import Script from "next/script";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import { createClientCSROnly } from "../utils/server/supabase/client";
 import {
@@ -21,90 +19,16 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import ProjectLogo from "@/app/projectLogo.png";
 
-declare global {
-	interface Window {
-		google?: {
-			accounts?: {
-				id?: {
-					initialize: (options: {
-						client_id: string;
-						callback: (response: { credential: string }) => Promise<void>;
-						ux_mode?: "popup" | "redirect";
-					}) => void;
-					renderButton: (
-						parent: HTMLElement,
-						options: Record<string, string | number>,
-					) => void;
-				};
-			};
-		};
-	}
-}
-
-// This is allowed to be exposed to the public
-const GOOGLE_CLIENT_ID =
-	"220043080394-n7is08dpuk1iv2kbbif6isaq9l5d1lsn.apps.googleusercontent.com";
-
 export default function LoginPage() {
 	const loggedInUser = useAppSelector((state) => state.user.value);
 	const isLoggedIn = !!loggedInUser?.id;
-	const buttonContainerRef = useRef<HTMLDivElement>(null);
-	const [gsiReady, setGsiReady] = useState(false);
 
-	useEffect(() => {
-		if (
-			!gsiReady ||
-			!buttonContainerRef.current ||
-			!window.google?.accounts?.id
-		) {
-			return;
-		}
-
-		const handleCredentialResponse = async (response: {
-			credential: string;
-		}) => {
-			const supabase = createClientCSROnly();
-
-			const { error } = await supabase.auth.signInWithIdToken({
-				provider: "google",
-				token: response.credential,
-			});
-
-			if (error) {
-				console.error("Error signing in with Google:", error.message);
-				return;
-			}
-
-			console.log("Successfully signed in with Google");
-		};
-
-		buttonContainerRef.current.innerHTML = "";
-
-		window.google.accounts.id.initialize({
-			client_id: GOOGLE_CLIENT_ID,
-			callback: handleCredentialResponse,
-			ux_mode: "popup",
-		});
-
-		window.google.accounts.id.renderButton(buttonContainerRef.current, {
-			type: "standard",
-			shape: "rectangular",
-			theme: "outline",
-			text: "sign_in_with",
-			size: "large",
-			logo_alignment: "left",
-			width: 320,
-		});
-	}, [gsiReady]);
+	const handleGoogleSignIn = () => {
+		window.location.assign("/auth/google/start?next=/dashboard");
+	};
 
 	return (
 		<main className="min-h-[calc(100vh-8rem)] flex flex-col items-center justify-start pt-12 pb-8 px-4">
-			<Script
-				src="https://accounts.google.com/gsi/client"
-				strategy="afterInteractive"
-				onLoad={() => setGsiReady(true)}
-			/>
-
 			{isLoggedIn ? (
 				/* ── Logged-in state ─────────────────────────────────────────── */
 				<Card className="w-full max-w-md text-center">
@@ -181,7 +105,15 @@ export default function LoginPage() {
 							role="region"
 							aria-label="Google sign in options"
 						>
-							<div ref={buttonContainerRef} />
+							<Button
+								type="button"
+								size="lg"
+								className="w-full max-w-[320px]"
+								onClick={handleGoogleSignIn}
+								aria-label="Sign in with Google"
+							>
+								Sign in with Google
+							</Button>
 						</CardContent>
 						<CardFooter className="justify-center">
 							<p className="text-xs text-muted-foreground">
