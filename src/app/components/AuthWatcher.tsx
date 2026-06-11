@@ -14,7 +14,7 @@ import {
 	setVehicles,
 } from "@/redux/reducers/vehiclesReducer";
 import { getVehiclesByUserIDClient } from "../utils/server/client/DBInteractions/VehiclesDBInteractions";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface AuthWatcherProps {
 	children: ReactNode;
@@ -24,6 +24,7 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 	const supabaseRef = useRef(createClientCSROnly());
 	const supabase = supabaseRef.current;
 	const dispatch = useAppDispatch();
+	const router = useRouter();
 	const [authInitialized, setAuthInitialized] = useState(false);
 
 	useEffect(() => {
@@ -82,13 +83,13 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 					}),
 				);
 				fetchAndSetVehicles(session!.user.id);
-				redirect("/dashboard");
+				router.replace("/dashboard");
 			} else if (event === "SIGNED_OUT") {
 				// Handle sign out event
 				console.log("User signed out");
 				dispatch(clearUser());
 				dispatch(removeAllVehicles());
-				redirect("/login");
+				router.replace("/login");
 			} else if (event === "TOKEN_REFRESHED") {
 				// Handle token refresh event
 				console.log("Token refreshed:", session);
@@ -130,7 +131,7 @@ const AuthWatcher = ({ children }: AuthWatcherProps) => {
 		return () => {
 			subscription.unsubscribe();
 		};
-	}, [supabase.auth, dispatch]);
+	}, [supabase.auth, dispatch, router]);
 
 	// Only render children when auth is initialized
 	if (!authInitialized) {

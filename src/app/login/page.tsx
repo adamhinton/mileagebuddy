@@ -5,6 +5,7 @@
 
 import Script from "next/script";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { useAppSelector } from "@/redux/hooks";
 import { createClientCSROnly } from "../utils/server/supabase/client";
 import {
@@ -20,41 +21,88 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import ProjectLogo from "@/app/projectLogo.png";
 
-// Did this for google signin stuff
 declare global {
 	interface Window {
-		handleSignInWithGoogle: (response: { credential: string }) => Promise<void>;
+		google?: {
+			accounts?: {
+				id?: {
+					initialize: (options: {
+						client_id: string;
+						callback: (response: { credential: string }) => Promise<void>;
+						ux_mode?: "popup" | "redirect";
+					}) => void;
+					renderButton: (
+						parent: HTMLElement,
+						options: Record<string, string | number>,
+					) => void;
+				};
+			};
+		};
 	}
 }
 
-// Google's auth API expects this function to be in the global scope
-// DO NOT CHANGE THIS FUNCTION NAME, ITS NAME IS REFERENCED IN THE GOOGLE GSI SCRIPT
-// Google's API calls this function when the user signs in
-window.handleSignInWithGoogle =
-	async function handleSignInWithGoogle(response: { credential: string }) {
-		const supabase = createClientCSROnly();
-
-		const { error } = await supabase.auth.signInWithIdToken({
-			provider: "google",
-			token: response.credential,
-		});
-
-		if (error) {
-			console.error("Error signing in with Google:", error.message);
-		} else {
-			console.log("Successfully signed in with Google");
-		}
-	};
+// This is allowed to be exposed to the public
+const GOOGLE_CLIENT_ID =
+	"220043080394-n7is08dpuk1iv2kbbif6isaq9l5d1lsn.apps.googleusercontent.com";
 
 export default function LoginPage() {
 	const loggedInUser = useAppSelector((state) => state.user.value);
 	const isLoggedIn = !!loggedInUser?.id;
+	const buttonContainerRef = useRef<HTMLDivElement>(null);
+	const [gsiReady, setGsiReady] = useState(false);
+
+	useEffect(() => {
+		if (
+			!gsiReady ||
+			!buttonContainerRef.current ||
+			!window.google?.accounts?.id
+		) {
+			return;
+		}
+
+		const handleCredentialResponse = async (response: {
+			credential: string;
+		}) => {
+			const supabase = createClientCSROnly();
+
+			const { error } = await supabase.auth.signInWithIdToken({
+				provider: "google",
+				token: response.credential,
+			});
+
+			if (error) {
+				console.error("Error signing in with Google:", error.message);
+				return;
+			}
+
+			console.log("Successfully signed in with Google");
+		};
+
+		buttonContainerRef.current.innerHTML = "";
+
+		window.google.accounts.id.initialize({
+			client_id: GOOGLE_CLIENT_ID,
+			callback: handleCredentialResponse,
+			ux_mode: "popup",
+		});
+
+		window.google.accounts.id.renderButton(buttonContainerRef.current, {
+			type: "standard",
+			shape: "rectangular",
+			theme: "outline",
+			text: "sign_in_with",
+			size: "large",
+			logo_alignment: "left",
+			width: 320,
+		});
+	}, [gsiReady]);
 
 	return (
 		<main className="min-h-[calc(100vh-8rem)] flex flex-col items-center justify-start pt-12 pb-8 px-4">
 			<Script
 				src="https://accounts.google.com/gsi/client"
 				strategy="afterInteractive"
+				onLoad={() => setGsiReady(true)}
 			/>
 
 			{isLoggedIn ? (
@@ -133,24 +181,7 @@ export default function LoginPage() {
 							role="region"
 							aria-label="Google sign in options"
 						>
-							<div
-								id="g_id_onload"
-								data-client_id="220043080394-n7is08dpuk1iv2kbbif6isaq9l5d1lsn.apps.googleusercontent.com"
-								data-context="signin"
-								data-ux_mode="popup"
-								data-callback="handleSignInWithGoogle"
-								data-auto_prompt="false"
-							/>
-							<div
-								className="g_id_signin"
-								data-type="standard"
-								data-shape="rectangular"
-								data-theme="outline"
-								data-text="sign_in_with"
-								data-size="large"
-								data-logo_alignment="left"
-								data-width="320"
-							/>
+							<div ref={buttonContainerRef} />
 						</CardContent>
 						<CardFooter className="justify-center">
 							<p className="text-xs text-muted-foreground">
